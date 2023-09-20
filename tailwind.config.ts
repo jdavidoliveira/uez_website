@@ -8,6 +8,32 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        azulao: "#00003a",
+        roxazul: "#2a14b7",
+        cinzero: "#d9d9d9"
+      },
+      keyframes: {
+        transitionY: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-50%)",
+          },
+          "70%": {
+            opacity: "0.7",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+      },
+      animation: {
+        transitionY: "transitionY .6s",
+      },
+      spacing: {
+        144: "36rem",
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

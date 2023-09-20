@@ -1,8 +1,11 @@
+import './globals.css'
 import type { Metadata } from 'next'
+import Header from '@/components/Header/Header'
+import Footer from '@/components/Footer/Footer'
 
 export const metadata: Metadata = {
   title: 'Uez Company',
-  description: '',
+  description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
 }
 
 export default function RootLayout({
@@ -12,7 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }
