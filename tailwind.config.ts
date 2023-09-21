@@ -27,9 +27,23 @@ const config: Config = {
             transform: "translateY(0)",
           },
         },
+        transitionX: {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-50%)",
+          },
+          "70%": {
+            opacity: "0.7",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
       },
       animation: {
         transitionY: "transitionY .6s",
+        transitionX: "transitionX .6s",
       },
       spacing: {
         144: "36rem",
@@ -39,6 +53,9 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        Montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      }
     },
   },
   plugins: [],

@@ -1,12 +1,18 @@
 import './globals.css'
+import { Montserrat } from 'next/font/google'
 import type { Metadata } from 'next'
-import Header from '@/components/Header/Header'
-import Footer from '@/components/Footer/Footer'
 
 export const metadata: Metadata = {
   title: 'Uez Company',
   description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
 }
+
+const montserrat = Montserrat({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['italic', 'normal'],
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+})
 
 export default function RootLayout({
   children,
@@ -15,10 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>
-        <Header />
+      <body className={montserrat.className}>
         {children}
-        <Footer />
       </body>
     </html>
   )
