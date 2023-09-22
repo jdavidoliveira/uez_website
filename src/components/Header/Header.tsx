@@ -14,9 +14,6 @@ const roboto = Roboto({
 import { useContext } from "react";
 
 export default function Header() {
-  const { statusLogin } = useContext(AuthContext);
-  console.log(statusLogin);
-  
   return (
     <header className={`w-full flex items-center justify-center shadow bg-white ${roboto.className}`}>
       <div className="w-11/12 p-3 flex items-center justify-between">

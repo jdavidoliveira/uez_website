@@ -9,12 +9,12 @@ interface InputProps {
   label?: string;
   type: string;
   id: string;
-  handleChange: ((event: React.ChangeEvent<HTMLInputElement>) => void) | any;
+  handleChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) | any;
   value?: any;
   minLength?: number;
   maxLength?: number;
   placeholder?: string;
-  auxButton?: string;
+  auxButton?: React.ReactNode | string;
   onAuxButtonClick?: () => void;
   auxButtonTitle?: string;
   minRange?: number;
@@ -32,7 +32,7 @@ export default function Input({
   type,
   id,
   handleChange,
-  value = "",
+  value,
   minLength,
   maxLength,
   placeholder,

@@ -2,6 +2,7 @@
 
 import { createContext, useState, useEffect } from "react";
 import { login as makeLogin } from "../services/api";
+import { getLocalStorage } from "@/hooks/useLocalStorage";
 
 interface IAuth {
   statusLogin: boolean;
@@ -11,23 +12,8 @@ interface IAuth {
 
 export const AuthContext = createContext<IAuth>({statusLogin: false,login: () => {},logout: () => {}});
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // Inicializa o estado de login com base em localStorage ou false se não houver valor válido
-  const initialStatusLogin: boolean | string =
-    localStorage.getItem("statusLogin") === "true" || false;
 
-  const [statusLogin, setStatusLogin] = useState<boolean>(initialStatusLogin);
-
-  // Verifica e atualiza o estado de login ao carregar o aplicativo
-  useEffect(() => {
-    const storedStatusLogin =
-      localStorage.getItem("statusLogin") === "true" || false;
-    setStatusLogin(storedStatusLogin);
-  }, []);
-
-  // Atualiza o estado de login sempre que localStorage mudar
-  useEffect(() => {
-    localStorage.setItem("statusLogin", statusLogin.toString());
-  }, [statusLogin]);
+  const [statusLogin, setStatusLogin] = useState<boolean | any>(getLocalStorage("statusLogin"));
 
   const login = async (email: string, senha: string) => {
     try {
