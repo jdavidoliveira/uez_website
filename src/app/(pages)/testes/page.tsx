@@ -20,6 +20,67 @@ function App() {
         handleChange={handleSelectChange}
         value={selectedOption}
         options={options}
+        size={10}
+      />
+      <p>Você selecionou: {selectedOption}</p>
+      <Input
+        label="Selecione uma opção"
+        type="select"
+        id="selectInput"
+        handleChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        size={10}
+      />
+      <p>Você selecionou: {selectedOption}</p>
+      <Input
+        label="Selecione uma opção"
+        type="select"
+        id="selectInput"
+        handleChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        size={10}
+      />
+      <p>Você selecionou: {selectedOption}</p>
+      <Input
+        label="Selecione uma opção"
+        type="select"
+        id="selectInput"
+        handleChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        size={10}
+      />
+      <p>Você selecionou: {selectedOption}</p>
+      <Input
+        label="Selecione uma opção"
+        type="select"
+        id="selectInput"
+        handleChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        size={10}
+      />
+      <p>Você selecionou: {selectedOption}</p>
+      <Input
+        label="Selecione uma opção"
+        type="select"
+        id="selectInput"
+        handleChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        size={10}
+      />
+      <p>Você selecionou: {selectedOption}</p>
+      <Input
+        label="Selecione uma opção"
+        type="select"
+        id="selectInput"
+        handleChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        size={10}
       />
       <p>Você selecionou: {selectedOption}</p>
     </div>

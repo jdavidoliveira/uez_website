@@ -3,6 +3,7 @@ import * as Slider from '@radix-ui/react-slider'
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Select from '@radix-ui/react-select';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import classnames from 'classnames'
 
 interface InputProps {
   label?: string;
@@ -23,6 +24,7 @@ interface InputProps {
   pattern?: string;
   className?: string;
   options?: string[];
+  size?: number;
 }
 
 export default function Input({
@@ -43,7 +45,8 @@ export default function Input({
   maxRangeLabel,
   pattern,
   className = "",
-  options
+  options,
+  size
 }: InputProps) {
 
 
@@ -100,36 +103,32 @@ export default function Input({
           </div>
         </div>
       );
-    case "select":
-      return (
-        <div className="flex flex-col items-center justify-center w-full">
-          <label htmlFor={id} title={label} className="self-start text-base font-medium">
-            {label}
-          </label>
-          <div className={`relative mt-2 w-64 ${styles.selectContainer}`}>
-            <Select.Root
-              value={value}
-              onValueChange={handleChange}
-            >
-              <Select.Trigger className="bg-cinzero border border-gray-300 rounded-md p-2 flex justify-between items-center">
-                <span>{value}</span>
-                <ChevronDownIcon className="w-5 h-5" />
-              </Select.Trigger>
-              <Select.Content className="bg-white border border-gray-300 rounded-md mt-2 absolute w-full z-10">
-                {options?.map((option) => (
-                  <Select.Item
-                    key={option}
-                    value={option}
-                    className="py-2 px-4 cursor-pointer hover:bg-blue-100"
-                  >
-                    {option}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
-          </div>
-        </div>
-      );
+    // case "select":
+    //   return (
+    //     <div className="flex items-center justify-center w-full">
+    //       <div className={`relative`}>
+    //         <Select.Root>
+    //           <Select.Trigger
+    //             className={`flex items-center w-${size} justify-between px-7 text-base leading-none h-[35px] gap-[5px] bg-cinzero outline-none`}
+    //             aria-label={label}
+    //           >
+    //             <Select.Value placeholder={placeholder} />
+    //             <Select.Icon className="text-black">
+    //               <ChevronDownIcon />
+    //             </Select.Icon>
+    //           </Select.Trigger>
+    //           <Select.Portal>
+    //             <Select.Content className="bg-cinzero">
+    //               <Select.Viewport className="p-2">
+    //                   <SelectItem value="apple">Apple</SelectItem>
+    //                   <SelectItem value="pera">Ai meu cuuuuuu</SelectItem>
+    //               </Select.Viewport>
+    //             </Select.Content>
+    //           </Select.Portal>
+    //         </Select.Root>
+    //       </div>
+    //     </div>
+    //   );
     default:
       return (
         <div className="flex flex-col items-center justify-center w-full">
@@ -167,3 +166,18 @@ export default function Input({
       );
   }
 }
+
+// const SelectItem = ({ children, className, value }: { children: React.ReactNode, className?: string, value: string }) => (
+//   <Select.Item
+//     className={classnames(
+//       'text-base leading-none flex items-center h-[25px] pr-[35px] pl-[25px] relative cursor-default',
+//       className
+//     )}
+//     value={value}
+//   >
+//     <Select.ItemText>{children}</Select.ItemText>
+//     <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+//       <CheckIcon />
+//     </Select.ItemIndicator>
+//   </Select.Item>
+// );
