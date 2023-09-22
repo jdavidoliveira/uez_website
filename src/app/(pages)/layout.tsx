@@ -13,12 +13,10 @@ export default function PagesLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR">
-      <body>
+      <>
         <Header />
         {children}
         <Footer />
-      </body>
-    </html>
+      </>
   )
 }

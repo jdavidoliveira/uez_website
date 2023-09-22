@@ -1,4 +1,5 @@
 import './globals.css'
+import Providers from '@/contexts/Providers'
 import { Montserrat } from 'next/font/google'
 import type { Metadata } from 'next'
 
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={montserrat.className}>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )
