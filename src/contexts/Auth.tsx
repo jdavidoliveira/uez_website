@@ -1,7 +1,6 @@
 'use client'
 
 import { createContext, useState, useEffect } from "react";
-import { login as makeLogin } from "../services/api";
 import { getLocalStorage } from "@/hooks/useLocalStorage";
 
 interface IAuth {
@@ -16,27 +15,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [statusLogin, setStatusLogin] = useState<boolean | any>(getLocalStorage("statusLogin"));
 
   const login = async (email: string, senha: string) => {
-    try {
-      const response = await makeLogin(email, senha);
-      if (response.token) {
-        localStorage.setItem("acessToken", response.token);
-        setStatusLogin(true);
-        return {
-          message: "Login feito com sucesso!",
-          data: response,
-        };
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      throw error;
-    }
+    alert("Login");
   };
 
   const logout = () => {
-    localStorage.removeItem("statusLogin");
-    localStorage.removeItem("acessToken");
-    setStatusLogin(false);
+    alert("Logout");
   };
 
   return (

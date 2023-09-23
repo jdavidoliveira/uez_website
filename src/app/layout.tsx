@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
 }
 
-
 const montserrat = Montserrat({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   style: ['italic', 'normal'],

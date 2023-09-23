@@ -55,13 +55,15 @@ const config: Config = {
       },
       fontFamily: {
         Montserrat: ['var(--font-montserrat)', 'sans-serif'],
+        Roboto: ['var(--font-roboto)', 'sans-serif'],
       },
       screens: {
-        'sm': {'max': '640px'},
-        'md': {'max': '768px'},
-        'lg': {'max': '1024px'},
-        'xl': {'max': '1280px'},
-        '2xl': {'max': '1536px'},
+        'smmobile': { 'max': '480px' },
+        'mobile': { 'max': '640px' },
+        'mdscreen': { 'max': '768px' },
+        'desktop': { 'max': '1024px' },
+        'lgdesktop': { 'max': '1280px' },
+        'xldesktop': { 'max': '1536px' },
       }
     },
   },

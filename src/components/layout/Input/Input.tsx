@@ -3,11 +3,10 @@ import * as Slider from '@radix-ui/react-slider'
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Select from '@radix-ui/react-select';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
-import classnames from 'classnames'
 
 interface InputProps {
   label?: string;
-  type: string;
+  type?: "checkbox" | "range" | "select" | "password" | "text" | "email" | "number" | any;
   id: string;
   handleChange?: ((event: React.ChangeEvent<HTMLInputElement>) => void) | any;
   value?: any;
@@ -25,6 +24,8 @@ interface InputProps {
   className?: string;
   options?: string[];
   size?: number;
+  isBorded?: boolean;
+  noLabel?: boolean
 }
 
 export default function Input({
@@ -46,7 +47,9 @@ export default function Input({
   pattern,
   className = "",
   options,
-  size
+  size,
+  isBorded,
+  noLabel
 }: InputProps) {
 
 
@@ -55,21 +58,20 @@ export default function Input({
       return (
         <div className="flex items-center justify-between gap-1">
           <Checkbox.Root
-            className={`hover:bg-[#949494] flex h-6 w-6 appearance-none items-center justify-center transition bg-cinzero outline-none ${className}`}
+            className={`hover:bg-[#dbdbdb] flex h-6 w-6 appearance-none items-center justify-center transition bg-cinzero outline-none ${isBorded ? "border border-[#a9a9a9] bg-white w-4 h-4" : ""}`}
             onCheckedChange={handleChange}
             id={id}
             checked={value}
           >
-            <Checkbox.Indicator className="w-full h-full flex items-center justify-center text-violet11 bg-[#5e5bff]">
+            <Checkbox.Indicator className="w-full h-full flex items-center justify-center text-violet11 bg-[#5e5bff] duration-300">
               <CheckIcon color="white" />
             </Checkbox.Indicator>
           </Checkbox.Root>
-          <label className={`text-lg font-normal leading-none text-black ${className}`} title={label} htmlFor={id}>
+          <label className={`text-lg font-normal leading-none text-black ${noLabel ? "hidden" : ""}`} title={label} htmlFor={id}>
             {label}
           </label>
         </div>
       );
-
     case "range":
       return (
         <div className="flex flex-col items-center justify-center w-full">
@@ -138,7 +140,7 @@ export default function Input({
           <div className="flex items-center w-full h-10">
             <input
               onChange={handleChange}
-              className={styles.inputtext_bonito}
+              className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 ${className}`}
               type={type || "text"}
               id={id}
               value={value || ""}
