@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useState, useEffect } from "react";
-import { getLocalStorage } from "@/hooks/useLocalStorage";
+import React, { createContext, useState, useContext } from "react";
+import { getLocalStorage, setLocalStorage } from "@/hooks/useLocalStorage";
+import { useFetch } from "@/hooks/useFetch";
 
 interface IAuth {
   statusLogin: boolean;
@@ -10,12 +11,20 @@ interface IAuth {
 }
 
 export const AuthContext = createContext<IAuth>({statusLogin: false,login: () => {},logout: () => {}});
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [statusLogin, setStatusLogin] = useState<boolean | any>(getLocalStorage("statusLogin"));
 
   const login = async (email: string, senha: string) => {
     alert("Login");
+    const { token } = await useFetch<{ token: string }>("/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        senha,
+      })
+    })
+    setLocalStorage("accessToken", token)
   };
 
   const logout = () => {
@@ -29,4 +38,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthProvider;
+export const useAuth = () => {
+  return useContext(AuthContext);
+}
