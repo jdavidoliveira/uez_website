@@ -4,7 +4,10 @@ import { Montserrat } from 'next/font/google'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Uez Company',
+  title: {
+    template: '%s | Uez Company',
+    default: 'Uez Company',
+  },
   description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
 }
 
