@@ -8,6 +8,9 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useAuth } from "@/contexts/Auth"
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import { redirect } from 'next/navigation'
 
 const userFormSchema = z.object({
   email: z.string()
@@ -22,22 +25,46 @@ const userFormSchema = z.object({
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Login() {
+  const { statusLogin, login } = useAuth()
+  if (statusLogin) redirect("/")
+
+
+
   const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
     /* @ts-ignore */
     resolver: zodResolver(userFormSchema)
   })
 
-  function logar(data: any) {
-    alert(data)
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('null');
+  const [haveButton, setHaveButton] = useState(true)
+  function toggleModal(message: string, hasButton: boolean = true) {
+    setModalMessage(message)
+    setHaveButton(hasButton)
+    setShowModal(prevState => !prevState)
+  }
+
+  async function logar({ email, senha }: { email: string, senha: string }) {
+    setIsSubmitting(true)
+    const logError = await login(email, senha)
+    if (logError) {
+      toggleModal(logError)
+      setIsSubmitting(false)
+    } else {
+      toggleModal("Login feito com sucesso!", false)
+      setIsSubmitting(false)
+      redirect("/")
+    }
   }
 
   const [passwordType, setPasswordType] = useState<"password" | "text">("password");
   const [pwChangerIcon, setPwChangerIcon] = useState<React.ReactNode | string>(<EyeClosedIcon width={20} height={20} />);
   const [showPasswordChanger, setShowPasswordChanger] = useState(false)
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('teste');
 
-  return showModal ? <Modal message={modalMessage} handleClick={() => setShowModal(false)} /> : (
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  return (
     <form className="bg-white rounded-3xl p-3 max-h-full w-[37%] flex flex-col items-center justify-center font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start" onSubmit={handleSubmit(logar)}>
       <div className="w-4/5 h-full flex flex-col items-center justify-between gap-4 my-4 mx-auto mobile:h-4/5 mobile:max-h-96">
         <h1 className="font-extrabold text-3xl my-2">Login</h1>
@@ -101,10 +128,10 @@ export default function Login() {
             <Input type="checkbox" id="manterlogin" className="w-4 h-4 border border-black bg-white" noLabel />
             <label htmlFor="manterlogin" className="font-bold text-sm">Manter-se conectado</label>
           </span>
-          <span className="flex items-center justify-center"><Link href="/esqueci-senha" className="font-extrabold text-sm text-azulao italic hover:underline">Esqueci minha senha</Link></span>
+          <span className="flex items-center justify-center"><Link href="/esqueci-senha" className="font-extrabold text-xs text-azulao italic hover:underline">Esqueci minha senha</Link></span>
         </div>
         <button type="submit" className="bg-azulao border-none flex items-center justify-center py-2 px-4 rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-full">
-          Entrar
+          {isSubmitting ? <LoadingSpinner size={10} /> : "Entrar"}
         </button>
         <div className="w-full flex items-center justify-between">
           <span className="flex items-center justify-center mx-4">
@@ -112,6 +139,7 @@ export default function Login() {
           </span>
         </div>
       </div>
+      {showModal && <Modal message={modalMessage} handleClick={() => setShowModal(false)} noButton={!haveButton} />}
     </form>
   )
 }
