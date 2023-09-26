@@ -1,61 +1,111 @@
 "use client"
 
-import Button from '@/components/layout/Button/Button'
-import Input from '@/components/layout/Input/Input'
+import Modal from '@/components/Modal/Modal'
+import Input from '@/components/Forms/Input/Input'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { useState } from 'react'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const userFormSchema = z.object({
+  email: z.string()
+    .nonempty("O e-mail é obrigatório")
+    .email('Formato de e-mail inválido'),
+  senha: z.string()
+    .nonempty("A senha é obrigatória")
+    .min(6, "A senha deve ter mais de 6 caracteres")
+    .max(24, "A senha deve ter menos de 24 caracteres"),
+})
+
+type userFormData = z.infer<typeof userFormSchema>
 
 export default function Login() {
+  const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
+    /* @ts-ignore */
+    resolver: zodResolver(userFormSchema)
+  })
 
-  const [email, setEmail] = useState<string>('')
-  const [senha, setSenha] = useState<string>('')
+  function logar(data: any) {
+    alert(data)
+  }
 
-  const [passwordType, setPasswordType] = useState("password");
-  const [ctt, setCtt] = useState<React.ReactNode | string>("");
+  const [passwordType, setPasswordType] = useState<"password" | "text">("password");
+  const [pwChangerIcon, setPwChangerIcon] = useState<React.ReactNode | string>(<EyeClosedIcon width={20} height={20} />);
+  const [showPasswordChanger, setShowPasswordChanger] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('teste');
 
-  return (
-    <form className="bg-white rounded-3xl p-3 max-h-full w-[37%] flex flex-col items-center justify-center font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start">
+  return showModal ? <Modal message={modalMessage} handleClick={() => setShowModal(false)} /> : (
+    <form className="bg-white rounded-3xl p-3 max-h-full w-[37%] flex flex-col items-center justify-center font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start" onSubmit={handleSubmit(logar)}>
       <div className="w-4/5 h-full flex flex-col items-center justify-between gap-4 my-4 mx-auto mobile:h-4/5 mobile:max-h-96">
         <h1 className="font-extrabold text-3xl my-2">Login</h1>
-        <Input
-          label={"E-mail:"}
-          type="email"
-          id="email"
-          value={email}
-          handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-          maxLength={50}
-        />
-        <Input
-          label={"Senha:"}
-          type={passwordType}
-          id="senha"
-          value={senha}
-          maxLength={24}
-          handleChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setSenha(e.target.value);
-            if (e.target.value.length > 0) {
-              setCtt(<EyeOpenIcon />);
-            } else {
-              setCtt("");
-            }
-          }}
-          auxButton={ctt}
-          onAuxButtonClick={() => {
-            setPasswordType((state) =>
-              state === "password" ? "text" : "password"
-            );
-            setCtt(ctt === <EyeOpenIcon /> ? <EyeClosedIcon /> : <EyeOpenIcon />);
-          }}
-        />
+        <div className="flex flex-col items-center justify-center w-full">
+          <label htmlFor="email" title="E-mail" className="self-start text-base font-medium">
+            E-mail:
+          </label>
+          <div className="flex items-center w-full h-10">
+            <input
+              className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.email && "border-2 rounded border-red-500"}`}
+              type="text"
+              id="email"
+              maxLength={200}
+              placeholder="example@gmail.com"
+              {...register("email")}
+            />
+          </div>
+          {errors.email && <span className="font-medium text-xs self-start my-1">{errors.email.message}</span>}
+        </div>
+        <div className="flex flex-col items-center justify-center w-full">
+          <label htmlFor="senha" title="Senha" className="self-start text-base font-medium">
+            Senha:
+          </label>
+          <div className="flex items-center w-full h-10">
+            <input
+              className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.senha && "border-2 rounded border-red-500"}`}
+              type={passwordType}
+              id="senha"
+              maxLength={24}
+              {...register("senha", {
+                onChange: (e) => {
+                  if (e.target.value.length > 0) {
+                    setShowPasswordChanger(true)
+                  } else {
+                    setShowPasswordChanger(false)
+                  }
+                }
+              })}
+
+            />
+            {showPasswordChanger && <button
+              title="Exibir/ocultar senha"
+              type="button"
+              className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
+              onClick={(e) => {
+                e.preventDefault();
+                setPasswordType(prevState => {
+                  setPwChangerIcon(prevState === "text" ? <EyeClosedIcon width={20} height={20} /> : <EyeOpenIcon width={20} height={20} />)
+                  return prevState === "text" ? "password" : "text"
+                })
+
+              }}
+            >
+              {pwChangerIcon}
+            </button>}
+          </div>
+          {errors.senha && <span className="font-medium text-xs self-start my-1">{errors.senha.message}</span>}
+        </div>
         <div className="w-full flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <Input type="checkbox" id="manterlogin" isBorded noLabel />
+          <span className="flex items-center gap-1">
+            <Input type="checkbox" id="manterlogin" className="w-4 h-4 border border-black bg-white" noLabel />
             <label htmlFor="manterlogin" className="font-bold text-sm">Manter-se conectado</label>
           </span>
           <span className="flex items-center justify-center"><Link href="/esqueci-senha" className="font-extrabold text-sm text-azulao italic hover:underline">Esqueci minha senha</Link></span>
         </div>
-        <Button value="Entrar" handleClick={() => alert("Entrar")} className="w-full py-3" />
+        <button type="submit" className="bg-azulao border-none flex items-center justify-center py-2 px-4 rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-full">
+          Entrar
+        </button>
         <div className="w-full flex items-center justify-between">
           <span className="flex items-center justify-center mx-4">
             <p className="font-medium text-sm">Não tem uma conta? <Link href="/cadastro" className="text-[#5e5bff] hover:underline">Cadastre-se</Link> </p>

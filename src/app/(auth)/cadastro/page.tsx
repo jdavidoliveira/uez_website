@@ -147,8 +147,12 @@ export default function Cadastro() {
         <h1 className="font-extrabold text-3xl my-0">CADASTRO</h1>
         <UserCards userType={userType} setUserType={setUserType} />
         <div className="w-4/5 flex items-center justify-between gap-4">
-          <Button className="w-1/4 h-full flex justify-center items-center py-3" value="Anterior" handleClick={() => setStep(prevState => prevState === 1 ? 1 : prevState - 1)} />
-          <Button className="w-1/4 h-full flex justify-center items-center py-3" value={userType === "cliente" && step === 3 || userType === "uzer" && step === 4 ? submitButtonContent : "Próximo"} handleClick={() => setStep(prevState => prevState + 1)} />
+          <Button className="w-1/4 h-full flex justify-center items-center py-3" handleClick={() => setStep(prevState => prevState === 1 ? 1 : prevState - 1)}>
+            Anterior
+          </Button>
+          <Button className="w-1/4 h-full flex justify-center items-center py-3" handleClick={() => setStep(prevState => prevState + 1)}>
+            {userType === "cliente" && step === 3 || userType === "uzer" && step === 4 ? submitButtonContent : "Próximo"}
+          </Button>
         </div>
       </div>
     </form>

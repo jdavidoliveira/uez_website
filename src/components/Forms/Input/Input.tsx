@@ -3,6 +3,7 @@ import * as Slider from '@radix-ui/react-slider'
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Select from '@radix-ui/react-select';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import { twMerge } from "tailwind-merge";
 
 interface InputProps {
   label?: string;
@@ -24,7 +25,6 @@ interface InputProps {
   className?: string;
   options?: string[];
   size?: number;
-  isBorded?: boolean;
   noLabel?: boolean
 }
 
@@ -48,7 +48,6 @@ export default function Input({
   className = "",
   options,
   size,
-  isBorded,
   noLabel
 }: InputProps) {
 
@@ -56,9 +55,9 @@ export default function Input({
   switch (type) {
     case "checkbox":
       return (
-        <div className="flex items-center justify-between gap-1">
+        <div className="flex items-center justify-between gap-4">
           <Checkbox.Root
-            className={`hover:bg-[#dbdbdb] flex h-6 w-6 appearance-none items-center justify-center transition bg-cinzero outline-none ${isBorded ? "border border-[#a9a9a9] bg-white w-4 h-4" : ""}`}
+            className={twMerge("hover:bg-[#dbdbdb] flex h-6 w-6 items-center justify-center transition bg-cinzero", className)}
             onCheckedChange={handleChange}
             id={id}
             checked={value}
@@ -140,7 +139,7 @@ export default function Input({
           <div className="flex items-center w-full h-10">
             <input
               onChange={handleChange}
-              className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 ${className}`}
+              className={twMerge(`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 invalid:border-red-500`, className)}
               type={type || "text"}
               id={id}
               value={value || ""}
@@ -148,7 +147,6 @@ export default function Input({
               maxLength={maxLength || 30}
               placeholder={placeholder || ""}
               pattern={pattern}
-              max={maxRange}
             />
             {auxButton && (
               <button

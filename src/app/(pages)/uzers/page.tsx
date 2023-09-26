@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useFetch } from "@/hooks/useFetch"
-import Input from '@/components/layout/Input/Input'
+import Input from '@/components/Forms/Input/Input'
 import * as Avatar from '@radix-ui/react-avatar'
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 

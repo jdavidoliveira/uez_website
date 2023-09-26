@@ -17,14 +17,14 @@ export default function Home() {
         <div className="px-6 py-12 bg-azulao absolute right-0 top-1/3 rounded-l-full flex items-center justify-center">
           <h1 className="mx-8 text-white text-left text-4xl font-semibold">Encontre uzers <br /> que possam te ajudar!</h1>
         </div>
-        <button className="bg-azulao py-1 px-4 rounded-full font-bold text-white absolute bottom-6 left-1/2 -translate-x-1/2 transition hover:scale-105"><Link href="/cadastro">Torne-se um Cliente</Link></button>
+        <button className="bg-azulao py-1 px-4 rounded-full font-bold text-white absolute bottom-6 left-1/2 -translate-x-1/2 transition hover:scale-105"><Link href="/cadastro?userType=cliente">Torne-se um Cliente</Link></button>
         <div className="w-40 h-40 bg-azulao absolute bottom-0 left-0 -translate-x-1/2 rounded-r-full smmobile:w-28 smmobile:h-28"></div>
       </ImageSection>
       <ImageSection imageUrl="/images/p2.jpg">
         <div className="px-6 py-12 bg-roxazul absolute left-0 top-1/3 rounded-r-full flex items-center justify-center">
           <h1 className="mx-8 text-white text-left text-4xl font-semibold">Consiga clientes, <br /> ajude mais pessoas!</h1>
         </div>
-        <button className="bg-white py-1 px-4 rounded-full font-bold text-azulao absolute bottom-6 left-1/2 -translate-x-1/2 transition hover:scale-105"><Link href="/cadastro">Torne-se um Uzer</Link></button>
+        <button className="bg-white py-1 px-4 rounded-full font-bold text-azulao absolute bottom-6 left-1/2 -translate-x-1/2 transition hover:scale-105"><Link href="/cadastro?userType=uzer">Torne-se um Uzer</Link></button>
         <div className="w-20 h-40 bg-roxazul absolute bottom-0 right-0 translate-y-1/2 rounded-l-full smmobile:h-28 smmobile:w-[3.5rem]"></div>
       </ImageSection>
       <GenericSection className="relative flex flex-col items-center justify-around gap-8 text-azulao mb-28">
