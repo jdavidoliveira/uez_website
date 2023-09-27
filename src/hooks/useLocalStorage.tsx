@@ -11,6 +11,8 @@ export function getLocalStorage(key: string) {
 
 export function setLocalStorage(key: string, value: unknown) {
     if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.setItem(key, JSON.stringify(value))
+        if(!value) {
+            window.localStorage.removeItem(key)
+        } else  window.localStorage.setItem(key, JSON.stringify(value))
     }
 }

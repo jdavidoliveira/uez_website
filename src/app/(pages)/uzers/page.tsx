@@ -22,15 +22,9 @@ export default function Uzers() {
     const [uzerData, setUzerData] = useState<Uzer[]>([{ nome: "Carregando", photoUrl: "https://via.placeholder.com/150" }])
 
 
-    async function getUzerData() {
-        const data = await useFetch<Uzer[]>("/uzers")
+    useFetch<Uzer[]>("/uzers").then(data => {
         setUzerData(data)
-    }
-
-
-    useEffect(() => {
-        getUzerData()
-    }, [])
+    })
 
     const [tipoServico, setTipoServico] = useState([])
 

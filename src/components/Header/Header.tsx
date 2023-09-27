@@ -1,10 +1,11 @@
 'use client'
 
-import { AuthContext } from "@/contexts/Auth";
 import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Roboto } from "next/font/google";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import HeaderProfile from "./HeaderProfile";
+import { getLocalStorage } from "@/hooks/useLocalStorage";
 const roboto = Roboto({
   weight: ['100', '300', '400', '500', '700', '900'],
   style: ['normal'],
@@ -13,8 +14,14 @@ const roboto = Roboto({
 })
 
 export default function Header() {
+  const statusLogin = getLocalStorage("accessToken") ? true : false;
 
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+  const [isLogged, setIsLogged] = useState<boolean>()
+
+  useEffect(() => {
+    setIsLogged(statusLogin)
+  })
 
   return (
     <header className={`w-full flex items-center justify-center shadow bg-white ${roboto.className} relative`}>
@@ -33,14 +40,20 @@ export default function Header() {
           <Link href="/sobre" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
           <Link href="/testes" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Testes</Link>
         </nav>
-        <div className="flex gap-4 justify-between items-center">
-          <Link href="/login">
-            <button className="flex items-center justify-center text-base font-semibold py-3 px-6 rounded-lg text-black bg-white cursor-pointer hover:bg-roxazul hover:text-white duration-300">Entrar</button>
-          </Link>
-          <Link href="/cadastro">
-            <button className="flex items-center justify-center text-base font-semibold py-3 px-6 rounded-lg text-white bg-roxazul cursor-pointer hover:bg-black hover:text-white duration-300">Criar conta</button>
-          </Link>
-        </div>
+        <Suspense fallback={"loading"}>
+          {isLogged ? <HeaderProfile /> : (
+            <div className="flex gap-4 justify-between items-center">
+              <Link href="/login" className="flex items-center justify-center text-base font-semibold py-3 px-6 rounded-lg text-black bg-white cursor-pointer hover:bg-roxazul hover:text-white duration-300">
+                Entrar
+              </Link>
+              <Link href="/cadastro" className="flex items-center justify-center text-base font-semibold py-3 px-6 rounded-lg text-white bg-roxazul cursor-pointer hover:bg-black hover:text-white duration-300">
+                Criar conta
+              </Link>
+            </div>
+          )
+          }
+        </Suspense>
+
       </div>
       {showMobileMenu && <HeaderMobile setShowMobileMenu={setShowMobileMenu} showMobileMenu={showMobileMenu} />}
     </header>
