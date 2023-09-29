@@ -6,11 +6,11 @@ interface LoadingProps {
 }
 
 export default function LoadingSpinner({ size, color }: LoadingProps) {
-  const spinnerSize = size ?? 12;
-  const spinnerColor = color ?? "text-gray-200";
+  const spinnerSize = size || 12;
+  const spinnerColor = color || "text-white";
 
   return (
-    <div className={`flex items-center w-${spinnerSize} h-{spinnerSize}`}>
+    <div className={`flex items-center w-${spinnerSize} h-${spinnerSize}`}>
       <svg
         aria-hidden="true"
         className={`w-${spinnerSize} h-${spinnerSize} mr-2 ${spinnerColor} animate-spin fill-black`}

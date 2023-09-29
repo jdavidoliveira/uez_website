@@ -1,18 +1,11 @@
-"use client"
-
 import { ReactNode } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default function Home() {
 
-  function toTop(): void {
-    redirect("/#");
-  }
-
   return (
-    <main className="w-full flex flex-col items-center mx-0">
+    <main className="w-full flex flex-col items-center mx-0" id="inicio">
       <ImageSection imageUrl="/images/p1.jpg">
         <div className="px-6 py-12 bg-azulao absolute right-0 top-1/3 rounded-l-full flex items-center justify-center">
           <h1 className="mx-8 text-white text-left text-4xl font-semibold">Encontre uzers <br /> que possam te ajudar!</h1>
@@ -46,8 +39,10 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-4 items-center justify-center w-full">
               <Image src="/vetores/linha-baixo.svg" width={120} height={120} alt="Vetor de linhas" className="w-6/12" />
-              <div className="w-40 h-40 transition hover:scale-105" onClick={toTop} title="Uez Company">
-                <Image src="/images/black_logo.svg" width={120} height={120} alt="Logo da UEZ Company" className="w-40 h-40 transition hover:scale-105" />
+              <div className="w-40 h-40 transition hover:scale-105">
+                <a href="#inicio" title="Uez Company">
+                  <Image src="/images/black_logo.svg" width={120} height={120} alt="Logo da UEZ Company" className="w-40 h-40 transition hover:scale-105" />
+                </a>
               </div>
               <Image src="/vetores/linha-cima.svg" width={120} height={120} alt="Vetor de linhas" className="w-6/12" />
             </div>

@@ -40,10 +40,34 @@ const config: Config = {
             transform: "translateX(0)",
           },
         },
+        exitButtonGrow: {
+          "100%" : {
+            width: "100%",
+          }
+        },
+        exitButtonDecrease: {
+          "100%" : {
+            width: "10px",
+          }
+        },
+        entranceButtonFadeIn: {
+          "0%" : {
+            opacity: ".7",
+            width: "16px",
+          },
+          "100%" : {
+            opacity: "1",
+            width: "100%"
+          }
+        }
+
       },
       animation: {
         transitionY: "transitionY .6s",
         transitionX: "transitionX .6s",
+        exitButtonGrow: "exitButtonGrow .4s",
+        exitButtonDecrease: "exitButtonDecrease .4s",
+        entranceButtonFadeIn: "entranceButtonFadeIn .4s",
       },
       spacing: {
         144: "36rem",
@@ -60,10 +84,10 @@ const config: Config = {
       screens: {
         'smmobile': { 'max': '480px' },
         'mobile': { 'max': '640px' },
-        'mdscreen': { 'max': '768px' },
-        'desktop': { 'max': '1024px' },
-        'lgdesktop': { 'max': '1280px' },
-        'xldesktop': { 'max': '1536px' },
+        'mdscreen': { 'max': '768px', 'min': '641px' },
+        'desktop': { 'max': '1024px', 'min': '641px' },
+        'lgdesktop': { 'max': '1280px', 'min': '1025px' },
+        'xldesktop': { 'max': '1536px', 'min': '1281px' },
       }
     },
   },

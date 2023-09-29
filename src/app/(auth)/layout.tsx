@@ -24,7 +24,7 @@ export default function AuthLayout({
           <img src="/logo_white.png" alt="Logo_uez" className="h-full mobile:invert" />
         </Link>
       </header>
-      <section className="container flex flex-col items-center justify-center h-5/6">
+      <section className="w-full h-full flex flex-col items-center justify-center">
         {children}
       </section>
     </main>

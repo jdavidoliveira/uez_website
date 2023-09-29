@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import { useSearchParams } from 'next/navigation';
 import UserCards from './UserCards';
@@ -9,22 +9,41 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Modal from '@/components/Modal/Modal';
+import { CheckIcon, EyeClosedIcon, EyeOpenIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import * as Checkbox from '@radix-ui/react-checkbox'
+import * as Slider from '@radix-ui/react-slider'
+import { useFetch } from '@/hooks/useFetch';
 
 const userFormSchema = z.object({
-  nome: z.string(),
   email: z.string()
     .nonempty("O e-mail é obrigatório")
     .email('Formato de e-mail inválido'),
+  nome: z.string()
+    .nonempty("O nome é obrigatório")
+    .min(3, "O nome deve ter mais de 3 caracteres"),
+  userType: z.string()
+    .nonempty("O tipo de usuário é obrigatório"),
   senha: z.string()
     .nonempty("A senha é obrigatória")
     .min(6, "A senha deve ter mais de 6 caracteres")
     .max(24, "A senha deve ter menos de 24 caracteres"),
-  cpf: z.string()
-    .nonempty("O CPF é obrigatório"),
+  confirmarSenha: z.string()
+    .nonempty("As senhas devem coincidir")
+    .min(1, "Confirme a sua senha")
+    .max(24, "A senha deve ter menos de 24 caracteres"),
   telefone: z.string()
-    .nonempty("O telefone é obrigatório"),
+    .nonempty("O telefone é obrigatório")
+    .min(10, "O telefone deve ter 10 dígitos"),
+  dataNascimento: z.string()
+    .nonempty("A data de nascimento é obrigatória")
+    .min(9, "A data de nascimento deve ter 10 dígitos"),
+  cpf: z.string()
+    .nonempty("O CPF é obrigatório")
+    .regex(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, "Formato de CPF inválido"),
+  rg: z.optional(z.string().nonempty("O RG é obrigatório"),),
   cep: z.string()
-    .nonempty("O CEP é obrigatório"),
+    .nonempty("O CEP é obrigatório")
+    .regex(/^[0-9]{5}-[0-9]{3}$/, "Formato de CEP inválido"),
   endereco: z.object({
     logradouro: z.string()
       .nonempty("O logradouro é obrigatório"),
@@ -39,55 +58,50 @@ const userFormSchema = z.object({
     estado: z.string()
       .nonempty("O estado é obrigatório"),
   }),
-  tipoServico: z.array(z.string()),
-  areaAtuacao: z.number(),
+  tipoServico: z.string()
+    .nonempty("Escolha uma opção"),
+  areaAtuacao: z.optional(z.number()
+    .min(1)
+    .max(200)),
   categoriaServico: z.string(),
   nomeServico: z.string(),
-})
+}).refine((data) => data.senha === data.confirmarSenha, {
+  path: ["confirmarSenha"], // path of error
+  message: "Password don't match",
+});
 
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Cadastro() {
 
   const { get } = useSearchParams();
+  useEffect(() => {
+    useFetch<{ nomeCategoria: string }[]>("/categorias").then(data => setCategoriasServicos(data));
+    useFetch<{ nome: string, categoria: string }[]>("/servicos").then(data => {
+      setServicos(data)
+      setFilteredServicos(data)
+    });
+  }, [])
 
-  const { register, handleSubmit, formState: { errors } } = useForm<userFormData>({
+
+  const [categoriasServicos, setCategoriasServicos] = useState<{ nomeCategoria: string }[]>([]);
+  const [servicos, setServicos] = useState<{ nome: string, categoria: string }[]>([]);
+
+  const { register, handleSubmit, formState: { errors, isValid }, getValues, setValue, watch } = useForm<userFormData>({
     /* @ts-ignore */
-    resolver: zodResolver(userFormSchema)
+    resolver: zodResolver(userFormSchema),
   })
 
-  const [userType, setUserType] = useState<"cliente" | "uzer" | "null" | string>(get("userType") || "null");
+  const [userType, setUserType] = useState<"cliente" | "uzer" | any>(get("userType"));
   const [formStep, setFormStep] = useState<number>(1);
-
-  // const [email, setEmail] = useState("");
-  // const [nome, setNome] = useState("");
-  // const [cpf, setCpf] = useState("");
-  // const [rg, setRg] = useState("");
-  // const [senha, setSenha] = useState("");
-  // const [telefone, setTelefone] = useState("");
-  // const [cep, setCep] = useState("");
-  // const [endereco, setEndereco] = useState({
-  //   logradouro: "",
-  //   numero: "",
-  //   complemento: "",
-  //   bairro: "",
-  //   cidade: "",
-  //   estado: "",
-  // });
-  // const [dataNasc, setDataNasc] = useState("");
-  // const [tipoServico, setTipoServico] = useState([]);
-  // const [areaAtuacao, setAreaAtuacao] = useState(1);
-  // const [categoriaServico, setCategoriaServico] = useState("");
-  // const [nomeServico, setNomeServico] = useState("");
 
   // const [categoriaServicosArray, setCategoriaServicosArray] = useState([{ "nomeCategoria": "Carregando..." }]);
   // const [servicosArray, setServicosArray] = useState([{ "nomeServico": "Selecione uma categoria" }]);
 
-  const [submitButtonContent, setSubmitButtonContent] = useState<any>("Finalizar")
-
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('null');
   const [haveButton, setHaveButton] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function toggleModal(message: string, hasButton: boolean = true) {
     setModalMessage(message)
@@ -95,28 +109,40 @@ export default function Cadastro() {
     setShowModal(prevState => !prevState)
   }
 
-  return (
-    <form className="bg-white rounded-3xl py-4 px-8 max-w-full min-h-[95%] w-[45%] flex flex-col items-center justify-center mobile:w-full">
-      <div className="w-full h-full flex flex-col items-center justify-between gap-4">
-        <h1 className="font-extrabold text-3xl my-0">CADASTRO</h1>
-        {formStep === 1 && (
-          <div className="flex flex-col items-center justify-center gap-4 w-11/12 animate-transitionX">
-            <div className="flex flex-col items-center justify-center w-full">
-              <label htmlFor="nome" title="Nome" className="self-start text-base font-medium">
-                Nome:
-              </label>
-              <div className="flex items-center w-full h-10">
-                <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.nome && "border-2 rounded border-red-500"}`}
-                  type="text"
-                  id="nome"
-                  maxLength={200}
-                  {...register("nome")}
+  const [passwordType, setPasswordType] = useState<"password" | "text">("password");
+  const [pwChangerIcon, setPwChangerIcon] = useState<React.ReactNode | string>(<EyeClosedIcon width={20} height={20} />);
+  const [showPasswordChanger, setShowPasswordChanger] = useState(false)
 
-                />
-              </div>
-              {errors.senha && <span className="font-medium text-xs self-start my-1">{errors.senha.message}</span>}
-            </div>
+  const [confirmPasswordType, setConfirmPasswordType] = useState<"password" | "text">("password");
+  const [confirmPwChangerIcon, setConfirmPwChangerIcon] = useState<React.ReactNode | string>(<EyeClosedIcon width={20} height={20} />);
+  const [showConfirmPasswordChanger, setShowConfirmPasswordChanger] = useState<boolean>(false)
+
+  const [onlineCheckbox, setOnlineCheckbox] = useState<boolean>(false);
+  const [presencialCheckbox, setPresencialCheckbox] = useState<boolean>(false);
+
+  const [inputAreaAtuacao, setInputAreaAtuacao] = useState<number>(1);
+
+  //onSubmitForm
+  async function cadastrar(data: userFormData) {
+    setIsSubmitting(true)
+    alert(JSON.stringify("Tudo OK!"))
+    setIsSubmitting(false)
+  }
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [isFirstClick, setIsFirstClick] = useState(true);
+  const [filteredServicos, setFilteredServicos] = useState<{ nome: string, categoria: string }[]>([]);
+  return (
+    <form ref={formRef} className="bg-white rounded-3xl py-6 px-4 min-h-[95%] w-[45%] flex flex-col items-center justify-center desktop:w-4/5 mobile:w-full mobile:h-full mobile:px-0" onSubmit={handleSubmit(cadastrar)}>
+      <pre className='fixed top-0 left-0 text-white' >{JSON.stringify(watch(), null, 2)}</pre>
+      <div className="w-full h-full flex flex-col items-center justify-between gap-2">
+        <div className="mt-2 text-center">
+          <h1 className="font-extrabold p-0 my-0 text-3xl mx-auto">CADASTRO</h1>
+          <h2 className="font-extrabold text-xl p-0 my-0 mx-auto">Etapa {formStep}</h2>
+        </div>
+        {formStep === 1 && (
+          <div className="flex flex-col items-center justify-center gap-3 w-4/5 animate-transitionX">
             <div className="flex flex-col items-center justify-center w-full">
               <label htmlFor="email" title="E-mail" className="self-start text-base font-medium">
                 E-mail:
@@ -133,59 +159,523 @@ export default function Cadastro() {
               </div>
               {errors.email && <span className="font-medium text-xs self-start my-1">{errors.email.message}</span>}
             </div>
-            <UserCards userType={userType} setUserType={setUserType} />
+            <div className="flex flex-col items-center justify-center w-full">
+              <label htmlFor="nome" title="Nome Completo" className="self-start text-base font-medium">
+                Nome Completo:
+              </label>
+              <div className="flex items-center w-full h-10">
+                <input
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.nome && "border-2 rounded border-red-500"}`}
+                  type="text"
+                  id="nome"
+                  placeholder="David de Oliveira Guimarães"
+                  maxLength={200}
+                  {...register("nome")}
+                />
+              </div>
+              {errors.nome && <span className="font-medium text-xs self-start my-1">{errors.nome.message}</span>}
+            </div>
+            <UserCards userType={userType} setUserType={setUserType} setZodUserType={setValue} />
           </div>
         )}
         {formStep === 2 && (
-          <div className="flex flex-col items-center justify-center gap-4 w-11/12 animate-transitionX">
+          <div className="flex flex-col items-center justify-center gap-2 w-4/5 animate-transitionX">
+            <div className="flex items-center justify-center w-full gap-2">
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="telefone" title="Telefone" className="self-start text-base font-medium">
+                  Seu Telefone:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.telefone && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="telefone"
+                    maxLength={20}
+                    placeholder="(00) 00000-0000"
+                    {...register("telefone")}
+                  />
+                </div>
+                {errors.telefone && <span className="font-medium text-xs self-start my-1">{errors.telefone.message}</span>}
+              </div>
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="datanascimento" title="Data de Nascimento" className="self-start text-base font-medium">
+                  Data de Nascimento:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.dataNascimento && "border-2 rounded border-red-500"}`}
+                    type="date"
+                    id="datanascimento"
+                    maxLength={10}
+                    {...register("dataNascimento")}
+                  />
+                </div>
+                {errors.dataNascimento && <span className="font-medium text-xs self-start my-1">{errors.dataNascimento.message}</span>}
+              </div>
+            </div>
             <div className="flex flex-col items-center justify-center w-full">
-              <label htmlFor="nome" title="Nome" className="self-start text-base font-medium">
-                Nome:
+              <label htmlFor="senha" title="Senha" className="self-start text-base font-medium">
+                Crie a sua Senha:
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.nome && "border-2 rounded border-red-500"}`}
-                  type="text"
-                  id="nome"
-                  maxLength={200}
-                  {...register("nome")}
-
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.senha && "border-2 rounded border-red-500"}`}
+                  type={passwordType}
+                  id="senha"
+                  maxLength={24}
+                  placeholder="Use uma senha com mais de 6 caracteres"
+                  {...register("senha", {
+                    onChange: (e) => {
+                      if (e.target.value.length > 0) {
+                        setShowPasswordChanger(true)
+                      } else {
+                        setShowPasswordChanger(false)
+                      }
+                    }
+                  })}
                 />
+                {showPasswordChanger && <button
+                  title="Exibir/ocultar senha"
+                  type="button"
+                  className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPasswordType(prevState => {
+                      setPwChangerIcon(prevState === "text" ? <EyeClosedIcon width={20} height={20} /> : <EyeOpenIcon width={20} height={20} />)
+                      return prevState === "text" ? "password" : "text"
+                    })
+
+                  }}
+                >
+                  {pwChangerIcon}
+                </button>}
               </div>
               {errors.senha && <span className="font-medium text-xs self-start my-1">{errors.senha.message}</span>}
             </div>
             <div className="flex flex-col items-center justify-center w-full">
-              <label htmlFor="email" title="E-mail" className="self-start text-base font-medium">
-                E-mail:
+              <label htmlFor="confirmasenha" title="Confirme a sua Senha" className="self-start text-base font-medium">
+                Confirme a sua Senha:
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.email && "border-2 rounded border-red-500"}`}
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.confirmarSenha && "border-2 rounded border-red-500"}`}
+                  type={confirmPasswordType}
+                  id="confirmasenha"
+                  maxLength={24}
+                  placeholder="Confirme sua senha"
+                  {...register("confirmarSenha", {
+                    onChange: (e) => {
+                      if (e.target.value.length > 0) {
+                        setShowConfirmPasswordChanger(true)
+                      } else {
+                        setShowConfirmPasswordChanger(false)
+                      }
+                    }
+                  })}
+                />
+                {showConfirmPasswordChanger && <button
+                  title="Exibir/ocultar senha"
+                  type="button"
+                  className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setConfirmPasswordType(prevState => {
+                      setConfirmPwChangerIcon(prevState === "text" ? <EyeClosedIcon width={20} height={20} /> : <EyeOpenIcon width={20} height={20} />)
+                      return prevState === "text" ? "password" : "text"
+                    })
+
+                  }}
+                >
+                  {confirmPwChangerIcon}
+                </button>}
+              </div>
+              {errors.confirmarSenha && <span className="font-medium text-xs self-start my-1">{errors.confirmarSenha.message}</span>}
+            </div>
+            <div className="flex items-center justify-center w-full gap-2">
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="cpf" title="CPF" className="self-start text-base font-medium">
+                  CPF:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.cpf && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="cpf"
+                    maxLength={20}
+                    placeholder="000.000.000-00"
+                    {...register("cpf")}
+                  />
+                </div>
+                {errors.cpf && <span className="font-medium text-xs self-start my-1">{errors.cpf.message}</span>}
+              </div>
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="rg" title="RG" className="self-start text-base font-medium">
+                  RG: <span className="text-red-600">*</span>
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.rg && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="rg"
+                    maxLength={11}
+                    placeholder="00.000.000-0"
+                    {...register("rg")}
+                  />
+                </div>
+                {errors.rg && <span className="font-medium text-xs self-start my-1">{errors.rg.message}</span>}
+              </div>
+            </div>
+          </div>
+        )}
+        {formStep === 3 && (
+          <div className="flex flex-col items-center justify-center gap-2 w-4/5 animate-transitionX">
+            <div className="flex flex-col items-center justify-center w-full">
+              <label htmlFor="cep" title="CEP" className="self-start text-base font-medium">
+                CEP:
+              </label>
+              <div className="flex items-center w-full h-10">
+                <input
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.cep && "border-2 rounded border-red-500"}`}
                   type="text"
-                  id="email"
+                  id="cep"
+                  maxLength={9}
+                  placeholder="XXXXX-XXX"
+                  {...register("cep", {
+                    onChange: () => {
+                      const rawCep = getValues("cep").replace(/\D/g, "");
+                      const cep = rawCep.replace(/(\d{5})(\d{3})/, "$1-$2");
+                      setValue("cep", cep) // Atualiza o estado com o Cep formatado
+                    }
+                  })}
+                />
+                <button
+                  title="Buscar CEP"
+                  type="button"
+                  className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    const currentCep = getValues("cep");
+                    const { bairro, logradouro, localidade, uf, cep } = await fetch(`https://viacep.com.br/ws/${currentCep}/json/`).then(res => res.json()).catch(console.error);
+                    setValue("endereco.logradouro", logradouro);
+                    setValue("endereco.bairro", bairro);
+                    setValue("endereco.cidade", localidade);
+                    setValue("endereco.estado", uf);
+                    setValue("cep", cep);
+                  }}
+                >
+                  <MagnifyingGlassIcon width={20} height={20} />
+                </button>
+              </div>
+              {errors.cep && <span className="font-medium text-xs self-start my-1">{errors.cep.message}</span>}
+            </div>
+            <div className="flex items-center justify-center w-full gap-2">
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="endereco-estado" title="Estado" className="self-start text-base font-medium">
+                  Estado:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.endereco?.estado && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="endereco-estado"
+                    maxLength={200}
+                    placeholder="UF"
+                    {...register("endereco.estado")}
+                  />
+                </div>
+                {errors.endereco?.estado && <span className="font-medium text-xs self-start my-1">{errors.endereco?.estado.message}</span>}
+              </div>
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="endereco-cidade" title="Cidade" className="self-start text-base font-medium">
+                  Cidade:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.endereco?.cidade && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="endereco-cidade"
+                    maxLength={200}
+                    placeholder="Cidade"
+                    {...register("endereco.cidade")}
+                  />
+                </div>
+                {errors.endereco?.cidade && <span className="font-medium text-xs self-start my-1">{errors.endereco?.cidade.message}</span>}
+              </div>
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="endereco-bairro" title="Bairro" className="self-start text-base font-medium">
+                  Bairro:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.nome && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="endereco-bairro"
+                    maxLength={200}
+                    placeholder="Bairro"
+                    {...register("endereco.bairro")}
+                  />
+                </div>
+                {errors.endereco?.bairro && <span className="font-medium text-xs self-start my-1">{errors.endereco?.bairro.message}</span>}
+              </div>
+            </div>
+            <div className="flex items-center justify-center w-full gap-2">
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="endereco-logradouro" title="Logradouro" className="self-start text-base font-medium">
+                  Logradouro:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.endereco?.logradouro && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="endereco-logradouro"
+                    maxLength={200}
+                    placeholder="Logradouro"
+                    {...register("endereco.logradouro")}
+                  />
+                </div>
+                {errors.endereco?.logradouro && <span className="font-medium text-xs self-start my-1">{errors.endereco?.logradouro.message}</span>}
+              </div>
+              <div className="flex flex-col items-center justify-center grow">
+                <label htmlFor="endereco-numero" title="Numero" className="self-start text-base font-medium">
+                  Numero:
+                </label>
+                <div className="flex items-center w-full h-10">
+                  <input
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.endereco?.numero && "border-2 rounded border-red-500"}`}
+                    type="text"
+                    id="endereco-numero"
+                    maxLength={200}
+                    placeholder="Numero"
+                    {...register("endereco.numero")}
+                  />
+                </div>
+                {errors.endereco?.numero && <span className="font-medium text-xs self-start my-1">{errors.endereco?.numero.message}</span>}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full">
+              <label htmlFor="endereco-complemento" title="Complemento" className="self-start text-base font-medium">
+                Complemento: <span className="text-red-600">*</span>
+              </label>
+              <div className="flex items-center w-full h-10">
+                <input
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.endereco?.complemento && "border-2 rounded border-red-500"}`}
+                  type="text"
+                  id="endereco-complemento"
                   maxLength={200}
-                  placeholder="example@gmail.com"
-                  {...register("email")}
+                  placeholder="Complemento"
+                  {...register("endereco.complemento")}
                 />
               </div>
-              {errors.email && <span className="font-medium text-xs self-start my-1">{errors.email.message}</span>}
+              {errors.endereco?.complemento && <span className="font-medium text-xs self-start my-1">{errors.endereco?.complemento.message}</span>}
             </div>
-            <UserCards userType={userType} setUserType={setUserType} />
+          </div>
+        )}
+        {formStep === 4 && (
+          <div className="flex flex-col items-center justify-center gap-2 w-4/5 animate-transitionX">
+            <span className="font-medium text-lg my-1">Tipos de atuação</span>
+            {(onlineCheckbox === false && presencialCheckbox === false) && <span className="font-medium text-sm my-1">Escolha uma opção</span>}
+            <div className="flex items-center justify-center w-full">
+              <div className="flex items-center justify-center gap-1 grow">
+                <CheckboxInput id="onlineCheckbox" handleChange={() => {
+                  setOnlineCheckbox(prevState => {
+                    setValue("tipoServico", !prevState && presencialCheckbox ? "ambos" : !prevState ? "online" : !prevState === false && presencialCheckbox === false ? "" : "presencial")
+                    return !prevState
+                  })
+
+                }} value={onlineCheckbox} />
+                <label htmlFor="onlineCheckbox">Online</label>
+              </div>
+              <div className="flex items-center justify-center gap-1 grow">
+                <CheckboxInput id="presencialCheckbox" handleChange={() => {
+                  setPresencialCheckbox(prevState => {
+                    setValue("tipoServico", onlineCheckbox && !prevState ? "ambos" : !prevState ? "presencial" : !prevState === false && onlineCheckbox === false ? "" : "online")
+                    return !prevState
+                  })
+
+                }} value={presencialCheckbox} />
+                <label htmlFor="presencialCheckbox">Presencial</label>
+              </div>
+            </div>
+            {presencialCheckbox && (
+              <div className="flex items-center justify-center w-full">
+                <div className="flex flex-col items-center justify-center w-full gap-2">
+                  <label htmlFor="endereco-estado" title="Estado" className="text-base font-medium">
+                    Área de atuação:
+                  </label>
+                  <RangeInput label="km" handleChange={(value: number) => {
+                    setInputAreaAtuacao(value)
+                    setValue("areaAtuacao", value)
+                  }} value={inputAreaAtuacao} id="areaatuacao" minRange={1} maxRange={200} minRangeLabel="1km" maxRangeLabel="200km" />
+                </div>
+              </div>
+            )}
+            <div className="flex flex-col items-center justify-center w-full mt-6 gap-4">
+              <label htmlFor="categoriaServico" title="Categoria de serviço" className="self-center text-xl font-medium">
+                Qual categoria de serviço você oferece?
+              </label>
+              <div className="flex items-center justify-center self-center w-full h-10">
+                <select
+                  className={`bg-cinzero w-3/5 self-center h-10 font-medium text-base px-3 py-2 outline-none ${errors.categoriaServico && "border-2 rounded border-red-500"}`}
+                  id="categoriaServico"
+                  {...register("categoriaServico", {
+                    onChange(event) {
+                      const filteredArray = servicos.filter(servico => servico.categoria === event.target.value)
+                      setFilteredServicos(filteredArray)
+                      setValue("nomeServico", filteredArray[0]?.nome)
+                    },
+                  })}
+                >
+                  {categoriasServicos?.map((categoria, index) => (
+                    <option key={index} value={categoria.nomeCategoria}>{categoria.nomeCategoria}</option>
+                  ))}
+                </select>
+              </div>
+              {errors.categoriaServico && <span className="font-medium text-xs self-start my-1">{errors.categoriaServico.message}</span>}
+            </div>
+            <div className="flex flex-col items-center justify-center w-full mt-6 gap-4">
+              <label htmlFor="servicoPrincipal" title="Serviço principal" className="self-center text-xl font-medium">
+              Qual o seu serviço principal?
+              </label>
+              <div className="flex items-center justify-center self-center w-full h-10">
+                <select
+                  className={`bg-cinzero w-3/5 self-center h-10 font-medium text-base px-3 py-2 outline-none ${errors.nomeServico && "border-2 rounded border-red-500"}`}
+                  id="servicoPrincipal"
+                  {...register("nomeServico")}
+                >
+                  {filteredServicos?.map((servico, index) => (
+                    <option key={index} value={servico.nome}>{servico.nome}</option>
+                  ))}
+                </select>
+              </div>
+              {errors.categoriaServico && <span className="font-medium text-xs self-start my-1">{errors.categoriaServico.message}</span>}
+            </div>
           </div>
         )}
         <div className="w-4/5 flex items-center justify-between gap-4">
-          <Button className="w-1/4 flex justify-center items-center py-2 px-4" handleClick={() => setFormStep(prevState => prevState === 1 ? 1 : prevState - 1)}>
-            Anterior
-          </Button>
-          <Button className="w-1/4 flex justify-center items-center py-2 px-4" handleClick={() => {
-
-            setFormStep(prevState => prevState + 1)
-          }}>
-            {userType === "cliente" && formStep === 3 || userType === "uzer" && formStep === 4 ? submitButtonContent : "Próximo"}
-          </Button>
+          {isSubmitting ? (
+            <Button className="w-full flex mx-auto p-0 py-2 justify-center items-center animate-entranceButtonFadeIn" handleClick={() => toggleModal("Carregando... Aguarde um pouco")}>
+              <LoadingSpinner size={10} />
+            </Button>
+          ) : (
+            <>
+              <Button className={`w-1/4 flex justify-center items-center py-2 px-4 mobile:w-4/12 ${isSubmitting && "animate-exitButtonGrow"}`} handleClick={() => setFormStep(prevState => prevState === 1 ? 1 : prevState - 1)}>
+                Anterior
+              </Button>
+              {
+                !(userType === "cliente" && formStep === 3 || userType === "uzer" && formStep === 4) ?
+                  <button
+                    type='submit'
+                    className={`bg-azulao border-none rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-1/4 flex justify-center items-center py-2 px-4 mobile:w-4/12 ${isSubmitting && "animate-exitButtonGrow"}`}
+                    onClick={
+                      () => {
+                        if (isFirstClick) return setIsFirstClick(false)
+                        if (formStep === 1) {
+                          if (errors.email || errors.nome) { return toggleModal("Preencha os dados corretamente") } else
+                            if (!userType) { return toggleModal("Selecione um tipo de usuário") } else
+                              setFormStep(prevState => prevState + 1)
+                        }
+                        if (formStep === 2) {
+                          if (errors.telefone || errors.dataNascimento || errors.senha || errors.confirmarSenha || errors.cpf || errors.rg) {
+                            return toggleModal("Preencha os dados corretamente")
+                          }
+                          return setFormStep(prevState => prevState + 1)
+                        }
+                        if (formStep === 3) {
+                          if (errors.cep || errors.endereco) {
+                            return toggleModal("Preencha os dados corretamente")
+                          }
+                          if (userType === "cliente") return
+                          else return setFormStep(prevState => prevState + 1)
+                        }
+                        if (formStep === 4) {
+                          if (errors.tipoServico || errors.areaAtuacao) {
+                            return toggleModal("Preencha os dados corretamente")
+                          }
+                          return
+                        }
+                      }
+                    }>
+                    Próximo
+                  </button> :
+                  <button type='submit' className={`bg-azulao border-none rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-1/4 flex justify-center items-center py-2 px-4 mobile:w-4/12 ${isSubmitting && "animate-exitButtonGrow"}`}>
+                    Finalizar
+                  </button>
+              }
+            </>
+          )}
         </div>
       </div>
       {showModal && <Modal message={modalMessage} handleClick={() => setShowModal(false)} noButton={!haveButton} />}
     </form>
+  )
+}
+
+interface CheckboxInputProps {
+  id: string
+  value: boolean
+  handleChange: any;
+}
+
+function CheckboxInput({ id, value, handleChange }: CheckboxInputProps) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <Checkbox.Root
+        className="hover:bg-[#dbdbdb] flex h-6 w-6 items-center justify-center transition bg-cinzero"
+        id={id}
+        checked={value}
+        onCheckedChange={handleChange}
+      >
+        <Checkbox.Indicator className="w-full h-full flex items-center justify-center text-violet11 bg-[#5e5bff] duration-300">
+          <CheckIcon color="white" />
+        </Checkbox.Indicator>
+      </Checkbox.Root>
+    </div>
+  )
+}
+
+interface RangeInputProps {
+  id: string
+  maxRange: number
+  minRange: number
+  maxRangeLabel: string
+  minRangeLabel: string
+  value: number
+  handleChange: any
+  label: string
+}
+
+function RangeInput({ id, maxRange, minRange, maxRangeLabel, minRangeLabel, value, handleChange, label }: RangeInputProps) {
+  return (
+    <div className="flex flex-col items-center gap-2 justify-center w-full">
+      <Slider.Root
+        className="relative flex items-center select-none touch-none w-10/12"
+        min={minRange}
+        max={maxRange}
+        step={1}
+        id={id}
+        onValueChange={handleChange}
+        value={[value]}
+
+      >
+        <Slider.Track className="bg-azulao relative grow rounded-full h-2">
+          <Slider.Range className="absolute bg-azulao rounded-full h-full" />
+        </Slider.Track>
+        <Slider.Thumb
+          className="block w-6 h-6 bg-[#5e5bff] rounded-full cursor-pointer focus:outline-none "
+          aria-label="Volume"
+        />
+      </Slider.Root>
+      <div className="flex items-center justify-between w-11/12">
+        <label htmlFor={id} title={label} className="text-lg">
+          {minRangeLabel}
+        </label>
+        <label htmlFor={id} title={label} className="text-lg">
+          {String(value) + " km"}
+        </label>
+        <label htmlFor={id} title={label} className="text-lg">
+          {maxRangeLabel}
+        </label>
+      </div>
+    </div>
   )
 }
