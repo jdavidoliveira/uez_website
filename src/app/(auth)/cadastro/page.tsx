@@ -12,7 +12,7 @@ import Modal from '@/components/Modal/Modal';
 import { CheckIcon, EyeClosedIcon, EyeOpenIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Slider from '@radix-ui/react-slider'
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch as myUseFetch } from '@/hooks/useFetch';
 
 const userFormSchema = z.object({
   email: z.string()
@@ -20,7 +20,8 @@ const userFormSchema = z.object({
     .email('Formato de e-mail inválido'),
   nome: z.string()
     .nonempty("O nome é obrigatório")
-    .min(3, "O nome deve ter mais de 3 caracteres"),
+    .min(3, "O nome deve ter mais de 3 caracteres")
+    .transform((value) => value.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')), // Capitaliza os nomes,
   userType: z.string()
     .nonempty("O tipo de usuário é obrigatório"),
   senha: z.string()
@@ -28,19 +29,20 @@ const userFormSchema = z.object({
     .min(6, "A senha deve ter mais de 6 caracteres")
     .max(24, "A senha deve ter menos de 24 caracteres"),
   confirmarSenha: z.string()
-    .nonempty("As senhas devem coincidir")
-    .min(1, "Confirme a sua senha")
     .max(24, "A senha deve ter menos de 24 caracteres"),
   telefone: z.string()
     .nonempty("O telefone é obrigatório")
-    .min(10, "O telefone deve ter 10 dígitos"),
+    .min(10, "O telefone deve ter 10 dígitos")
+    .max(15, "O telefone deve ter no máximo 15 dígitos"),
   dataNascimento: z.string()
     .nonempty("A data de nascimento é obrigatória")
     .min(9, "A data de nascimento deve ter 10 dígitos"),
   cpf: z.string()
     .nonempty("O CPF é obrigatório")
-    .regex(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, "Formato de CPF inválido"),
-  rg: z.optional(z.string().nonempty("O RG é obrigatório"),),
+    .regex(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, "Formato de CPF inválido")
+    .min(14, "O CPF deve ter 14 dígitos")
+    .max(14, "O CPF deve ter 14 dígitos"),
+  rg: z.optional(z.string()),
   cep: z.string()
     .nonempty("O CEP é obrigatório")
     .regex(/^[0-9]{5}-[0-9]{3}$/, "Formato de CEP inválido"),
@@ -61,13 +63,19 @@ const userFormSchema = z.object({
   tipoServico: z.string()
     .nonempty("Escolha uma opção"),
   areaAtuacao: z.optional(z.number()
-    .min(1)
-    .max(200)),
+    .min(1, "Área de atuação deve ser maior que 0")
+    .max(200, "Área de atuação deve ser menor que 200")),
   categoriaServico: z.string(),
   nomeServico: z.string(),
 }).refine((data) => data.senha === data.confirmarSenha, {
   path: ["confirmarSenha"], // path of error
-  message: "Password don't match",
+  message: "As senhas devem coincidir",
+});
+
+// Adicione a validação personalizada para confirmarSenha
+userFormSchema.refine((data) => data.senha === data.confirmarSenha, {
+  path: ["confirmarSenha"],
+  message: "As senhas devem coincidir",
 });
 
 type userFormData = z.infer<typeof userFormSchema>
@@ -76,8 +84,8 @@ export default function Cadastro() {
 
   const { get } = useSearchParams();
   useEffect(() => {
-    useFetch<{ nomeCategoria: string }[]>("/categorias").then(data => setCategoriasServicos(data));
-    useFetch<{ nome: string, categoria: string }[]>("/servicos").then(data => {
+    myUseFetch<{ nomeCategoria: string }[]>("/categorias").then(data => setCategoriasServicos(data));
+    myUseFetch<{ nome: string, categoria: string }[]>("/servicos").then(data => {
       setServicos(data)
       setFilteredServicos(data)
     });
@@ -87,7 +95,7 @@ export default function Cadastro() {
   const [categoriasServicos, setCategoriasServicos] = useState<{ nomeCategoria: string }[]>([]);
   const [servicos, setServicos] = useState<{ nome: string, categoria: string }[]>([]);
 
-  const { register, handleSubmit, formState: { errors, isValid }, getValues, setValue, watch } = useForm<userFormData>({
+  const { register, handleSubmit, formState: { errors }, getValues, setValue, watch } = useForm<userFormData>({
     /* @ts-ignore */
     resolver: zodResolver(userFormSchema),
   })
@@ -128,6 +136,20 @@ export default function Cadastro() {
     alert(JSON.stringify("Tudo OK!"))
     setIsSubmitting(false)
   }
+
+  const [senhasOk, setSenhasOk] = useState<string>("");
+
+  const validateConfirmarSenha = () => {
+    const senha = getValues('senha');
+    const confirmarSenha = getValues('confirmarSenha');
+
+    if (senha === confirmarSenha) {
+      return true;
+    } else {
+      setSenhasOk("As senhas devem coincidir");
+      return false
+    }
+  };
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -190,9 +212,19 @@ export default function Cadastro() {
                     className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.telefone && "border-2 rounded border-red-500"}`}
                     type="text"
                     id="telefone"
-                    maxLength={20}
+                    maxLength={15}
                     placeholder="(00) 00000-0000"
-                    {...register("telefone")}
+                    {...register("telefone", {
+                      onChange: (e) => {
+                        if (e.target.value.length === 2 && !e.target.value.includes(" ")) {
+                          setValue("telefone", getValues("telefone") + " ");
+                        }
+                        const rawTel = e.target.value.replace(/\D/g, ""); // Remove não dígitos
+                        const formattedTel = rawTel.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+                        setValue("telefone", formattedTel);
+
+                      }
+                    })}
                   />
                 </div>
                 {errors.telefone && <span className="font-medium text-xs self-start my-1">{errors.telefone.message}</span>}
@@ -207,6 +239,8 @@ export default function Cadastro() {
                     type="date"
                     id="datanascimento"
                     maxLength={10}
+                    max="2008-12-31"
+                    min="1950-01-01"
                     {...register("dataNascimento")}
                   />
                 </div>
@@ -258,7 +292,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.confirmarSenha && "border-2 rounded border-red-500"}`}
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${(errors.confirmarSenha || senhasOk) && "border-2 rounded border-red-500"}`}
                   type={confirmPasswordType}
                   id="confirmasenha"
                   maxLength={24}
@@ -269,6 +303,9 @@ export default function Cadastro() {
                         setShowConfirmPasswordChanger(true)
                       } else {
                         setShowConfirmPasswordChanger(false)
+                      }
+                      if (validateConfirmarSenha()) {
+                        setSenhasOk("")
                       }
                     }
                   })}
@@ -289,7 +326,7 @@ export default function Cadastro() {
                   {confirmPwChangerIcon}
                 </button>}
               </div>
-              {errors.confirmarSenha && <span className="font-medium text-xs self-start my-1">{errors.confirmarSenha.message}</span>}
+              {(errors.confirmarSenha || senhasOk) && <span className="font-medium text-xs self-start my-1">{errors?.confirmarSenha?.message || senhasOk}</span>}
             </div>
             <div className="flex items-center justify-center w-full gap-2">
               <div className="flex flex-col items-center justify-center grow">
@@ -301,9 +338,18 @@ export default function Cadastro() {
                     className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.cpf && "border-2 rounded border-red-500"}`}
                     type="text"
                     id="cpf"
-                    maxLength={20}
+                    maxLength={14}
                     placeholder="000.000.000-00"
-                    {...register("cpf")}
+                    {...register("cpf", {
+                      onChange: (e) => {
+                        const rawCpf = e.target.value.replace(/\D/g, ""); // Remove não dígitos
+                        const formattedCpf = rawCpf.replace(
+                          /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+                          "$1.$2.$3-$4"
+                        ); // Formata como XXX.XXX.XXX-XX
+                        setValue("cpf", formattedCpf);
+                      }
+                    })}
                   />
                 </div>
                 {errors.cpf && <span className="font-medium text-xs self-start my-1">{errors.cpf.message}</span>}
@@ -319,7 +365,17 @@ export default function Cadastro() {
                     id="rg"
                     maxLength={11}
                     placeholder="00.000.000-0"
-                    {...register("rg")}
+                    {...register("rg", {
+                      onChange: (e) => {
+                        const rawRg = e.target.value.replace(/\D/g, ""); // Remove não dígitos
+                        const formattedRg = rawRg.replace(
+                          /^(\d{2})(\d{3})(\d{3})(\d{1})$/,
+                          "$1.$2.$3-$4"
+                        ); // Formata como XX.XXX.XXX-X
+                        setValue("rg", formattedRg);
+                      }
+                    })
+                    }
                   />
                 </div>
                 {errors.rg && <span className="font-medium text-xs self-start my-1">{errors.rg.message}</span>}
@@ -356,11 +412,11 @@ export default function Cadastro() {
                     e.preventDefault();
                     const currentCep = getValues("cep");
                     const { bairro, logradouro, localidade, uf, cep } = await fetch(`https://viacep.com.br/ws/${currentCep}/json/`).then(res => res.json()).catch(console.error);
-                    setValue("endereco.logradouro", logradouro);
-                    setValue("endereco.bairro", bairro);
-                    setValue("endereco.cidade", localidade);
-                    setValue("endereco.estado", uf);
-                    setValue("cep", cep);
+                    setValue("endereco.logradouro", logradouro, { shouldValidate: true });
+                    setValue("endereco.bairro", bairro, { shouldValidate: true });
+                    setValue("endereco.cidade", localidade, { shouldValidate: true });
+                    setValue("endereco.estado", uf, { shouldValidate: true });
+                    setValue("cep", cep, { shouldValidate: true });
                   }}
                 >
                   <MagnifyingGlassIcon width={20} height={20} />
@@ -502,9 +558,9 @@ export default function Cadastro() {
                   <label htmlFor="endereco-estado" title="Estado" className="text-base font-medium">
                     Área de atuação:
                   </label>
-                  <RangeInput label="km" handleChange={(value: number) => {
-                    setInputAreaAtuacao(value)
-                    setValue("areaAtuacao", value)
+                  <RangeInput label="km" handleChange={(value: number[]) => {
+                    setInputAreaAtuacao(value[0])
+                    setValue("areaAtuacao", value[0])
                   }} value={inputAreaAtuacao} id="areaatuacao" minRange={1} maxRange={200} minRangeLabel="1km" maxRangeLabel="200km" />
                 </div>
               </div>
@@ -534,7 +590,7 @@ export default function Cadastro() {
             </div>
             <div className="flex flex-col items-center justify-center w-full mt-6 gap-4">
               <label htmlFor="servicoPrincipal" title="Serviço principal" className="self-center text-xl font-medium">
-              Qual o seu serviço principal?
+                Qual o seu serviço principal?
               </label>
               <div className="flex items-center justify-center self-center w-full h-10">
                 <select
@@ -578,7 +634,7 @@ export default function Cadastro() {
                           if (errors.telefone || errors.dataNascimento || errors.senha || errors.confirmarSenha || errors.cpf || errors.rg) {
                             return toggleModal("Preencha os dados corretamente")
                           }
-                          return setFormStep(prevState => prevState + 1)
+                          if (validateConfirmarSenha()) return setFormStep(prevState => prevState + 1)
                         }
                         if (formStep === 3) {
                           if (errors.cep || errors.endereco) {
@@ -597,7 +653,7 @@ export default function Cadastro() {
                     }>
                     Próximo
                   </button> :
-                  <button type='submit' className={`bg-azulao border-none rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-1/4 flex justify-center items-center py-2 px-4 mobile:w-4/12 ${isSubmitting && "animate-exitButtonGrow"}`}>
+                  <button type="submit" className={`bg-azulao border-none rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-1/4 flex justify-center items-center py-2 px-4 mobile:w-4/12 ${isSubmitting && "animate-exitButtonGrow"}`}>
                     Finalizar
                   </button>
               }

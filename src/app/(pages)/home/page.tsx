@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
 
   return (
-    <main className="w-full flex flex-col items-center mx-0" id="inicio">
+    <main className="w-full flex flex-col items-center mx-0 bg-white" id="inicio">
       <ImageSection imageUrl="/images/p1.jpg">
         <div className="px-6 py-12 bg-azulao absolute right-0 top-1/3 rounded-l-full flex items-center justify-center">
           <h1 className="mx-8 text-white text-left text-4xl font-semibold">Encontre uzers <br /> que possam te ajudar!</h1>

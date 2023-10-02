@@ -24,12 +24,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Providers>
-      <html lang="pt-BR">
+    <html lang="pt-BR">
+      <Providers>
         <body className={montserrat.className} suppressHydrationWarning={true}>
           {children}
         </body>
-      </html>
-    </Providers>
+      </Providers>
+    </html>
   )
 }

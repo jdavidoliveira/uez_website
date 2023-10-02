@@ -1,6 +1,6 @@
 "use client"
 
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch as myUseFetch } from '@/hooks/useFetch';
 import { useAuth } from '@/contexts/Auth';
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage';
 import * as Avatar from '@radix-ui/react-avatar';
@@ -19,7 +19,7 @@ export default function HeaderProfile() {
     const [photoUrl, setPhotoUrl] = useState(cachedPhotoUrl || "");
     useEffect(() => {
         if (!photoUrl) {
-            useFetch<{ photoUrl: string }>("/users/me", {
+            myUseFetch<{ photoUrl: string }>("/users/me", {
                 headers: {
                     Authorization: `Bearer ${getLocalStorage("accessToken")}`
                 },

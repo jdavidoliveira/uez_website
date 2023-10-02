@@ -28,12 +28,12 @@ export default function UserCards({ setUserType, userType, setZodUserType }: Use
   const [selected1class, setSelected1] = useState("");
   const [selected2class, setSelected2] = useState("");
 
-  useEffect(() => selecionar(userType));
+  useEffect(() => selecionar(userType), []);
 
   return (
     <div className="max-w-4xl w-full flex items-center justify-between mx-auto mb-0 animate-transitionX">
       <div
-        className={twMerge("w-[45%] min-h-[200px] bg-azulao text-white cursor-pointer rounded-3xl duration-75 p-3 flex flex-col items-center justify-around hover:scale-105 mobile:h-52", selected1class)}
+        className={twMerge("w-[45%] min-h-[180px] bg-azulao text-white cursor-pointer rounded-3xl duration-75 p-3 flex flex-col items-center justify-around hover:scale-105 mobile:h-52", selected1class)}
         onClick={() => selecionar("cliente")}
       >
         <h2 className="mx-auto my-0 text-2xl font-normal">Cliente</h2>

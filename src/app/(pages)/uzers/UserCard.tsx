@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -13,7 +14,7 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
     return (
         <div className="w-[calc(50%_-_8px)] h-24 flex items-center justify-center bg-cinzero mobile:h-auto mobile:p-4 desktop:flex-col desktop:h-auto">
             <div className=" w-full h-full flex items-center justify-between py-2 px-4 mobile:flex-col mobile:justify-center mobile:gap-4 mobile:max-h-[420px] desktop:flex-col desktop:gap-4 desktop:py-8">
-                <img src={photoUrl} alt={nome} className="w-20 aspect-square rounded-full mobile:w-9/12 mobile:max-w-full" />
+                <Image width={40} height={40} src={photoUrl} alt={nome} className="w-20 aspect-square rounded-full mobile:w-9/12 mobile:max-w-full" />
                 <div className="flex flex-col items-center justify-center min-w-[40%]">
                     <h5 className="text-base font-medium text-gray-900 text-center mobile:w-[150%]">{nome}</h5>
                     <span className="text-xs text-gray-500 text-center mobile:w-[150%] mobile:text-xs">{servicoPrincipal}</span>

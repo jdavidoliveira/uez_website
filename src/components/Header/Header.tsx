@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import HeaderProfile from "./HeaderProfile";
 import { useAuth } from "@/contexts/Auth";
+import Image from "next/image";
 const roboto = Roboto({
   weight: ['100', '300', '400', '500', '700', '900'],
   style: ['normal'],
@@ -36,7 +37,7 @@ export default function Header() {
             <HamburgerMenuIcon width={60} height={60} />
           </button>
           <Link href="/" className="mobile:hidden p-2">
-            <img src="/logo.svg" alt="Logo da UEZ Company" className="mobile:hidden w-[75px] transition hover:scale-105" />
+            <Image width={60} height={60} src="/logo.svg" alt="Logo da UEZ Company" className="mobile:hidden w-[75px] transition hover:scale-105" />
           </Link>
           <Link href="/" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Home</Link>
           <Link href="/sobre" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
@@ -75,7 +76,7 @@ function HeaderMobile({ showMobileMenu, setShowMobileMenu }: { showMobileMenu: b
       </div>
       <nav className="flex flex-col w-1/2 items-start justify-between gap-10 px-8 text-xl font-bold animate-transitionY mb-6">
         <Link href="/" className="p-2">
-          <img src="/logo.svg" alt="Logo da UEZ Company" className="w-[75px] transition hover:scale-105" />
+          <Image src="/logo.svg" alt="Logo da UEZ Company" className="w-[75px] transition hover:scale-105" />
         </Link>
         <Link href="/" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Home</Link>
         <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>

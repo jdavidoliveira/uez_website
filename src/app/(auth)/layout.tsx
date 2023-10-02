@@ -1,7 +1,6 @@
-import { useAuth } from '@/contexts/Auth'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +20,7 @@ export default function AuthLayout({
     <main className="bg-azulao w-full h-full m-0 flex flex-col items-center box-border mobile:bg-white">
       <header className="box-border w-full h-[15%] py-5 px-0 flex items-center justify-center mobile:py-2 mobile:mt-4">
         <Link href="/" className="h-full">
-          <img src="/logo_white.png" alt="Logo_uez" className="h-full mobile:invert" />
+          <Image width={200} height={200} src="/logo_white.png" alt="Logo_uez" className="h-full w-full max-h-20 mobile:invert" />
         </Link>
       </header>
       <section className="w-full h-full flex flex-col items-center justify-center">
