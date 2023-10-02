@@ -5,7 +5,7 @@ import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import HeaderProfile from "./HeaderProfile";
-import { getLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/contexts/Auth";
 const roboto = Roboto({
   weight: ['100', '300', '400', '500', '700', '900'],
   style: ['normal'],
@@ -14,14 +14,16 @@ const roboto = Roboto({
 })
 
 export default function Header() {
-  const statusLogin = getLocalStorage("accessToken") ? true : false;
+  const { statusLogin } = useAuth()
 
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-  const [isLogged, setIsLogged] = useState<boolean>()
+
+  const [isLogged, setIsLogged] = useState<boolean>();
 
   useEffect(() => {
     setIsLogged(statusLogin)
-  })
+  }, [])
+
 
   return (
     <header className={`w-full flex items-center justify-center shadow bg-white ${roboto.className} relative`}>

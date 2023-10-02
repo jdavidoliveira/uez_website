@@ -4,7 +4,7 @@ import Modal from '@/components/Modal/Modal'
 import Input from '@/components/Forms/Input/Input'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,9 +27,7 @@ type userFormData = z.infer<typeof userFormSchema>
 export default function Login() {
   const { statusLogin, login } = useAuth()
   if (statusLogin) redirect("/")
-
-
-
+  
   const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
     /* @ts-ignore */
     resolver: zodResolver(userFormSchema)

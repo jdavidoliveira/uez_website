@@ -7,25 +7,33 @@ import * as Avatar from '@radix-ui/react-avatar';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
 
 export default function HeaderProfile() {
     const { logout } = useAuth()
 
     const router = useRouter()
-    const [photoUrl, setPhotoUrl] = useState('');
-    useFetch<{ photoUrl: string }>("/users/me", {
-        headers: {
-            Authorization: `Bearer ${getLocalStorage("accessToken")}`
-        },
-        next: {
-            revalidate: 60 * 5 // 5 minutes
+    const cachedPhotoUrl = getLocalStorage("photoUrl")
+
+    const [photoUrl, setPhotoUrl] = useState(cachedPhotoUrl || "");
+    useEffect(() => {
+        if (!photoUrl) {
+            useFetch<{ photoUrl: string }>("/users/me", {
+                headers: {
+                    Authorization: `Bearer ${getLocalStorage("accessToken")}`
+                },
+                next: {
+                    revalidate: 60 * 5 // 5 minutes
+                }
+            }).then(({ photoUrl }) => {
+                console.log(photoUrl)
+                setPhotoUrl(photoUrl)
+                setLocalStorage("photoUrl", photoUrl)
+            })
         }
-    }).then(({ photoUrl }) => {
-        console.log(photoUrl)
-        setPhotoUrl(photoUrl)
-    })
+    }, [])
+
 
     const [person, setPerson] = useState('cliente');
     return (
@@ -61,27 +69,6 @@ export default function HeaderProfile() {
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
                             <button className="border-none w-full flex justify-start" onClick={() => alert("Em desenvolvimento")}><span className="text-base">Trocar Tema</span></button>
                         </DropdownMenu.Item>
-                        {/* <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className={RadixStyles.DropdownMenuSubTrigger}>
-              More Tools
-            </DropdownMenu.SubTrigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.SubContent
-                className={RadixStyles.DropdownMenuSubContent}
-                sideOffset={2}
-                alignOffset={-5}
-              >
-                <DropdownMenu.Item className="group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
-                  Save Page As…
-                </DropdownMenu.Item>
-                <DropdownMenu.Item className="group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">Create Shortcut…</DropdownMenu.Item>
-                <DropdownMenu.Item className="group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">Name Window…</DropdownMenu.Item>
-                <DropdownMenu.Separator className={RadixStyles.DropdownMenuSeparator} />
-                <DropdownMenu.Item className="group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">Developer Tools</DropdownMenu.Item>
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Sub> */}
-
                         <DropdownMenu.Separator className="h-[1px] bg-violet6 m-[5px]" />
 
                         <DropdownMenu.Label className="pl-[25px] text-xs leading-[25px] text-mauve11">Estado</DropdownMenu.Label>
@@ -105,7 +92,7 @@ export default function HeaderProfile() {
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
                             <button className="border-none w-full flex justify-start" onClick={() => {
                                 logout()
-                                router.refresh()
+                                router.push("/")
 
                             }}><span className="text-base">Sair</span></button>
                         </DropdownMenu.Item>

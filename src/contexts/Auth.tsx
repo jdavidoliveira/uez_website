@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext } from "react";
 import { getLocalStorage, setLocalStorage } from "@/hooks/useLocalStorage";
 import { useFetch as myFetch } from "@/hooks/useFetch";
 
@@ -10,7 +10,8 @@ interface IAuth {
   logout: () => void;
 }
 
-export const AuthContext = createContext<IAuth>({ statusLogin: false, login: () => { }, logout: () => { } });
+const AuthContext = createContext<any>(null);
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [statusLogin, setStatusLogin] = useState<boolean | any>(checkLogin());
 
@@ -22,10 +23,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // const isValid = await useFetch<boolean>("/validateToken");
       const isValid = true
       return isValid;
-    }
-    return false;
+    } else return false;
   }
-
 
   const login = async (email: string, senha: string) => {
     try {
@@ -37,10 +36,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }),
       });
       setLocalStorage("accessToken", token);
-      setStatusLogin(true); // Atualize o statusLogin imediatamente após o login
-      return null; // Successful login
+      setStatusLogin(true);
+      return null;
     } catch (error: any) {
-      // Handle error (e.g., show a notification to the user)
       console.error("Error during login:", error);
       return error.message || "An error occurred during login.";
     }
