@@ -19,21 +19,21 @@ export default async function Uzers() {
         return []
     })
 
-return (
-    <>
-        <main className="flex flex-row-reverse w-full justify-around items-center mt-6 p-4 mobile:flex-col mobile:m-0 mobile:gap-8">
-            <AsideFilters />
-            <section className="flex w-10/12 h-full flex-wrap gap-4 justify-between items-center p-2 mobile:w-full mobile:p-0">
-                {data?.map((usuario: any, index) => {
-                    const nomes = usuario.nome.split(" ")
-                    const nome = nomes.length > 2 ? (nomes[0].length > 8 ? ((nomes[0].length > 12 ? nomes[0].slice(0, 12) : nomes[0])) : nomes[0] + " " + nomes[1]) : nomes[0] + (nomes[1] ? " " + nomes[1] : "")
-                    // Se o nome for menor que 8 caracteres, coloca o nome completo, até 2 nomes
-                    return <UserCard key={index} nome={nome} photoUrl={usuario.photoUrl} servicoPrincipal={usuario.servicosPrestados[0].nomeServico} _id={usuario._id} tipoServico={usuario.servicosPrestados[0].tipoServico} />
-                }
-                )}
-            </section>
-        </main>
-    </>
-)
+    return (
+        <>
+            <main className="bg-white flex flex-row-reverse w-full justify-around items-center mt-6 p-4 mobile:flex-col mobile:m-0 mobile:gap-8">
+                <AsideFilters />
+                <section className="flex w-10/12 h-full flex-wrap gap-4 justify-between items-center p-2 mobile:w-full mobile:p-0">
+                    {data?.map((usuario: any, index) => {
+                        const nomes = usuario.nome.split(" ")
+                        const nome = nomes.length > 2 ? (nomes[0].length > 8 ? ((nomes[0].length > 12 ? nomes[0].slice(0, 12) : nomes[0])) : nomes[0] + " " + nomes[1]) : nomes[0] + (nomes[1] ? " " + nomes[1] : "")
+                        // Se o nome for menor que 8 caracteres, coloca o nome completo, até 2 nomes
+                        return <UserCard key={index} nome={nome} photoUrl={usuario.photoUrl} servicoPrincipal={usuario.servicosPrestados[0].nomeServico} _id={usuario._id} tipoServico={usuario.servicosPrestados[0].tipoServico} />
+                    }
+                    )}
+                </section>
+            </main>
+        </>
+    )
 }
 

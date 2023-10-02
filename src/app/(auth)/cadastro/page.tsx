@@ -64,7 +64,8 @@ const userFormSchema = z.object({
     .nonempty("Escolha uma opção"),
   areaAtuacao: z.optional(z.number()
     .min(1, "Área de atuação deve ser maior que 0")
-    .max(200, "Área de atuação deve ser menor que 200")),
+    .max(200, "Área de atuação deve ser menor que 200"))
+    .default(1),
   categoriaServico: z.string(),
   nomeServico: z.string(),
 }).refine((data) => data.senha === data.confirmarSenha, {
@@ -133,7 +134,47 @@ export default function Cadastro() {
   //onSubmitForm
   async function cadastrar(data: userFormData) {
     setIsSubmitting(true)
-    alert(JSON.stringify("Tudo OK!"))
+    toggleModal("Cadastrando...")
+    const { nome, email, userType, senha, cpf, rg, cep, dataNascimento, endereco, telefone, categoriaServico, nomeServico, tipoServico, areaAtuacao } = data
+    console.log({
+      nome,
+      email,
+      senha,
+      cpf,
+      rg,
+      dataNasc: dataNascimento,
+      cep,
+      telefone,
+      endereco,
+      userType,
+      tipoServico,
+      areaAtuacao,
+      categoriaServico,
+      nomeServico,
+    })
+    const { message } = await myUseFetch<{ message: string }>("/register", {
+      method: "POST",
+      body: JSON.stringify({
+        nome,
+        email,
+        senha,
+        cpf,
+        rg,
+        dataNasc: dataNascimento,
+        cep,
+        telefone,
+        endereco,
+        userType,
+        tipoServico,
+        areaAtuacao,
+        categoriaServico,
+        nomeServico,
+      }),
+    }).then(res => res)
+    .catch(error => error)
+    setShowModal(false)
+    toggleModal(message)
+
     setIsSubmitting(false)
   }
 

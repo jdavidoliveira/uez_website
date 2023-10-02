@@ -18,10 +18,6 @@ body {
     flex-direction: column;
 }
 
-body {
-    background-color: #00003a;
-}
-
 ::-ms-reveal {
     display: none;
 }

@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Implement logout logic here (e.g., clearing tokens, resetting state)
     setStatusLogin(false);
     setLocalStorage("accessToken", "");
+    setLocalStorage("photoUrl", "")
   };
 
   return (
