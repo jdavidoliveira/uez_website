@@ -2,6 +2,13 @@ import { ReactNode } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Home',
+  description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo à Uez!',
+}
+
 export default function Home() {
 
   return (

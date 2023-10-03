@@ -27,8 +27,8 @@ export default function Header() {
 
 
   return (
-    <header className={`w-full flex items-center justify-center shadow bg-white ${roboto.className} relative`}>
-      <div className="w-11/12 p-3 flex items-center justify-between">
+    <header className={`w-full flex items-center p-3 justify-center shadow bg-white ${roboto.className} relative`}>
+      <div className="w-11/12 flex items-center justify-between">
         <nav className="flex items-center justify-between gap-10 text-xl font-bold mdscreen:gap-5">
           <button
             className="hidden mobile:block"
@@ -39,9 +39,9 @@ export default function Header() {
           <Link href="/" className="mobile:hidden p-2">
             <Image width={60} height={60} src="/logo.svg" alt="Logo da UEZ Company" className="mobile:hidden w-[75px] transition hover:scale-105" />
           </Link>
-          <Link href="/" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Home</Link>
           <Link href="/sobre" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
-          <Link href="/testes" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Testes</Link>
+          <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
+          <Link href="/clientes" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
         </nav>
         <Suspense fallback={"loading"}>
           {isLogged ? <HeaderProfile /> : (
@@ -76,11 +76,11 @@ function HeaderMobile({ showMobileMenu, setShowMobileMenu }: { showMobileMenu: b
       </div>
       <nav className="flex flex-col w-1/2 items-start justify-between gap-10 px-8 text-xl font-bold animate-transitionY mb-6">
         <Link href="/" className="p-2">
-          <Image src="/logo.svg" alt="Logo da UEZ Company" className="w-[75px] transition hover:scale-105" />
+          <Image width={60} height={60} src="/logo.svg" alt="Logo da UEZ Company" className="w-[75px] transition hover:scale-105" />
         </Link>
-        <Link href="/" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Home</Link>
         <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
-        <Link href="/testes" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Testes</Link>
+        <Link href="/uzers" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
+        <Link href="/clientes" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
       </nav>
     </div>
   )

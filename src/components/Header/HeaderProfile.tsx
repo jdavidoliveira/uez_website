@@ -9,6 +9,7 @@ import { DotFilledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
+import { parseCookies } from 'nookies';
 
 export default function HeaderProfile() {
     const { logout } = useAuth()
@@ -17,18 +18,22 @@ export default function HeaderProfile() {
     const cachedPhotoUrl = getLocalStorage("photoUrl")
 
     const [photoUrl, setPhotoUrl] = useState(cachedPhotoUrl || "");
+    const [id, setId] = useState(0)
+    const [userType, setUserType] = useState("cliente")
     useEffect(() => {
         if (!photoUrl) {
-            myUseFetch<{ photoUrl: string }>("/users/me", {
+            myUseFetch<{ photoUrl: string, _id: number, userType: string }>("/users/me", {
                 headers: {
-                    Authorization: `Bearer ${getLocalStorage("accessToken")}`
+                    Authorization: `Bearer ${parseCookies().accessToken}`
                 },
                 next: {
                     revalidate: 60 * 5 // 5 minutes
                 }
-            }).then(({ photoUrl }) => {
+            }).then(({ photoUrl, _id, userType }) => {
                 console.log(photoUrl)
                 setPhotoUrl(photoUrl)
+                setId(_id)
+                setUserType(userType)
                 setLocalStorage("photoUrl", photoUrl)
             })
         }
@@ -61,13 +66,13 @@ export default function HeaderProfile() {
                             <Link className="border-none w-full flex justify-start" href="/chat"><span className="text-base">Chat</span></Link>
                         </DropdownMenu.Item>
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
-                            <button className="border-none w-full flex justify-start" onClick={() => alert("Em desenvolvimento...")}><span className="text-base">Abrir Perfil</span></button>
+                            <Link className="border-none w-full flex justify-start" href={`/uzers/${id}`}><span className="text-base">Abrir Perfil</span></Link>
                         </DropdownMenu.Item>
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
-                            <button className="border-none w-full flex justify-start" onClick={() => alert("Em desenvolvimento...")}><span className="text-base">Editar Perfil</span></button>
+                            <Link className="border-none w-full flex justify-start" href=""><span className="text-base">Editar Perfil</span></Link>
                         </DropdownMenu.Item>
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
-                            <button className="border-none w-full flex justify-start" onClick={() => alert("Em desenvolvimento")}><span className="text-base">Trocar Tema</span></button>
+                            <Link className="border-none w-full flex justify-start" href=""><span className="text-base">Trocar Tema</span></Link>
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator className="h-[1px] bg-violet6 m-[5px]" />
 
@@ -92,7 +97,7 @@ export default function HeaderProfile() {
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
                             <button className="border-none w-full flex justify-start" onClick={() => {
                                 logout()
-                                router.push("/")
+                                router.push("/home")
 
                             }}><span className="text-base">Sair</span></button>
                         </DropdownMenu.Item>

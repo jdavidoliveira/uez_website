@@ -35,6 +35,8 @@ export default function UserCards({ setUserType, userType, setZodUserType }: Use
       <div
         className={twMerge("w-[45%] min-h-[180px] bg-azulao text-white cursor-pointer rounded-3xl duration-75 p-3 flex flex-col items-center justify-around hover:scale-105 mobile:h-52", selected1class)}
         onClick={() => selecionar("cliente")}
+        title="Peça serviços para Uzers da nossa plataforma, de forma gratuita,
+        rápida e eficiente."
       >
         <h2 className="mx-auto my-0 text-2xl font-normal">Cliente</h2>
         <Image
@@ -44,7 +46,7 @@ export default function UserCards({ setUserType, userType, setZodUserType }: Use
           height={125}
           className="mt-3 max-h-32 mobile:mt-2 mobile:w-20 grow"
         />
-        <p className="text-xs text-center my-2 mx-0 mobile:text-xs mobile:text-[0.6rem] mobile:leading-none p-0 grow">
+        <p className="text-xs text-center my-2 mx-0 mobile:text-[0.6rem] mobile:leading-none p-0 grow">
           Peça serviços para Uzers da nossa plataforma, de forma gratuita,
           rápida e eficiente.
         </p>
@@ -52,6 +54,8 @@ export default function UserCards({ setUserType, userType, setZodUserType }: Use
       <div
         className={twMerge("w-[45%] min-h-[200px] bg-azulao text-white cursor-pointer rounded-3xl duration-75 p-3 flex flex-col items-center justify-around hover:scale-105 mobile:h-52", selected2class)}
         onClick={() => selecionar("uzer")}
+        title="Faça serviços para Clientes da nossa plataforma, de forma gratuita,
+        rápida e eficiente"
       >
         <h2 className="mx-auto my-0 text-2xl font-normal grow">Uzer</h2>
         <Image
@@ -62,7 +66,7 @@ export default function UserCards({ setUserType, userType, setZodUserType }: Use
           objectFit="cover"
           className="mt-3 max-h-32 mobile:mt-2 mobile:w-20 grow"
         />
-        <p className="text-xs text-center my-2 mx-0 mobile:text-xs mobile:text-[0.6rem] mobile:leading-none p-0 grow">
+        <p className="text-xs text-center my-2 mx-0 mobile:text-[0.6rem] mobile:leading-none p-0 grow">
           Faça serviços para Clientes da nossa plataforma, de forma gratuita,
           rápida e eficiente
         </p>

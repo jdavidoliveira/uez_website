@@ -1,11 +1,12 @@
-'use client'
+import useAuth from "@/hooks/useAuthInfo";
 
-import Modal from "@/components/Modal/Modal";
+export default async function Testes() {
 
-export default function Testes() {
-  
+  const { statusLogin } = useAuth()
 
   return (
-    <Modal message="teste" handleClick={() => {alert("teste")}} />
+    <main className="w-full h-full">
+        {statusLogin ? <h1>Tá logado!</h1> : <h1>Não logado!</h1>}
+    </main>
   );
 }

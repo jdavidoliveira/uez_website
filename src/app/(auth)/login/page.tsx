@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth } from "@/contexts/Auth"
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const userFormSchema = z.object({
   email: z.string()
@@ -26,8 +26,8 @@ type userFormData = z.infer<typeof userFormSchema>
 
 export default function Login() {
   const { statusLogin, login } = useAuth()
-  if (statusLogin) redirect("/")
-  
+  if (statusLogin) useRouter().push("/")
+
   const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
     /* @ts-ignore */
     resolver: zodResolver(userFormSchema)
@@ -52,7 +52,7 @@ export default function Login() {
     } else {
       toggleModal("Login feito com sucesso!", false)
       setIsSubmitting(false)
-      redirect("/")
+      useRouter().push("/")
     }
   }
 

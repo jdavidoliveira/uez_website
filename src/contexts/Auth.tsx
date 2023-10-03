@@ -1,7 +1,7 @@
 "use client"
 
-import { createContext, useState, useContext } from "react";
-import { getLocalStorage, setLocalStorage } from "@/hooks/useLocalStorage";
+import { createContext, useState, useContext, useEffect } from "react";
+import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useFetch as myFetch } from "@/hooks/useFetch";
 
 interface IAuth {
@@ -10,21 +10,18 @@ interface IAuth {
   logout: () => void;
 }
 
-const AuthContext = createContext<any>(null);
+export const AuthContext = createContext<IAuth | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [statusLogin, setStatusLogin] = useState<boolean | any>(checkLogin());
+  const [statusLogin, setStatusLogin] = useState<boolean | any>(false);
 
-  function checkLogin() {
-    const token = getLocalStorage("accessToken");
-    if (token) {
-      // Make a request to the backend to verify the token
-      // If the token is valid, return true; otherwise, return false
-      // const isValid = await useFetch<boolean>("/validateToken");
-      const isValid = true
-      return isValid;
-    } else return false;
-  }
+  useEffect(() => {
+    const { accessToken } = parseCookies();
+    if (accessToken) {
+      // Você pode adicionar validação de token aqui, se necessário
+      setStatusLogin(true);
+    }
+  }, []);
 
   const login = async (email: string, senha: string) => {
     try {
@@ -35,7 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           senha,
         }),
       });
-      setLocalStorage("accessToken", token);
+      setCookie(null, "accessToken", token, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
       setStatusLogin(true);
       return null;
     } catch (error: any) {
@@ -45,10 +42,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
-    // Implement logout logic here (e.g., clearing tokens, resetting state)
+    destroyCookie(null, "accessToken");
     setStatusLogin(false);
-    setLocalStorage("accessToken", "");
-    setLocalStorage("photoUrl", "")
+    // Limpar outros cookies, se necessário
   };
 
   return (
@@ -58,7 +54,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-
 export const useAuth = () => {
-  return useContext(AuthContext);
-}
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

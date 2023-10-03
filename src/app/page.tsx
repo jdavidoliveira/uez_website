@@ -1,5 +1,7 @@
 import PagesLayout from "./(pages)/layout";
 import Home from "./(pages)/home/page";
+import Dashboard from "./(pages)/dashboard/page";
+
 
 export default function Main() {
 
@@ -7,7 +9,7 @@ export default function Main() {
 
   return !loginStatus && (
     <PagesLayout>
-      <Home />
+      {loginStatus ? <Dashboard /> : <Home />}
     </PagesLayout>
   );
 }

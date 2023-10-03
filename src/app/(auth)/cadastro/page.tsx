@@ -60,14 +60,14 @@ const userFormSchema = z.object({
     estado: z.string()
       .nonempty("O estado é obrigatório"),
   }),
-  tipoServico: z.string()
-    .nonempty("Escolha uma opção"),
+  tipoServico: z.optional(z.string()
+    .nonempty("Escolha uma opção")),
   areaAtuacao: z.optional(z.number()
     .min(1, "Área de atuação deve ser maior que 0")
     .max(200, "Área de atuação deve ser menor que 200"))
     .default(1),
-  categoriaServico: z.string(),
-  nomeServico: z.string(),
+  categoriaServico: z.optional(z.string()),
+  nomeServico: z.optional(z.string()),
 }).refine((data) => data.senha === data.confirmarSenha, {
   path: ["confirmarSenha"], // path of error
   message: "As senhas devem coincidir",
@@ -96,7 +96,7 @@ export default function Cadastro() {
   const [categoriasServicos, setCategoriasServicos] = useState<{ nomeCategoria: string }[]>([]);
   const [servicos, setServicos] = useState<{ nome: string, categoria: string }[]>([]);
 
-  const { register, handleSubmit, formState: { errors }, getValues, setValue, watch } = useForm<userFormData>({
+  const { register, handleSubmit, formState: { errors }, getValues, setValue } = useForm<userFormData>({
     /* @ts-ignore */
     resolver: zodResolver(userFormSchema),
   })
@@ -171,7 +171,7 @@ export default function Cadastro() {
         nomeServico,
       }),
     }).then(res => res)
-    .catch(error => error)
+      .catch(error => error)
     setShowModal(false)
     toggleModal(message)
 
@@ -198,7 +198,6 @@ export default function Cadastro() {
   const [filteredServicos, setFilteredServicos] = useState<{ nome: string, categoria: string }[]>([]);
   return (
     <form ref={formRef} className="bg-white rounded-3xl py-6 px-4 min-h-[95%] w-[45%] flex flex-col items-center justify-center desktop:w-4/5 mobile:w-full mobile:h-full mobile:px-0" onSubmit={handleSubmit(cadastrar)}>
-      <pre className='fixed top-0 left-0 text-white' >{JSON.stringify(watch(), null, 2)}</pre>
       <div className="w-full h-full flex flex-col items-center justify-between gap-2">
         <div className="mt-2 text-center">
           <h1 className="font-extrabold p-0 my-0 text-3xl mx-auto">CADASTRO</h1>
