@@ -2,11 +2,24 @@
 
 import Input from '@/components/Forms/Input/Input';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import React from 'react'
+import { useRouter } from 'next/navigation';
 
-export default function AsideFilters() {
+interface AsideFiltersProps {
+    setIsOnline: (prevState: any) => void
+    setIsPresencial: (prevState: any) => void
+    setNome: (prevState: any) => void
+    setCargo: (prevState: any) => void
+    isOnline: boolean
+    isPresencial: boolean
+    nome: string
+    cargo: string
+}
+export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,setNome, isOnline, cargo, isPresencial, nome}: AsideFiltersProps) {
+
+    const { push: pushRoute } = useRouter()
+
     return (
-        <aside className="w-2/12 h-full flex flex-col gap-4 p-2 items-center mobile:w-full desktop:w-4/12">
+        <aside className="w-3/12 h-full flex flex-col gap-4 p-2 items-center mobile:w-full desktop:w-4/12">
             <form className="flex flex-col w-full items-center gap-4">
                 <h3 className="font-medium text-center">Qual profissional você procura?</h3>
                 <div className="flex w-full max-w-[350px] items-center justify-around gap-2 desktop:flex-col">
@@ -16,7 +29,8 @@ export default function AsideFilters() {
                             id="online"
                             noLabel
                             label={"Online"}
-                            handleChange={() => alert("Teste")}
+                            handleChange={(e: any) => setIsOnline((prevState: any) => !prevState)}
+                            value={isOnline}
                         />
                         <label htmlFor="online">Online</label>
                     </div>
@@ -26,7 +40,8 @@ export default function AsideFilters() {
                             id="presencial"
                             label={"Presencial"}
                             noLabel
-                            handleChange={() => alert("Teste")}
+                            handleChange={(e: any) => setIsPresencial((prevState: any) => !prevState)}
+                            value={isPresencial}
                         />
                         <label htmlFor="presencial">Presencial</label>
                     </div>
@@ -42,6 +57,8 @@ export default function AsideFilters() {
                             id="cargo"
                             maxLength={200}
                             placeholder="Ex: Designer"
+                            value={cargo}
+                            onChange={(e) => setCargo(e.target.value)}
                         />
                         <button
                             title="Buscar"
@@ -67,6 +84,8 @@ export default function AsideFilters() {
                             id="nome"
                             maxLength={200}
                             placeholder="Ex: Fulano de tal"
+                            value={nome}
+                            onChange={(e) => setNome(e.target.value)}
                         />
                         <button
                             title="Buscar"
@@ -86,6 +105,8 @@ export default function AsideFilters() {
                     onClick={(e) => {
                         e.preventDefault();
                         alert("Filtro Aplicado");
+                        console.log(isOnline)
+                        console.log(isPresencial)
                     }}
                 >Aplicar</button>
             </form>
