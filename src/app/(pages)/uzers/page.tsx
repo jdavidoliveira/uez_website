@@ -13,6 +13,7 @@ export default async function Uzers() {
     }).then(response => {
         return response
     }).catch(error => {
+        console.error(error)
         return []
     })
 
