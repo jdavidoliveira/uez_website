@@ -39,8 +39,8 @@ export default function Uzers() {
             const matchesNome = uzer.nome.toLowerCase().includes(nome.toLowerCase());
             const matchesCargo = uzer.servicosPrestados[0].nomeServico.toLowerCase().includes(cargo.toLowerCase());
             const isBoth = isOnline && isPresencial
-            const matchesIsOnline = isOnline || isBoth ? uzer.servicosPrestados[0].tipoServico.includes("online") : true;
-            const matchesIsPresencial = isPresencial || isBoth ? uzer.servicosPrestados[0].tipoServico.includes("presencial") : true;
+            const matchesIsOnline = isOnline || isBoth ? uzer.servicosPrestados[0].tipoServico?.includes("online") : true;
+            const matchesIsPresencial = isPresencial || isBoth ? uzer.servicosPrestados[0].tipoServico?.includes("presencial") : true;
 
             return matchesNome && matchesCargo && matchesIsOnline && matchesIsPresencial;
         });
