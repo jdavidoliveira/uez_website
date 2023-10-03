@@ -3,8 +3,6 @@ import AsideFilters from "./AsideFilters";
 import UserCard from "./UserCard";
 
 export default async function Uzers() {
-
-
     const data = await useFetch<any[]>('/uzers', {
         headers: {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDg3YTk0NzAyZDgyNjdhMzU3MjRhMyIsInRpcG8iOiJ1emVyIiwiaWF0IjoxNjk2MjA4NDM3LCJleHAiOjE2OTYyOTQ4Mzd9.bTCGCJpjQaw0AoDDHLRrejATct9eL8n3-t7CvgZ1aM4`
@@ -15,7 +13,6 @@ export default async function Uzers() {
     }).then(response => {
         return response
     }).catch(error => {
-        alert(error)
         return []
     })
 
