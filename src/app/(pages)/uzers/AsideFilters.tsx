@@ -66,7 +66,6 @@ export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,se
                             className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
                             onClick={(e) => {
                                 e.preventDefault();
-                                alert("Teste");
                             }}
                         >
                             <MagnifyingGlassIcon width={20} height={20} />
@@ -93,14 +92,13 @@ export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,se
                             className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
                             onClick={(e) => {
                                 e.preventDefault();
-                                alert("Teste");
                             }}
                         >
                             <MagnifyingGlassIcon width={20} height={20} />
                         </button>
                     </div>
                 </div>
-                <button
+                {/* <button
                     className="px-4 py-2 text-sm font-medium text-center text-white bg-azulao rounded-lg hover:bg-roxazul focus:ring-4 focus:outline-none focus:ring-blue-300"
                     onClick={(e) => {
                         e.preventDefault();
@@ -108,7 +106,7 @@ export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,se
                         console.log(isOnline)
                         console.log(isPresencial)
                     }}
-                >Aplicar</button>
+                >Aplicar</button> */}
             </form>
         </aside>
     )

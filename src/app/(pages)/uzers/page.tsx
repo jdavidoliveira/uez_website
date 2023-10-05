@@ -9,7 +9,7 @@ import { parseCookies } from "nookies";
 
 export default function Uzers() {
 
-    const [uzersData, setUzersData] = useState([{ nome: "Carregando...", photoUrl: "https://via.placeholder.com/100", servicosPrestados: [{ nomeServico: "Carregando...", tipoServico: "Carregando..." }], _id: "0" }, { nome: "Carregando...", photoUrl: "https://via.placeholder.com/100", servicosPrestados: [{ nomeServico: "Carregando...", tipoServico: "Carregando..." }], _id: "0" }])
+    const [uzersData, setUzersData] = useState([{ nome: "Carregando...", photoUrl: "https://via.placeholder.com/100", servicosPrestados: [{ nomeServico: "Carregando...", tipoServico: "Carregando..." }], _id: "0" }])
     useEffect(() => {
         myUseFetch<any[]>('/uzers', {
             headers: {
@@ -17,9 +17,11 @@ export default function Uzers() {
             },
             next: {
                 revalidate: 60 * 1 // 1 minutes
-            }
+            },
+            cache: "force-cache"
         }).then(response => {
             setUzersData(response)
+            setFilteredUzersData(response)
         }).catch(error => console.error(error))
     }, [])
 
@@ -34,19 +36,24 @@ export default function Uzers() {
     const [filteredUzersData, setFilteredUzersData] = useState(uzersData)
 
     useEffect(() => {
-
-        const filter = uzersData.filter((uzer) => {
-            const matchesNome = uzer.nome.toLowerCase().includes(nome.toLowerCase());
-            const matchesCargo = uzer.servicosPrestados[0].nomeServico.toLowerCase().includes(cargo.toLowerCase());
-            const isBoth = isOnline && isPresencial
-            const matchesIsOnline = isOnline || isBoth ? uzer.servicosPrestados[0].tipoServico?.includes("online") : true;
-            const matchesIsPresencial = isPresencial || isBoth ? uzer.servicosPrestados[0].tipoServico?.includes("presencial") : true;
-
-            return matchesNome && matchesCargo && matchesIsOnline && matchesIsPresencial;
+        // Filtrar usuários com base nas condições
+        const filteredUzers = uzersData.filter((uzer) => {
+          const matchesNome = uzer.nome.toLowerCase().includes(nome.toLowerCase());
+          const matchesCargo = uzer.servicosPrestados[0].nomeServico.toLowerCase().includes(cargo.toLowerCase());
+    
+          if (isOnline && isPresencial) {
+            return matchesNome && matchesCargo && uzer.servicosPrestados[0].tipoServico?.toLowerCase().includes("ambos");
+          } else if (isOnline) {
+            return matchesNome && matchesCargo && uzer.servicosPrestados[0].tipoServico?.toLowerCase().includes("online");
+          } else if (isPresencial) {
+            return matchesNome && matchesCargo && uzer.servicosPrestados[0].tipoServico?.toLowerCase().includes("presencial");
+          } else {
+            return matchesNome && matchesCargo;
+          }
         });
-        setFilteredUzersData(filter)
-    },
-        [nome, cargo, isOnline, isPresencial])
+    
+        setFilteredUzersData(filteredUzers);
+      }, [nome, cargo, isOnline, isPresencial]);
 
 
     return (

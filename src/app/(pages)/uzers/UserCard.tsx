@@ -6,11 +6,11 @@ interface UserFormData {
     nome: string
     servicoPrincipal: string
     photoUrl: string
-    tipoServico: string[]
+    tipoServico: string
     _id: number
 }
 
-export default function UserCard({ nome = "Carregando...", servicoPrincipal = "Carregando...", photoUrl = "https://via.placeholder.com/150", tipoServico = ["Carregando..."], _id = 0 }: UserFormData) {
+export default function UserCard({ nome = "Carregando...", servicoPrincipal = "Carregando...", photoUrl = "https://via.placeholder.com/150", tipoServico = "Carregando...", _id = 0 }: UserFormData) {
     return (
         <div className="w-[calc(50%_-_8px)] h-24 flex items-center justify-center bg-cinzero mobile:h-auto mobile:p-4 desktop:flex-col desktop:h-auto">
             <div className=" w-full h-full flex items-center justify-between py-2 px-4 mobile:flex-col mobile:justify-center mobile:gap-4 mobile:max-h-[420px] desktop:flex-col desktop:gap-4 desktop:py-8">
@@ -19,7 +19,7 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
                     <h5 className="text-base font-medium text-gray-900 text-center mobile:w-[150%]">{nome}</h5>
                     <span className="text-xs text-gray-500 text-center mobile:w-[150%] mobile:text-xs">{servicoPrincipal}</span>
                     <span className="text-xs text-black text-center font-semibold mobile:w-[150%] mobile:text-xs">
-                        {tipoServico.length > 1 ? "AMBOS" : tipoServico[0].toUpperCase()}
+                        {tipoServico.toUpperCase()}
                     </span>
                 </div>
 

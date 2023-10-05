@@ -21,6 +21,7 @@ const userFormSchema = z.object({
   nome: z.string()
     .nonempty("O nome é obrigatório")
     .min(3, "O nome deve ter mais de 3 caracteres")
+    .regex(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "O nome deve conter apenas letras")
     .transform((value) => value.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')), // Capitaliza os nomes,
   userType: z.string()
     .nonempty("O tipo de usuário é obrigatório"),
@@ -133,9 +134,14 @@ export default function Cadastro() {
 
   //onSubmitForm
   async function cadastrar(data: userFormData) {
+    const { nome, email, userType, senha, cpf, rg, cep, dataNascimento, endereco, telefone, categoriaServico, nomeServico, tipoServico, areaAtuacao } = data
+    if (userType === "uzer") {
+      if (!categoriaServico || !nomeServico || !tipoServico || !areaAtuacao) {
+        return
+      }
+    }
     setIsSubmitting(true)
     toggleModal("Cadastrando...")
-    const { nome, email, userType, senha, cpf, rg, cep, dataNascimento, endereco, telefone, categoriaServico, nomeServico, tipoServico, areaAtuacao } = data
     console.log({
       nome,
       email,
@@ -538,7 +544,7 @@ export default function Cadastro() {
                 <div className="flex items-center w-full h-10">
                   <input
                     className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${errors.endereco?.numero && "border-2 rounded border-red-500"}`}
-                    type="text"
+                    type="number"
                     id="endereco-numero"
                     maxLength={200}
                     placeholder="Numero"
