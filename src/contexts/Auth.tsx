@@ -8,18 +8,21 @@ interface IAuth {
   statusLogin: boolean;
   login: (email: string, senha: string) => any;
   logout: () => void;
+  userType: string;
 }
 
 export const AuthContext = createContext<IAuth | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [statusLogin, setStatusLogin] = useState<boolean | any>(false);
+  const [userType, setUserType] = useState<string>("");
 
   useEffect(() => {
     const { accessToken } = parseCookies();
     if (accessToken) {
       // Você pode adicionar validação de token aqui, se necessário
       setStatusLogin(true);
+      setUserType("uzer");
     }
   }, []);
 
@@ -48,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ statusLogin, login, logout }}>
+    <AuthContext.Provider value={{ statusLogin, login, logout, userType }}>
       {children}
     </AuthContext.Provider>
   );
