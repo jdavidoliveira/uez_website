@@ -1,0 +1,76 @@
+.input {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+}
+
+.label {
+    align-self: flex-start !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.inputtext_bonito {
+    box-sizing: border-box;
+    background-color: #d9d9d9 !important;
+    border: none;
+    width: 100%;
+    padding: 0.4rem 0.8rem;
+    height: 2.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.inputtext_bonito:focus {
+    outline: none;
+}
+
+.inputtext_bonito:invalid {
+    border: 2px solid red;
+    border-radius: 0.3rem;
+}
+
+.auxButton {
+    background-color: #d9d9d9 !important;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auxButton>svg {
+    width: 90%;
+    height: 90%;
+    opacity: 0.75;
+}
+
+.auxButton:hover {
+    background-color: #e9e9e9 !important;
+}
+
+
+/*Range*/
+.range_labels {
+    margin-top: 0.8rem;
+    width: 83%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.range_labels label {
+    font-size: 1rem;
+    font-weight: 300;
+}
