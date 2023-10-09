@@ -12,7 +12,7 @@ export async function useFetch<T>(endpoint: string, config: FetchParams = {}): P
     endpoint = endpoint.replace(/^\//, '');
     const defaultHeaders = {
         'Content-Type': 'application/json',
-        'mode': 'no-cors',
+        'Access-Control-Allow-Origin': '*'
     };
 
     const headers = {
@@ -23,6 +23,7 @@ export async function useFetch<T>(endpoint: string, config: FetchParams = {}): P
     const requestOptions: RequestInit = {
         ...config,
         headers,
+        mode: 'no-cors'
     };
 
     const url = `${baseURL}/${endpoint}`;
