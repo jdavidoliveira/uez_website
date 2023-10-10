@@ -22,8 +22,8 @@ export async function useFetch<T>(endpoint: string, config: FetchParams = {}): P
 
     const requestOptions: RequestInit = {
         ...config,
-        headers,
-        mode: 'no-cors'
+        headers
+
     };
 
     const url = `${baseURL}/${endpoint}`;
