@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import styles from './Footer.module.css';
-import { InstagramLogoIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -14,7 +13,7 @@ export default function Footer() {
                     <div className={styles.footer_card}>
                         <h2>Recursos</h2>
                         <Link href="/sobre">Aplicação</Link>
-                        <Link href="/sobre">Documentação</Link>
+                        <Link href="https://github.com/UezCompany" target='_blank'>Documentação</Link>
                     </div>
                     <div className={styles.footer_card}>
                         <h2>Produtos</h2>
@@ -28,8 +27,8 @@ export default function Footer() {
                     <div className={styles.footer_card}>
                         <h2>Social</h2>
                         <div className={styles.footer_social_content}>
-                            <Link href="/sobre"><Image src="/images/icons/instagram-icons8.svg" alt="Instagram"  width={16} height={16} /></Link>
-                            <Link href="/sobre"><Image src="/images/icons/youtube-icons8.svg" alt="Youtube" width={16} height={16} /></Link>
+                            <Link href="https://www.instagram.com/uez_company/" target='_blank'><Image src="/images/icons/instagram-icons8.svg" alt="Instagram"  width={16} height={16} /></Link>
+                            <Link href="https://youtube.com" target='_blank'><Image src="/images/icons/youtube-icons8.svg" alt="Youtube" width={16} height={16} /></Link>
                         </div>
                     </div>
                     <div className={styles.footer_card}>

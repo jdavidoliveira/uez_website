@@ -39,9 +39,17 @@ export default function Header() {
           <Link href="/" className="mobile:hidden p-2">
             <Image width={60} height={60} src="/logo.svg" alt="Logo da UEZ Company" className="mobile:hidden w-[75px] transition hover:scale-105" />
           </Link>
-          <Link href="/sobre" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
-          <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
-          <Link href="/clientes" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
+          {isLogged ? <>
+            <Link href="/solicitarservico" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Solicitar serviço</Link>
+            <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
+            <Link href="/clientes" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
+          </>
+            :
+            <>
+              <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
+              <Link href="/visaoservicos" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Serviços</Link>
+            </>
+          }
         </nav>
         <Suspense fallback={"loading"}>
           {isLogged ? <HeaderProfile /> : (
@@ -58,12 +66,12 @@ export default function Header() {
         </Suspense>
 
       </div>
-      {showMobileMenu && <HeaderMobile setShowMobileMenu={setShowMobileMenu} showMobileMenu={showMobileMenu} />}
+      {showMobileMenu && <HeaderMobile statusLogin={isLogged} setShowMobileMenu={setShowMobileMenu} showMobileMenu={showMobileMenu} />}
     </header>
   )
 }
 
-function HeaderMobile({ showMobileMenu, setShowMobileMenu }: { showMobileMenu: boolean, setShowMobileMenu: (showMobileMenu: boolean) => void }) {
+function HeaderMobile({ showMobileMenu, setShowMobileMenu, statusLogin }: { showMobileMenu: boolean, setShowMobileMenu: (showMobileMenu: boolean) => void, statusLogin: boolean | undefined }) {
   return (
     <div className="hidden mobile:flex w-full absolute top-0 bg-white flex-col z-10">
       <div className="flex items-center justify-between px-10 py-4">
@@ -78,9 +86,18 @@ function HeaderMobile({ showMobileMenu, setShowMobileMenu }: { showMobileMenu: b
         <Link href="/" className="p-2">
           <Image width={60} height={60} src="/logo.svg" alt="Logo da UEZ Company" className="w-[75px] transition hover:scale-105" />
         </Link>
-        <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
-        <Link href="/uzers" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
-        <Link href="/clientes" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
+        {statusLogin ? <>
+          <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
+          <Link href="/uzers" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
+          <Link href="/clientes" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
+        </>
+          :
+          <>
+            <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
+            <Link href="/servicos" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Serviços</Link>
+          </>
+
+        }
       </nav>
     </div>
   )

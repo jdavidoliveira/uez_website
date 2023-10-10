@@ -13,14 +13,14 @@ import { useEffect, useState } from "react";
 const solicitarServicoFormSchema = z.object({
     tipo: z.string()
         .min(1, "Selecione o tipo de serviço")
-        .nonempty("Selecione o tipo de serviço")
+        .min(1, "Selecione o tipo de serviço")
         .default("online"),
     servicoPrincipal: z.string()
-        .nonempty("Selecione o serviço a qual seu problema está relacionado"),
+        .min(1, "Selecione o serviço a qual seu problema está relacionado"),
     titulo: z.string()
-        .nonempty("Insira o nome do serviço"),
+        .min(1, "Insira o nome do serviço"),
     descricao: z.string()
-        .nonempty("Descreva o serviço")
+        .min(1, "Descreva o serviço")
         .min(30, "A descrição precisa ter pelo menos 30 caracteres"),
     valor: z.number()
         .min(1, "O valor é muito baixo.")
@@ -42,7 +42,7 @@ export default function SolicitarServico() {
         }
     }, [isOnlineChecked, isPresencialChecked])
 
-    const { register, handleSubmit, getValues, setValue, formState: { errors, } } = useForm<typeSoliciarServico>({
+    const { register, handleSubmit, setValue, formState: { errors, } } = useForm<typeSoliciarServico>({
         /* @ts-ignore */
         resolver: zodResolver(solicitarServicoFormSchema)
     })
