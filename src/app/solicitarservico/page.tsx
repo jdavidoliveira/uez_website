@@ -1,14 +1,16 @@
 "use client"
 
 import Input from "@/components/Forms/Input/Input";
-import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { ChevronLeftIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MiniModal from "@/components/Modal/MiniModal";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useFetch as myUseFetch } from "@/hooks/useFetch";
+import { parseCookies } from "nookies";
 
 const solicitarServicoFormSchema = z.object({
     tipo: z.string()
@@ -18,7 +20,8 @@ const solicitarServicoFormSchema = z.object({
     servicoPrincipal: z.string()
         .min(1, "Selecione o serviço a qual seu problema está relacionado"),
     titulo: z.string()
-        .min(1, "Insira o nome do serviço"),
+        .min(1, "Insira o nome do serviço")
+        .min(10, "O nome precisa ter pelo menos 10 caracteres"),
     descricao: z.string()
         .min(1, "Descreva o serviço")
         .min(30, "A descrição precisa ter pelo menos 30 caracteres"),
@@ -31,6 +34,9 @@ const solicitarServicoFormSchema = z.object({
 type typeSoliciarServico = z.infer<typeof solicitarServicoFormSchema>
 
 export default function SolicitarServico() {
+
+    const [pedidoOk, setPedidoOk] = useState(false)
+    const [showConfirmModal, setShowConfirmModal] = useState(false)
 
     const [isOnlineChecked, setIsOnlineChecked] = useState(true);
     const [isPresencialChecked, setIsPresencialChecked] = useState(false);
@@ -48,9 +54,35 @@ export default function SolicitarServico() {
     })
 
     async function createServico(data: typeSoliciarServico) {
-        alert("Serviço criado com sucesso!")
-        alert(JSON.stringify(data, null, 2))
+        const { tipo, servicoPrincipal, descricao, valor, titulo } = data
+        const pedidoData = {
+            tipoPedido: tipo,
+            categoriaServico: servicoPrincipal,
+            nomeServico: servicoPrincipal,
+            descricao: descricao,
+            valor: valor,
+        }
+
+        if (pedidoOk) {
+            const response = await myUseFetch<any>("/create/pedido", {
+                method: "POST",
+                body: JSON.stringify(pedidoData),
+                headers: {
+                    Authorization: `Bearer ${parseCookies().accessToken}`
+                }
+            }).then((response) => {
+                alert(response.message)
+                return response.message
+            }).catch(error => {
+                console.error(error)
+            })
+            console.log(response)
+        } else {
+            setShowConfirmModal(true)
+        }
     }
+
+    const formRef = useRef(null)
 
     return (
         <main className="w-full h-full flex flex-col items-center gap-24 p-20">
@@ -123,7 +155,7 @@ export default function SolicitarServico() {
                             </span>
                         </div>
                     </div>
-                    <button className="bg-azulao p-4 h-14 w-96 rounded-lg font-bold text-white text-xl transition hover:scale-105" disabled={(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && true}>Solicitar</button>
+                    <button type="submit" ref={formRef} className="bg-azulao p-4 h-14 w-96 rounded-lg font-bold text-white text-xl transition enabled:hover:scale-105 disabled:bg-red-600 disabled:scale-95" disabled={(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && true}>Solicitar</button>
                 </div>
                 {(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && (
                     <div className="fixed bottom-0 bg-red-400 flex flex-col items-center justify-around text-red-600">
@@ -139,7 +171,35 @@ export default function SolicitarServico() {
                     </div>
                 )}
             </form>
-
+            {showConfirmModal && <ModalConfirmarPedido formRef={formRef} setShowConfirmModal={setShowConfirmModal} setPedidoOk={setPedidoOk} />}
         </main>
+    )
+}
+
+
+
+function ModalConfirmarPedido({ setShowConfirmModal, setPedidoOk, formRef }: { setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>, setPedidoOk: React.Dispatch<React.SetStateAction<boolean>>, formRef: React.RefObject<HTMLButtonElement> }) {
+    return (
+        <div className="absolute z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black/30">
+            <div className="bg-white w-1/2 h-1/2 flex flex-col items-center rounded-xl justify-between p-8 relative">
+                <button onClick={(e) => {
+                    e.preventDefault()
+                    setShowConfirmModal(false)
+                }} className="flex flex-col items-center justify-center absolute top-6 left-6"><Cross2Icon width={60} height={60} className="w-16 h-16 cursor-pointer hover:scale-105" /></button>
+                <h1 className="text-3xl font-extrabold text-black">Criação de Logotipo</h1>
+                <div>
+
+                </div>
+                <button onClick={
+                    (e) => {
+                        e.preventDefault()
+                        setPedidoOk(true)
+                        setShowConfirmModal(false)
+                        //aqui eu quero submeter de novo para criar o pedido
+                    }
+                } className="bg-azulao p-4 h-14 w-96 rounded-lg font-bold text-white text-xl transition hover:scale-105">Confirmar Pedido</button>
+
+            </div>
+        </div>
     )
 }
