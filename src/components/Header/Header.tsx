@@ -44,7 +44,7 @@ export default function Header() {
           {isLogged ? (userType === "uzer" ? <>
             <Link href="/solicitarservico" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Solicitar serviço</Link>
             <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
-            <Link href="/realizar" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Realizar serviço</Link>
+            <Link href="/realizarservico" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Realizar serviço</Link>
           </> : <>
             <Link href="/solicitarservico" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Solicitar serviço</Link>
             <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
