@@ -13,6 +13,7 @@ import { useFetch as myUseFetch } from "@/hooks/useFetch";
 import { parseCookies } from "nookies";
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 import Modal from "@/components/Modal/Modal";
+import { useRouter } from "next/navigation";
 
 const solicitarServicoFormSchema = z.object({
     tipo: z.string()
@@ -35,6 +36,7 @@ const solicitarServicoFormSchema = z.object({
 type typeSoliciarServico = z.infer<typeof solicitarServicoFormSchema>
 
 export default function SolicitarServico() {
+    const router = useRouter()
 
     const [pedidoOk, setPedidoOk] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -194,7 +196,10 @@ export default function SolicitarServico() {
                 )}
                 {showConfirmModal && <ModalConfirmarPedido setShowConfirmModal={setShowConfirmModal} setPedidoOk={setPedidoOk} data={getValues()} />}
             </form>
-            {showModal && <Modal message={modalMessage} handleClick={() => setShowModal(false)} noButton={!haveButton} />}
+            {showModal && <Modal message={modalMessage} handleClick={() => {
+                setShowModal(false)
+                router.push("/")
+            }} noButton={!haveButton} />}
 
         </main>
     )
