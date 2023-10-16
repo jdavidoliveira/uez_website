@@ -8,26 +8,27 @@ import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MiniModal from "@/components/Modal/MiniModal";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetch as myUseFetch } from "@/hooks/useFetch";
 import { parseCookies } from "nookies";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
+import Modal from "@/components/Modal/Modal";
 
 const solicitarServicoFormSchema = z.object({
     tipo: z.string()
-        .min(1, "Selecione o tipo de serviço")
         .min(1, "Selecione o tipo de serviço")
         .default("online"),
     servicoPrincipal: z.string()
         .min(1, "Selecione o serviço a qual seu problema está relacionado"),
     titulo: z.string()
-        .min(1, "Insira o nome do serviço")
-        .min(10, "O nome precisa ter pelo menos 10 caracteres"),
+        .min(1, "Insira um título pro serviço")
+        .min(10, "O título precisa ter pelo menos 10 caracteres"),
     descricao: z.string()
         .min(1, "Descreva o serviço")
         .min(30, "A descrição precisa ter pelo menos 30 caracteres"),
     valor: z.number()
         .min(1, "O valor é muito baixo.")
-    ,
+        .default(0),
     acombinar: z.boolean().default(false)
 })
 
@@ -42,13 +43,15 @@ export default function SolicitarServico() {
     const [isPresencialChecked, setIsPresencialChecked] = useState(false);
     const [acombinarChecked, setAcombinarChecked] = useState(false)
 
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
     useEffect(() => {
         if (!isOnlineChecked && !isPresencialChecked) {
             setValue("tipo", "")
         }
     }, [isOnlineChecked, isPresencialChecked])
 
-    const { register, handleSubmit, setValue, formState: { errors, } } = useForm<typeSoliciarServico>({
+    const { register, handleSubmit, setValue, getValues, formState: { errors, } } = useForm<typeSoliciarServico>({
         /* @ts-ignore */
         resolver: zodResolver(solicitarServicoFormSchema)
     })
@@ -64,6 +67,7 @@ export default function SolicitarServico() {
         }
 
         if (pedidoOk) {
+            setIsSubmitting(true)
             const response = await myUseFetch<any>("/create/pedido", {
                 method: "POST",
                 body: JSON.stringify(pedidoData),
@@ -71,18 +75,29 @@ export default function SolicitarServico() {
                     Authorization: `Bearer ${parseCookies().accessToken}`
                 }
             }).then((response) => {
-                alert(response.message)
+                setIsSubmitting(false)
+                toggleModal(response.message)
                 return response.message
             }).catch(error => {
                 console.error(error)
+                toggleModal(error)
             })
             console.log(response)
         } else {
+            setIsSubmitting(false)
             setShowConfirmModal(true)
         }
     }
 
-    const formRef = useRef(null)
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('null');
+    const [haveButton, setHaveButton] = useState(true)
+    function toggleModal(message: string, hasButton: boolean = true) {
+        setModalMessage(message)
+        setHaveButton(hasButton)
+        setShowModal(prevState => !prevState)
+    }
+
 
     return (
         <main className="w-full h-full flex flex-col items-center gap-24 p-20">
@@ -120,7 +135,14 @@ export default function SolicitarServico() {
                     <div className="w-full flex items-center justify-between">
                         <label htmlFor="nomeservico" className="text-2xl font-extrabold">Profissional que realiza:</label>
                         <div className="w-1/2 flex items-center justify-between" >
-                            <input type="text" id="nomeservico" {...register("servicoPrincipal")} className="bg-cinzero p-2 w-full text-lg font-extrabold outline-none" placeholder="Ex: Designer" />
+                            <input type="text" id="nomeservico" list="data" {...register("servicoPrincipal")} className="bg-cinzero p-2 w-full text-lg font-extrabold outline-none" placeholder="Ex: Designer" />
+                            <datalist id="data">
+                                {["Designer", "Teste"].map((item, index) => {
+                                    return (
+                                        <option value={item} key={index} />
+                                    )
+                                })}
+                            </datalist>
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-between">
@@ -155,7 +177,7 @@ export default function SolicitarServico() {
                             </span>
                         </div>
                     </div>
-                    <button type="submit" ref={formRef} className="bg-azulao p-4 h-14 w-96 rounded-lg font-bold text-white text-xl transition enabled:hover:scale-105 disabled:bg-red-600 disabled:scale-95" disabled={(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && true}>Solicitar</button>
+                    <button type="submit" className="bg-azulao p-4 h-14 w-96 rounded-lg flex items-center justify-center font-bold text-white text-xl transition enabled:hover:scale-105 disabled:bg-red-600/50 disabled:scale-95" disabled={(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && true}>{(isSubmitting ? <LoadingSpinner /> : "Solicitar")}</button>
                 </div>
                 {(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && (
                     <div className="fixed bottom-0 bg-red-400 flex flex-col items-center justify-around text-red-600">
@@ -170,15 +192,21 @@ export default function SolicitarServico() {
                         }
                     </div>
                 )}
+                {showConfirmModal && <ModalConfirmarPedido setShowConfirmModal={setShowConfirmModal} setPedidoOk={setPedidoOk} data={getValues()} />}
             </form>
-            {showConfirmModal && <ModalConfirmarPedido formRef={formRef} setShowConfirmModal={setShowConfirmModal} setPedidoOk={setPedidoOk} />}
+            {showModal && <Modal message={modalMessage} handleClick={() => setShowModal(false)} noButton={!haveButton} />}
+
         </main>
     )
 }
 
 
 
-function ModalConfirmarPedido({ setShowConfirmModal, setPedidoOk, formRef }: { setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>, setPedidoOk: React.Dispatch<React.SetStateAction<boolean>>, formRef: React.RefObject<HTMLButtonElement> }) {
+function ModalConfirmarPedido({ setShowConfirmModal, setPedidoOk, data }: {
+    setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>, setPedidoOk: React.Dispatch<React.SetStateAction<boolean>>, data: {
+        servicoPrincipal: string, titulo: string, descricao: string, valor: number, acombinar: boolean
+    }
+}) {
     return (
         <div className="absolute z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black/30">
             <div className="bg-white w-1/2 h-1/2 flex flex-col items-center rounded-xl justify-between p-8 relative">
@@ -186,9 +214,15 @@ function ModalConfirmarPedido({ setShowConfirmModal, setPedidoOk, formRef }: { s
                     e.preventDefault()
                     setShowConfirmModal(false)
                 }} className="flex flex-col items-center justify-center absolute top-6 left-6"><Cross2Icon width={60} height={60} className="w-16 h-16 cursor-pointer hover:scale-105" /></button>
-                <h1 className="text-3xl font-extrabold text-black">Criação de Logotipo</h1>
-                <div>
-
+                <h1 className="text-3xl font-extrabold text-black">Confirme seu pedido</h1>
+                <div className="w-8/12 flex flex-col items-start gap-2">
+                    <div className=""><strong className="font-bold">Serviço requisitado:</strong><span className="ml-2">{data.servicoPrincipal}</span></div>
+                    <div className=""><strong className="font-bold">Nome do pedido:</strong><span className="ml-2">{data.titulo}</span></div>
+                    <div className="w-full whitespace-normal">
+                        <strong className="font-bold">Descrição do pedido:</strong>
+                        <p className="whitespace-normal break-all">{data.descricao}</p>
+                    </div>
+                    <div className=""><strong className="font-bold">Valor:</strong><span className="ml-2">{data.acombinar ? "A combinar" : "R$ " + String(data.valor)}</span></div>
                 </div>
                 <button onClick={
                     (e) => {
@@ -197,8 +231,7 @@ function ModalConfirmarPedido({ setShowConfirmModal, setPedidoOk, formRef }: { s
                         setShowConfirmModal(false)
                         //aqui eu quero submeter de novo para criar o pedido
                     }
-                } className="bg-azulao p-4 h-14 w-96 rounded-lg font-bold text-white text-xl transition hover:scale-105">Confirmar Pedido</button>
-
+                } className="bg-azulao p-4 h-14 w-96 rounded-lg font-bold text-white text-xl transition hover:scale-105">Tudo Ok</button>
             </div>
         </div>
     )

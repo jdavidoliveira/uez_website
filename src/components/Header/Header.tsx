@@ -15,14 +15,16 @@ const roboto = Roboto({
 })
 
 export default function Header() {
-  const { statusLogin } = useAuth()
+  const { statusLogin, userType: tipousuario } = useAuth()
 
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
 
   const [isLogged, setIsLogged] = useState<boolean>();
+  const [userType, setUserType] = useState<string>()
 
   useEffect(() => {
     setIsLogged(statusLogin)
+    setUserType(tipousuario)
   }, [])
 
 
@@ -39,11 +41,15 @@ export default function Header() {
           <Link href="/" className="mobile:hidden p-2">
             <Image width={60} height={60} src="/logo.svg" alt="Logo da UEZ Company" className="mobile:hidden w-[75px] transition hover:scale-105" />
           </Link>
-          {isLogged ? <>
+          {isLogged ? (userType === "uzer" ? <>
+            <Link href="/solicitarservico" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Solicitar serviço</Link>
+            <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
+            <Link href="/realizar" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Realizar serviço</Link>
+          </> : <>
             <Link href="/solicitarservico" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Solicitar serviço</Link>
             <Link href="/uzers" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Uzers</Link>
             <Link href="/clientes" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Clientes</Link>
-          </>
+          </>)
             :
             <>
               <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
