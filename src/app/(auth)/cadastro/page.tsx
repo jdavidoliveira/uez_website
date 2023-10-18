@@ -16,53 +16,53 @@ import { useFetch as myUseFetch } from '@/hooks/useFetch';
 
 const userFormSchema = z.object({
   email: z.string()
-    .nonempty("O e-mail é obrigatório")
+    .min(1, "O e-mail é obrigatório")
     .email('Formato de e-mail inválido'),
   nome: z.string()
-    .nonempty("O nome é obrigatório")
+    .min(1, "O nome é obrigatório")
     .min(3, "O nome deve ter mais de 3 caracteres")
     .regex(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "O nome deve conter apenas letras")
     .transform((value) => value.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')), // Capitaliza os nomes,
   userType: z.string()
-    .nonempty("O tipo de usuário é obrigatório"),
+    .min(1, "O tipo de usuário é obrigatório"),
   senha: z.string()
-    .nonempty("A senha é obrigatória")
+    .min(1, "A senha é obrigatória")
     .min(6, "A senha deve ter mais de 6 caracteres")
     .max(24, "A senha deve ter menos de 24 caracteres"),
   confirmarSenha: z.string()
     .max(24, "A senha deve ter menos de 24 caracteres"),
   telefone: z.string()
-    .nonempty("O telefone é obrigatório")
+    .min(1, "O telefone é obrigatório")
     .min(10, "O telefone deve ter 10 dígitos")
     .max(15, "O telefone deve ter no máximo 15 dígitos"),
   dataNascimento: z.string()
-    .nonempty("A data de nascimento é obrigatória")
+    .min(1, "A data de nascimento é obrigatória")
     .min(9, "A data de nascimento deve ter 10 dígitos"),
   cpf: z.string()
-    .nonempty("O CPF é obrigatório")
+    .min(1, "O CPF é obrigatório")
     .regex(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, "Formato de CPF inválido")
     .min(14, "O CPF deve ter 14 dígitos")
     .max(14, "O CPF deve ter 14 dígitos"),
   rg: z.optional(z.string()),
   cep: z.string()
-    .nonempty("O CEP é obrigatório")
+    .min(1, "O CEP é obrigatório")
     .regex(/^[0-9]{5}-[0-9]{3}$/, "Formato de CEP inválido"),
   endereco: z.object({
     logradouro: z.string()
-      .nonempty("O logradouro é obrigatório"),
+      .min(1, "O logradouro é obrigatório"),
     numero: z.string()
-      .nonempty("O número é obrigatório"),
+      .min(1, "O número é obrigatório"),
     complemento: z.string()
       .optional(),
     bairro: z.string()
-      .nonempty("O bairro é obrigatório"),
+      .min(1, "O bairro é obrigatório"),
     cidade: z.string()
-      .nonempty("A cidade é obrigatória"),
+      .min(1, "A cidade é obrigatória"),
     estado: z.string()
-      .nonempty("O estado é obrigatório"),
+      .min(1, "O estado é obrigatório"),
   }),
   tipoServico: z.optional(z.string()
-    .nonempty("Escolha uma opção")),
+    .min(1, "Escolha uma opção")),
   areaAtuacao: z.optional(z.number()
     .min(1, "Área de atuação deve ser maior que 0")
     .max(200, "Área de atuação deve ser menor que 200"))
