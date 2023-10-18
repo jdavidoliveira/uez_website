@@ -4,7 +4,6 @@ import Input from "@/components/Forms/Input/Input";
 import { ChevronLeftIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MiniModal from "@/components/Modal/MiniModal";
@@ -80,12 +79,13 @@ export default function SolicitarServico() {
             }).then((response) => {
                 setIsSubmitting(false)
                 toggleModal(response.message)
+                console.log(response)
+                router.push("/")
                 return response.message
             }).catch(error => {
                 console.error(error)
                 toggleModal(error)
             })
-            console.log(response)
         } else {
             setIsSubmitting(false)
             setShowConfirmModal(true)
@@ -199,7 +199,6 @@ export default function SolicitarServico() {
             </form>
             {showModal && <Modal message={modalMessage} handleClick={() => {
                 setShowModal(false)
-                router.push("/")
             }} noButton={!haveButton} />}
 
         </main>

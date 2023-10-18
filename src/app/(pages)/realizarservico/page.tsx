@@ -18,11 +18,10 @@ export default async function RealizarServico() {
         revalidate: 60 * 1 // 1 minutes
       },
     }).then(response => {
-      console.log(`Bearer ${cookies().get("accessToken")?.value}`)
+      console.log(response)
       return response
     }).catch(error => {
       console.error(error)
-      console.log(`Bearer ${cookies().get("accessToken")?.value}`)
       return []
     })
 
