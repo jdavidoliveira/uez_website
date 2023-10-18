@@ -1,6 +1,6 @@
 import { useFetch } from '@/hooks/useFetch'
 import Image from 'next/image'
-import { parseCookies } from 'nookies'
+import { cookies } from 'next/headers'
 
 type pedido = {
   tipo: "online" | "ambos" | "presencial",
@@ -12,15 +12,17 @@ export default async function RealizarServico() {
 
     const servicos: pedido[] = await useFetch<pedido[]>('/pedidos', {
       headers: {
-        Authorization: `Bearer ${parseCookies().accessToken}`
+        Authorization: `Bearer ${cookies().get("accessToken")?.value}`
       },
       next: {
         revalidate: 60 * 1 // 1 minutes
       },
     }).then(response => {
+      console.log(`Bearer ${cookies().get("accessToken")?.value}`)
       return response
     }).catch(error => {
       console.error(error)
+      console.log(`Bearer ${cookies().get("accessToken")?.value}`)
       return []
     })
 

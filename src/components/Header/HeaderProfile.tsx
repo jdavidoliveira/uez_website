@@ -5,11 +5,10 @@ import { useAuth } from '@/contexts/Auth';
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { DotFilledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
-import { parseCookies } from 'nookies';
+import { cookies } from 'next/headers';
 
 export default function HeaderProfile() {
     const { logout } = useAuth()
@@ -24,7 +23,7 @@ export default function HeaderProfile() {
         if (!photoUrl) {
             myUseFetch<{ photoUrl: string, _id: number, userType: string }>("/users/me", {
                 headers: {
-                    Authorization: `Bearer ${parseCookies().accessToken}`
+                    Authorization: `Bearer ${cookies().get("accessToken")?.value}`
                 },
                 next: {
                     revalidate: 60 * 5 // 5 minutes

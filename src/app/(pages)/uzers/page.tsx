@@ -5,7 +5,7 @@ import { useFetch as myUseFetch } from "@/hooks/useFetch";
 import AsideFilters from "./AsideFilters";
 import UserCard from "./UserCard";
 import { useSearchParams } from "next/navigation";
-import { parseCookies } from "nookies";
+import { cookies } from "next/headers";
 
 export default function Uzers() {
 
@@ -13,7 +13,7 @@ export default function Uzers() {
     useEffect(() => {
         myUseFetch<any[]>('/uzers', {
             headers: {
-                Authorization: `Bearer ${parseCookies().accessToken}`
+                Authorization: `Bearer ${cookies().get("accessToken")?.value}`
             },
             next: {
                 revalidate: 60 * 1 // 1 minutes
