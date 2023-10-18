@@ -26,6 +26,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <Providers>
+        <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
         <body className={montserrat.className} suppressHydrationWarning={true}>
           {children}
         </body>

@@ -10,10 +10,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import MiniModal from "@/components/Modal/MiniModal";
 import { useEffect, useState } from "react";
 import { useFetch as myUseFetch } from "@/hooks/useFetch";
+import { parseCookies } from "nookies";
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 import Modal from "@/components/Modal/Modal";
 import { useRouter } from "next/navigation";
-import { cookies } from "next/headers";
 
 const solicitarServicoFormSchema = z.object({
     tipo: z.string()
@@ -66,6 +66,7 @@ export default function SolicitarServico() {
             nomeServico: servicoPrincipal,
             descricao: descricao,
             valor: valor,
+            titulo: titulo
         }
 
         if (pedidoOk) {
@@ -74,7 +75,7 @@ export default function SolicitarServico() {
                 method: "POST",
                 body: JSON.stringify(pedidoData),
                 headers: {
-                    Authorization: `Bearer ${cookies().get("accessToken")?.value}`
+                    Authorization: `Bearer ${parseCookies().accessToken}`
                 }
             }).then((response) => {
                 setIsSubmitting(false)
@@ -95,7 +96,7 @@ export default function SolicitarServico() {
     const [modalMessage, setModalMessage] = useState('null');
     const [haveButton, setHaveButton] = useState(true)
     function toggleModal(message: string, hasButton: boolean = true) {
-        setModalMessage(message)
+        setModalMessage(JSON.stringify(message))
         setHaveButton(hasButton)
         setShowModal(prevState => !prevState)
     }
