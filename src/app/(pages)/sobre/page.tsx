@@ -16,9 +16,9 @@ export default function Sobre() {
                 <p>
                     Digamos que a pia do seu banheiro está vazando, você não sabe a
                     maneira correta de consertar e não conhece nenhum profissinal que
-                    saiba, você entra no nosso site, faz um cadastro e nós te
-                    amostraremos os profissionais que possam te ajudar. Nesse caso você
-                    é o que chamamos de <b>Clientes</b>.
+                    saiba. Você entra no nosso site, faz um cadastro e nós te
+                    mostraremos os profissionais que podem te ajudar. Nesse caso você
+                    é o que chamamos de <b>Cliente</b>.
                 </p>
             </GenericSection>
             <GenericSection>
@@ -54,15 +54,6 @@ export default function Sobre() {
                         }
                     />
                 </div>
-            </GenericSection>
-            <GenericSection>
-                <h1>Teste</h1>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam,
-                    temporibus esse voluptate quia libero facere laborum pariatur
-                    laboriosam quod excepturi possimus, illo quidem. Saepe deserunt
-                    neque perferendis. Quisquam, sint aut!
-                </p>
             </GenericSection>
         </main>
     );

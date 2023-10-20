@@ -6,14 +6,12 @@ import UserCard from "./UserCard";
 import { useSearchParams } from "next/navigation";
 
 export function UzersClient({ serverData }: any) {
-    console.log(serverData)
-
-    const [uzersData, setUzersData] = useState([{ nome: "Carregando...", photoUrl: "https://via.placeholder.com/100", servicosPrestados: [{ nomeServico: "Carregando...", tipoServico: "Carregando..." }], _id: "0" }])
-    const [filteredUzersData, setFilteredUzersData] = useState(uzersData)
+    const [uzersData, setUzersData] = useState(serverData)
+    const [filteredUzersData, setFilteredUzersData] = useState(serverData)
     useEffect(() => {
         setUzersData(serverData)
         setFilteredUzersData(serverData)
-    }, [serverData])
+    }, [])
 
 
     const { get: getParams, has: hasParam } = useSearchParams()
@@ -27,7 +25,7 @@ export function UzersClient({ serverData }: any) {
 
     useEffect(() => {
         // Filtrar usuários com base nas condições
-        const filteredUzers = uzersData.filter((uzer) => {
+        const filteredUzers = uzersData.filter((uzer: any) => {
             const matchesNome = uzer.nome.toLowerCase().includes(nome.toLowerCase());
             const matchesCargo = uzer.servicosPrestados[0].nomeServico.toLowerCase().includes(cargo.toLowerCase());
 
@@ -50,7 +48,7 @@ export function UzersClient({ serverData }: any) {
         <main className="bg-white flex flex-row-reverse w-full justify-around items-center mt-6 p-4 mobile:flex-col mobile:m-0 mobile:gap-8">
             <AsideFilters setIsOnline={setIsOnline} setIsPresencial={setIsPresencial} setNome={setNome} setCargo={setCargo} cargo={cargo} isOnline={isOnline} isPresencial={isPresencial} nome={nome} />
             <section className="flex w-9/12 h-full flex-wrap gap-4 justify-between items-center p-2 mobile:w-full mobile:p-0">
-                {!(filteredUzersData.length === 0) ? filteredUzersData?.map((usuario: any, index) => {
+                {!(filteredUzersData.length === 0) ? filteredUzersData?.map((usuario: any, index: any) => {
                     const nomes = usuario.nome.split(" ")
                     const nome = nomes.length > 2 ? (nomes[0].length > 8 ? ((nomes[0].length > 12 ? nomes[0].slice(0, 12) : nomes[0])) : nomes[0] + " " + nomes[1]) : nomes[0] + (nomes[1] ? " " + nomes[1] : "")
                     // Se o nome for menor que 8 caracteres, coloca o nome completo, até 2 nomes

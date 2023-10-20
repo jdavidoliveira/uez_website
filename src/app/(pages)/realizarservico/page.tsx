@@ -14,10 +14,8 @@ export default async function RealizarServico() {
       headers: {
         Authorization: `Bearer ${cookies().get("accessToken")?.value}`
       },
-      next: {
-        revalidate: 60 * 1 // 1 minutes
-      },
     }).then(response => {
+      console.log(response)
       return response
     }).catch(error => {
       console.error(error)

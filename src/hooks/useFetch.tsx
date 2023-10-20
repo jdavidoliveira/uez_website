@@ -28,7 +28,6 @@ export async function useFetch<T>(endpoint: string, config: FetchParams = {}): P
     const url = `${baseURL}/${endpoint}`;
 
     try {
-        console.log(requestOptions)
         const response = await fetch(url, requestOptions);
 
         if (!response.ok) {
