@@ -25,7 +25,7 @@ export default function Header() {
   useEffect(() => {
     setIsLogged(statusLogin)
     setUserType(tipousuario)
-  }, [])
+  }, [tipousuario])
 
 
   return (

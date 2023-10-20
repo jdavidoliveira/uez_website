@@ -21,7 +21,7 @@ const userFormSchema = z.object({
   nome: z.string()
     .min(1, "O nome é obrigatório")
     .min(3, "O nome deve ter mais de 3 caracteres")
-    .regex(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "O nome deve conter apenas letras")
+    .regex(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "O nome deve conter apenas letras")
     .transform((value) => value.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')), // Capitaliza os nomes,
   userType: z.string()
     .min(1, "O tipo de usuário é obrigatório"),

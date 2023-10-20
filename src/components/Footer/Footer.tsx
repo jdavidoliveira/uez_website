@@ -28,7 +28,7 @@ export default function Footer() {
                         <h2>Social</h2>
                         <div className={styles.footer_social_content}>
                             <Link href="https://www.instagram.com/uez_company/" target='_blank'><Image src="/images/icons/instagram-icons8.svg" alt="Instagram"  width={16} height={16} /></Link>
-                            <Link href="https://youtube.com" target='_blank'><Image src="/images/icons/youtube-icons8.svg" alt="Youtube" width={16} height={16} /></Link>
+                            <Link href="https://www.youtube.com/channel/UCxR_EP2zp4X49229z833F-A" target='_blank'><Image src="/images/icons/youtube-icons8.svg" alt="Youtube" width={16} height={16} /></Link>
                         </div>
                     </div>
                     <div className={styles.footer_card}>
