@@ -2,6 +2,7 @@ import './globals.css'
 import Providers from '@/contexts/Providers'
 import { Montserrat } from 'next/font/google'
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
   title: {
@@ -26,8 +27,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <Providers>
+        <head>
+          <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        </head>
         <body className={montserrat.className} suppressHydrationWarning={true}>
           {children}
+          <Analytics />
         </body>
       </Providers>
     </html>

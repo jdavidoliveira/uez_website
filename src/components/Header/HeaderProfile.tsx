@@ -76,7 +76,7 @@ export default function HeaderProfile() {
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator className="h-[1px] bg-violet6 m-[5px]" />
 
-                        <DropdownMenu.Label className="pl-[25px] text-xs leading-[25px] text-mauve11">Estado</DropdownMenu.Label>
+                        {/* <DropdownMenu.Label className="pl-[25px] text-xs leading-[25px] text-mauve11">Estado</DropdownMenu.Label>
                         <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
                             <DropdownMenu.RadioItem className="hover:bg-azulao hover:text-white text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1" value="cliente">
                                 <DropdownMenu.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
@@ -90,14 +90,15 @@ export default function HeaderProfile() {
                                 </DropdownMenu.ItemIndicator>
                                 <span className="text-base">Uzer</span>
                             </DropdownMenu.RadioItem>
-                        </DropdownMenu.RadioGroup>
+                        </DropdownMenu.RadioGroup> */}
 
-                        <DropdownMenu.Separator className="h-[1px] bg-violet6 m-[5px]" />
+                        <DropdownMenu.Separator className="h-[1px] bg-black/10 mx-4 my-1" />
 
                         <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
                             <button className="border-none w-full flex justify-start" onClick={() => {
                                 logout()
-                                router.push("/home")
+                                router.refresh()
+                                router.refresh()
 
                             }}><span className="text-base">Sair</span></button>
                         </DropdownMenu.Item>
