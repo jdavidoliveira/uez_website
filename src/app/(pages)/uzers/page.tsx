@@ -1,7 +1,7 @@
 import { useFetch } from "@/hooks/useFetch";
 
 import { cookies } from "next/headers";
-import {UzersClient} from "./UzersClient";
+import { UzersClient } from "./UzersClient";
 
 export default async function Uzers() {
     const serverData = await useFetch<any[]>('/uzers', {
@@ -14,9 +14,8 @@ export default async function Uzers() {
     }).then(response => {
         return response
     }).catch(error => console.error(error))
-    console.log(serverData)
 
-    return <UzersClient serverData={serverData}  />
+    return <UzersClient serverData={serverData} />
 
 
 }

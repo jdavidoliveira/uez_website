@@ -9,10 +9,12 @@ export function UzersClient({ serverData }: any) {
     console.log(serverData)
 
     const [uzersData, setUzersData] = useState([{ nome: "Carregando...", photoUrl: "https://via.placeholder.com/100", servicosPrestados: [{ nomeServico: "Carregando...", tipoServico: "Carregando..." }], _id: "0" }])
+    const [filteredUzersData, setFilteredUzersData] = useState(uzersData)
     useEffect(() => {
         setUzersData(serverData)
         setFilteredUzersData(serverData)
     }, [serverData])
+
 
     const { get: getParams, has: hasParam } = useSearchParams()
 
@@ -22,7 +24,6 @@ export function UzersClient({ serverData }: any) {
     const [cargo, setCargo] = useState(getParams("searchCargo") || "")
 
 
-    const [filteredUzersData, setFilteredUzersData] = useState(uzersData)
 
     useEffect(() => {
         // Filtrar usuários com base nas condições

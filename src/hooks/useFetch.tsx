@@ -12,7 +12,7 @@ export async function useFetch<T>(endpoint: string, config: FetchParams = {}): P
     endpoint = endpoint.replace(/^\//, '');
     const defaultHeaders = {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
     };
 
     const headers = {
@@ -22,13 +22,13 @@ export async function useFetch<T>(endpoint: string, config: FetchParams = {}): P
 
     const requestOptions: RequestInit = {
         ...config,
-        headers
-
+        headers,
     };
 
     const url = `${baseURL}/${endpoint}`;
 
     try {
+        console.log(requestOptions)
         const response = await fetch(url, requestOptions);
 
         if (!response.ok) {
