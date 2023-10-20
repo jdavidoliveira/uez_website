@@ -23,7 +23,7 @@ export default async function RealizarServico() {
     })
 
   return (
-    <main className="flex items-center justify-center p-4">
+    <main className="flex items-center justify-center p-4 min-h-[60%]">
       {servicos.length < 1 ? <div className="flex flex-col h-144 items-center justify-center gap-4">
         <Image width={56} height={56} src="/images/refresh.png" alt="Ícone de refresh" className=" hover:animate-spin" />
         <h1 className="text-xl font-bold text-center">Não há solicitações de serviço no momento :/</h1>
