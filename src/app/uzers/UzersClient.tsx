@@ -45,7 +45,7 @@ export function UzersClient({ serverData }: any) {
 
 
     return (
-        <main className="bg-white flex flex-row-reverse w-full min-h-[60%] justify-around items-center mt-6 p-4 mobile:flex-col mobile:m-0 mobile:gap-8">
+        <main className="bg-white flex flex-row-reverse w-full min-h-[60%] justify-around items-center mt-6 p-4 mobile:flex-col mobile:m-0 mobile:gap-8 mobile:h-auto">
             <AsideFilters setIsOnline={setIsOnline} setIsPresencial={setIsPresencial} setNome={setNome} setCargo={setCargo} cargo={cargo} isOnline={isOnline} isPresencial={isPresencial} nome={nome} />
             <section className="flex w-9/12 h-full flex-wrap gap-4 justify-between items-center p-2 mobile:w-full mobile:p-0">
                 {!(filteredUzersData.length === 0) ? filteredUzersData?.map((usuario: any, index: any) => {
