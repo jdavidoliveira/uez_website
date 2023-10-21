@@ -59,7 +59,7 @@ export default function Home() {
               <Image src="/vetores/linha-cima.svg" width={120} height={120} alt="Vetor de linhas" className="w-6/12" />
             </div>
             <div className="flex gap-4 items-center justify-around w-full">
-              <CardPhoto imageUrl="/images/batepapo.png" title="Bate-papo" description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento." />
+              <CardPhoto imageUrl="/images/batepapo.png" title="Chat" description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento." />
               <CardPhoto imageUrl="/images/riquinho.png" title="Orçamento" description="Quando o orçamento é lançado para o cliente, ele tem a opção de aceitar ou não, priorizando a segurança." />
             </div>
           </div>
