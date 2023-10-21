@@ -11,7 +11,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
 
 
   return (
-    <main className="w-full h-full flex items-center justify-center relative">
+    <main className="w-full h-full flex items-center justify-center relative mobile:flex-col">
       <Link href="/uzers" className="absolute left-20 top-14 text-xl font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
         <ChevronLeftIcon width={40} height={40} />
         <span className="m-3 mr-6">
