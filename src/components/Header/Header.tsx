@@ -52,8 +52,8 @@ export default function Header() {
           </>)
             :
             <>
-              <Link href="/sobre" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
-              <Link href="/visaoservicos" className="hover:bg-gray-400 hover:text-white p-2 rounded-lg">Serviços</Link>
+              <Link href="/sobre" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Sobre</Link>
+              <Link href="/visaoservicos" className="mobile:hidden hover:bg-gray-400 hover:text-white p-2 rounded-lg">Serviços</Link>
             </>
           }
         </nav>
