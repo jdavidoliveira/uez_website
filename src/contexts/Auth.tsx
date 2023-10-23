@@ -20,15 +20,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const { accessToken } = parseCookies();
     if (accessToken) {
-      // Você pode adicionar validação de token aqui, se necessário
+      // tem que adicionar a validação de token aqui
       setStatusLogin(true);
-      setUserType("uzer");
     }
+    setUserType(parseCookies().userType);
+
   }, []);
 
   const login = async (email: string, senha: string) => {
     try {
-      const { token } = await myFetch<{ token: string }>("/login", {
+      const { token, userType } = await myFetch<{ token: string, userType: string }>("/login", {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -36,6 +37,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }),
       });
       setCookie(null, "accessToken", token, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
+      setCookie(null, "userType", userType, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
+      setUserType(userType);
       setStatusLogin(true);
       return null;
     } catch (error: any) {

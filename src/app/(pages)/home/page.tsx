@@ -34,11 +34,11 @@ export default function Home() {
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <h1 className="text-4xl font-semibold text-center">O que é a UEZ Company?</h1>
           </AnimationOnScroll>
-          <p className="text-lg leading-snug font-medium text-center w-10/12">
-            <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
+            <p className="text-lg leading-snug font-medium text-center mx-auto w-10/12">
               A <strong>UEZ Company</strong> é uma empresa que tem o objetivo de facilitar a sua vida, te ajudando a encontrar profissionais que possam realizar algum serviço para você ou se você é esse profissional e está em busca de novos clientes.
-            </AnimationOnScroll>
-          </p>
+            </p>
+          </AnimationOnScroll>
         </div>
         <div className="relative flex flex-col items-center justify-around gap-8 text-azulao w-11/12">
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
@@ -73,9 +73,11 @@ export default function Home() {
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <h1 className="text-4xl font-bold text-center">Nós prezamos pela sua segurança!</h1>
           </AnimationOnScroll>
-          <p className="text-lg leading-snug font-medium text-center w-10/12">
-            <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>O nosso modo de pagamento zela tanto pela segurança dos Clientes quanto dos Uzers.</AnimationOnScroll>
-          </p>
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
+            <p className="text-lg leading-snug font-medium text-center mx-auto w-10/12">
+              O nosso modo de pagamento zela tanto pela segurança dos Clientes quanto dos Uzers.
+            </p>
+          </AnimationOnScroll>
         </div>
         <div className="relative flex flex-col items-center justify-around gap-8 text-azulao w-11/12">
           <Image src="/images/icons/cadeado.svg" width={120} height={120} alt="Imagem ilustrativa de um cadeado" className="sm:hidden w-12 h-12 absolute top-0 left-0 smmobile:hidden animate-pulse" />
@@ -83,9 +85,11 @@ export default function Home() {
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <h1 className="text-4xl font-bold text-center">Mas de que forma?</h1>
           </AnimationOnScroll>
-          <p className="text-lg leading-snug font-medium text-center w-10/12">
-            <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>Quando um serviço é fechado, o pagamento do cliente é <strong>obrigatório</strong> e fica retido na nossa plataforma, o uzer só recebe quando o cliente declarar o serviço como feito. Para ter a certeza que o cliente irá fazer isso, nós bloqueamos suas atividades que ele declare.</AnimationOnScroll>
-          </p>
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
+            <p className="text-lg leading-snug font-medium text-center mx-auto w-10/12">
+              Quando um serviço é fechado, o pagamento do cliente é <strong>obrigatório</strong> e fica retido na nossa plataforma, o uzer só recebe quando o cliente declarar o serviço como feito. Para ter a certeza que o cliente irá fazer isso, nós bloqueamos suas atividades que ele declare.
+            </p>
+          </AnimationOnScroll>
         </div>
       </GenericSection>
     </main>

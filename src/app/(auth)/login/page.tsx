@@ -27,7 +27,7 @@ type userFormData = z.infer<typeof userFormSchema>
 export default function Login() {
   const { statusLogin, login } = useAuth()
   const router = useRouter()
-  if (statusLogin) router.push("/")
+  if (statusLogin) router.replace("/")
 
   const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
     /* @ts-ignore */
@@ -53,7 +53,8 @@ export default function Login() {
     } else {
       toggleModal("Login feito com sucesso!", false)
       setIsSubmitting(false)
-      router.push("/")
+      new Promise((resolve) => setTimeout(resolve, 2000))
+      router.replace("/")
     }
   }
 
