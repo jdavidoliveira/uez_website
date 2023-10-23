@@ -79,24 +79,24 @@ export default function Header() {
           {isLogged ? (userType === "uzer" ? <>
             {/* if the user is a uzer */}
             {LinksIfUzer.map((link) => (
-              <NewLink key={link.href} href={link.href} children={link.text} />
+              <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
             ))}
           </> : (userType === "cliente" ? <>
             {/* if the user is a client */}
             {LinksIfClient.map((link) => (
-              <NewLink key={link.href} href={link.href} children={link.text} />
+              <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
             ))}
           </> : <>
             {/* if is not logged in */}
             {defaultLinks.map((link) => (
-              <NewLink key={link.href} href={link.href} children={link.text} />
+              <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
             ))}
           </>))
             :
             <>
               {/* if is not logged in */}
               {defaultLinks.map((link) => (
-                <NewLink key={link.href} href={link.href} children={link.text} />
+                <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
               ))}
             </>
           }
@@ -160,24 +160,24 @@ function HeaderMobile({ showMobileMenu, setShowMobileMenu, statusLogin, userType
         {statusLogin ? (userType === "uzer" ? <>
           {/* if the user is a uzer */}
           {LinksIfUzer.map((link) => (
-            <NewLink key={link.href} href={link.href} children={link.text} />
+            <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
           ))}
         </> : (userType === "cliente" ? <>
           {/* if the user is a client */}
           {LinksIfClient.map((link) => (
-            <NewLink key={link.href} href={link.href} children={link.text} />
+            <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
           ))}
         </> : <>
           {/* if is not logged in */}
           {defaultLinks.map((link) => (
-            <NewLink key={link.href} href={link.href} children={link.text} />
+            <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
           ))}
         </>))
           :
           <>
             {/* if is not logged in */}
             {defaultLinks.map((link) => (
-              <NewLink key={link.href} href={link.href} children={link.text} />
+              <NewLink key={link.href} href={link.href}>{link.text}</NewLink>
             ))}
           </>
         }
