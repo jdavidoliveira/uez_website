@@ -12,10 +12,9 @@ export default async function RealizarServico() {
 
     const servicos: pedido[] = await useFetch<pedido[]>('/pedidos', {
       headers: {
-        Authorization: `Bearer ${cookies().get("accessToken")?.value}`
+        Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
       },
     }).then(response => {
-      console.log(response)
       return response
     }).catch(error => {
       console.error(error)

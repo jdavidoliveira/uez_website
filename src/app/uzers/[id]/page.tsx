@@ -8,8 +8,6 @@ import Image from "next/image";
 export default async function Uzer({ params }: { params: { id: string } }) {
   const { nome, photoUrl, servicosPrestados, } = await useFetch<UzerInterface>(`/uzers/${params.id}`);
 
-
-
   return (
     <main className="w-full h-full flex items-center justify-center relative mobile:flex-col">
       <Link href="/uzers" className="absolute left-20 top-14 text-xl font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">

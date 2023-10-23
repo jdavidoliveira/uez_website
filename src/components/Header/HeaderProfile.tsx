@@ -24,13 +24,12 @@ export default function HeaderProfile() {
         if (!photoUrl) {
             myUseFetch<{ photoUrl: string, _id: number, userType: string }>("/users/me", {
                 headers: {
-                    Authorization: `Bearer ${parseCookies().accessToken}`
+                    Authorization: `Bearer ${parseCookies().uezaccesstoken}`
                 },
                 next: {
                     revalidate: 60 * 5 // 5 minutes
                 }
             }).then(({ photoUrl, _id, userType }) => {
-                console.log(photoUrl)
                 setPhotoUrl(photoUrl)
                 setId(_id)
                 setUserType(userType)

@@ -74,12 +74,11 @@ export default function SolicitarServico() {
                 method: "POST",
                 body: JSON.stringify(pedidoData),
                 headers: {
-                    Authorization: `Bearer ${parseCookies().accessToken}`
+                    Authorization: `Bearer ${parseCookies().uezaccesstoken}`
                 }
             }).then((response) => {
                 setIsSubmitting(false)
                 toggleModal(response.message)
-                console.log(response)
                 router.push("/")
                 return response.message
             }).catch(error => {
