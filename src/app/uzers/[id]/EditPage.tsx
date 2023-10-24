@@ -1,6 +1,6 @@
 "use client"
 
-import { Pencil, Save } from 'lucide-react'
+import { Loader2, Pencil, Save } from 'lucide-react'
 import Link from 'next/link'
 import PortfolioCard from './PortfolioCard'
 import Image from 'next/image'
@@ -21,6 +21,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       title: "Mudar foto de perfil",
       label: "Escreva o endereço da imagem:",
       valueSetter: setPhotoUrlValue,
+      prevValue: photoUrl
     })
     setShowModal(true);
   }
@@ -30,6 +31,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       title: "Mudar nome",
       label: "Novo nome:",
       valueSetter: setNomeValue,
+      prevValue: nome
     })
     setShowModal(true);
   }
@@ -38,6 +40,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
     title: "Escolha um",
     label: "Digite aqui:",
     valueSetter: "",
+    prevValue: "",
   })
 
   async function saveData() {
@@ -87,7 +90,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
 
   return (
     <>
-      {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} />}
+      {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} />}
       <section className="w-2/3 mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
         <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
           <div
@@ -128,7 +131,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         <Link href={`/uzers/${_id}/portfolio`} className="text-xl font-bold my-8 flex justify-center items-center hover:underline">Ver Mais</Link>
       </section>
       {(nome !== nomeValue || photoUrl !== photoUrlValue) && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
-        {isSaving ? <LoadingSpinner size={20} color="white" /> : <>
+        {isSaving ? <Loader2 size={30} color="white" className="text-azulao mx-auto animate-spin" /> : <>
           <div className="hidden font-bold text-base group-hover:flex flex-col items-center p-2 text-white">
             <h1 className="font-bold text-base">Alterações:</h1>
             {nome !== nomeValue && <h1 className="font-bold text-base text-yellow-300">Nome</h1>}

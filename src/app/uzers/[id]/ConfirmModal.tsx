@@ -6,16 +6,19 @@ interface ConfirmModalProps {
     title?: string
     label?: string
     valueSetter?: any
+    prevValue?: string
     closeButtonFunction: () => void
+    type?: "url" | "text"
 }
-export default function ConfirmModal({ title = "Escolha um", label = "Digite aqui:", valueSetter, closeButtonFunction }: ConfirmModalProps) {
+export default function ConfirmModal({ title = "Escolha um", label = "Digite aqui:", valueSetter, closeButtonFunction, type, prevValue }: ConfirmModalProps) {
 
     const confirmButtonFunction = () => {
-        valueSetter(text)
+        if(type === "url") valueSetter(text?.includes("https://") ? text : `https://${text}`)
+        else valueSetter(text)
         closeButtonFunction()
     }
     
-    const [text, setText] = useState("")
+    const [text, setText] = useState(prevValue)
     
     return (
         <div className='fixed z-40 w-full h-full flex items-center justify-center bg-black/70'>
