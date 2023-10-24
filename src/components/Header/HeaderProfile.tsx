@@ -5,7 +5,6 @@ import { useAuth } from '@/contexts/Auth';
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { DotFilledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
@@ -18,24 +17,22 @@ export default function HeaderProfile() {
     const cachedPhotoUrl = getLocalStorage("photoUrl")
 
     const [photoUrl, setPhotoUrl] = useState(cachedPhotoUrl || "");
-    const [id, setId] = useState(0)
+    const [id, setId] = useState<string>("")
     const [userType, setUserType] = useState("cliente")
     useEffect(() => {
-        if (!photoUrl) {
-            myUseFetch<{ photoUrl: string, _id: number, userType: string }>("/users/me", {
-                headers: {
-                    Authorization: `Bearer ${parseCookies().uezaccesstoken}`
-                },
-                next: {
-                    revalidate: 60 * 5 // 5 minutes
-                }
-            }).then(({ photoUrl, _id, userType }) => {
-                setPhotoUrl(photoUrl)
-                setId(_id)
-                setUserType(userType)
-                setLocalStorage("photoUrl", photoUrl)
-            })
-        }
+        myUseFetch<{ photoUrl: string, _id: string, userType: string }>("/users/me", {
+            headers: {
+                Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+            },
+            next: {
+                revalidate: 60 * 5 // 5 minutes
+            }
+        }).then(({ photoUrl, _id, userType }) => {
+            setPhotoUrl(photoUrl)
+            setId(_id)
+            setUserType(userType)
+            setLocalStorage("photoUrl", photoUrl)
+        })
     }, [])
 
 
