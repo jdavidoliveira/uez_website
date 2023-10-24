@@ -3,7 +3,9 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 
 export default async function Chat() {
+    const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } });
     const token = cookies().get("uezaccesstoken");
+    
     if (!token) {
         return (
             <main className="w-full h-full text-center flex flex-col items-center justify-center gap-2">
@@ -13,7 +15,6 @@ export default async function Chat() {
             </main>
         )
     }
-    const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } });
     return (
         <main className="w-full text-center flex flex-col items-center justify-center gap-2">
             <pre>{JSON.stringify(chatData, null, 2)}</pre>
