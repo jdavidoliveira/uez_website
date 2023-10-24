@@ -5,8 +5,15 @@ import { useFetch } from "@/hooks/useFetch";
 import UzerInterface from "@/types/Uzer";
 import Image from "next/image";
 import { cookies } from "next/headers";
-import Editpage from "./editpage";
+import Editpage from "./EditPage";
 import ItemPortfolioInterface from "@/types/ItemPortfolio";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Uzer",
+  description: "Página de perfil do Uzer",
+  keywords: "Uzers, Uzer, Uez",
+}
 
 export default async function Uzer({ params }: { params: { id: string } }) {
   const uzerData = await useFetch<UzerInterface>(`/uzers/${params.id}`, {
@@ -41,8 +48,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
   });
   uzerData.portfolio = portfolio
   uzerData.bannerImage = bannerImage
-  // const editMode: boolean = myId === _id
-  const editMode: boolean = true
+  const editMode: boolean = myId === _id
   console.log(editMode)
 
 

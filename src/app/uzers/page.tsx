@@ -7,7 +7,7 @@ import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {
     title: "Uzers",
-    description: "Uzers",
+    description: "Os Uzers da Uez Company, são profissionais de diferentes especialidades capazes de atender quem precisa de um serviço.",
     keywords: "Uzers",
 }
 

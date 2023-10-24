@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: 'Uez Company',
   },
   description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
-  keywords: 'UEZ'
+  keywords: 'UEZ',
 }
 
 const montserrat = Montserrat({
