@@ -6,8 +6,8 @@ import { Analytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Uez Company',
-    default: 'Uez Company',
+    template: '%s | UEZ Company',
+    default: 'UEZ Company',
   },
   description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
   keywords: 'UEZ',
@@ -28,9 +28,6 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <Providers>
-        <head>
-          <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        </head>
         <body className={montserrat.className} suppressHydrationWarning={true}>
           {children}
           <Analytics />
