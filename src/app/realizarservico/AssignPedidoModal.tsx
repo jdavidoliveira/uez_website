@@ -12,15 +12,15 @@ export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: P
     return (
         <div className='fixed bottom-0 left-0 z-40 w-full h-full flex items-center justify-center bg-black/70'>
             <div className='bg-white w-5/6 h-5/6 flex items-center justify-center rounded-[40px]'>
-                <div className='px-20 pt-20 pb-8 flex flex-col items-start justify-between gap-2 w-full h-full'>
-                    <div className="w-full flex items-start justify-center gap-4">
-                        <div className="w-full flex flex-col items-start gap-2 justify-center pr-2 border-r border-black/75">
+                <div className='sm:px-20 sm:pt-20 sm:pb-8 p-8 flex flex-col items-start justify-between gap-2 w-full h-full'>
+                    <div className="w-full flex flex-col sm:flex-row items-start justify-center gap-4">
+                        <div className="w-full flex flex-col items-start gap-2 justify-center pr-2 sm:border-r sm:border-black/75">
                             <h1 className='text-3xl font-bold text-left'>{pedido.titulo}</h1>
                             <h2 className='text-2xl font-medium text-left'>{pedido.tipo}</h2>
                             <h3 className='text-2xl font-normal text-left'>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pedido.valor)}</h3>
                         </div>
-                        <div className="w-full flex flex-col items-start justify-center ml-2">
-                            <p className='font-medium text-xl text-justify'>{descricaoPedido}</p>
+                        <div className="w-full flex flex-col items-start justify-center sm:ml-2">
+                            <p className='font-medium text-xl w-full text-justify break-words whitespace-normal'>{descricaoPedido}</p>
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-between gap-2">
