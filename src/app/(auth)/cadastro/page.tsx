@@ -52,8 +52,7 @@ const userFormSchema = z.object({
       .min(1, "O logradouro é obrigatório"),
     numero: z.string()
       .min(1, "O número é obrigatório"),
-    complemento: z.string()
-      .optional(),
+    complemento: z.optional(z.string()),
     bairro: z.string()
       .min(1, "O bairro é obrigatório"),
     cidade: z.string()
@@ -402,7 +401,7 @@ export default function Cadastro() {
               </div>
               <div className="flex flex-col items-center justify-center grow">
                 <label htmlFor="rg" title="RG" className="self-start text-base font-medium">
-                  RG: <span className="text-red-600">*</span>
+                  RG: <sup className="text-[10px] font-bold">(opcional)</sup>
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
@@ -556,7 +555,7 @@ export default function Cadastro() {
             </div>
             <div className="flex flex-col items-center justify-center w-full">
               <label htmlFor="endereco-complemento" title="Complemento" className="self-start text-base font-medium">
-                Complemento: <span className="text-red-600">*</span>
+                Complemento: <sup className="text-[10px] font-bold">(opcional)</sup>
               </label>
               <div className="flex items-center w-full h-10">
                 <input

@@ -17,10 +17,10 @@ export default function AuthLayout({
 }) {
 
   return (
-    <main className="bg-azulao w-full h-full m-0 flex flex-col items-center box-border mobile:bg-white">
+    <main className="bg-azulao w-full min-h-full m-0 flex flex-col items-center box-border overflow-auto mobile:bg-white">
       <header className="box-border w-full h-[15%] py-5 px-0 flex items-center justify-center mobile:py-2 mobile:mt-4">
         <Link href="/" className="h-full">
-          <Image width={200} height={200} src="/logo_white.png" alt="Logo_uez" className="h-full w-full max-h-20 mobile:invert" />
+          <Image width={200} height={200} src="/logo_white.png" alt="Logo_uez" className="h-full w-auto mobile:invert" />
         </Link>
       </header>
       <section className="w-full h-full flex flex-col items-center justify-center">
