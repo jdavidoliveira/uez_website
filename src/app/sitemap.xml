@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Rotas estáticas -->
+  <url>
+    <loc>https://uezcompany.com/</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/home</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/sobre</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/uzers</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/login</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/cadastro</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+</urlset>
