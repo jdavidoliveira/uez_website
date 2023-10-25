@@ -114,7 +114,7 @@ export default function SolicitarServico() {
                 <h1 className="text-4xl font-extrabold text-center">Solicitar serviço</h1>
                 <h2 className="text-xl font-bold text-center px-6">Preencha os campos para lançar seu pedido na nossa platafoma</h2>
             </div>
-            <form className="w-11/12 h-4/6 flex lg:flex-row flex-col items-center self-center gap-12 justify-center" onSubmit={handleSubmit(createServico)}>
+            <form className="w-11/12 h-4/6 flex lg:flex-row flex-col items-center self-center gap-12 px-4 justify-center" onSubmit={handleSubmit(createServico)}>
                 <div className="w-full h-full flex flex-col gap-10">
                     <div className="w-full flex sm:flex-row sm:gap-0 gap-3 flex-col sm:items-start items-center justify-between">
                         <label htmlFor="online" className="text-2xl mdscreen:text-xl text-center sm:mx-0 mx-auto mobile:text-xl font-extrabold">Tipo de serviço:</label>
