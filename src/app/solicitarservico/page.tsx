@@ -66,7 +66,7 @@ export default function SolicitarServico() {
             descricao: descricao,
             valor: valor,
             titulo: titulo,
-            acombinar: acombinarChecked
+            aCombinar: acombinarChecked
         }
 
         if (pedidoOk) {
