@@ -65,12 +65,13 @@ export default function SolicitarServico() {
             nomeServico: servicoPrincipal,
             descricao: descricao,
             valor: valor,
-            titulo: titulo
+            titulo: titulo,
+            acombinar: acombinarChecked
         }
 
         if (pedidoOk) {
             setIsSubmitting(true)
-            const response = await myUseFetch<any>("/create/pedido", {
+            await myUseFetch<any>("/create/pedido", {
                 method: "POST",
                 body: JSON.stringify(pedidoData),
                 headers: {
@@ -102,30 +103,30 @@ export default function SolicitarServico() {
 
 
     return (
-        <main className="w-full h-full flex flex-col items-center gap-24 p-20">
-            <Link href="/" className="fixed left-24 top-20 text-xl font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
+        <main className="w-full bg-white h-max flex flex-col items-center gap-24 py-20 mobile:py-12">
+            <Link href="/" className="mobile:top-auto mobile:bottom-[3%] mobile fixed left-[3%] top-[3%] text-xl font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
                 <ChevronLeftIcon width={40} height={40} />
-                <span className="m-3 mr-6">
+                <span className="p-3 r-6">
                     Voltar
                 </span>
             </Link>
             <div className="w-full flex flex-col items-center gap-4 justify-center">
-                <h1 className="text-4xl font-extrabold">Solicitar serviço</h1>
-                <h2 className="text-xl font-bold">Preencha os campos para lançar seu serviço na nossa platafoma</h2>
+                <h1 className="text-4xl font-extrabold text-center">Solicitar serviço</h1>
+                <h2 className="text-xl font-bold text-center px-6">Preencha os campos para lançar seu pedido na nossa platafoma</h2>
             </div>
-            <form className="w-10/12 h-4/6 flex flex-row items-center self-center gap-12 justify-center" onSubmit={handleSubmit(createServico)}>
-                <div className="flex-1 h-full flex flex-col gap-10">
-                    <div className="w-full flex items-center justify-between">
-                        <label htmlFor="online" className="text-2xl font-extrabold">Tipo de serviço:</label>
-                        <div className="w-1/2 flex items-center justify-between" >
-                            <div className="w-1/2 flex items-center justify-start gap-2">
+            <form className="w-11/12 h-4/6 flex lg:flex-row flex-col items-center self-center gap-12 justify-center" onSubmit={handleSubmit(createServico)}>
+                <div className="w-full h-full flex flex-col gap-10">
+                    <div className="w-full flex sm:flex-row sm:gap-0 gap-3 flex-col sm:items-start items-center justify-between">
+                        <label htmlFor="online" className="text-2xl mdscreen:text-xl text-center sm:mx-0 mx-auto mobile:text-xl font-extrabold">Tipo de serviço:</label>
+                        <div className="sm:flex-1 w-full flex items-center justify-end" >
+                            <div className="w-1/2 flex items-center sm:justify-end justify-center gap-2">
                                 <Input type="checkbox" value={isOnlineChecked} handleChange={() => {
                                     setIsOnlineChecked(prevState => !prevState)
                                     setValue("tipo", isPresencialChecked && !isOnlineChecked ? "ambos" : "online")
                                 }} id="online" noLabel />
                                 <label htmlFor="online" className="font-extrabold text-xl">Online</label>
                             </div>
-                            <div className="w-1/2 flex items-center justify-end gap-2">
+                            <div className="w-1/2 flex items-center sm:justify-end justify-center gap-2">
                                 <Input type="checkbox" value={isPresencialChecked} handleChange={() => {
                                     setIsPresencialChecked(prevState => !prevState)
                                     setValue("tipo", isOnlineChecked && !isPresencialChecked ? "ambos" : "presencial")
@@ -135,7 +136,7 @@ export default function SolicitarServico() {
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-between">
-                        <label htmlFor="nomeservico" className="text-2xl font-extrabold">Profissional que realiza:</label>
+                        <label htmlFor="nomeservico" className="text-2xl mdscreen:text-xl mobile:text-xl font-extrabold">Profissional que realiza:</label>
                         <div className="w-1/2 flex items-center justify-between" >
                             <input type="text" id="nomeservico" list="data" {...register("servicoPrincipal")} className="bg-cinzero p-2 w-full text-lg font-extrabold outline-none" placeholder="Ex: Designer" />
                             <datalist id="data">
@@ -148,27 +149,27 @@ export default function SolicitarServico() {
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-between">
-                        <label htmlFor="tituloservico" className="text-2xl font-extrabold">Título do serviço:</label>
+                        <label htmlFor="tituloservico" className="text-2xl mdscreen:text-xl mobile:text-xl font-extrabold">Título do serviço:</label>
                         <div className="w-1/2 flex items-center justify-between" >
                             <input type="text" id="tituloservico" {...register("titulo")} className="bg-cinzero p-2 w-full text-lg font-extrabold outline-none" placeholder="Ex: Criação de Logotipo" />
                         </div>
                     </div>
-                    <div className="w-full h-full flex items-start justify-between">
-                        <label htmlFor="descricaoservico" className="text-2xl font-extrabold">Descrição:</label>
-                        <div className="w-1/2 flex items-center justify-between" >
-                            <textarea id="descricaoservico" {...register("descricao")} className="bg-cinzero p-2 h-40 w-full text-lg font-extrabold outline-none" placeholder="Ex: Preciso de um logotipo para uma padaria chamada padaria do seu zé, com as cores marrom e branco" />
+                    <div className="w-full h-full flex sm:flex-row flex-col items-start justify-between">
+                        <label htmlFor="descricaoservico" className="text-2xl mdscreen:text-xl mobile:text-xl font-extrabold">Descrição:</label>
+                        <div className="sm:w-4/6 w-full flex items-center justify-between" >
+                            <textarea id="descricaoservico" {...register("descricao")} className="bg-cinzero p-2 sm:h-40 h-52 w-full text-lg font-extrabold outline-none" placeholder="Ex: Preciso de um logotipo para uma padaria chamada padaria do seu zé, com as cores marrom e branco" />
                         </div>
                     </div>
                 </div>
-                <div className="h-full flex flex-col items-center justify-between p-4">
+                <div className="w-full h-full flex flex-col items-center justify-between gap-6 p-4">
                     <div className="w-full flex items-start gap-8" >
                         <label htmlFor="online" className="font-extrabold text-xl">Preço:</label>
-                        <div className="w-1/2 flex flex-col items-start gap-2">
+                        <div className="sm:w-1/2 w-full flex flex-col items-start gap-2">
                             <div className="w-full flex items-center justify-between gap-3">
                                 <label htmlFor="preco" className="font-extrabold text-xl">R$</label>
-                                <input type="number" {...register("valor", {
+                                <input type="number" disabled={acombinarChecked} {...register("valor", {
                                     valueAsNumber: true,
-                                })} min={0} defaultValue={0} id="preco" className="bg-cinzero p-1 w-9/12 text-lg font-extrabold outline-none" placeholder="0,00" />
+                                })} min={0} defaultValue={0} id="preco" className="bg-cinzero p-1 w-9/12 text-lg font-extrabold outline-none disabled:opacity-30" placeholder="0,00" />
                             </div>
                             <span className="w-full flex items-center justify-end justify-self-end  gap-2">
                                 <Input type="checkbox" value={acombinarChecked} handleChange={() => {
@@ -179,7 +180,7 @@ export default function SolicitarServico() {
                             </span>
                         </div>
                     </div>
-                    <button type="submit" className="bg-azulao p-4 h-14 w-96 rounded-lg flex items-center justify-center font-bold text-white text-xl transition enabled:hover:scale-105 disabled:bg-red-600/50 disabled:scale-95" disabled={(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && true}>{(isSubmitting ? <LoadingSpinner /> : "Solicitar")}</button>
+                    <button type="submit" className="bg-azulao p-4 h-14 sm:w-96 w-11/12 rounded-lg flex items-center justify-center font-bold text-white text-xl transition enabled:hover:scale-105 disabled:bg-red-600/50 disabled:scale-95" disabled={(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && true}>{(isSubmitting ? <LoadingSpinner /> : "Solicitar")}</button>
                 </div>
                 {(errors.servicoPrincipal || errors.titulo || errors.descricao || errors.valor || errors.acombinar) && (
                     <div className="fixed bottom-0 bg-red-400 flex flex-col items-center justify-around text-red-600">
