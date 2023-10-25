@@ -98,15 +98,6 @@ export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,se
                         </button>
                     </div>
                 </div>
-                {/* <button
-                    className="px-4 py-2 text-sm font-medium text-center text-white bg-azulao rounded-lg hover:bg-roxazul focus:ring-4 focus:outline-none focus:ring-blue-300"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        alert("Filtro Aplicado");
-                        console.log(isOnline)
-                        console.log(isPresencial)
-                    }}
-                >Aplicar</button> */}
             </form>
         </aside>
     )

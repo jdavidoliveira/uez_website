@@ -30,5 +30,12 @@ export default interface UzerInterface {
     }[];
     photoUrl: string;
     __versionOfSchema__: number;
+    portfolio: {
+      image: string;
+      title: string;
+      description: string;
+      editMode?: boolean;
+    }[];
+    bannerImage: string;
   }
   

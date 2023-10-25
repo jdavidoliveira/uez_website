@@ -18,8 +18,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userType, setUserType] = useState<string>("");
 
   useEffect(() => {
-    const { accessToken } = parseCookies();
-    if (accessToken) {
+    const { uezaccesstoken } = parseCookies();
+    if (uezaccesstoken) {
       // tem que adicionar a validação de token aqui
       setStatusLogin(true);
     }
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           senha,
         }),
       });
-      setCookie(null, "accessToken", token, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
+      setCookie(null, "uezaccesstoken", token, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
       setCookie(null, "userType", userType, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
       setUserType(userType);
       setStatusLogin(true);
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
-    destroyCookie(null, "accessToken");
+    destroyCookie(null, "uezaccesstoken");
     setStatusLogin(false);
     // Limpar outros cookies, se necessário
   };
