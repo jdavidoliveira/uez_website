@@ -1,6 +1,7 @@
 import { useFetch } from "@/hooks/useFetch";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import LeftSide from "./LeftSide";
 
 export default async function Chat() {
     const token = cookies().get("uezaccesstoken");
@@ -15,9 +16,12 @@ export default async function Chat() {
             </main>
         )
     }
+
     return (
-        <main className="w-full text-center flex flex-col items-center justify-center gap-2">
-            <pre>{JSON.stringify(chatData, null, 2)}</pre>
+        <main className="w-full h-full bg-white flex items-center justify-center gap-2">
+            <LeftSide />
+            <section className="flex-1 h-full bg-cinzero ">
+            </section>
         </main>
     )
 }
