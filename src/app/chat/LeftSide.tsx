@@ -17,7 +17,7 @@ export default function LeftSide() {
                     <h1 className="text-lg font-bold text-center">Silvano de Souza</h1>
                 </div>
                 <div className="absolute top-2 right-2">
-                    <Link href="/" className="mobile:top-auto mobile:bottom-[3%] mobile absolute right-[5%] top-[5%] text-base font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
+                    <Link href="/" className="absolute right-5 top-5 text-base font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
                         <ChevronLeftIcon width={26} height={26} />
                         <span className="p-2 pr-3">
                             Voltar
@@ -27,35 +27,42 @@ export default function LeftSide() {
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
-                <UserChatItem />
+                <UserChatItem name="Ademar Campos" photo="/images/cliente.png" lastMessage="Ok, vou mandar o orçamento" />
+                <UserChatItem name="Renato Gomes" photo="https://github.com/renato-GDN.png" lastMessage="Cobro 800 por semana, vai querer?" />
+                <UserChatItem name="Leticia de Oliveira" photo="/images/cliente.png" lastMessage="Ta show, podemos fechar!" />
+                <UserChatItem name="Jacinto Pinto" photo="/images/cliente.png" lastMessage="Tem uns 3 m², por aí" />
+                <UserChatItem name="João David" photo="https://github.com/lordaval.png" lastMessage="Estou desenvolvendo o chat agora 🚀" />
+                <UserChatItem name="Matheus Barros" photo="/images/cliente.png" lastMessage="Devo terminar aquelas artes hoje" />
+                <UserChatItem name="Andrade Oliver" photo="/images/cliente.png" lastMessage="Pika demais mano, slk" />
+                <UserChatItem name="Neemias Duarte" photo="/images/cliente.png" lastMessage="Tô na argentina mano, foi mal" />
+                <UserChatItem name="Cuca Beludo" photo="/images/cliente.png" lastMessage="Blz 👍" />
+
             </div>
         </section >
     )
 }
 
-function UserChatItem() {
+interface UserChatItemProps {
+    photo: string,
+    name: string,
+    lastMessage: string,
+}
+
+function UserChatItem({ photo, name, lastMessage }: UserChatItemProps) {
     return (
-        <div className="w-full h-16 flex bg-white hover:bg-cinzero border-b">
+        <div className="w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer">
             <div className="h-full aspect-square flex items-center justify-center p-2">
                 <Image
-                    src="/images/cliente.png"
+                    src={photo}
                     width={100}
                     height={100}
                     alt="Icone do Usuario"
-                    className="w-full aspect-square"
+                    className="w-full aspect-square rounded-full"
                 />
             </div>
             <div className="flex-1 flex flex-col p-2">
-                <h1 className="font-bold text-base">Ademar Campos</h1>
-                <h2 className="text-sm">Ok, vou mandar o orçamento!</h2>
+                <h1 className="font-bold text-base">{name}</h1>
+                <h2 className="text-sm">{lastMessage}</h2>
             </div>
         </div>
     )

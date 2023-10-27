@@ -2,10 +2,11 @@ import { useFetch } from "@/hooks/useFetch";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import LeftSide from "./LeftSide";
+import RightSide from "./RightSide";
 
 export default async function Chat() {
     const token = cookies().get("uezaccesstoken");
-    const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } });
+    const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
     
     if (!token) {
         return (
@@ -20,8 +21,7 @@ export default async function Chat() {
     return (
         <main className="w-full h-full bg-white flex items-center justify-center gap-2">
             <LeftSide />
-            <section className="flex-1 h-full bg-cinzero ">
-            </section>
+            <RightSide />
         </main>
     )
 }
