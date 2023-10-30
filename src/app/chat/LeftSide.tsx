@@ -1,19 +1,20 @@
 "use client"
 
+import ChatInterface from "@/types/Chat";
 import { ChevronLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface LeftSideProps {
-    globalSelectedId: string;
-    setGlobalSelectedId: (id: string) => void;
-    serverData: any;
+    globalSelectedData: ChatInterface | null;
+    setGlobalSelectedData: Dispatch<SetStateAction<ChatInterface | null>>;
+    serverData: ChatInterface[];
+    userType: 'uzer' | 'cliente';
 }
 
-export default function LeftSide({ globalSelectedId, setGlobalSelectedId }: any) {
-
-    const [selected, setSelected] = useState<string>();
+export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userType }: LeftSideProps) {
 
     interface UserChat {
         id: string;
@@ -93,7 +94,7 @@ export default function LeftSide({ globalSelectedId, setGlobalSelectedId }: any)
 
 
     return (
-        <section className="w-2/6 h-full flex flex-col items-center justify-between" >
+        <section className="w-2/6 h-full flex flex-col items-center" >
             <div className="w-full flex items-center p-5 relative">
                 <div className="w-3/4 flex flex-col items-start gap-2">
                     <Image
@@ -103,7 +104,7 @@ export default function LeftSide({ globalSelectedId, setGlobalSelectedId }: any)
                         alt="Icone do Usuario"
                         className="rounded-full w-1/3 aspect-square object-cover bg-cinzero border border-black"
                     />
-                    <h1 className="text-lg font-bold text-center">Silvano de Souza</h1>
+                    <h1 className="text-lg font-bold text-center">{userType === "cliente" ? serverData[0].clienteName : serverData[0].uzerName}</h1>
                 </div>
                 <div className="absolute top-2 right-2">
                     <Link href="/" className="absolute right-5 top-5 text-base font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
@@ -116,12 +117,13 @@ export default function LeftSide({ globalSelectedId, setGlobalSelectedId }: any)
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
-                {data.map((item) => (
+                {serverData.map((item) => (
                     <UserChatItem
-                        key={item.id}
+                        key={item._id}
                         photo={item.photo}
-                        name={item.name}
-                        lastMessage={item.lastMessage}
+                        name={userType === "cliente" ? item.uzerName : item.clienteName}
+                        lastMessage={item.messages[item.messages.length - 1].content}
+                        data={item}
                     />
                 ))}
 
@@ -132,12 +134,14 @@ export default function LeftSide({ globalSelectedId, setGlobalSelectedId }: any)
         photo: string,
         name: string,
         lastMessage: string,
-        key: string
+        key: string,
+        data: ChatInterface
+
     }
 
-    function UserChatItem({ photo, name, lastMessage, key }: UserChatItemProps) {
+    function UserChatItem({ photo, name, lastMessage, key, data }: UserChatItemProps) {
         return (
-            <div className="w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer" onClick={() => setSelected(key)} key={key}>
+            <div className={twMerge("w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer", globalSelectedData?._id === data._id ? "bg-cinzero" : "")} onClick={() => setGlobalSelectedData(data)} key={key}>
                 <div className="h-full aspect-square flex items-center justify-center p-2">
                     <Image
                         src={photo}

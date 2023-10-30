@@ -8,7 +8,7 @@ interface IAuth {
   statusLogin: boolean;
   login: (email: string, senha: string) => any;
   logout: () => void;
-  userType: string;
+  userType: 'uzer' | 'cliente' | any;
 }
 
 export const AuthContext = createContext<IAuth | undefined>(undefined);

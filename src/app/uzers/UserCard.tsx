@@ -24,8 +24,8 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
                 </div>
 
                 <div className="flex items-center justify-between gap-2 smmobile:flex-col">
-                    <Link href={`/uzers/${_id}`} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-white bg-azulao rounded-lg hover:bg-roxazul smmobile:w-full">Perfil</Link>
-                    <Link href={`/chat/${_id}`} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-[#a9a9a9] smmobile:w-full">Contatar</Link>
+                    <Link href={`/uzers/${_id}`} prefetch={false} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-white bg-azulao rounded-lg hover:bg-roxazul smmobile:w-full">Perfil</Link>
+                    <Link href={`/chat/${_id}`} prefetch={false} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-[#a9a9a9] smmobile:w-full">Contatar</Link>
                 </div>
             </div>
         </div>
