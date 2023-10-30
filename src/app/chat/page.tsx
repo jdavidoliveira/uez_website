@@ -3,11 +3,12 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
+import Chat from "./Chat";
 
-export default async function Chat() {
+export default async function ChatPage() {
     const token = cookies().get("uezaccesstoken");
     const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
-    
+
     if (!token) {
         return (
             <main className="w-full h-full text-center flex flex-col items-center justify-center gap-2">
@@ -19,9 +20,6 @@ export default async function Chat() {
     }
 
     return (
-        <main className="w-full h-full bg-white flex items-center justify-center gap-2">
-            <LeftSide />
-            <RightSide />
-        </main>
+        <Chat serverData={chatData} />
     )
 }

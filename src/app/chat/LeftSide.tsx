@@ -1,8 +1,97 @@
+"use client"
+
 import { ChevronLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
-export default function LeftSide() {
+interface LeftSideProps {
+    globalSelectedId: string;
+    setGlobalSelectedId: (id: string) => void;
+    serverData: any;
+}
+
+export default function LeftSide({ globalSelectedId, setGlobalSelectedId }: any) {
+
+    const [selected, setSelected] = useState<string>();
+
+    interface UserChat {
+        id: string;
+        photo: string;
+        name: string;
+        lastMessage: string;
+        userType: 'uzer' | 'cliente';
+    }
+
+    const data: UserChat[] = [
+        {
+            id: "1",
+            photo: '/images/cliente.png',
+            name: 'Ademar Campos',
+            lastMessage: 'Ok, vou mandar o orçamento',
+            userType: 'cliente'
+        },
+        {
+            id: "2",
+            photo: 'https://github.com/renato-GDN.png',
+            name: 'Renato Gomes',
+            lastMessage: 'Cobro 800 por semana, vai querer?',
+            userType: 'uzer'
+        },
+        {
+            id: "3",
+            photo: '/images/cliente.png',
+            name: 'Leticia de Oliveira',
+            lastMessage: 'Ta show, podemos fechar!',
+            userType: 'cliente'
+        },
+        {
+            id: "4",
+            photo: '/images/cliente.png',
+            name: 'Jacinto Pinto',
+            lastMessage: 'Tem uns 3 m², por aí',
+            userType: 'cliente'
+        },
+        {
+            id: "5",
+            photo: 'https://github.com/lordaval.png',
+            name: 'João David',
+            lastMessage: 'Estou desenvolvendo o chat agora 🚀',
+            userType: 'uzer'
+        },
+        {
+            id: "6",
+            photo: '/images/cliente.png',
+            name: 'Matheus Barros',
+            lastMessage: 'Devo terminar aquelas artes hoje',
+            userType: 'cliente'
+        },
+        {
+            id: "7",
+            photo: '/images/cliente.png',
+            name: 'Gabriel Junio',
+            lastMessage: 'Pika demais mano, slk',
+            userType: 'cliente'
+        },
+        {
+            id: "8",
+            photo: '/images/cliente.png',
+            name: 'Neemias Duarte',
+            lastMessage: 'Tô na argentina mano, foi mal',
+            userType: 'cliente'
+        },
+        {
+            id: "9",
+            photo: '/images/cliente.png',
+            name: 'Cuca Beludo',
+            lastMessage: 'Blz 👍',
+            userType: 'cliente'
+        }
+    ];
+
+    // Adicione mais dados de exemplo aqui, se desejar.
+
+
     return (
         <section className="w-2/6 h-full flex flex-col items-center justify-between" >
             <div className="w-full flex items-center p-5 relative">
@@ -27,43 +116,43 @@ export default function LeftSide() {
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
-                <UserChatItem name="Ademar Campos" photo="/images/cliente.png" lastMessage="Ok, vou mandar o orçamento" />
-                <UserChatItem name="Renato Gomes" photo="https://github.com/renato-GDN.png" lastMessage="Cobro 800 por semana, vai querer?" />
-                <UserChatItem name="Leticia de Oliveira" photo="/images/cliente.png" lastMessage="Ta show, podemos fechar!" />
-                <UserChatItem name="Jacinto Pinto" photo="/images/cliente.png" lastMessage="Tem uns 3 m², por aí" />
-                <UserChatItem name="João David" photo="https://github.com/lordaval.png" lastMessage="Estou desenvolvendo o chat agora 🚀" />
-                <UserChatItem name="Matheus Barros" photo="/images/cliente.png" lastMessage="Devo terminar aquelas artes hoje" />
-                <UserChatItem name="Andrade Oliver" photo="/images/cliente.png" lastMessage="Pika demais mano, slk" />
-                <UserChatItem name="Neemias Duarte" photo="/images/cliente.png" lastMessage="Tô na argentina mano, foi mal" />
-                <UserChatItem name="Cuca Beludo" photo="/images/cliente.png" lastMessage="Blz 👍" />
+                {data.map((item) => (
+                    <UserChatItem
+                        key={item.id}
+                        photo={item.photo}
+                        name={item.name}
+                        lastMessage={item.lastMessage}
+                    />
+                ))}
 
             </div>
-        </section >
-    )
-}
+        </section >)
 
-interface UserChatItemProps {
-    photo: string,
-    name: string,
-    lastMessage: string,
-}
+    interface UserChatItemProps {
+        photo: string,
+        name: string,
+        lastMessage: string,
+        key: string
+    }
 
-function UserChatItem({ photo, name, lastMessage }: UserChatItemProps) {
-    return (
-        <div className="w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer">
-            <div className="h-full aspect-square flex items-center justify-center p-2">
-                <Image
-                    src={photo}
-                    width={100}
-                    height={100}
-                    alt="Icone do Usuario"
-                    className="w-full aspect-square rounded-full"
-                />
+    function UserChatItem({ photo, name, lastMessage, key }: UserChatItemProps) {
+        return (
+            <div className="w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer" onClick={() => setSelected(key)} key={key}>
+                <div className="h-full aspect-square flex items-center justify-center p-2">
+                    <Image
+                        src={photo}
+                        width={100}
+                        height={100}
+                        alt="Icone do Usuario"
+                        className="w-full aspect-square rounded-full"
+                    />
+                </div>
+                <div className="flex-1 flex flex-col p-2">
+                    <h1 className="font-bold text-base">{name}</h1>
+                    <h2 className="text-sm">{lastMessage}</h2>
+                </div>
             </div>
-            <div className="flex-1 flex flex-col p-2">
-                <h1 className="font-bold text-base">{name}</h1>
-                <h2 className="text-sm">{lastMessage}</h2>
-            </div>
-        </div>
-    )
+        )
+    }
+
 }

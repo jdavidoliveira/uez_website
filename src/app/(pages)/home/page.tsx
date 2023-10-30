@@ -87,7 +87,7 @@ export default function Home() {
           </AnimationOnScroll>
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <p className="text-lg leading-snug font-medium text-center mx-auto w-10/12">
-              Quando um serviço é fechado, o pagamento do cliente é <strong>obrigatório</strong> e fica retido na nossa plataforma, o uzer só recebe quando o cliente declarar o serviço como feito. Para ter a certeza que o cliente irá fazer isso, nós bloqueamos suas atividades que ele declare.
+              Quando um serviço é fechado, o pagamento do cliente é <strong>obrigatório</strong> e fica retido na nossa plataforma, o uzer só recebe quando o cliente declarar o serviço como feito. Para ter a certeza que o cliente irá fazer isso, nós bloqueamos suas atividades até que ele declare.
             </p>
           </AnimationOnScroll>
         </div>
