@@ -139,9 +139,9 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
 
     }
 
-    function UserChatItem({ photo, name, lastMessage, key, data }: UserChatItemProps) {
+    function UserChatItem({ photo, name, lastMessage, data }: UserChatItemProps) {
         return (
-            <div className={twMerge("w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer", globalSelectedData?._id === data._id ? "bg-cinzero" : "")} onClick={() => setGlobalSelectedData(data)} key={key}>
+            <div className={twMerge("w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer", globalSelectedData?._id === data._id ? "bg-cinzero" : "")} onClick={() => setGlobalSelectedData(data)}>
                 <div className="h-full aspect-square flex items-center justify-center p-2">
                     <Image
                         src={photo}

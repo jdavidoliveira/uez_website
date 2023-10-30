@@ -16,19 +16,19 @@ export default function RightSide({ globalSelectedData, userType }: RightSidePro
                 </div>
             </header>
             {globalSelectedData && globalSelectedData.messages.map((message) => (
-                <MessageItem key={message._id} {...message} content={message.content} sendHour={message.sendHour} />
-            ))}
-        </section>
+                <div className={twMerge("w-full flex items-center justify-end" )}>
+                    <MessageItem key={message._id} {...message} content={message.content} sendHour={message.sendHour} />
+                </div>
+            ))
+            }
+        </section >
     )
 
     function MessageItem({ content, sendHour, ...props }: Message) {
         return (
-            <div className={twMerge("w-full flex items-center justify-end", userType === "cliente" ? "justify-end" : "justify-start")}>
-                <div className="bg-azulinho w-fit flex rounded-2xl p-4 text-white items-center justify-center">
-                    {content}
-                </div>
+            <div className={twMerge("bg-azulinho w-fit flex rounded-2xl p-4 text-white items-center justify-center", globalSelectedData?.clienteId === props.senderId ? "justify-end" : "justify-self-start bg-white text-black")}>
+                {content}
             </div>
-
         )
     }
 }
