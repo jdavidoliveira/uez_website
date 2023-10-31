@@ -17,7 +17,7 @@ interface LeftSideProps {
 export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userType }: LeftSideProps) {
 
     return (
-        <section className="w-2/6 h-full flex flex-col items-center" >
+        <section className="w-2/6 h-full flex flex-col items-center border-r" >
             <div className="w-full flex items-center p-5 relative">
                 <div className="w-3/4 flex flex-col items-start gap-2">
                     <Image

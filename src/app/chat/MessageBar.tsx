@@ -3,7 +3,12 @@
 import { Banknote, Send } from "lucide-react";
 import { useState } from "react";
 
-export default function MessageBar({setGlobalSelectedData}: {setGlobalSelectedData: any}) {
+interface MessageBarProps {
+    setGlobalSelectedData: any
+    userType: 'uzer' | 'cliente'
+}
+
+export default function MessageBar({ setGlobalSelectedData, userType }: MessageBarProps) {
     const [message, setMessage] = useState('')
 
     async function sendMessage(e: any) {
@@ -15,8 +20,8 @@ export default function MessageBar({setGlobalSelectedData}: {setGlobalSelectedDa
                 {
                     content: message,
                     _id: Math.random().toString(),
-                    sendDate: '30/12/2023',
-                    senderId: 'uehduehd230243na34jnn',
+                    sendDate: new Date().toLocaleDateString(),
+                    senderId: userType === 'uzer' ? prevState.uzerId : prevState.clienteId,
                     sendHour: new Date().toLocaleTimeString().slice(0, 5),
                 }
             ]
@@ -26,10 +31,10 @@ export default function MessageBar({setGlobalSelectedData}: {setGlobalSelectedDa
             const chatContainer = document.getElementById("chat-container");
             // @ts-ignore
             chatContainer.scrollTop = chatContainer.scrollHeight;
-          }
-        
-          // Após adicionar a nova mensagem, role para o final
-          scrollToBottom();
+        }
+
+        // Após adicionar a nova mensagem, role para o final
+        scrollToBottom();
     }
     return (
         <form className="w-full flex border-t items-center justify-between p-2 gap-2 bg-white sticky bottom-0 z-20">

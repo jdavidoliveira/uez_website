@@ -27,7 +27,7 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
                 ))
                 }
             </main>
-            <MessageBar setGlobalSelectedData={setGlobalSelectedData} />
+            <MessageBar userType={userType} setGlobalSelectedData={setGlobalSelectedData} />
         </section >
     ) : (
         <main className="flex-1 h-full flex items-center justify-center bg-cinzero">

@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     default: 'UEZ Company',
   },
   description: 'Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!',
-  keywords: 'UEZ',
+  keywords: 'UEZ, Company, UEZ Company, UEZ Company, UEZ Company, serviços, freelance',
+  themeColor: '#fff',
 }
 
 const montserrat = Montserrat({
