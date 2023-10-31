@@ -19,7 +19,7 @@ export default function Chat({ serverData }: ChatProps) {
     return (
         <main className="w-full h-full bg-white flex items-center justify-center gap-2">
             <LeftSide userType={userType} serverData={serverData} setGlobalSelectedData={setGlobalSelectedData} globalSelectedData={globalSelectedData} />
-            <RightSide globalSelectedData={globalSelectedData} userType={userType} />
+            <RightSide globalSelectedData={globalSelectedData} setGlobalSelectedData={setGlobalSelectedData} userType={userType} />
         </main>
     )
 }

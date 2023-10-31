@@ -16,83 +16,6 @@ interface LeftSideProps {
 
 export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userType }: LeftSideProps) {
 
-    interface UserChat {
-        id: string;
-        photo: string;
-        name: string;
-        lastMessage: string;
-        userType: 'uzer' | 'cliente';
-    }
-
-    const data: UserChat[] = [
-        {
-            id: "1",
-            photo: '/images/cliente.png',
-            name: 'Ademar Campos',
-            lastMessage: 'Ok, vou mandar o orçamento',
-            userType: 'cliente'
-        },
-        {
-            id: "2",
-            photo: 'https://github.com/renato-GDN.png',
-            name: 'Renato Gomes',
-            lastMessage: 'Cobro 800 por semana, vai querer?',
-            userType: 'uzer'
-        },
-        {
-            id: "3",
-            photo: '/images/cliente.png',
-            name: 'Leticia de Oliveira',
-            lastMessage: 'Ta show, podemos fechar!',
-            userType: 'cliente'
-        },
-        {
-            id: "4",
-            photo: '/images/cliente.png',
-            name: 'Jacinto Pinto',
-            lastMessage: 'Tem uns 3 m², por aí',
-            userType: 'cliente'
-        },
-        {
-            id: "5",
-            photo: 'https://github.com/lordaval.png',
-            name: 'João David',
-            lastMessage: 'Estou desenvolvendo o chat agora 🚀',
-            userType: 'uzer'
-        },
-        {
-            id: "6",
-            photo: '/images/cliente.png',
-            name: 'Matheus Barros',
-            lastMessage: 'Devo terminar aquelas artes hoje',
-            userType: 'cliente'
-        },
-        {
-            id: "7",
-            photo: '/images/cliente.png',
-            name: 'Gabriel Junio',
-            lastMessage: 'Pika demais mano, slk',
-            userType: 'cliente'
-        },
-        {
-            id: "8",
-            photo: '/images/cliente.png',
-            name: 'Neemias Duarte',
-            lastMessage: 'Tô na argentina mano, foi mal',
-            userType: 'cliente'
-        },
-        {
-            id: "9",
-            photo: '/images/cliente.png',
-            name: 'Cuca Beludo',
-            lastMessage: 'Blz 👍',
-            userType: 'cliente'
-        }
-    ];
-
-    // Adicione mais dados de exemplo aqui, se desejar.
-
-
     return (
         <section className="w-2/6 h-full flex flex-col items-center" >
             <div className="w-full flex items-center p-5 relative">
@@ -141,7 +64,9 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
 
     function UserChatItem({ photo, name, lastMessage, data }: UserChatItemProps) {
         return (
-            <div className={twMerge("w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer", globalSelectedData?._id === data._id ? "bg-cinzero" : "")} onClick={() => setGlobalSelectedData(data)}>
+            <div className={twMerge("w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer", globalSelectedData?._id === data._id ? "bg-cinzero" : "")} onClick={() => {
+                globalSelectedData?._id === data._id ? setGlobalSelectedData(null) : setGlobalSelectedData(data)
+            }}>
                 <div className="h-full aspect-square flex items-center justify-center p-2">
                     <Image
                         src={photo}
@@ -153,7 +78,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
                 </div>
                 <div className="flex-1 flex flex-col p-2">
                     <h1 className="font-bold text-base">{name}</h1>
-                    <h2 className="text-sm">{lastMessage}</h2>
+                    <h2 className="text-sm">{lastMessage.length > 40 ? lastMessage.substring(0, 40) + "..." : lastMessage}</h2>
                 </div>
             </div>
         )

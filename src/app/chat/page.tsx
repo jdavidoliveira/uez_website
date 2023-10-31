@@ -89,19 +89,38 @@ const data: ChatInterface[] = [
                 sendHour: '12:01',
 
             },{
-                content: 'Sim, e você?',
+                content: 'Bom dia!',
                 _id: "3",
                 sendDate: '30/12/2023',
                 senderId: 'kkkkko34kd943',
                 sendHour: '12:02',
 
             },{
-                content: 'Estou bem, obrigado!',
+                content: 'Tudo sim, e com você?',
                 _id: "4",
+                sendDate: '30/12/2023',
+                senderId: 'kkkkko34kd943',
+                sendHour: '12:02',
+
+            },{
+                content: 'Estou bem, obrigado!',
+                _id: "5",
                 sendDate: '30/12/2023',
                 senderId: 'uehduehd230243na34jnn',
                 sendHour: '12:03',
 
+            },{
+                content: 'Entrei em contato pois estou precisando de ajuda...',
+                _id: "6",
+                sendDate: '30/12/2023',
+                senderId: 'uehduehd230243na34jnn',
+                sendHour: '12:04',
+            },{
+                content: 'Estou reformando minha casa, porém tem algumas coisas que eu não sei fazer, como por exemplo, colocamento de piso, fiação eleétrica, etc... Você consegueria me ajudar?',
+                _id: "7",
+                sendDate: '30/12/2023',
+                senderId: 'uehduehd230243na34jnn',
+                sendHour: '12:04',
             }
         ]
 
