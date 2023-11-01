@@ -1,32 +1,61 @@
 'use client'
 
 import { Banknote, Send } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useFetch as myUseFetch } from "@/hooks/useFetch";
+import Chat, { Messages } from "@/types/Chat";
+import { parseCookies } from "nookies";
 
 interface MessageBarProps {
-    setGlobalSelectedData: any
+    setGlobalSelectedData: Dispatch<SetStateAction<Chat | null>>
     userType: 'uzer' | 'cliente'
+    senderId: string
+    chatId: string
 }
 
-export default function MessageBar({ setGlobalSelectedData, userType }: MessageBarProps) {
+export default function MessageBar({ setGlobalSelectedData, userType, senderId, chatId }: MessageBarProps) {
     const [message, setMessage] = useState('')
 
     async function sendMessage(e: any) {
         e.preventDefault();
-        setGlobalSelectedData((prevState: any) => ({
-            ...prevState,
-            messages: [
-                ...prevState.messages,
-                {
-                    content: message,
-                    _id: Math.random().toString(),
-                    sendDate: new Date().toLocaleDateString(),
-                    senderId: userType === 'uzer' ? prevState.uzerId : prevState.clienteId,
-                    sendHour: new Date().toLocaleTimeString().slice(0, 5),
-                }
-            ]
-        }))
+        const newMessage = await myUseFetch<Messages | null>("/chat/message", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${parseCookies().uezaccesstoken}`,
+            },
+            body: JSON.stringify({
+                chatId: chatId,
+                message: message,
+                sendDate: new Date().toLocaleDateString(),
+                sendHour: new Date().toLocaleTimeString(),
+
+            })
+        }).then(res => {
+            console.log(res)
+            return res
+        })
+            .catch(err => {
+                console.error(err)
+                return null
+            })
+
+
+            await setGlobalSelectedData((prevState: any) => ({
+                ...prevState,
+                messages: [
+                    ...prevState.messages,
+                    {
+                        content: newMessage?.content,
+                        sendDate: newMessage?.sendDate,
+                        senderId: newMessage?.senderId,
+                        sendHour: newMessage?.sendHour,
+                    }
+                ]
+            }))
+
         await setMessage('')
+        scrollToBottom()
         function scrollToBottom() {
             const chatContainer = document.getElementById("chat-container");
             // @ts-ignore

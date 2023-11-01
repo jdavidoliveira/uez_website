@@ -11,7 +11,6 @@ export default interface Chat {
 }
 
 export interface Messages {
-    _id: string, //id do chat
     sendDate: string,
     sendHour: string,
     senderId: string

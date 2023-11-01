@@ -12,9 +12,10 @@ interface LeftSideProps {
     setGlobalSelectedData: Dispatch<SetStateAction<ChatInterface | null>>;
     serverData: ChatInterface[];
     userType: 'uzer' | 'cliente';
+    userData: any;
 }
 
-export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userType }: LeftSideProps) {
+export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userType, userData }: LeftSideProps) {
 
     return (
         <section className="w-2/6 h-full flex flex-col items-center border-r" >
@@ -27,7 +28,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
                         alt="Icone do Usuario"
                         className="rounded-full w-1/3 aspect-square object-cover bg-cinzero border border-black"
                     />
-                    <h1 className="text-lg font-bold text-center">{userType === "cliente" ? serverData[0].clienteName : serverData[0].uzerName}</h1>
+                    <h1 className="text-lg font-bold text-center">{userData.nome}</h1>
                 </div>
                 <div className="absolute top-2 right-2">
                     <Link href="/" className="absolute right-5 top-5 text-base font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
@@ -40,15 +41,15 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
-                {serverData.map((item) => (
+                {serverData ? serverData?.map((item) => (
                     <UserChatItem
                         key={item._id}
-                        photo={item.photo}
+                        photo={item.photo ?? "/images/default-chat-background.png"}
                         name={userType === "cliente" ? item.uzerName : item.clienteName}
-                        lastMessage={item.messages[item.messages.length - 1].content}
+                        lastMessage={item.messages[item.messages.length - 1]?.content ?? ""}
                         data={item}
                     />
-                ))}
+                )) : null}
 
             </div>
         </section >)
