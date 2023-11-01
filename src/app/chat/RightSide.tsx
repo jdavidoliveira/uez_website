@@ -58,4 +58,5 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
 
         )
     }
+
 }

@@ -3,9 +3,9 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
+
 import Chat from "./Chat";
 import ChatInterface from "@/types/Chat";
-
 
 export default async function ChatPage() {
     const token = cookies().get("uezaccesstoken");
@@ -14,6 +14,7 @@ export default async function ChatPage() {
     // const chatData = data;
     // console.log(chatData)
     // console.log(userData)
+
     
 
     if (!token) {
