@@ -21,7 +21,6 @@ export default async function Cliente({ params }: { params: { id: string } }) {
     })
     const { photoUrl, nome , _id } = clienteData
     const bannerImage = "https://blog.cpetecnologia.com.br/wp-content/uploads/2018/05/195214-5-praticas-simples-de-gestao-de-projetos-para-ajudar-nos-resultados.jpg"
-    console.log(_id)
     const { _id: myId } = await useFetch<ClienteInterface>(`/users/me`, {
         headers: {
             Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
@@ -29,7 +28,6 @@ export default async function Cliente({ params }: { params: { id: string } }) {
     });
     clienteData.bannerImage = bannerImage
     const editMode: boolean = myId === _id
-    console.log(editMode)
 
 
     return editMode ? (

@@ -41,7 +41,6 @@ export default async function Uzer({ params }: { params: { id: string } }) {
     },
   ]
   const bannerImage = "https://blog.cpetecnologia.com.br/wp-content/uploads/2018/05/195214-5-praticas-simples-de-gestao-de-projetos-para-ajudar-nos-resultados.jpg"
-  console.log(_id)
   const { _id: myId } = await useFetch<UzerInterface>(`/users/me`, {
     headers: {
       Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
@@ -50,7 +49,6 @@ export default async function Uzer({ params }: { params: { id: string } }) {
   uzerData.portfolio = portfolio
   uzerData.bannerImage = bannerImage
   const editMode: boolean = myId === _id
-  console.log(editMode)
 
 
   return editMode ? (

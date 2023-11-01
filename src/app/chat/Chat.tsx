@@ -25,9 +25,6 @@ export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
     useEffect(() => {
         if (userChatId) {
             const data: ChatInterface | any = serverData_chat.find((chat: ChatInterface) => {
-                console.log(chat._id)
-                console.log(userChatId);
-
                 return chat._id === userChatId
             })
             setGlobalSelectedData(data)
