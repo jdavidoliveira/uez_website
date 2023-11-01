@@ -11,9 +11,6 @@ export default async function ChatPage() {
     const token = cookies().get("uezaccesstoken");
     const userData = await useFetch("/users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
     const chatData = await useFetch<ChatInterface[] | []>("/chats", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
-    // const chatData = data;
-    // console.log(chatData)
-    // console.log(userData)
 
     
 

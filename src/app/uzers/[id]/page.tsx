@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import Editpage from "./EditPage";
 import ItemPortfolioInterface from "@/types/ItemPortfolio";
 import { Metadata } from "next";
+import SendMesageButton from "./SendMesageButton";
 
 export const metadata: Metadata = {
   title: "Uzer",
@@ -40,7 +41,6 @@ export default async function Uzer({ params }: { params: { id: string } }) {
     },
   ]
   const bannerImage = "https://blog.cpetecnologia.com.br/wp-content/uploads/2018/05/195214-5-praticas-simples-de-gestao-de-projetos-para-ajudar-nos-resultados.jpg"
-  console.log(_id)
   const { _id: myId } = await useFetch<UzerInterface>(`/users/me`, {
     headers: {
       Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
@@ -49,7 +49,6 @@ export default async function Uzer({ params }: { params: { id: string } }) {
   uzerData.portfolio = portfolio
   uzerData.bannerImage = bannerImage
   const editMode: boolean = myId === _id
-  console.log(editMode)
 
 
   return editMode ? (
@@ -93,9 +92,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
               <h2 className="font-normal text-base"><strong>{servicosPrestados[0].tipoServico === 'ambos' ? "Online e Presencial" : servicosPrestados[0].tipoServico.toUpperCase()}</strong> </h2>
               {(servicosPrestados[0].tipoServico === 'presencial') || (servicosPrestados[0].tipoServico === 'ambos') && <h2 className="font-medium text-base">Área de atuação: <strong>{servicosPrestados[0].areaAtuacao}km</strong> </h2>}
             </div>
-            <Link href="/uzers" className="text-xl font-bold bg-azulao rounded-xl p-3 px-6 text-white flex items-center mt-10 justify-center">
-              Enviar Mensagem
-            </Link>
+            <SendMesageButton id={uzerData._id} />
           </div>
         </section>
         <section className="flex-1 mobile:w-10/12 desktop:w-10/12 mdscreen:w-10/12 h-full flex flex-col items-center justify-center py-10 mobile:py-1">

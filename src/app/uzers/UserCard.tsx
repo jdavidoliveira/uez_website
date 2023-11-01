@@ -1,6 +1,12 @@
+"use client"
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { parseCookies } from 'nookies'
 import React from 'react'
+import { useFetch as myUseFetch } from '@/hooks/useFetch'
+import Chat from '@/types/Chat'
+import { useRouter } from 'next/navigation'
 
 interface UserFormData {
     nome: string
@@ -11,6 +17,7 @@ interface UserFormData {
 }
 
 export default function UserCard({ nome = "Carregando...", servicoPrincipal = "Carregando...", photoUrl = "https://via.placeholder.com/150", tipoServico = "Carregando...", _id = 0 }: UserFormData) {
+    const router = useRouter()
     return (
         <div className="w-[calc(50%_-_8px)] h-24 flex items-center justify-center bg-cinzero mobile:h-auto mobile:p-4 desktop:flex-col desktop:h-auto">
             <div className=" w-full h-full flex items-center justify-between py-2 px-4 mobile:flex-col mobile:justify-center mobile:gap-4 mobile:max-h-[420px] desktop:flex-col desktop:gap-4 desktop:py-8">
@@ -25,10 +32,28 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
 
                 <div className="flex items-center justify-between gap-2 smmobile:flex-col">
                     <Link href={`/uzers/${_id}`} prefetch={false} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-white bg-azulao rounded-lg hover:bg-roxazul smmobile:w-full">Perfil</Link>
-                    <Link href={`/chat/${_id}`} prefetch={false} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-[#a9a9a9] smmobile:w-full">Contatar</Link>
+                    <button onClick={() => realizarServico(_id.toString())} className="w-1/2 flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-[#a9a9a9] smmobile:w-full">Contatar</button>
                 </div>
             </div>
         </div>
     )
+
+    function realizarServico(requestedContactId: string) {
+
+        myUseFetch<Chat>(`/chat/create/${requestedContactId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+            },
+        })
+            .then(res => {
+                console.log(res)
+                router.push(`/chat?userChatId=${res._id}`)
+            })
+            .catch(err => console.error(err))
+
+
+    }
 
 }
