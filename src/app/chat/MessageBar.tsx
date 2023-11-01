@@ -18,6 +18,9 @@ export default function MessageBar({ setGlobalSelectedData, userType, senderId, 
 
     async function sendMessage(e: any) {
         e.preventDefault();
+        if (!message) {
+            return
+        }
         const newMessage = await myUseFetch<Messages | null>("/chat/message", {
             method: "POST",
             headers: {
@@ -54,7 +57,8 @@ export default function MessageBar({ setGlobalSelectedData, userType, senderId, 
                 ]
             }))
 
-        await setMessage('')
+        setMessage('')
+        await new Promise((resolve) => setTimeout(resolve, 150))
         scrollToBottom()
         function scrollToBottom() {
             const chatContainer = document.getElementById("chat-container");
