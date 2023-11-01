@@ -3,10 +3,33 @@
 import Pedido from "@/types/Pedido"
 import { ChevronLeft } from "lucide-react"
 import Image from "next/image"
+import { useFetch as myUseFetch } from "@/hooks/useFetch"
+import { useRouter } from "next/navigation"
+import { parseCookies } from "nookies"
 
 export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: Pedido, closeFunction: () => void }) {
+    const router = useRouter()
+
 
     const descricaoPedido = (pedido.descricao || "teste").charAt(0).toUpperCase() + (pedido.descricao || "teste").slice(1)
+
+    function realizarServico(requestedContactId: string) {
+
+        myUseFetch(`/chat/create/${requestedContactId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+            },
+        })
+            .then(res => {
+                console.log(res)
+                router.push(`/chat`)
+            })
+            .catch(err => console.error(err))
+
+
+    }
 
 
     return (
@@ -25,7 +48,7 @@ export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: P
                     </div>
                     <div className="w-full flex items-center justify-between gap-2">
                         <button onClick={closeFunction} className="bg-azulao border h-11 text-white pl-4 pr-6 rounded-lg font-bold text-lg flex items-center"><ChevronLeft size={34} /> Voltar</button>
-                        <button className="bg-[#525FFF] h-11 text-white px-6 rounded-lg font-bold text-lg flex items-center gap-2"> <Image width={24} height={24} src="/vetores/confere.svg" alt="Aceitar" /> Aceitar</button>
+                        <button className="bg-[#525FFF] h-11 text-white px-6 rounded-lg font-bold text-lg flex items-center gap-2" onClick={() => realizarServico(pedido._id_cliente)}> <Image width={24} height={24} src="/vetores/confere.svg" alt="Aceitar" /> Aceitar</button>
                     </div>
                 </div>
             </div>

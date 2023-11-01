@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         azulao: "#00003a",
         roxazul: "#2a14b7",
+        azulinho: "#002DE3",
         cinzero: "#d9d9d9"
       },
       keyframes: {

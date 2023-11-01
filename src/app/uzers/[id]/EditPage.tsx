@@ -15,6 +15,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
 
   const [nomeValue, setNomeValue] = useState<string>(nome)
   const [photoUrlValue, setPhotoUrlValue] = useState<string>(photoUrl)
+  const [saved, setSaved] = useState<boolean>(false)
 
   function changePhoto() {
     setModalInfo({
@@ -56,6 +57,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         })
       }).then((res) => {
         setIsSaving(false)
+        nome = nomeValue
         alert("Nome atualizado!")
         console.log(res)
       }).catch(error => {
@@ -74,6 +76,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         })
       }).then((res) => {
         setIsSaving(false)
+        photoUrl = photoUrlValue
         alert("Foto atualizada!")
         console.log(res)
       }).catch(error => {
@@ -82,6 +85,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       })
     }
     setIsSaving(false)
+    setSaved(true)
 
   }
 
@@ -130,7 +134,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         </div>
         <Link href={`/uzers/${_id}/portfolio`} className="text-xl font-bold my-8 flex justify-center items-center hover:underline">Ver Mais</Link>
       </section>
-      {(nome !== nomeValue || photoUrl !== photoUrlValue) && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
+      {(nome !== nomeValue || photoUrl !== photoUrlValue) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
         {isSaving ? <Loader2 size={30} color="white" className="text-azulao mx-auto animate-spin" /> : <>
           <div className="hidden font-bold text-base group-hover:flex flex-col items-center p-2 text-white">
             <h1 className="font-bold text-base">Alterações:</h1>

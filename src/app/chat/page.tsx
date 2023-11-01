@@ -4,10 +4,19 @@ import Link from "next/link";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
 
-export default async function Chat() {
+import Chat from "./Chat";
+import ChatInterface from "@/types/Chat";
+
+export default async function ChatPage() {
     const token = cookies().get("uezaccesstoken");
-    const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
+    const userData = await useFetch("/users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
+    const chatData = await useFetch<ChatInterface[] | []>("/chats", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
+    // const chatData = data;
+    // console.log(chatData)
+    // console.log(userData)
+
     
+
     if (!token) {
         return (
             <main className="w-full h-full text-center flex flex-col items-center justify-center gap-2">
@@ -19,9 +28,6 @@ export default async function Chat() {
     }
 
     return (
-        <main className="w-full h-full bg-white flex items-center justify-center gap-2">
-            <LeftSide />
-            <RightSide />
-        </main>
+        <Chat serverData_chat={chatData} serverData_user={userData} />
     )
 }
