@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import Editpage from "./EditPage";
 import ItemPortfolioInterface from "@/types/ItemPortfolio";
 import { Metadata } from "next";
+import SendMesageButton from "./SendMesageButton";
 
 export const metadata: Metadata = {
   title: "Uzer",
@@ -93,9 +94,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
               <h2 className="font-normal text-base"><strong>{servicosPrestados[0].tipoServico === 'ambos' ? "Online e Presencial" : servicosPrestados[0].tipoServico.toUpperCase()}</strong> </h2>
               {(servicosPrestados[0].tipoServico === 'presencial') || (servicosPrestados[0].tipoServico === 'ambos') && <h2 className="font-medium text-base">Área de atuação: <strong>{servicosPrestados[0].areaAtuacao}km</strong> </h2>}
             </div>
-            <Link href="/uzers" className="text-xl font-bold bg-azulao rounded-xl p-3 px-6 text-white flex items-center mt-10 justify-center">
-              Enviar Mensagem
-            </Link>
+            <SendMesageButton id={uzerData._id} />
           </div>
         </section>
         <section className="flex-1 mobile:w-10/12 desktop:w-10/12 mdscreen:w-10/12 h-full flex flex-col items-center justify-center py-10 mobile:py-1">
