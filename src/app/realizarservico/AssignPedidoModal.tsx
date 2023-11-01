@@ -6,6 +6,7 @@ import Image from "next/image"
 import { useFetch as myUseFetch } from "@/hooks/useFetch"
 import { useRouter } from "next/navigation"
 import { parseCookies } from "nookies"
+import Chat from "@/types/Chat"
 
 export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: Pedido, closeFunction: () => void }) {
     const router = useRouter()
@@ -15,7 +16,7 @@ export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: P
 
     function realizarServico(requestedContactId: string) {
 
-        myUseFetch(`/chat/create/${requestedContactId}`, {
+        myUseFetch<Chat>(`/chat/create/${requestedContactId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -24,7 +25,7 @@ export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: P
         })
             .then(res => {
                 console.log(res)
-                router.push(`/chat`)
+                router.push(`/chat?userChatId=${res._id}`)
             })
             .catch(err => console.error(err))
 

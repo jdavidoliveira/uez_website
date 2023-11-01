@@ -32,3 +32,21 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
     )
 
 }
+
+function realizarServico(requestedContactId: string) {
+
+    myUseFetch<Chat>(`/chat/create/${requestedContactId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+        },
+    })
+        .then(res => {
+            console.log(res)
+            router.push(`/chat?userChatId=${res._id}`)
+        })
+        .catch(err => console.error(err))
+
+
+}

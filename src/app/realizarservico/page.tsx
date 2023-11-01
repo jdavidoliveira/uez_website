@@ -29,7 +29,7 @@ export default async function RealizarServico() {
           </div> :
           <div className='flex flex-col items-center gap-6 p-2 w-full justify-center'>
             <h1 className="text-2xl font-bold">Serviços disponiveis</h1>
-            <div className='grid sm:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 '>
+            <div className='grid sm:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 w-11/12'>
               {servicos.map((servico, index) => (
                 <CardPedido pedido={servico} key={index} />
               ))}
