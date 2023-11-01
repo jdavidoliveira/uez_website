@@ -157,7 +157,8 @@ const data: ChatInterface[] = [
 
 export default async function ChatPage() {
     const token = cookies().get("uezaccesstoken");
-    // const chatData = await useFetch("users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
+    const userData = await useFetch("/users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
+    // const chatData =
     const chatData = data;
     
 
@@ -172,6 +173,6 @@ export default async function ChatPage() {
     }
 
     return (
-        <Chat serverData={chatData} />
+        <Chat serverData_chat={chatData} serverData_user={userData} />
     )
 }
