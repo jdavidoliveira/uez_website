@@ -65,7 +65,7 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
-    <form className="bg-white rounded-3xl p-3 max-h-full w-[37%] flex flex-col items-center justify-center font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start" onSubmit={handleSubmit(logar)}>
+    <form className="bg-white rounded-3xl p-3 max-h-full w-[30%] flex flex-col items-center justify-center font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start" onSubmit={handleSubmit(logar)}>
       <div className="w-4/5 h-full flex flex-col items-center justify-between gap-4 my-4 mx-auto mobile:h-4/5 mobile:max-h-96">
         <h1 className="font-extrabold text-3xl my-2">Login</h1>
         <div className="flex flex-col items-center justify-center w-full">

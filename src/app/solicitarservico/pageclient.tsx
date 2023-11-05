@@ -40,8 +40,13 @@ type typeSoliciarServico = z.infer<typeof solicitarServicoFormSchema>
 export default function SolicitarServicoClient({ servicosDaPlataforma }: { servicosDaPlataforma: Servico[] }) {
     const [createdPedido, setCreatedPedido] = useState(false)
     // descomentar para proibir o uzer de acessar essa rota
-    // const { userType } = useAuth()
-    // if(userType === "uzer") return <h1>Você não tem acesso</h1>
+    // if (useAuth().userType === "uzer") return (
+    //     <main className="w-full h-full flex flex-col items-center justify-center gap-4">
+    //         <h1 className="text-center text-xl font-bold">Você não tem acesso a esse recurso.</h1>
+    //         <h2 className="text-center text-base font-medium">Entre como cliente para poder solicitar um serviço. Caso não tenho uma conta de cliente, <Link className="text-blue-600 hover:underline" href="/cadastro?userType=cliente">crie uma já</Link></h2>
+    //         <Link href={"/"} className="text-center text-xl font-bold text-sky-700 hover:underline">Voltar para a homepage</Link>
+    //     </main>
+    // )
 
     const router = useRouter()
 
