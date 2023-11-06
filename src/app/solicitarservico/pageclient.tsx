@@ -39,23 +39,15 @@ type typeSoliciarServico = z.infer<typeof solicitarServicoFormSchema>
 
 export default function SolicitarServicoClient({ servicosDaPlataforma }: { servicosDaPlataforma: Servico[] }) {
     const [createdPedido, setCreatedPedido] = useState(false)
-    // descomentar para proibir o uzer de acessar essa rota
-    if (useAuth().userType === "uzer") return (
-        <main className="w-full h-full flex flex-col items-center justify-center gap-4">
-            <h1 className="text-center text-xl font-bold">Você não tem acesso a esse recurso.</h1>
-            <h2 className="text-center text-base font-medium">Entre como cliente para poder solicitar um serviço. Caso não tenho uma conta de cliente, <Link className="text-sky-700 hover:underline" href="/cadastro?userType=cliente">crie uma já</Link></h2>
-            <Link href={"/"} className="text-center text-xl font-bold text-sky-700 hover:underline">Voltar para a homepage</Link>
-        </main>
-    )
-
     const router = useRouter()
-
     const [pedidoOk, setPedidoOk] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
-
     const [isOnlineChecked, setIsOnlineChecked] = useState(true);
     const [isPresencialChecked, setIsPresencialChecked] = useState(false);
     const [acombinarChecked, setAcombinarChecked] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('null');
+    const [haveButton, setHaveButton] = useState(true)
 
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -111,15 +103,22 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
         }
     }
 
-    const [showModal, setShowModal] = useState(false);
-    const [modalMessage, setModalMessage] = useState('null');
-    const [haveButton, setHaveButton] = useState(true)
+
     function toggleModal(message: string, hasButton: boolean = true) {
         setModalMessage(JSON.stringify(message))
         setHaveButton(hasButton)
         setShowModal(prevState => !prevState)
     }
 
+
+    // descomentar para proibir o uzer de acessar essa rota
+    if (useAuth().userType === "uzer") return (
+        <main className="w-full h-full flex flex-col items-center justify-center gap-4">
+            <h1 className="text-center text-xl font-bold">Você não tem acesso a esse recurso.</h1>
+            <h2 className="text-center text-base font-medium">Entre como cliente para poder solicitar um serviço. Caso não tenho uma conta de cliente, <Link className="text-sky-700 hover:underline" href="/cadastro?userType=cliente">crie uma já</Link></h2>
+            <Link href={"/"} className="text-center text-xl font-bold text-sky-700 hover:underline">Voltar para a homepage</Link>
+        </main>
+    )
 
     return (
         <main className="w-full bg-white h-max flex flex-col items-center gap-24 py-20 mobile:py-12">

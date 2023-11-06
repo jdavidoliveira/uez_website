@@ -6,7 +6,7 @@ import RightSide from "./RightSide";
 import ChatInterface from "@/types/Chat";
 import { useAuth } from "@/contexts/Auth";
 import { useSearchParams } from "next/navigation";
-import { useFetch } from "@/hooks/useFetch";
+import { useFetch as myUseFetch } from "@/hooks/useFetch";
 import { parseCookies } from "nookies";
 
 interface ChatProps {
@@ -22,7 +22,7 @@ export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
     const userChatId = useSearchParams().get('userChatId')
 
     async function refreshData() {
-        const refreshedChatData = await useFetch<ChatInterface[]>("/chats", {
+        const refreshedChatData = await myUseFetch<ChatInterface[]>("/chats", {
             headers: {
                 Authorization: `Bearer ${parseCookies().uezaccesstoken}`
             },
@@ -42,17 +42,14 @@ export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
             })
             setGlobalSelectedData(data)
         }
-    }, [])
-
-     // Refresh data periodically
-     useEffect(() => {
         const refreshInterval = setInterval(() => {
             refreshData();
         }, 1000 * 2); // 2 segundos
         return () => {
             clearInterval(refreshInterval);
         };
-    }, []);
+    }, [])
+
 
     const { userType } = useAuth();
 
