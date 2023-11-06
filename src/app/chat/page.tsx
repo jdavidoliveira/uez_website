@@ -10,7 +10,11 @@ import ChatInterface from "@/types/Chat";
 export default async function ChatPage() {
     const token = cookies().get("uezaccesstoken");
     const userData = await useFetch("/users/me", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
-    const chatData = await useFetch<ChatInterface[] | []>("/chats", { headers: { Authorization: `Bearer ${token?.value}` } }).then(res => res).catch(err => []);
+    const chatData = await useFetch<ChatInterface[] | []>("/chats", { 
+        headers: { 
+            Authorization: `Bearer ${token?.value}` 
+        },
+    }).then(res => res).catch(err => []);
 
     
 

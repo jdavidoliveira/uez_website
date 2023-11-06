@@ -1,8 +1,10 @@
+"use client"
+
 import ChatInterface, { Messages as Message } from '@/types/Chat';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import MessageBar from './MessageBar';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 // import bg from '@/../public/images/default-chat-background.png';
 
 interface RightSideProps {
