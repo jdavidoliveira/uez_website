@@ -22,17 +22,16 @@ export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
     const userChatId = useSearchParams().get('userChatId')
 
     async function refreshData() {
-        const refreshedChatData = await useFetch<ChatInterface[] | []>("/chats", {
+        const refreshedChatData = await useFetch<ChatInterface[]>("/chats", {
             headers: {
                 Authorization: `Bearer ${parseCookies().uezaccesstoken}`
             },
         }).then(res => res).catch(err => []);
         if (JSON.stringify(refreshedChatData) === JSON.stringify(chatsData)) {
-            console.log("Não há novas mensagens")
-            return
+            return console.log("Não há novas mensagens")
         } else {
-            console.log("Nova mensagem")
-            return setChatsData(refreshedChatData)
+            setChatsData(refreshedChatData)
+            return console.log("Nova mensagem")
         }
     }
 

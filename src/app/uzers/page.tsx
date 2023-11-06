@@ -23,10 +23,21 @@ export default async function Uzers() {
         return response
     }).catch(error => console.error(error))
 
+    const cargosArray = await useFetch<any[]>('/servicos', {
+        headers: {
+            Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
+        },
+        next: {
+            revalidate: 60 * 10 // 10 minutes
+        },
+    }).then((response) => {
+        return response
+    }).catch(error => console.error(error))
+
     return (
         <>
             <Header />
-            <UzersClient serverData={serverData} />
+            <UzersClient serverData={serverData} cargosArray={cargosArray} />
         </>
     )
 

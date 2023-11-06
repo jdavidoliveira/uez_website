@@ -42,3 +42,10 @@ body {
 ::-ms-reveal {
     display: none;
 }
+
+
+[list]::-webkit-calendar-picker-indicator {
+    display: none;
+    background-color: inherit;
+    opacity: 0;
+  }

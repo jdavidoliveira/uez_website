@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth } from "@/contexts/Auth"
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const userFormSchema = z.object({
   email: z.string()
@@ -27,6 +27,7 @@ type userFormData = z.infer<typeof userFormSchema>
 export default function Login() {
   const { statusLogin, login } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams();
   if (statusLogin) router.replace("/")
 
   const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
@@ -78,6 +79,7 @@ export default function Login() {
               type="text"
               id="email"
               maxLength={200}
+              defaultValue={searchParams.get("userEmail") ?? ""}
               placeholder="example@gmail.com"
               {...register("email")}
             />

@@ -20,11 +20,10 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
         refreshGlobalSelectedData()
     }, [serverData])
 
-    async function refreshGlobalSelectedData() {
+    function refreshGlobalSelectedData() {
         // @ts-ignore
         setGlobalSelectedData((prevState: ChatInterface | null) => {
             return serverData.find((chat: ChatInterface) => {
-                scrollToBottom();
                 return chat._id === prevState?._id
             })
         })
@@ -35,6 +34,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
         // @ts-ignore
         if (chatContainer) chatContainer.scrollTop = chatContainer?.scrollHeight;
     }
+
     return (
         <section className={twMerge("md:w-2/6 w-full h-full flex flex-col items-center border-r", globalSelectedData ? "hidden md:flex" : "flex")} >
             <div className="w-full flex items-center p-5 relative">

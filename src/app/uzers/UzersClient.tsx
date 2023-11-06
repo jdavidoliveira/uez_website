@@ -5,7 +5,7 @@ import AsideFilters from "./AsideFilters";
 import UserCard from "./UserCard";
 import { useSearchParams } from "next/navigation";
 
-export function UzersClient({ serverData }: any) {
+export function UzersClient({ serverData, cargosArray }: any) {
     const [uzersData, setUzersData] = useState(serverData)
     const [filteredUzersData, setFilteredUzersData] = useState(serverData)
     useEffect(() => {
@@ -46,7 +46,7 @@ export function UzersClient({ serverData }: any) {
 
     return (
         <main className="bg-white flex flex-row-reverse w-full justify-around items-center my-16 p-4 mobile:flex-col mobile:m-0 mobile:gap-8">
-            <AsideFilters setIsOnline={setIsOnline} setIsPresencial={setIsPresencial} setNome={setNome} setCargo={setCargo} cargo={cargo} isOnline={isOnline} isPresencial={isPresencial} nome={nome} />
+            <AsideFilters cargosArray={cargosArray} setIsOnline={setIsOnline} setIsPresencial={setIsPresencial} setNome={setNome} setCargo={setCargo} cargo={cargo} isOnline={isOnline} isPresencial={isPresencial} nome={nome} />
             <section className="flex w-9/12 flex-wrap gap-4 justify-between items-center p-2 mobile:w-full mobile:p-0">
                 {!(filteredUzersData.length === 0) ? filteredUzersData?.map((usuario: any, index: any) => {
                     const nomes = usuario.nome.split(" ")
