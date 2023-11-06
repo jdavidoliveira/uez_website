@@ -7,6 +7,7 @@ import { Suspense, useEffect, useState } from "react";
 import HeaderProfile from "./HeaderProfile";
 import { useAuth } from "@/contexts/Auth";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 const roboto = Roboto({
   weight: ['100', '300', '400', '500', '700', '900'],
   style: ['normal'],
@@ -151,9 +152,7 @@ function HeaderMobile({ showMobileMenu, setShowMobileMenu, statusLogin, userType
         )}
         {statusLogin && (
           <div className="flex flex-col w-full gap-4 items-center mb-6">
-            <Link href="/login" className="flex items-center justify-center text-base font-semibold p-3 border shadow w-full mx-auto rounded-lg text-black bg-white cursor-pointer hover:bg-roxazul hover:text-white duration-300">
-              Abrir Perfil
-            </Link>
+            <LogoutButton />
           </div>
         )}
         {statusLogin ? (userType === "uzer" ? <>
@@ -188,4 +187,23 @@ function HeaderMobile({ showMobileMenu, setShowMobileMenu, statusLogin, userType
     return <Link href={href} className="hover:bg-gray-400 border-b text-lg transition-colors hover:text-white p-3 w-full text-left">{children}</Link>
 
   }
+}
+
+export function LogoutButton() {
+
+  const router = useRouter()
+  const { logout } = useAuth()
+
+  function logoutFunction() {
+    logout()
+    router.refresh()
+    router.refresh()
+  }
+
+  return (
+
+    <button onClick={logoutFunction} className="flex items-center justify-center text-base font-semibold p-3 border shadow w-full mx-auto rounded-lg text-white bg-red-600 cursor-pointer hover:bg-black hover:text-white duration-300">
+      Sair
+    </button>
+  )
 }
