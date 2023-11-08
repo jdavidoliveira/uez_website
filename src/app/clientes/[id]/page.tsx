@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import Editpage from "./EditPage";
 import { Metadata } from "next";
 import ClienteInterface from "@/types/Cliente";
+import VoltarButton from "@/components/VoltarButton/VoltarButton";
 
 export const metadata: Metadata = {
     title: "Cliente",
@@ -28,28 +29,18 @@ export default async function Cliente({ params }: { params: { id: string } }) {
     });
     clienteData.bannerImage = bannerImage
     const editMode: boolean = myId === _id
+    console.log(myId, _id)
 
 
     return editMode ? (
-        <main className="w-full h-screen mobile:h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
-            <Link href="/" className="fixed z-50 left-14 top-8 text-base font-bold px-2 bg-azulao hover:bg-roxazul rounded-xl text-white flex items-center justify-center mobile:bottom-8  mobile:right-7 mobile:top-auto mobile:left-auto mobile:rounded-full ">
-                <ChevronLeftIcon width={20} height={20} />
-                <span className="p-2">
-                    Voltar
-                </span>
-            </Link>
+        <main className="w-full h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
+            <VoltarButton />
             <Editpage clienteData={clienteData} />
-
         </main>
     )
         : (
             <main className="w-full h-screen mobile:h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
-                <Link href="/uzers" className="fixed z-50 left-14 top-8 text-base font-bold px-2 bg-azulao hover:bg-roxazul rounded-xl text-white flex items-center justify-center mobile:bottom-8  mobile:right-7 mobile:top-auto mobile:left-auto mobile:rounded-full ">
-                    <ChevronLeftIcon width={20} height={20} />
-                    <span className="p-2">
-                        Voltar
-                    </span>
-                </Link>
+                <VoltarButton />
                 <section className="w-2/3 mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
                     <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
                         <div
@@ -62,7 +53,7 @@ export default async function Cliente({ params }: { params: { id: string } }) {
                             />
                             <h1 className="hidden font-medium z-40 group-hover:block transition text-base px-3 py-1 rounded bg-white text-black">Ver projeto</h1>
                         </div>
-                        <Image width={200} height={200} src={photoUrl} className="w-32 rounded-full absolute -bottom-10 left-5 shadow-lg" alt="Imagem de perfil" />
+                        <Image width={200} height={200} src={photoUrl} className="w-32 h-32 rounded-full absolute -bottom-10 left-5 shadow-lg" alt="Imagem de perfil" />
                     </div>
                     <div className="w-10/12 flex items-center mt-14 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
                         <div className="flex-1 flex flex-col items-start self-start pl-2">
