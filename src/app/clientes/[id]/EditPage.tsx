@@ -12,15 +12,17 @@ import ClienteInterface from '@/types/Cliente'
 export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _id } }: { clienteData: ClienteInterface }) {
 
   const [nomeValue, setNomeValue] = useState<string>(nome)
+  const [imageFile, setImageFile] = useState<File | null>(null)
   const [photoUrlValue, setPhotoUrlValue] = useState<string>(photoUrl)
   const [saved, setSaved] = useState<boolean>(false)
 
   function changePhoto() {
     setModalInfo({
       title: "Mudar foto de perfil",
-      label: "Escreva o endereço da imagem:",
-      valueSetter: setPhotoUrlValue,
-      prevValue: photoUrl
+      label: "Escolha uma imagem:",
+      valueSetter: setImageFile,
+      prevValue: imageFile,
+      type: "image"
     })
     setShowModal(true);
   }
@@ -40,6 +42,7 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
     label: "Digite aqui:",
     valueSetter: "",
     prevValue: "",
+    type: "text",
   })
 
   async function saveData() {
@@ -63,18 +66,20 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
         console.error(error)
       })
     }
-    if (photoUrlValue !== photoUrl) {
-      await myUseFetch(`/clientes/${_id}`, {
-        method: "PUT",
+    if (imageFile !== null) {
+      console.log(imageFile)
+      const formData = new FormData();
+      formData.append("profilephoto", imageFile);
+      await myUseFetch(`/clientes/profilephoto`, {
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+          Authorization: `Bearer ${parseCookies().uezaccesstoken}`,
         },
-        body: JSON.stringify({
-          photoUrl: photoUrlValue
-        })
+        body: formData
       }).then((res) => {
         setIsSaving(false)
-        photoUrl = photoUrlValue
+        console.log(res)
+        // photoUrl = photoUrlValue
         alert("Foto atualizada!")
         console.log(res)
       }).catch(error => {
@@ -92,7 +97,7 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
 
   return (
     <>
-      {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} />}
+      {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} type={modalInfo.type} />}
       <section className="w-2/3 mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
         <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
           <div

@@ -9,20 +9,21 @@ import ConfirmModal from './ConfirmModal'
 import { useState } from 'react'
 import { useFetch as myUseFetch } from '@/hooks/useFetch'
 import { parseCookies } from 'nookies'
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 
 export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados, bannerImage, portfolio, _id } }: { uzerData: UzerInterface }) {
 
   const [nomeValue, setNomeValue] = useState<string>(nome)
+  const [imageFile, setImageFile] = useState<File | null>(null)
   const [photoUrlValue, setPhotoUrlValue] = useState<string>(photoUrl)
   const [saved, setSaved] = useState<boolean>(false)
 
   function changePhoto() {
     setModalInfo({
       title: "Mudar foto de perfil",
-      label: "Escreva o endereço da imagem:",
-      valueSetter: setPhotoUrlValue,
-      prevValue: photoUrl
+      label: "Escolha uma imagem:",
+      valueSetter: setImageFile,
+      prevValue: imageFile,
+      type: "image"
     })
     setShowModal(true);
   }
@@ -32,7 +33,8 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       title: "Mudar nome",
       label: "Novo nome:",
       valueSetter: setNomeValue,
-      prevValue: nome
+      prevValue: nome,
+      type: "text"
     })
     setShowModal(true);
   }
@@ -42,6 +44,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
     label: "Digite aqui:",
     valueSetter: "",
     prevValue: "",
+    type: "text",
   })
 
   async function saveData() {
@@ -65,18 +68,21 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         console.error(error)
       })
     }
-    if (photoUrlValue !== photoUrl) {
-      await myUseFetch(`/uzers/${_id}`, {
-        method: "PUT",
+
+    if (imageFile !== null) {
+      console.log(imageFile)
+      const formData = new FormData();
+      formData.append("profilephoto", imageFile);
+      await myUseFetch(`/uzers/profilephoto`, {
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+          Authorization: `Bearer ${parseCookies().uezaccesstoken}`,
         },
-        body: JSON.stringify({
-          photoUrl: photoUrlValue
-        })
+        body: formData
       }).then((res) => {
         setIsSaving(false)
-        photoUrl = photoUrlValue
+        console.log(res)
+        // photoUrl = photoUrlValue
         alert("Foto atualizada!")
         console.log(res)
       }).catch(error => {
@@ -94,7 +100,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
 
   return (
     <>
-      {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} />}
+      {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} type={modalInfo.type} />}
       <section className="w-2/3 mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
         <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
           <div
@@ -110,11 +116,14 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
           <div title='Mudar foto de perfil' onClick={changePhoto} className='w-32 h-32 rounded-full bg-cinzero absolute -bottom-10 left-5 shadow-lg group flex items-center justify-center transition-colors cursor-pointer'>
             <Image fill src={photoUrl} className="rounded-full object-cover group-hover:opacity-30 transition-colors bg-cinzero" alt="Imagem de perfil" />
             <Pencil size={30} className="hidden group-hover:block transition-colors z-50 text-azulao" />
+            <div className='md:hidden bg-azulao rounded-full absolute hover:bg-roxazul bottom-0 right-0 p-2 flex items-center justify-center'>
+              <Pencil size={24} className="transition-colors z-50 text-white" />
+            </div>
           </div>
         </div>
         <div className="w-10/12 flex items-center mt-24 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
           <div className="flex-1 flex flex-col items-start self-start pl-2">
-            <h1 className="text-3xl font-bold mb-4 flex items-center gap-2" title='Mudar nome' onClick={changeName}>{nome} <Pencil size={20} className="text-azulao cursor-pointer" /></h1>
+            <h1 className="text-2xl font-bold mb-4 flex items-center gap-2" title='Mudar nome' onClick={changeName}><span>{nome}</span> <Pencil size={20} className="text-azulao cursor-pointer" /></h1>
             <h2 className="font-normal text-lg">Habilidade: <strong>{servicosPrestados[0].nomeServico}</strong> </h2>
             <h2 className="font-normal text-base"><strong>{servicosPrestados[0].tipoServico === 'ambos' ? "Online e Presencial" : servicosPrestados[0].tipoServico.toUpperCase()}</strong> </h2>
             {(servicosPrestados[0].tipoServico === 'presencial') || (servicosPrestados[0].tipoServico === 'ambos') && <h2 className="font-medium text-base">Área de atuação: <strong>{servicosPrestados[0].areaAtuacao}km</strong> </h2>}
@@ -134,12 +143,12 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         </div>
         <Link href={`/uzers/${_id}/portfolio`} className="text-xl font-bold my-8 flex justify-center items-center hover:underline">Ver Mais</Link>
       </section>
-      {(nome !== nomeValue || photoUrl !== photoUrlValue) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
+      {(nome !== nomeValue || imageFile !== null) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
         {isSaving ? <Loader2 size={30} color="white" className="text-azulao mx-auto animate-spin" /> : <>
           <div className="hidden font-bold text-base group-hover:flex flex-col items-center p-2 text-white">
             <h1 className="font-bold text-base">Alterações:</h1>
             {nome !== nomeValue && <h1 className="font-bold text-base text-yellow-300">Nome</h1>}
-            {photoUrl !== photoUrlValue && <h1 className="font-bold text-base text-yellow-300">Foto</h1>}
+            {imageFile !== null && <h1 className="font-bold text-base text-yellow-300">Foto</h1>}
           </div>
           <Save size={30} color="white" className="text-azulao mx-auto group-hover:hidden" />
         </>}
