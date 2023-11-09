@@ -48,7 +48,6 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
             },
         })
             .then(res => {
-                console.log(res)
                 router.push(`/chat?userChatId=${res._id}`)
             })
             .catch(err => console.error(err))

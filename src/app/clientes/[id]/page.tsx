@@ -1,5 +1,3 @@
-import { ChevronLeftIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { useFetch } from "@/hooks/useFetch";
 import Image from "next/image";
 import { cookies } from "next/headers";
@@ -7,6 +5,7 @@ import Editpage from "./EditPage";
 import { Metadata } from "next";
 import ClienteInterface from "@/types/Cliente";
 import VoltarButton from "@/components/VoltarButton/VoltarButton";
+import Pedido from "@/types/Pedido";
 
 export const metadata: Metadata = {
     title: "Cliente",
@@ -21,6 +20,11 @@ export default async function Cliente({ params }: { params: { id: string } }) {
         }
     })
     const { photoUrl, nome , _id } = clienteData
+    const pedidos = await useFetch<Pedido[]>(`/pedidos/cliente`, {
+        headers: {
+            Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
+        },
+    })
     const bannerImage = "https://blog.cpetecnologia.com.br/wp-content/uploads/2018/05/195214-5-praticas-simples-de-gestao-de-projetos-para-ajudar-nos-resultados.jpg"
     const { _id: myId } = await useFetch<ClienteInterface>(`/users/me`, {
         headers: {
@@ -29,13 +33,12 @@ export default async function Cliente({ params }: { params: { id: string } }) {
     });
     clienteData.bannerImage = bannerImage
     const editMode: boolean = myId === _id
-    console.log(myId, _id)
 
 
     return editMode ? (
-        <main className="w-full h-auto flex flex-col items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
+        <main className="w-full h-auto flex flex-col items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col bg-[#f3f3f3] mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
             <VoltarButton />
-            <Editpage clienteData={clienteData} />
+            <Editpage clienteData={clienteData} pedidos={pedidos} />
         </main>
     )
         : (

@@ -16,7 +16,6 @@ export default function ConfirmModal({ title = "Escolha um", label = "Digite aqu
         if (type === "url") valueSetter(text?.includes("https://") ? text : `https://${text}`)
         else if (type === "image") {
             valueSetter(image)
-            console.log(image)
         }
         else valueSetter(text)
         closeButtonFunction()

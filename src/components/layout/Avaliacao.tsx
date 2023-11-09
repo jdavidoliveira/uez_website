@@ -1,0 +1,59 @@
+import Image from 'next/image';
+import React from 'react';
+
+interface StarRatingProps {
+  rating: number;
+}
+
+const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
+  // Arredonda a avaliação para o número inteiro mais próximo
+  const roundedRating = Math.round(rating);
+
+  const stars = [];
+
+  // Adicione estrelas preenchidas
+  for (let i = 0; i < roundedRating; i++) {
+    stars.push(
+      <Image
+        key={`star-${i}`}
+        src="/images/icons/star-filled.svg"
+        alt="Estrela"
+        width={20}
+        height={20}
+        className="w-4 text-yellow-500"
+      />
+    );
+  }
+
+  // Adicione estrelas vazias (se houver uma parte fracionária)
+  if (rating !== roundedRating) {
+    stars.push(
+      <Image
+        key={`star-${roundedRating}`}
+        src="/images/icons/star-half.svg"
+        alt="Estrela"
+        width={20}
+        height={20}
+        className="w-4 text-yellow-500"
+      />
+    );
+  }
+
+  // Adicione estrelas vazias restantes
+  for (let i = stars.length; i < 5; i++) {
+    stars.push(
+      <Image
+        key={`star-${i}`}
+        src="/images/icons/star-empty.svg"
+        alt="Estrela"
+        width={20}
+        height={20}
+        className="w-4 text-yellow-500"
+      />
+    );
+  }
+
+  return <div className="flex space-x-1">{stars}</div>;
+};
+
+export default Avaliacao;

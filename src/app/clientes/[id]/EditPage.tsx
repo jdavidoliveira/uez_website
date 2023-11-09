@@ -9,8 +9,11 @@ import { useFetch as myUseFetch } from '@/hooks/useFetch'
 import { parseCookies } from 'nookies'
 import ClienteInterface from '@/types/Cliente'
 import CardPedido from './CardPedido'
+import Pedido from '@/types/Pedido'
+import HistoricoUzers from './HistoricoUzers'
+import Avaliacao from '../../../components/layout/Avaliacao'
 
-export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _id } }: { clienteData: ClienteInterface }) {
+export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _id, avaliacao }, pedidos }: { clienteData: ClienteInterface, pedidos: Pedido[] }) {
 
   const [nomeValue, setNomeValue] = useState<string>(nome)
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -99,7 +102,7 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
   return (
     <>
       {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} type={modalInfo.type} />}
-      <section className="w-full h-full flex flex-col pt-24 items-center justify-center animate-transitionY">
+      <section className="w-full flex flex-col md:pt-24 items-center justify-center animate-transitionY">
         <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
           <div
             className="w-full h-64 group flex flex-col items-center justify-center gap-1 bg-cinzero rounded-xl bg-center bg-cover bg-no-repeat transition relative"
@@ -119,17 +122,18 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
             </div>
           </div>
         </div>
-        <div className="w-10/12 flex items-center mt-24 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
+        <div className="w-10/12 flex items-center mt-24 mb-10 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
           <div className="flex-1 flex flex-col items-start self-start pl-2">
             <h1 className="text-3xl font-bold mb-4 flex items-center gap-2" title='Mudar nome' onClick={changeName}>{nome} <Pencil size={20} className="text-azulao cursor-pointer" /></h1>
+            <Avaliacao rating={avaliacao} />
           </div>
         </div>
       </section>
-      <section className="w-full h-full flex flex-col pt-24 items-center justify-center animate-transitionY">
-        <div className='w-1/2 shadow-md rounded-3xl p-4 flex flex-col items-center'>
-          <h1 className="text-3xl font-bold mb-4">Histórico de serviços</h1>
-          <CardPedido />
-
+      <section className="w-full h-full flex flex-col md:flex-row items-start justify-center animate-transitionY p-10 gap-4">
+        <HistoricoUzers pedidos={pedidos} />
+        <div className='md:w-1/2 w-full bg-white shadow-2xl rounded-3xl p-4 flex flex-col items-center'>
+          <h1 className="text-2xl mt-4 font-bold mb-4">Histórico de serviços</h1>
+          {pedidos.map((pedido, index) => <CardPedido key={index} titulo={pedido.titulo} _id_uzer={pedido._id_uzer} status={pedido.status} />)}
         </div>
       </section>
       {(nome !== nomeValue || photoUrl !== photoUrlValue) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>

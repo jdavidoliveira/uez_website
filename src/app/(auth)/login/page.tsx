@@ -55,7 +55,7 @@ export default function Login() {
       toggleModal("Login feito com sucesso!", false)
       setIsSubmitting(false)
       new Promise((resolve) => setTimeout(resolve, 2000))
-      router.replace("/")
+      router.push("/")
     }
   }
 
