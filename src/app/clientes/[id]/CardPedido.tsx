@@ -1,5 +1,5 @@
 "use client"
-import { useFetch } from '@/hooks/useFetch'
+import { useFetch as myUseFetch } from '@/hooks/useFetch'
 import Pedido from '@/types/Pedido'
 import UzerInterface from '@/types/Uzer'
 import React, { useEffect, useState } from 'react'
@@ -8,7 +8,7 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     const [uzerData, setUzerData] = useState<UzerInterface | null>()
     useEffect(() => {
         async () => {
-            _id_uzer !== null ? await useFetch<UzerInterface>(`/uzers/${_id_uzer}`).then(res => setUzerData(res)).catch(err => setUzerData(null)) : setUzerData(null)
+            _id_uzer !== null ? await myUseFetch<UzerInterface>(`/uzers/${_id_uzer}`).then(res => setUzerData(res)).catch(err => setUzerData(null)) : setUzerData(null)
         }
     })
 
