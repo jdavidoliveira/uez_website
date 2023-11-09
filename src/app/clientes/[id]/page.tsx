@@ -33,7 +33,7 @@ export default async function Cliente({ params }: { params: { id: string } }) {
 
 
     return editMode ? (
-        <main className="w-full h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
+        <main className="w-full h-auto flex flex-col items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
             <VoltarButton />
             <Editpage clienteData={clienteData} />
         </main>

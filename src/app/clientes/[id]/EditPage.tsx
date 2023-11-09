@@ -125,8 +125,12 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
           </div>
         </div>
       </section>
-      <section className="w-1/3 h-full flex flex-col pt-24 items-center justify-center animate-transitionY">
-      <CardPedido />
+      <section className="w-full h-full flex flex-col pt-24 items-center justify-center animate-transitionY">
+        <div className='w-1/2 shadow-md rounded-3xl p-4 flex flex-col items-center'>
+          <h1 className="text-3xl font-bold mb-4">Histórico de serviços</h1>
+          <CardPedido />
+
+        </div>
       </section>
       {(nome !== nomeValue || photoUrl !== photoUrlValue) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
         {isSaving ? <Loader2 size={30} color="white" className="text-azulao mx-auto animate-spin" /> : <>
