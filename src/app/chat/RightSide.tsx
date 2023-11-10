@@ -1,8 +1,11 @@
+"use client"
+
 import ChatInterface, { Messages as Message } from '@/types/Chat';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import MessageBar from './MessageBar';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Cross2Icon } from '@radix-ui/react-icons';
 // import bg from '@/../public/images/default-chat-background.png';
 
 interface RightSideProps {
@@ -13,6 +16,14 @@ interface RightSideProps {
 }
 
 export default function RightSide({ globalSelectedData, userType, setGlobalSelectedData, userData }: RightSideProps) {
+    useEffect(() => {
+        scrollToBottom();
+    }, [globalSelectedData])
+    function scrollToBottom() {
+        const chatContainer = document.getElementById("chat-container");
+        // @ts-ignore
+        if (chatContainer) chatContainer.scrollTop = chatContainer?.scrollHeight;
+    }
     return globalSelectedData ? (
         <section className={twMerge("md:flex-1 md:flex flex h-full bg-cinzero flex-col relative", globalSelectedData ? "flex w-full" : "hidden")}>
             <header className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-20 w-full">
@@ -23,7 +34,7 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
                 <button className="text-base font-bold p-2 bg-azulao rounded-xl text-white flex items-center justify-center" onClick={(e) => {
                     e.preventDefault();
                     setGlobalSelectedData(null);
-                }}>Voltar</button>
+                }}><Cross2Icon color='white' width={30} height={30} /></button>
             </header>
             <main className="flex-1 overflow-auto py-1 flex flex-col gap-2 relative" id='chat-container'>
                 <Image src="/images/default-chat-background.png" priority className='h-full md:w-2/3 w-full object-cover fixed top-0' width={5144} height={5144} alt='Background' />

@@ -1,10 +1,11 @@
 "use client"
 
+import VoltarButton from "@/components/VoltarButton/VoltarButton";
 import ChatInterface from "@/types/Chat";
 import { ChevronLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface LeftSideProps {
@@ -16,6 +17,24 @@ interface LeftSideProps {
 }
 
 export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userType, userData }: LeftSideProps) {
+    useEffect(() => {
+        refreshGlobalSelectedData()
+    }, [serverData])
+
+    function refreshGlobalSelectedData() {
+        // @ts-ignore
+        setGlobalSelectedData((prevState: ChatInterface | null) => {
+            return serverData.find((chat: ChatInterface) => {
+                return chat._id === prevState?._id
+            })
+        })
+    }
+
+    function scrollToBottom() {
+        const chatContainer = document.getElementById("chat-container");
+        // @ts-ignore
+        if (chatContainer) chatContainer.scrollTop = chatContainer?.scrollHeight;
+    }
 
     return (
         <section className={twMerge("md:w-2/6 w-full h-full flex flex-col items-center border-r", globalSelectedData ? "hidden md:flex" : "flex")} >
@@ -30,14 +49,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
                     />
                     <h1 className="text-lg font-bold text-center">{userData.nome}</h1>
                 </div>
-                <div className="absolute top-2 right-2">
-                    <Link href="/" className="absolute right-5 top-5 text-base font-bold px-2 bg-azulao rounded-xl text-white flex items-center justify-center">
-                        <ChevronLeftIcon width={26} height={26} />
-                        <span className="p-2 pr-3">
-                            Voltar
-                        </span>
-                    </Link>
-                </div>
+                    <VoltarButton className="absolute right-5 top-5 left-auto mobile:bottom-8 mobile:fixed mobile:right-7 mobile:top-auto mobile:left-auto mobile:rounded-full" />
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>

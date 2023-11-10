@@ -67,7 +67,7 @@ function CardSobre({title, image, description}: {title: string, image: string, d
     return (
         <div className="w-[45%] h-full flex flex-col items-center gap-12 mobile:w-full">
             <h2 className="text-2xl font-bold text-center">{title}</h2>
-            <Image width={200} height={200} className="w-[30%] h-[30%]" src={image} alt="Imagem ilustrativa" />
+            <Image width={200} height={200} className="w-[30%] h-[30%] animate-pulse" src={image} alt="Imagem ilustrativa" />
             <p className="text-lg font-bold text-center w-[90%]">{description}</p>
         </div>
     )

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import UserCards from './UserCards';
 import Button from '@/components/layout/Button/Button';
 import { useForm } from 'react-hook-form';
@@ -82,6 +82,8 @@ userFormSchema.refine((data) => data.senha === data.confirmarSenha, {
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Cadastro() {
+
+  const router = useRouter();
 
   const { get } = useSearchParams();
   useEffect(() => {
@@ -179,8 +181,11 @@ export default function Cadastro() {
       .catch(error => error)
     setShowModal(false)
     toggleModal(message)
-
     setIsSubmitting(false)
+    if (message.includes("sucesso")) {
+      new Promise((resolve) => setTimeout(resolve, 4000))
+      router.push(`/login?userEmail=${email}`)
+    }
   }
 
   const [senhasOk, setSenhasOk] = useState<string>("");

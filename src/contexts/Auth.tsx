@@ -36,8 +36,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           senha,
         }),
       });
-      setCookie(null, "uezaccesstoken", token, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
-      setCookie(null, "userType", userType, { maxAge: 7 * 24 * 60 * 60 }); // Cookie expira em 7 dias
+      setCookie(null, "uezaccesstoken", token, {
+        maxAge: 7 * 24 * 60 * 60,
+        path: '/',
+      }); // Cookie expira em 7 dias
+      setCookie(null, "userType", userType, {
+        maxAge: 7 * 24 * 60 * 60,
+        path: '/',
+      }); // Cookie expira em 7 dias
       setUserType(userType);
       setStatusLogin(true);
       return null;
@@ -48,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
-    destroyCookie(null, "uezaccesstoken");
+    await destroyCookie(null, "uezaccesstoken");
     setStatusLogin(false);
     // Limpar outros cookies, se necessário
   };
@@ -57,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider value={{ statusLogin, login, logout, userType }}>
       {children}
     </AuthContext.Provider>
-  );
+  );  
 };
 
 export const useAuth = () => {

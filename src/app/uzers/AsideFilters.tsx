@@ -1,6 +1,7 @@
 "use client"
 
 import Input from '@/components/Forms/Input/Input';
+import Servico from '@/types/Servico';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 
@@ -13,8 +14,9 @@ interface AsideFiltersProps {
     isPresencial: boolean
     nome: string
     cargo: string
+    cargosArray: string[]
 }
-export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,setNome, isOnline, cargo, isPresencial, nome}: AsideFiltersProps) {
+export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,setNome, isOnline, cargo, isPresencial, nome, cargosArray = []}: AsideFiltersProps) {
 
     const { push: pushRoute } = useRouter()
 
@@ -55,11 +57,18 @@ export default function AsideFilters({setCargo, setIsOnline ,setIsPresencial ,se
                             className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none`}
                             type="text"
                             id="cargo"
+                            list="cargos-list"
                             maxLength={200}
                             placeholder="Ex: Designer"
                             value={cargo}
+                            autoComplete='off'
                             onChange={(e) => setCargo(e.target.value)}
                         />
+                        <datalist id="cargos-list">
+                            {cargosArray.map((cargo: Servico | any) => (
+                                <option key={cargo.nome} value={cargo.nome} />
+                            ))}
+                        </datalist>
                         <button
                             title="Buscar"
                             type="button"

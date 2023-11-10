@@ -11,9 +11,7 @@ import LogoutButton from './LogoutButton';
 
 export default function HeaderProfile() {
 
-    const cachedPhotoUrl = getLocalStorage("photoUrl")
-
-    const [photoUrl, setPhotoUrl] = useState(cachedPhotoUrl || "");
+    const [photoUrl, setPhotoUrl] = useState("");
     const [id, setId] = useState<string>("")
     const [userType, setUserType] = useState("cliente")
     useEffect(() => {
@@ -21,14 +19,10 @@ export default function HeaderProfile() {
             headers: {
                 Authorization: `Bearer ${parseCookies().uezaccesstoken}`
             },
-            next: {
-                revalidate: 60 * 5 // 5 minutes
-            }
         }).then(({ photoUrl, _id, userType }) => {
             setPhotoUrl(photoUrl)
             setId(_id)
             setUserType(userType)
-            setLocalStorage("photoUrl", photoUrl)
         })
     }, [])
     

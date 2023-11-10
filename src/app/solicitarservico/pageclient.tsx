@@ -30,32 +30,24 @@ const solicitarServicoFormSchema = z.object({
         .min(1, "Descreva o serviço")
         .min(30, "A descrição precisa ter pelo menos 30 caracteres"),
     valor: z.number()
-        .min(1, "O valor é muito baixo.")
+        .min(0, "O valor é muito baixo.")
         .default(0),
     acombinar: z.boolean().default(false)
 })
 
 type typeSoliciarServico = z.infer<typeof solicitarServicoFormSchema>
 
-export default function SolicitarServicoClient({ servicosDaPlataforma }: { servicosDaPlataforma: Servico[] }) {
+export default function SolicitarServicoClient({ servicosDaPlataforma, myId }: { servicosDaPlataforma: Servico[], myId: string }) {
     const [createdPedido, setCreatedPedido] = useState(false)
-    // descomentar para proibir o uzer de acessar essa rota
-    // if (useAuth().userType === "uzer") return (
-    //     <main className="w-full h-full flex flex-col items-center justify-center gap-4">
-    //         <h1 className="text-center text-xl font-bold">Você não tem acesso a esse recurso.</h1>
-    //         <h2 className="text-center text-base font-medium">Entre como cliente para poder solicitar um serviço. Caso não tenho uma conta de cliente, <Link className="text-blue-600 hover:underline" href="/cadastro?userType=cliente">crie uma já</Link></h2>
-    //         <Link href={"/"} className="text-center text-xl font-bold text-sky-700 hover:underline">Voltar para a homepage</Link>
-    //     </main>
-    // )
-
     const router = useRouter()
-
     const [pedidoOk, setPedidoOk] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
-
     const [isOnlineChecked, setIsOnlineChecked] = useState(true);
     const [isPresencialChecked, setIsPresencialChecked] = useState(false);
     const [acombinarChecked, setAcombinarChecked] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('null');
+    const [haveButton, setHaveButton] = useState(true)
 
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -96,14 +88,14 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
                     toggleModal(response.message)
                     setCreatedPedido(true)
                     new Promise(resolve => setTimeout(resolve, 2000))
-                    router.push("/")
+                    router.push(`/clientes/${myId}`)
                     return response.message
                 }).catch(error => {
                     console.error(error)
                     toggleModal(error)
                 })
             } else {
-                router.push("/")
+                router.push(`/clientes/${myId}`)
             }
         } else {
             setIsSubmitting(false)
@@ -111,15 +103,22 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
         }
     }
 
-    const [showModal, setShowModal] = useState(false);
-    const [modalMessage, setModalMessage] = useState('null');
-    const [haveButton, setHaveButton] = useState(true)
+
     function toggleModal(message: string, hasButton: boolean = true) {
         setModalMessage(JSON.stringify(message))
         setHaveButton(hasButton)
         setShowModal(prevState => !prevState)
     }
 
+
+    // descomentar para proibir o uzer de acessar essa rota
+    if (useAuth().userType === "uzer") return (
+        <main className="w-full h-full flex flex-col items-center justify-center gap-4">
+            <h1 className="text-center text-xl font-bold">Você não tem acesso a esse recurso.</h1>
+            <h2 className="text-center text-base font-medium">Entre como cliente para poder solicitar um serviço. Caso não tenho uma conta de cliente, <Link className="text-sky-700 hover:underline" href="/cadastro?userType=cliente">crie uma já</Link></h2>
+            <Link href={"/"} className="text-center text-xl font-bold text-sky-700 hover:underline">Voltar para a homepage</Link>
+        </main>
+    )
 
     return (
         <main className="w-full bg-white h-max flex flex-col items-center gap-24 py-20 mobile:py-12">
@@ -133,7 +132,7 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
                 <h1 className="text-4xl font-extrabold text-center">Solicitar serviço</h1>
                 <h2 className="text-xl font-bold text-center px-6">Preencha os campos para lançar seu pedido na nossa platafoma</h2>
             </div>
-            <form className="w-11/12 h-4/6 flex lg:flex-row flex-col items-center self-center gap-12 px-4 justify-center" onSubmit={handleSubmit(createServico)}>
+            <form className="w-11/12 h-4/6 flex lg:flex-row flex-col items-center self-center gap-12 px-4 justify-center" onSubmit={handleSubmit(createServico)} id="mainForm" name="mainForm">
                 <div className="w-full h-full flex flex-col gap-10">
                     <div className="w-full flex sm:flex-row sm:gap-0 gap-3 flex-col sm:items-start items-center justify-between">
                         <label htmlFor="online" className="text-2xl mdscreen:text-xl text-center sm:mx-0 mx-auto mobile:text-xl font-extrabold">Tipo de serviço:</label>
@@ -155,27 +154,36 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-between">
-                        <label htmlFor="nomeservico" className="text-2xl mdscreen:text-xl mobile:text-xl font-extrabold">Profissional que realiza:</label>
+                        <label htmlFor="servicoPrincipal" className="text-2xl mdscreen:text-xl mobile:text-xl font-extrabold">Profissional que realiza:</label>
                         <div className="w-1/2 flex items-center justify-between" >
-                            {/* <input type="text" id="nomeservico" list="data" {...register("servicoPrincipal")} className="bg-cinzero p-2 w-full text-lg font-extrabold outline-none" placeholder="Ex: Designer" />
-                            <datalist id="data">
-                                {servicosDaPlataforma.map((servico, index) => {
-                                    return (
-                                        <option value={servico.nome} key={index} />
-                                    )
-                                })}
-                            </datalist> */}
                             <select
                                 className={`bg-cinzero w-full self-center font-medium text-base px-3 py-2 outline-none`}
                                 id="servicoPrincipal"
                                 {...register("servicoPrincipal")}
                             >
-                                {servicosDaPlataforma.map((servico, index) => {
-                                    return (
-                                        <option value={servico.nome} key={index}>{servico.nome}</option>
-                                    )
-                                })}
+                                {servicosDaPlataforma.reduce((groups: any, servico) => {
+                                    // Verifique se o grupo da categoria já existe, se não, crie um novo.
+                                    let group = groups.find((group: any) => group.label === servico.categoria);
+                                    if (!group) {
+                                        group = { label: servico.categoria, options: [] };
+                                        groups.push(group);
+                                    }
+
+                                    // Adiciona o serviço como uma opção no grupo da categoria
+                                    group.options.push(servico);
+
+                                    return groups;
+                                }, []).map((group: any, index: any) => (
+                                    <optgroup label={group.label} key={index}>
+                                        {group.options.map((servico: any, servicoIndex: any) => (
+                                            <option value={servico.nome} key={servicoIndex}>
+                                                {servico.nome}
+                                            </option>
+                                        ))}
+                                    </optgroup>
+                                ))}
                             </select>
+
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-between">
