@@ -1,5 +1,6 @@
 "use client"
 
+import axios from 'axios'
 import { Loader2, Pencil, Save } from 'lucide-react'
 import Link from 'next/link'
 import PortfolioCard from './PortfolioCard'
@@ -54,6 +55,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       await myUseFetch(`/uzers/${_id}`, {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${parseCookies().uezaccesstoken}`
         },
         body: JSON.stringify({
@@ -74,16 +76,15 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       console.log(imageFile)
       const formData = new FormData();
       formData.append("profilephoto", imageFile);
-      await myUseFetch(`/uzers/profilephoto`, {
-        method: "POST",
+      await axios.post(`http://localhost:3333/uzers/profilephoto`, formData, {
         headers: {
-          Authorization: `Bearer ${parseCookies().uezaccesstoken}`,
-        },
-        body: formData
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+        }
       }).then((res) => {
         setIsSaving(false)
         console.log(res)
-        // photoUrl = photoUrlValue
+        photoUrl = photoUrlValue
         alert("Foto atualizada!")
         console.log(res)
       }).catch(error => {

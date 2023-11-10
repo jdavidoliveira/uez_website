@@ -19,6 +19,7 @@
     "@radix-ui/react-slider": "^1.1.2",
     "@vercel/analytics": "^1.1.1",
     "animate.css": "^4.1.1",
+    "axios": "^1.6.1",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
     "lucide-react": "^0.288.0",
@@ -35,7 +36,6 @@
   },
   "devDependencies": {
     "@types/node": "20.6.2",
-    "@types/nookies": "^2.0.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "@types/react-resizable": "^3.0.6",
