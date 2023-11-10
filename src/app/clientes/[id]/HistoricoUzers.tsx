@@ -38,8 +38,8 @@ export default function HistoricoUzers({ pedidos }: { pedidos: Pedido[] }) {
 
     return (
         <div className='md:w-1/2 w-full bg-white shadow-2xl rounded-3xl p-4 flex flex-col items-center'>
-            <h1 className="text-2xl mt-4 font-bold mb-4">Faça serviços com eles de novo!</h1>
-            <div className='w-full p-2 mx-auto grid grid-cols-2 mobile:grid-cols-3 mdscreen:grid-cols-3 lg:grid-cols-3 gap-4'>
+            <h1 className="text-lg mt-4 font-bold mb-4 text-center sm:text-2xl">Faça serviços com eles de novo!</h1>
+            <div className='w-full p-2 mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                 {uzerInfo.length > 0 ? uzerInfo.map((uzer, index) => (<CardUzer key={index} photoUrl={uzer.photoUrl} nome={uzer.nome} _id={uzer._id} />)) : <h1 className="text-lg p-2 text-center">Você ainda não fechou com nenhum uzer 😞</h1>}
             </div>
         </div>

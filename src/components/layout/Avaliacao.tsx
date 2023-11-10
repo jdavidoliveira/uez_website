@@ -16,7 +16,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
     stars.push(
       <Image
         key={`star-${i}`}
-        src="/images/icons/star-filled.svg"
+        src="/images/icons/estrela-inteira.png"
         alt="Estrela"
         width={20}
         height={20}
@@ -30,7 +30,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
     stars.push(
       <Image
         key={`star-${roundedRating}`}
-        src="/images/icons/star-half.svg"
+        src="/images/icons/estrela-metade.png"
         alt="Estrela"
         width={20}
         height={20}
@@ -44,7 +44,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
     stars.push(
       <Image
         key={`star-${i}`}
-        src="/images/icons/star-empty.svg"
+        src="/images/icons/estrela-vazia.png"
         alt="Estrela"
         width={20}
         height={20}

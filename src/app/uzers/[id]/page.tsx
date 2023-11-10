@@ -10,6 +10,7 @@ import ItemPortfolioInterface from "@/types/ItemPortfolio";
 import { Metadata } from "next";
 import SendMesageButton from "./SendMesageButton";
 import VoltarButton from "@/components/VoltarButton/VoltarButton";
+import Avaliacao from "@/components/layout/Avaliacao";
 
 export const metadata: Metadata = {
   title: "Uzer",
@@ -36,7 +37,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
       description: "Aula individual realizada dia tal do tal para tal do tal"
     },
     {
-      image: "https://blog.cpetecnologia.com.br/wp-content/uploads/2018/05/195214-5-praticas-simples-de-gestao-de-projetos-para-ajudar-nos-resultados.jpg",
+      image: "https://thumbs.dreamstime.com/z/ambiente-de-trabalho-ficcional-do-grande-data-architect-uma-interpreta%C3%A7%C3%A3o-gen%C3%A9rica-estilo-ai-art%C3%ADstico-local-269429469.jpg?w=768",
       title: "Aula em grupo",
       description: "Aula em grupo realizada dia tal do tal para tal do tal"
     },
@@ -54,10 +55,10 @@ export default async function Uzer({ params }: { params: { id: string } }) {
 
   return editMode ? (
     <main className="w-full h-screen mobile:h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
-        <VoltarButton />
-        <Editpage uzerData={uzerData} />
+      <VoltarButton />
+      <Editpage uzerData={uzerData} />
 
-      </main>
+    </main>
   )
     : (
       <main className="w-full h-screen mobile:h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
@@ -79,9 +80,10 @@ export default async function Uzer({ params }: { params: { id: string } }) {
           <div className="w-10/12 flex items-center mt-24 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
             <div className="flex-1 flex flex-col items-start self-start pl-2">
               <h1 className="text-3xl font-bold mb-4">{nome}</h1>
-              <h2 className="font-normal text-lg">Habilidade: <strong>{servicosPrestados[0].nomeServico}</strong> </h2>
+              <h2 className="font-normal text-lg"><strong>{servicosPrestados[0].nomeServico}</strong> </h2>
               <h2 className="font-normal text-base"><strong>{servicosPrestados[0].tipoServico === 'ambos' ? "Online e Presencial" : servicosPrestados[0].tipoServico.toUpperCase()}</strong> </h2>
               {(servicosPrestados[0].tipoServico === 'presencial') || (servicosPrestados[0].tipoServico === 'ambos') && <h2 className="font-medium text-base">Área de atuação: <strong>{servicosPrestados[0].areaAtuacao}km</strong> </h2>}
+              <Avaliacao rating={uzerData.avaliacao} />
             </div>
             <SendMesageButton id={uzerData._id} />
           </div>

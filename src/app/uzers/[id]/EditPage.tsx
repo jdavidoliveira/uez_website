@@ -9,8 +9,9 @@ import ConfirmModal from './ConfirmModal'
 import { useState } from 'react'
 import { useFetch as myUseFetch } from '@/hooks/useFetch'
 import { parseCookies } from 'nookies'
+import Avaliacao from '@/components/layout/Avaliacao'
 
-export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados, bannerImage, portfolio, _id } }: { uzerData: UzerInterface }) {
+export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados, bannerImage, portfolio, _id, avaliacao } }: { uzerData: UzerInterface }) {
 
   const [nomeValue, setNomeValue] = useState<string>(nome)
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -124,13 +125,11 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
         <div className="w-10/12 flex items-center mt-24 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
           <div className="flex-1 flex flex-col items-start self-start pl-2">
             <h1 className="text-2xl font-bold mb-4 flex items-center gap-2" title='Mudar nome' onClick={changeName}><span>{nome}</span> <Pencil size={20} className="text-azulao cursor-pointer" /></h1>
-            <h2 className="font-normal text-lg">Habilidade: <strong>{servicosPrestados[0].nomeServico}</strong> </h2>
+            <h2 className="font-normal text-lg"><strong>{servicosPrestados[0].nomeServico}</strong> </h2>
             <h2 className="font-normal text-base"><strong>{servicosPrestados[0].tipoServico === 'ambos' ? "Online e Presencial" : servicosPrestados[0].tipoServico.toUpperCase()}</strong> </h2>
             {(servicosPrestados[0].tipoServico === 'presencial') || (servicosPrestados[0].tipoServico === 'ambos') && <h2 className="font-medium text-base">Área de atuação: <strong>{servicosPrestados[0].areaAtuacao}km</strong> </h2>}
+            <Avaliacao rating={avaliacao} />
           </div>
-          <Link href="/uzers" className="text-xl font-bold bg-azulao rounded-xl p-3 px-6 text-white flex items-center mt-10 justify-center">
-            Enviar Mensagem
-          </Link>
         </div>
       </section>
       <section className="flex-1 mobile:w-10/12 desktop:w-10/12 mdscreen:w-10/12 h-full flex flex-col items-center justify-center py-10 mobile:py-1">

@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import ClienteInterface from "@/types/Cliente";
 import VoltarButton from "@/components/VoltarButton/VoltarButton";
 import Pedido from "@/types/Pedido";
+import Avaliacao from "@/components/layout/Avaliacao";
 
 export const metadata: Metadata = {
     title: "Cliente",
@@ -61,6 +62,7 @@ export default async function Cliente({ params }: { params: { id: string } }) {
                     <div className="w-10/12 flex items-center mt-14 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
                         <div className="flex-1 flex flex-col items-start self-start pl-2">
                             <h1 className="text-3xl font-bold mb-4">{nome}</h1>
+                            <Avaliacao rating={clienteData.avaliacao} />
                         </div>
                     </div>
                 </section>

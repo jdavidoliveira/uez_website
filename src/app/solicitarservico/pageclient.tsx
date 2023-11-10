@@ -30,14 +30,14 @@ const solicitarServicoFormSchema = z.object({
         .min(1, "Descreva o serviço")
         .min(30, "A descrição precisa ter pelo menos 30 caracteres"),
     valor: z.number()
-        .min(1, "O valor é muito baixo.")
+        .min(0, "O valor é muito baixo.")
         .default(0),
     acombinar: z.boolean().default(false)
 })
 
 type typeSoliciarServico = z.infer<typeof solicitarServicoFormSchema>
 
-export default function SolicitarServicoClient({ servicosDaPlataforma }: { servicosDaPlataforma: Servico[] }) {
+export default function SolicitarServicoClient({ servicosDaPlataforma, myId }: { servicosDaPlataforma: Servico[], myId: string }) {
     const [createdPedido, setCreatedPedido] = useState(false)
     const router = useRouter()
     const [pedidoOk, setPedidoOk] = useState(false)
@@ -88,14 +88,14 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
                     toggleModal(response.message)
                     setCreatedPedido(true)
                     new Promise(resolve => setTimeout(resolve, 2000))
-                    router.push("/")
+                    router.push(`/clientes/${myId}`)
                     return response.message
                 }).catch(error => {
                     console.error(error)
                     toggleModal(error)
                 })
             } else {
-                router.push("/")
+                router.push(`/clientes/${myId}`)
             }
         } else {
             setIsSubmitting(false)
@@ -156,14 +156,6 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
                     <div className="w-full flex items-center justify-between">
                         <label htmlFor="servicoPrincipal" className="text-2xl mdscreen:text-xl mobile:text-xl font-extrabold">Profissional que realiza:</label>
                         <div className="w-1/2 flex items-center justify-between" >
-                            {/* <input type="text" id="nomeservico" list="data" {...register("servicoPrincipal")} className="bg-cinzero p-2 w-full text-lg font-extrabold outline-none" placeholder="Ex: Designer" />
-                            <datalist id="data">
-                                {servicosDaPlataforma.map((servico, index) => {
-                                    return (
-                                        <option value={servico.nome} key={index} />
-                                    )
-                                })}
-                            </datalist> */}
                             <select
                                 className={`bg-cinzero w-full self-center font-medium text-base px-3 py-2 outline-none`}
                                 id="servicoPrincipal"
@@ -177,7 +169,7 @@ export default function SolicitarServicoClient({ servicosDaPlataforma }: { servi
                                         groups.push(group);
                                     }
 
-                                    // Adicione o serviço como uma opção no grupo da categoria.
+                                    // Adiciona o serviço como uma opção no grupo da categoria
                                     group.options.push(servico);
 
                                     return groups;
