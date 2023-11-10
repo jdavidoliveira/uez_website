@@ -1,6 +1,5 @@
 "use client"
 
-import axios from 'axios'
 import { Loader2, Pencil, Save } from 'lucide-react'
 import Link from 'next/link'
 import PortfolioCard from './PortfolioCard'
@@ -8,7 +7,7 @@ import Image from 'next/image'
 import UzerInterface from '@/types/Uzer'
 import ConfirmModal from './ConfirmModal'
 import { useState } from 'react'
-import { useFetch as myUseFetch } from '@/hooks/useFetch'
+import api from '@/hooks/api'
 import { parseCookies } from 'nookies'
 import Avaliacao from '@/components/layout/Avaliacao'
 
@@ -52,15 +51,8 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
   async function saveData() {
     setIsSaving(true)
     if (nomeValue !== nome) {
-      await myUseFetch(`/uzers/${_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parseCookies().uezaccesstoken}`
-        },
-        body: JSON.stringify({
-          nome: nomeValue
-        })
+      await api.put(`/uzers/${_id}`, {
+        nome: nomeValue
       }).then((res) => {
         setIsSaving(false)
         nome = nomeValue
@@ -76,7 +68,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
       console.log(imageFile)
       const formData = new FormData();
       formData.append("profilephoto", imageFile);
-      await axios.post(`http://localhost:3333/uzers/profilephoto`, formData, {
+      await api.post(`/uzers/profilephoto`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${parseCookies().uezaccesstoken}`

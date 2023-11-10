@@ -1,11 +1,11 @@
 "use client"
 
 import { Loader2, Pencil, Save } from 'lucide-react'
-import Link from 'next/link'
 import Image from 'next/image'
 import ConfirmModal from './ConfirmModal'
 import { useState } from 'react'
 import { useFetch as myUseFetch } from '@/hooks/useFetch'
+import api from '@/hooks/api'
 import { parseCookies } from 'nookies'
 import ClienteInterface from '@/types/Cliente'
 import CardPedido from './CardPedido'
@@ -52,44 +52,37 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
   async function saveData() {
     setIsSaving(true)
     if (nomeValue !== nome) {
-      await myUseFetch(`/clientes/${_id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${parseCookies().uezaccesstoken}`
-        },
-        body: JSON.stringify({
-          nome: nomeValue
+      await api.put(`/clientes/${_id}`, { nome: nomeValue })
+        .then((res) => {
+          setIsSaving(false)
+          nome = nomeValue
+          alert("Nome atualizado!")
+          console.log(res)
+        }).catch(error => {
+          setIsSaving(false)
+          console.error(error)
         })
-      }).then((res) => {
-        setIsSaving(false)
-        nome = nomeValue
-        alert("Nome atualizado!")
-        console.log(res)
-      }).catch(error => {
-        setIsSaving(false)
-        console.error(error)
-      })
     }
     if (imageFile !== null) {
       console.log(imageFile)
       const formData = new FormData();
       formData.append("profilephoto", imageFile);
-      await myUseFetch(`/clientes/profilephoto`, {
-        method: "POST",
+      await api.post(`/clientes/profilephoto`, formData, {
         headers: {
-          Authorization: `Bearer ${parseCookies().uezaccesstoken}`,
-        },
-        body: formData
-      }).then((res) => {
-        setIsSaving(false)
-        console.log(res)
-        // photoUrl = photoUrlValue
-        alert("Foto atualizada!")
-        console.log(res)
-      }).catch(error => {
-        setIsSaving(false)
-        console.error(error)
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${parseCookies().uezaccesstoken}`
+        }
       })
+        .then((res) => {
+          setIsSaving(false)
+          console.log(res)
+          // photoUrl = photoUrlValue
+          alert("Foto atualizada!")
+          console.log(res)
+        }).catch(error => {
+          setIsSaving(false)
+          console.error(error)
+        })
     }
     setIsSaving(false)
     setSaved(true)
@@ -136,12 +129,12 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
           {pedidos.map((pedido, index) => <CardPedido key={index} titulo={pedido.titulo} _id_uzer={pedido._id_uzer} status={pedido.status} />)}
         </div>
       </section>
-      {(nome !== nomeValue || photoUrl !== photoUrlValue) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
+      {(nome !== nomeValue || imageFile !== null) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
         {isSaving ? <Loader2 size={30} color="white" className="text-azulao mx-auto animate-spin" /> : <>
           <div className="hidden font-bold text-base group-hover:flex flex-col items-center p-2 text-white">
             <h1 className="font-bold text-base">Alterações:</h1>
             {nome !== nomeValue && <h1 className="font-bold text-base text-yellow-300">Nome</h1>}
-            {photoUrl !== photoUrlValue && <h1 className="font-bold text-base text-yellow-300">Foto</h1>}
+            {imageFile !== null && <h1 className="font-bold text-base text-yellow-300">Foto</h1>}
           </div>
           <Save size={30} color="white" className="text-azulao mx-auto group-hover:hidden" />
         </>}
