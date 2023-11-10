@@ -15,4 +15,6 @@ export interface Messages {
     sendHour: string,
     senderId: string
     content: string,
+    type: 'text' | 'image' | 'budget'
+    _idPedido: string
 }
