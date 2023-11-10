@@ -45,8 +45,8 @@ export default function ConfirmModal({ title = "Escolha um", label = "Digite aqu
         default:
             return (
                 <div className='fixed z-40 w-full h-full flex items-center justify-center bg-black/70'>
-                    <div className='bg-white w-1/2 h-1/2 flex items-center justify-center rounded-xl'>
-                        <div className='px-20 flex flex-col items-start gap-2 w-full mt-10'>
+                    <div className='bg-white lg:w-1/2 w-10/12 sm:h-1/2 h-4/6 flex items-center justify-center rounded-xl'>
+                        <div className='sm:px-20 px-10 flex flex-col items-start gap-2 w-full mt-10'>
                             <h1 className='text-2xl font-bold text-center'>{title}</h1>
                             <label htmlFor="texto">{label}</label>
                             <input type="text" id="texto" value={text} onChange={(e) => setText(e.target.value)} className='border w-full h-14 text-xl p-2' />
