@@ -75,7 +75,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
               />
               <h1 className="hidden font-medium z-40 group-hover:block transition text-base px-3 py-1 rounded bg-white text-black">Ver projeto</h1>
             </div>
-            <Image width={200} height={200} src={photoUrl} className="w-32 rounded-full absolute -bottom-10 left-5 shadow-lg" alt="Imagem de perfil" />
+            <Image width={200} height={200} src={photoUrl} className="w-32 aspect-square rounded-full absolute -bottom-10 left-5 shadow-lg" alt="Imagem de perfil" />
           </div>
           <div className="w-10/12 flex items-center mt-24 mb-24 mobile:mb-4 justify-between desktop:flex-col mobile:flex-col mdscreen:flex-col">
             <div className="flex-1 flex flex-col items-start self-start pl-2">
