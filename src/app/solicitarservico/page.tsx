@@ -17,7 +17,7 @@ export default async function SolicitarServico() {
         console.error(error)
         return []
     })
-    const {_id} = await useFetch<{_id: string}>('/uzers/me', {
+    const {_id} = await useFetch<{_id: string}>('/users/me', {
         headers: {
             Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
         },

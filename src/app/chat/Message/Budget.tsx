@@ -8,14 +8,14 @@ import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import CardPedido from "./CardPedido";
 
-export default function Budget({ content, sendHour, userData, type, _idPedido, ...props }: Messages | any) {
+export default function Budget({ content, sendHour, userData, type, _idPedido, userType, globalSelectedData, ...props }: Messages | any) {
 
     function openBudget() {
         setShowBudgetModal(true);
     }
 
-
     const [pedido, setPedido] = useState<Pedido | null>(null)
+    const [pedidoAceitado, setPedidoAceitado] = useState(false)
 
     useEffect(() => {
         fetchPedido()
@@ -32,13 +32,20 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, .
     }
 
     async function aceitarPedido() {
-        await api.put(`/pedido/${_idPedido}`).then((res) => {
-            console.log(res)
-            alert("Proposta aceita!")
-        }).catch((err) => {
-            console.log(err)
-            alert("Erro ao aceitar proposta")
-        })
+        if (pedidoAceitado) {
+            return alert("Proposta ja foi aceita!")
+        } else {
+            setPedidoAceitado(true)
+            await api.put(`/pedido/${_idPedido}`, {
+                idUzer: globalSelectedData?.uzerId,
+            }).then((res) => {
+                console.log(res)
+                alert("Proposta aceita!")
+            }).catch((err) => {
+                console.log(err)
+                alert("Erro ao aceitar proposta")
+            })
+        }
     }
 
 
@@ -58,28 +65,28 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, .
                 </div>
             </div>
             {showBudgetModal && (
-                <div className="fixed z-[999] w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-azulao w-10/12 md:w-1/2 h-4/6 rounded-2xl p-4 py-6 gap-4 flex flex-col items-center">
+                <div className="fixed z-50 w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-azulao w-10/12 h-5/6 md:w-1/2 md:h-4/6 rounded-2xl p-4 py-6 gap-4 flex flex-col items-center justify-center">
                         <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">Pedido Atrelado</h1>
                         <CardPedido _id_uzer={pedido?._id_uzer} status={pedido?.status} titulo={pedido?.titulo} />
-                        <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">Seu pedido ficou no total de:</h1>
+                        <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">{userType === "uzer" ? "Seu orcamento ficou no total de:" : "Seu pedido ficou no total de:"}</h1>
                         <p className="text-white text-lg md:text-2xl text-center font-extrabold">{Number(content).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
-                        {pedido?._id_uzer ?
+                        {pedido?._id_uzer || userType === "uzer" || pedidoAceitado ?
                             <button
                                 onClick={() => setShowBudgetModal(false)}
                                 className="bg-[#F12828] p-2 rounded w-1/2 mt-5 font-bold text-sm text-white">
                                 Fechar
-                            </button> : 
+                            </button> :
                             <div className="flex gap-4 w-11/12">
-                            <button
-                                onClick={aceitarPedido}
-                                className="bg-[#76F561] p-2 rounded w-1/2 mt-5 font-bold text-sm text-black">
-                                Aceitar
-                            </button><button
-                                onClick={() => setShowBudgetModal(false)}
-                                className="bg-[#F12828] p-2 rounded w-1/2 mt-5 font-bold text-sm text-black">
-                                Fechar
-                            </button>
+                                <button
+                                    onClick={aceitarPedido}
+                                    className="bg-[#76F561] p-2 rounded w-1/2 mt-5 font-bold text-sm text-black">
+                                    Aceitar
+                                </button><button
+                                    onClick={() => setShowBudgetModal(false)}
+                                    className="bg-[#F12828] p-2 rounded w-1/2 mt-5 font-bold text-sm text-black">
+                                    Fechar
+                                </button>
                             </div>
                         }
                     </div>

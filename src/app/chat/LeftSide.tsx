@@ -49,7 +49,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
                     />
                     <h1 className="text-lg font-bold text-center">{userData.nome}</h1>
                 </div>
-                    <VoltarButton className="absolute right-5 top-5 left-auto mobile:bottom-8 mobile:fixed mobile:right-7 mobile:top-auto mobile:left-auto mobile:rounded-full" />
+                    <VoltarButton className="absolute right-5 top-5 left-auto z-[2] mobile:bottom-8 mobile:fixed mobile:right-7 mobile:top-auto mobile:left-auto mobile:rounded-full" />
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>

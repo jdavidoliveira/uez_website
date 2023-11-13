@@ -64,7 +64,7 @@ export default function Header() {
 
 
   return (
-    <header className={`w-full flex items-center p-3 justify-center shadow bg-white ${roboto.className} relative`}>
+    <header className={`w-full flex items-center p-3 justify-center shadow bg-white relative`}>
       <div className="w-11/12 flex items-center justify-between">
         <nav className="flex items-center justify-between gap-10 text-xl font-bold mdscreen:gap-5">
           <button
