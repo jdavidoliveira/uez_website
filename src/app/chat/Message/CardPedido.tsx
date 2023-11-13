@@ -4,11 +4,11 @@ import UzerInterface from '@/types/Uzer'
 import { Eye } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
-export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_uzer = null, status = "A realizar..." }: { titulo: string | any, _id_uzer: string | any, status: string | any }) {
+export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_uzer = null, status = "A realizar...", pedidoAceitado }: { titulo: string | any, _id_uzer: string | any, status: string | any, pedidoAceitado?: boolean }) {
     const [uzerData, setUzerData] = useState<UzerInterface | null>()
     useEffect(() => {
         fetchPedido()
-    }, [])
+    }, [pedidoAceitado])
 
     async function fetchPedido() {
         _id_uzer !== null ? await api.get<UzerInterface>(`/uzers/${_id_uzer}`).then(res => setUzerData(res.data)).catch(err => setUzerData(null)) : setUzerData(null)

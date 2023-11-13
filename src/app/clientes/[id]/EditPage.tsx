@@ -107,8 +107,8 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
             />
             <h1 className="hidden font-medium z-40 group-hover:block transition text-base px-3 py-1 rounded bg-white text-black">Mudar Banner</h1>
           </div>
-          <div title='Mudar foto de perfil' onClick={changePhoto} className='w-32 h-32 rounded-full bg-cinzero absolute -bottom-10 left-5 shadow-lg group flex items-center justify-center transition-colors cursor-pointer'>
-            <Image fill src={photoUrl} className="rounded-full object-cover group-hover:opacity-30 transition-colors bg-cinzero" alt="Imagem de perfil" />
+          <div title='Mudar foto de perfil' onClick={changePhoto} className='w-32 h-32 aspect-square rounded-full bg-cinzero absolute -bottom-10 left-5 shadow-lg group flex items-center justify-center transition-colors cursor-pointer'>
+            <Image fill src={photoUrl} className="rounded-full object-cover aspect-square group-hover:opacity-30 transition-colors bg-cinzero" alt="Imagem de perfil" />
             <Pencil size={30} className="hidden group-hover:block transition-colors z-50 text-azulao" />
             <div className='md:hidden bg-azulao rounded-full absolute hover:bg-roxazul bottom-0 right-0 p-2 flex items-center justify-center'>
               <Pencil size={24} className="transition-colors z-50 text-white" />

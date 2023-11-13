@@ -4,7 +4,7 @@ import ChatInterface, { Messages as Message } from '@/types/Chat';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import MessageBar from './MessageBar';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import MessageItem from './Message/Message';
@@ -26,6 +26,10 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
         // @ts-ignore
         if (chatContainer) chatContainer.scrollTop = chatContainer?.scrollHeight;
     }
+
+    const [showBudgetModal, setShowBudgetModal] = useState(false);
+    const [showProposalModal, setShowProposalModal] = useState(false);
+
     return globalSelectedData ? (
         <section className={twMerge("md:flex-1 md:flex flex h-full bg-cinzero flex-col relative", globalSelectedData ? "flex w-full" : "hidden")}>
             <header className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-[2] w-full">
