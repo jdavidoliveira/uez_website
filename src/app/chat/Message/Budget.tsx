@@ -7,8 +7,11 @@ import { CircleDollarSign } from "lucide-react";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import CardPedido from "./CardPedido";
+import { useRouter } from "next/navigation";
 
 export default function Budget({ content, sendHour, userData, type, _idPedido, userType, globalSelectedData, ...props }: Messages | any) {
+
+    const router = useRouter()
 
     function openBudget() {
         setShowBudgetModal(true);
@@ -33,7 +36,7 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, u
 
     async function aceitarPedido() {
         if (pedidoAceitado) {
-            return alert("Proposta ja foi aceita!")
+            return alert("A Proposta ja foi aceita!")
         } else {
             setPedidoAceitado(true)
             await api.put(`/pedido/${_idPedido}`, {
@@ -42,6 +45,7 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, u
                 console.log(res)
                 setShowProposalModal(false)
                 alert("Proposta aceita!")
+                router.push(`/clientes/${globalSelectedData.clienteId}`)
             }).catch((err) => {
                 console.log(err)
                 alert("Erro ao aceitar proposta")

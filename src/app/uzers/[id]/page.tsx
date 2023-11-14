@@ -11,6 +11,7 @@ import { Metadata } from "next";
 import SendMesageButton from "./SendMesageButton";
 import VoltarButton from "@/components/VoltarButton/VoltarButton";
 import Avaliacao from "@/components/layout/Avaliacao";
+import Pedido from "@/types/Pedido";
 
 export const metadata: Metadata = {
   title: "Uzer",
@@ -47,16 +48,22 @@ export default async function Uzer({ params }: { params: { id: string } }) {
     headers: {
       Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
     },
-  });
+  })
+  const pedidos = await useFetch<Pedido[]>(`/pedidos/uzer`, {
+    headers: {
+      Authorization: `Bearer ${cookies().get("uezaccesstoken")?.value}`
+    },
+  })
+
   uzerData.portfolio = portfolio
   uzerData.bannerImage = bannerImage
   const editMode: boolean = myId === _id
 
 
   return editMode ? (
-    <main className="w-full h-screen mobile:h-auto flex items-center justify-between relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
+    <main className="w-full h-screen mobile:h-auto flex flex-col items-cent relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
       <VoltarButton />
-      <Editpage uzerData={uzerData} />
+      <Editpage pedidos={pedidos} uzerData={uzerData} />
 
     </main>
   )
