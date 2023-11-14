@@ -61,7 +61,7 @@ export default async function Uzer({ params }: { params: { id: string } }) {
 
 
   return editMode ? (
-    <main className="w-full h-screen mobile:h-auto flex flex-col items-cent relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-24 desktop:gap-24 mdscreen:gap-24">
+    <main className="w-full h-screen mobile:h-auto flex flex-col items-cent relative mobile:flex-col desktop:flex-col mdscreen:flex-col  mobile:gap-6 desktop:gap-24 mdscreen:gap-24">
       <VoltarButton />
       <Editpage pedidos={pedidos} uzerData={uzerData} />
 
