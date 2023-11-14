@@ -10,8 +10,10 @@ import { useState } from 'react'
 import api from '@/hooks/api'
 import { parseCookies } from 'nookies'
 import Avaliacao from '@/components/layout/Avaliacao'
+import Pedido from '@/types/Pedido'
+import CardPedido from './CardPedido'
 
-export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados, bannerImage, portfolio, _id, avaliacao } }: { uzerData: UzerInterface }) {
+export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados, bannerImage, portfolio, _id, avaliacao }, pedidos }: { uzerData: UzerInterface, pedidos: Pedido[] }) {
 
   const [nomeValue, setNomeValue] = useState<string>(nome)
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -95,7 +97,7 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
   return (
     <>
       {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} type={modalInfo.type} />}
-      <section className="w-2/3 mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
+      <section className="w-full mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
         <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
           <div
             className="w-full h-44 flex flex-col items-center justify-center gap-1 bg-cinzero rounded-xl bg-center bg-cover bg-no-repeat transition relative"
@@ -125,15 +127,20 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
           </div>
         </div>
       </section>
-      <section className="flex-1 mobile:w-10/12 desktop:w-10/12 mdscreen:w-10/12 h-full flex flex-col items-center justify-center py-10 mobile:py-1">
-        <h1 className="text-4xl font-bold h-1/6 flex justify-center items-center w-full">Portfólio</h1>
-        <div className="w-full grid grid-cols-2 p-6 gap-4">
-          {portfolio.slice(0, 6).map((item, index) => (
-            <PortfolioCard key={index} image={item.image} title={item.title} description={item.description} />
-          ))}
-
+      <section className="flex-1 w-full mx-auto flex flex-col md:flex-row items-start justify-center py-10">
+        <div className='md:w-1/2 w-full mt-10'>
+          <h1 className="text-4xl font-bold h-1/6 flex justify-center items-center w-full">Portfólio</h1>
+          <div className="sm:w-4/6 w-full mx-auto grid grid-cols-2 p-6 gap-4">
+            {portfolio.slice(0, 6).map((item, index) => (
+              <PortfolioCard key={index} image={item.image} title={item.title} description={item.description} />
+            ))}
+          </div>
+          <Link href={`/uzers/${_id}/portfolio`} className="text-xl font-bold my-8 flex justify-center items-center hover:underline">Ver Mais</Link>
         </div>
-        <Link href={`/uzers/${_id}/portfolio`} className="text-xl font-bold my-8 flex justify-center items-center hover:underline">Ver Mais</Link>
+        <div className='md:w-1/2 w-full bg-white shadow-2xl rounded-3xl p-4 flex flex-col items-center'>
+          <h1 className="text-2xl mt-4 font-bold mb-4">Histórico de serviços</h1>
+          {pedidos.map((pedido, index) => <CardPedido key={index} titulo={pedido.titulo} _id_cliente={pedido._id_cliente} status={pedido.status} disponivel={pedido.disponivel} />)}
+        </div>
       </section>
       {(nome !== nomeValue || imageFile !== null) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>
         {isSaving ? <Loader2 size={30} color="white" className="text-azulao mx-auto animate-spin" /> : <>
