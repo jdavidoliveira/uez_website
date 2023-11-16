@@ -97,10 +97,10 @@ export default function Editpage({ uzerData: { photoUrl, nome, servicosPrestados
   return (
     <>
       {showModal && <ConfirmModal title={modalInfo.title} label={modalInfo.label} valueSetter={modalInfo.valueSetter} closeButtonFunction={() => setShowModal(false)} prevValue={modalInfo.prevValue} type={modalInfo.type} />}
-      <section className="w-full mobile:w-full desktop:w-full mdscreen:w-full h-full flex flex-col items-center justify-center animate-transitionY">
-        <div className="bg-cinzero w-10/12 mobile:w-full desktop:w-full mdscreen:w-full relative">
+      <section className="w-full lg:mt-24 mx-auto h-full flex flex-col items-center justify-center animate-transitionY">
+        <div className="bg-cinzero w-full lg:w-10/12  relative">
           <div
-            className="w-full h-44 flex flex-col items-center justify-center gap-1 bg-cinzero rounded-xl bg-center bg-cover bg-no-repeat transition relative"
+            className="w-full h-64 flex flex-col items-center justify-center gap-1 bg-cinzero rounded-xl bg-center bg-cover bg-no-repeat transition relative"
           >
             <Image
               fill
