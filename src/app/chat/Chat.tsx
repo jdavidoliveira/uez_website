@@ -6,13 +6,11 @@ import RightSide from "./RightSide";
 import ChatInterface from "@/types/Chat";
 import { useAuth } from "@/contexts/Auth";
 import { useSearchParams } from "next/navigation";
-import { useFetch as myUseFetch } from "@/hooks/useFetch";
-import { parseCookies } from "nookies";
+import api from "@/hooks/api";
 
 interface ChatProps {
     serverData_chat: ChatInterface[];
     serverData_user: unknown;
-
 }
 
 export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
@@ -22,11 +20,8 @@ export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
     const userChatId = useSearchParams().get('userChatId')
 
     async function refreshData() {
-        const refreshedChatData = await myUseFetch<ChatInterface[]>("/chats", {
-            headers: {
-                Authorization: `Bearer ${parseCookies().uezaccesstoken}`
-            },
-        }).then(res => res).catch(err => []);
+        const refreshedChatData = await api.get<ChatInterface[]>("/chats")
+            .then(res => res.data).catch(err => []);
         if (JSON.stringify(refreshedChatData) === JSON.stringify(chatsData)) {
             return console.log("Não há novas mensagens")
         } else {

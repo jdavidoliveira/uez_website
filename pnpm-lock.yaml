@@ -66,14 +66,17 @@ dependencies:
     specifier: ^7.46.2
     version: 7.47.0(react@18.2.0)
   react-icons:
-    specifier: ^4.10.1
-    version: 4.11.0(react@18.2.0)
+    specifier: ^4.12.0
+    version: 4.12.0(react@18.2.0)
   react-resizable:
     specifier: ^3.0.5
     version: 3.0.5(react-dom@18.2.0)(react@18.2.0)
   tailwind-merge:
     specifier: ^1.14.0
     version: 1.14.0
+  use-clipboard-copy:
+    specifier: ^0.2.0
+    version: 0.2.0(react@18.2.0)
   zod:
     specifier: ^3.22.2
     version: 3.22.4
@@ -1500,6 +1503,10 @@ packages:
 
   /client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
+
+  /clipboard-copy@3.2.0:
+    resolution: {integrity: sha512-vooFaGFL6ulEP1liiaWFBmmfuPm3cY3y7T9eB83ZTnYc/oFeAKsq3NcDrOkBC8XaauEE8zHQwI7k0+JSYiVQSQ==}
     dev: false
 
   /clsx@1.2.1:
@@ -3054,8 +3061,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-icons@4.11.0(react@18.2.0):
-    resolution: {integrity: sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==}
+  /react-icons@4.12.0(react@18.2.0):
+    resolution: {integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==}
     peerDependencies:
       react: '*'
     dependencies:
@@ -3586,6 +3593,15 @@ packages:
       '@types/react': 18.2.22
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /use-clipboard-copy@0.2.0(react@18.2.0):
+    resolution: {integrity: sha512-f0PMMwZ2/Hh9/54L12capx4s6ASdd6edNJxg2OcqWVNM8BPvtOSmNFIN1Dg/q//fPp8MpUZceHfr7cnWOS0RxA==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      clipboard-copy: 3.2.0
+      react: 18.2.0
     dev: false
 
   /use-sidecar@1.1.2(@types/react@18.2.22)(react@18.2.0):
