@@ -43,6 +43,7 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     function FinishPedido() {
 
         const value = 10
+
         return (
             <div className="fixed z-50 w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white w-9/12 h-5/6 rounded-[30px] p-8 py-6 gap-4 flex flex-col items-center animate__animated animate__fadeInUp animate__faster">
