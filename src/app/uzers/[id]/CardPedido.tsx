@@ -1,6 +1,7 @@
 "use client"
 import api from '@/hooks/api'
 import ClienteInterface from '@/types/Cliente'
+
 import { Check, Clipboard, Eye, FileUp, Loader2, MessageCircle, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -16,7 +17,6 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     }, [])
 
     const router = useRouter()
-
     async function fetchClientes() {
         _id_cliente !== null ?
             await api.get<ClienteInterface>(`/clientes/${_id_cliente}`)
