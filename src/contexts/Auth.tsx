@@ -3,6 +3,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useFetch as myFetch } from "@/hooks/useFetch";
+import api from "@/hooks/api";
 
 interface IAuth {
   statusLogin: boolean;
@@ -20,12 +21,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const { uezaccesstoken } = parseCookies();
     if (uezaccesstoken) {
-      // tem que adicionar a validação de token aqui
-      setStatusLogin(true);
+      validateToken(uezaccesstoken);
     }
     setUserType(parseCookies().userType);
 
   }, []);
+
+  async function validateToken(token: string) {
+    const res = await api.post("/validate-jwt", {
+      token: token,
+    }).then(res => res).catch(err => {
+      return {
+        data: {
+          token: false
+        }
+      }
+    })
+
+    const { data } = res
+    if (!data.token) {
+      setStatusLogin(false);
+      destroyCookie(null, "uezaccesstoken");
+      return
+    } else {
+      console.log(data)
+      return setStatusLogin(true);
+    }
+  }
 
   const login = async (email: string, senha: string) => {
     try {
@@ -37,13 +59,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }),
       });
       setCookie(null, "uezaccesstoken", token, {
-        maxAge: 7 * 24 * 60 * 60,
+        maxAge: 1 * 24 * 60 * 60, // Cookie expira em 1 dia
         path: '/',
-      }); // Cookie expira em 7 dias
+      });
       setCookie(null, "userType", userType, {
-        maxAge: 7 * 24 * 60 * 60,
+        maxAge: 1 * 24 * 60 * 60, // Cookie expira em 1 dia
         path: '/',
-      }); // Cookie expira em 7 dias
+      });
       setUserType(userType);
       setStatusLogin(true);
       return null;
@@ -63,7 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider value={{ statusLogin, login, logout, userType }}>
       {children}
     </AuthContext.Provider>
-  );  
+  );
 };
 
 export const useAuth = () => {

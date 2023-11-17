@@ -1,8 +1,6 @@
 import { useFetch } from "@/hooks/useFetch";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import LeftSide from "./LeftSide";
-import RightSide from "./RightSide";
 
 import Chat from "./Chat";
 import ChatInterface from "@/types/Chat";

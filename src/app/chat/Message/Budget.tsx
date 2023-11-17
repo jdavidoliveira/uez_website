@@ -39,7 +39,7 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, u
             return alert("A Proposta ja foi aceita!")
         } else {
             setPedidoAceitado(true)
-            await api.put(`/pedido/${_idPedido}`, {
+            await api.put(`/pedido/assignUzer/${_idPedido}`, {
                 idUzer: globalSelectedData?.uzerId,
             }).then((res) => {
                 console.log(res)
