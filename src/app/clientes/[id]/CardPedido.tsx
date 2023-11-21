@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import 'animate.css'
 import { useRouter } from 'next/navigation'
+import RatingSlider from './RatingSlider'
 
 export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_uzer = "teste", status = "A realizar", disponivel = true, valor, descricao }: { titulo: string, _id_uzer: string | null, status: string, disponivel: boolean, valor: number | string, descricao: string }) {
     const [uzerData, setUzerData] = useState<UzerInterface | null>()
@@ -34,6 +35,9 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     const [showAvaliarModal, setShowAvaliarModal] = useState(false)
     const [showPedidoModal, setShowPedidoModal] = useState(false)
 
+    const [uzerRating, setUzerRating] = useState(0)
+    const [platformRating, setPlatformRating] = useState(0)
+
     return (<>
         <div onClick={status === 'A avaliar' ? () => setShowAvaliarModal(true) : () => setShowPedidoModal(true)}
             className={twMerge("bg-white cursor-pointer shadow-md rounded-xl p-6 w-10/12 m-2 transition relative group", status === "A avaliar" ? "animate__animated animate__headShake animate__infinite" : "hover:scale-105")}>
@@ -50,14 +54,33 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
             <Eye className={twMerge('absolute top-6 right-8 hidden group-hover:block', status === 'A avaliar' && 'hidden opacity-0')} />
         </div>
         {showAvaliarModal &&
-            <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div className="bg-white rounded-lg p-6 flex flex-col items-center">
-                    <button title='Fechar' className='absolute z-50 flex items-center justify-center bg-black md:bg-transparent rounded-xl p-1 md:top-6 md:right-8 top-6 right-8'>
-                        <X size={44} color='white' onClick={() => setShowAvaliarModal(false)} />
-                    </button>
-                    <h2 className="text-xl font-bold mb-4">Avalie o pedido</h2>
-                    <p className="text-gray-600 mb-4">Avalie o pedido</p>
-                    <button onClick={avaliarPedido} className='bg-roxazul rounded-lg p-2 text-white flex flex-col items-center'>Avaliar</button>
+            <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center animate__animated animate__fadeIn">
+                <button title='Fechar' className='absolute z-50 flex items-center justify-center bg-black md:bg-transparent rounded-xl p-1 md:top-6 md:right-8 top-6 right-8'>
+                    <X size={44} color='white' onClick={() => setShowAvaliarModal(false)} />
+                </button>
+                <div className="bg-white rounded-2xl md:w-9/12 p-6 pt-0 flex flex-col items-center animate__animated animate__fadeInUp animate__faster">
+                    <h1 className="text-xl font-bold mb-4 mt-6">Avaliação do serviço</h1>
+                    <div className="w-full flex items-center p-10 gap-4 mb-10">
+                        <div className='flex flex-col items-center gap-2 w-1/2'>
+                            <h1 className="text-lg font-bold mb-4">Avalie o serviço do uzer</h1>
+                            {/* Rating component */}
+                            <RatingSlider setter={setUzerRating} value={uzerRating} />
+                            <label className="text-base font-bold mt-4">Deixe alguma sugestão para o uzer (opcional):</label>
+                            <input type="text" className='w-10/12 h-10 p-3 bg-cinzero' />
+                        </div>
+                        <div className='flex flex-col items-center gap-2 w-1/2'>
+                            <h1 className="text-lg font-bold mb-4">Avalie a nossa plataforma</h1>
+                            {/* Rating component */}
+                            <RatingSlider setter={setPlatformRating} value={platformRating} />
+                            <label className="text-base font-bold mt-4">Deixe alguma sugestão para nós (opcional):</label>
+                            <input type="text" className='w-10/12 h-10 p-3 bg-cinzero' />
+                        </div>
+                    </div>
+                    <h2 className="text-xl font-bold mb-4 mt-6">Seu problema foi resolvido?</h2>
+                    <div className='flex items-center justify-center gap-4 w-full mb-6'>
+                        <button onClick={avaliarPedido} className='bg-[#535FFF] rounded-2xl py-2 px-4 w-40 font-bold text-white flex flex-col items-center'>Sim</button>
+                        <button onClick={avaliarPedido} className='bg-[#535FFF] rounded-2xl py-2 px-4 w-40 font-bold text-white flex flex-col items-center'>Não</button>
+                    </div>
                 </div>
             </div>}
         {showPedidoModal && <div className="fixed z-50 w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-50 animate__animated animate__fadeIn">
