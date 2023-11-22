@@ -1,5 +1,6 @@
 import Image from "next/image";
 import GenericSection from "./GenericSection";
+import Link from "next/link";
 
 export default function Sobre() {
     return (
@@ -33,11 +34,11 @@ export default function Sobre() {
             </GenericSection>
             <section className="w-full flex flex-col bg-transparent items-center justify-around gap-8">
                 <h1 className="text-3xl font-bold ">Nossa equipe</h1>
-                <div className="w-full h-144 flex items-center justify-center bg-center bg-contain lg:bg-cover bg-fixed bg-no-repeat" style={{ backgroundImage: "url('/images/equipe.png')" }}>
+                <div className="w-full md:h-144 sm:h-80 h-40 flex items-center justify-center bg-center bg-contain lg:bg-cover bg-fixed bg-no-repeat" style={{ backgroundImage: "url('/images/equipe.png')" }}>
                     <div className="grid grid-cols-5 items-center efeito-vidro p-3">
                         <FundadoresCard cargo="Designer" nome="Matheus Barros" />
                         <FundadoresCard cargo="Diretor de relações" nome="Yago Estevão" />
-                        <FundadoresCard cargo="Desenvolvedor" nome="João David" />
+                        <FundadoresCard cargo="Desenvolvedor" nome="João David" href="https://github.com/lordaval" />
                         <FundadoresCard cargo="Diretor de operações" nome="Neemias Duarte" />
                         <FundadoresCard cargo="Diretor Geral" nome="Renato Gomes" />
                     </div>
@@ -46,7 +47,7 @@ export default function Sobre() {
                 </div>
             </section>
             <GenericSection>
-                <h1 className="text-3xl font-bold">Como funciona?</h1>
+                <h1 className="text-3xl font-bold text-center">Como funciona?</h1>
                 <p className="text-lg text-center">
                     Nós temos como objetivo unir pessoas que precisam de algum serviço e
                     pessoas que têm algum talento ou habilidade.
@@ -84,11 +85,11 @@ function CardSobre({ title, image, description }: { title: string, image: string
     )
 }
 
-function FundadoresCard({ cargo, nome }: { cargo: string, nome: string }) {
+function FundadoresCard({ cargo, nome, href }: { cargo: string, nome: string, href?: string }) {
     return (
         <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-bold text-center text-white">{cargo}</h1>
-            <h2 className="text-lg font-medium text-center text-white">{nome}</h2>
+            <h1 className="md:text-2xl sm:text-base text-[10px] font-bold text-center text-white">{cargo}</h1>
+            <Link target={href ? "_blank" : "_self"} href={href ? href : ""} className="md:text-lg sm:text-xs text-[6px] font-medium text-center text-white">{nome}</Link>
         </div>
     )
 }
