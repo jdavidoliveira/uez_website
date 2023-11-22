@@ -53,7 +53,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
             </div>
             <div className="w-full flex flex-col overflow-auto scroll">
                 <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
-                {serverData ? serverData?.map((item) => (
+                {serverData.length > 0 ? serverData?.map((item) => (
                     <UserChatItem
                         key={item._id}
                         photo={item.photo ?? "/images/default-chat-background.png"}

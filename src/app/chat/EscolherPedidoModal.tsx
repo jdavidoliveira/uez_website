@@ -80,7 +80,7 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
             <div className={twMerge("bg-azulao w-9/12 h-5/6 rounded-[30px] p-8 py-6 gap-4 flex flex-col items-center justify-between animate__animated animate__fadeInUp animate__faster", step === 2 && "w-1/2 h-1/2")}>
                 {step === 1 && <>
                     <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">A qual pedido de *Cliente* você deseja atrelar o orçamento?</h1>
-                    <div className="w-11/12 overflow-y-auto grid grid-cols-3">
+                    <div className="w-11/12 overflow-y-auto grid grid-cols-2 sm:grid-cols-3">
                         {isLoading ? <p>Carregando...</p> :
                             pedidos.map((pedido, index) => {
                                 if (pedido.disponivel === false) return null

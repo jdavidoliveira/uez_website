@@ -59,9 +59,13 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
         const clipboard = useClipboard(); // create an instance of useClipboard
 
-        const handleCopy = () => {
+        const handleCopy = async () => {
             clipboard.copy(descricao); // copy the description to clipboard when button is clicked
-            alert('Copiado para a area de transferência!');
+            if (clipboard.copied) {
+                alert('Copiado para a area de transferência!');
+            } else {
+                alert('Erro ao copiar para a area de transferência!');
+            }
         }
 
         const sendMessage = () => {
