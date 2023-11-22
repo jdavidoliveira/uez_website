@@ -56,7 +56,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
   return (
     <div className="flex items-center gap-4">
       <div className="flex space-x-1">{stars} </div>
-      <span className="text-sm font-medium">{rating}/5</span>
+      <span className="text-sm font-medium">{rating.toFixed(1)}/5</span>
     </div>
   )
 };

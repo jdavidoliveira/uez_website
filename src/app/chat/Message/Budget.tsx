@@ -41,6 +41,7 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, u
             setPedidoAceitado(true)
             await api.put(`/pedido/assignUzer/${_idPedido}`, {
                 idUzer: globalSelectedData?.uzerId,
+                preco: Number(content),
             }).then((res) => {
                 console.log(res)
                 setShowProposalModal(false)
