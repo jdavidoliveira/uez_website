@@ -8,6 +8,7 @@ import 'animate.css'
 import { useRouter } from 'next/navigation'
 import RatingSlider from './RatingSlider'
 import Link from 'next/link'
+import myUseBrowserNotification from '@/hooks/useBrowserNotification'
 
 export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_uzer = "teste", status = "A realizar", disponivel = true, valor, descricao, idPedido }: { titulo: string, _id_uzer: string | null, status: string, disponivel: boolean, valor: number | string, descricao: string, idPedido: string }) {
     const [uzerData, setUzerData] = useState<UzerInterface | null>()
@@ -34,32 +35,14 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         await api.put(`/pedido/avaliar/${idPedido}`, { avaliacao: uzerRating })
             .then(res => {
                 console.log(res)
+                myUseBrowserNotification("Seu pedido foi avaliado!", {
+                    body: `Seu pedido foi avaliado pelo ${uzerData?.nome} com ${platformRating} estrelas!`,
+                })
                 alert("Seu pedido foi avaliado!")
                 setShowAvaliarModal(false)
                 router.refresh()
             })
             .catch(err => console.error(err))
-        if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-        } else if (Notification.permission === "granted") {
-            const notification = new Notification("Pedido Avaliado!", {
-                body: "Seu pedido foi avaliado!",
-                icon: "/logo.png",
-                requireInteraction: true
-            });
-            // …
-        } else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then((permission) => {
-                if (permission === "granted") {
-                    const notification = new Notification("Pedido Avaliado!", {
-                        body: "Seu pedido foi avaliado!",
-                        icon: "/logo.svg",
-                        requireInteraction: true,
-
-                    });
-                }
-            });
-        }
 
     }
 
@@ -99,14 +82,12 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                     <div className="w-full flex items-center flex-col lg:flex-row p-2 lg:p-10 gap-4 lg:mb-10">
                         <div className='flex flex-col items-center gap-2 lg:w-1/2'>
                             <h1 className="sm:text-lg font-bold mb-4">Avalie o serviço do uzer</h1>
-                            {/* Rating component */}
                             <RatingSlider setter={setUzerRating} value={uzerRating} />
                             <label htmlFor="sugestaoUzer" className="text-center sm:text-base font-bold mt-4">Deixe alguma sugestão para o uzer (opcional):</label>
                             <input type="text" id='sugestaoUzer' className='w-10/12 h-10 p-3 bg-cinzero' />
                         </div>
                         <div className='flex flex-col items-center gap-2 lg:w-1/2'>
                             <h1 className="sm:text-lg font-bold mb-4">Avalie a nossa plataforma</h1>
-                            {/* Rating component */}
                             <RatingSlider setter={setPlatformRating} value={platformRating} />
                             <label htmlFor="sugestaoPlataforma" className="text-center sm:text-base font-bold mt-4">Deixe alguma sugestão para nós (opcional):</label>
                             <input type="text" id='sugestaoPlataforma' className='w-10/12 h-10 p-3 bg-cinzero' />
