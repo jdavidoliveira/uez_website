@@ -8,6 +8,7 @@ import HeaderProfile from "./HeaderProfile";
 import { useAuth } from "@/contexts/Auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Bell } from "lucide-react";
 const roboto = Roboto({
   weight: ['100', '300', '400', '500', '700', '900'],
   style: ['normal'],
@@ -62,6 +63,8 @@ export default function Header() {
     setUserType(tipousuario)
   }, [tipousuario, statusLogin, []])
 
+  const [showNotification, setShowNotification] = useState<boolean>(false)
+
 
   return (
     <header className={`w-full flex items-center p-3 justify-center shadow bg-white relative`}>
@@ -101,6 +104,16 @@ export default function Header() {
             </>
           }
         </nav>
+
+        <button onClick={() => setShowNotification(showNotification ? false : true)}>
+          {<Bell width={20} height={20} color="#00003b" fill={showNotification ? "#00003b" : "none"} className="hover:scale-105" />}
+        </button>
+
+        {showNotification && <div className="w-20 h-20 absolute bg-[#00003b]" >
+
+
+        </div>}
+
         <Suspense fallback={"loading"}>
           {isLogged ? <HeaderProfile /> : (
             <div className="flex gap-4 justify-between items-center mobile:hidden">
