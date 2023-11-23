@@ -46,6 +46,15 @@ export default function Sobre() {
                     {/* <Image fill src="/images/equipe.png" className="object-cover object-center" priority alt="Equipe" /> */}
                 </div>
             </section>
+            <GenericSection className="flex-row w-full justify-between p-0">
+                <Image src="/images/pedaco1.svg" alt="Pedaço" width={500} height={500} className="" />
+                <div className="flex w-1/2 flex-col">
+                    <h1 className="text-3xl font-bold text-center">Nossa História</h1>
+                    <p className="text-lg text-center">
+                        A UEZ surgiu em 2023 de um projeto de TCC de um grupo de amigos que tinha como objetivo criar uma plataforma online. Essa plataforma tem como finalidade facilitar a vida de profissionais de diversas áreas que estão desempregados e precisam de uma fonte de renda, além de auxiliar pessoas que enfrentam problemas variados, desde um problema de encanamento até a pintura de uma casa.
+                    </p>
+                </div>
+            </GenericSection>
             <GenericSection>
                 <h1 className="text-3xl font-bold text-center">Como funciona?</h1>
                 <p className="text-lg text-center">

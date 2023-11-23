@@ -1,8 +1,9 @@
 import React from 'react'
+import { twMerge } from 'tailwind-merge'
 
-export default function GenericSection({ children }: { children: React.ReactNode }) {
+export default function GenericSection({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <section className="w-full px-16 flex flex-col items-center justify-around gap-8">
+        <section className={twMerge("w-full px-16 flex flex-col items-center justify-around gap-8", className)}>
             {children}
         </section>
     )
