@@ -1,20 +1,12 @@
 'use client'
 
 import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import HeaderProfile from "./HeaderProfile";
 import { useAuth } from "@/contexts/Auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Bell } from "lucide-react";
-const roboto = Roboto({
-  weight: ['100', '300', '400', '500', '700', '900'],
-  style: ['normal'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
-})
 
 type PersonalLinks = {
   href: string,
@@ -63,7 +55,6 @@ export default function Header() {
     setUserType(tipousuario)
   }, [tipousuario, statusLogin, []])
 
-  const [showNotification, setShowNotification] = useState<boolean>(false)
 
 
   return (
@@ -105,14 +96,6 @@ export default function Header() {
           }
         </nav>
 
-        <button onClick={() => setShowNotification(showNotification ? false : true)}>
-          {<Bell width={20} height={20} color="#00003b" fill={showNotification ? "#00003b" : "none"} className="hover:scale-105" />}
-        </button>
-
-        {showNotification && <div className="w-20 h-20 absolute bg-[#00003b]" >
-
-
-        </div>}
 
         <Suspense fallback={"loading"}>
           {isLogged ? <HeaderProfile /> : (
