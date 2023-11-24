@@ -36,17 +36,12 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         await api.put(`/pedido/avaliar/${idPedido}`, { avaliacao: uzerRating })
             .then(async res => {
                 await sendNotification("servAval", `R$ ${valor} do serviço ${titulo} já está na sua carteira`, _id_uzer || "")
-                myUseBrowserNotification("Seu pedido foi avaliado!", {
-                    body: `Seu pedido foi avaliado pelo ${uzerData?.nome} com ${platformRating} estrelas!`,
-                })
-                alert("Seu pedido foi avaliado!")
-                setShowAvaliarModal(false)
+                await setShowAvaliarModal(false)
+                await alert("Seu pedido foi avaliado!")
                 router.refresh()
             })
-            .catch(err => console.error(err))
-
+            .catch(err => alert("Erro ao avaliar o pedido"))
     }
-
 
     const sendMessage = () => {
         router.push(`/chat?userChatId=${_id_uzer}`)
