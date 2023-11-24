@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import RatingSlider from './RatingSlider'
 import Link from 'next/link'
 import myUseBrowserNotification from '@/hooks/useBrowserNotification'
+import sendNotification from '@/hooks/sendNotification'
 
 export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_uzer = "teste", status = "A realizar", disponivel = true, valor, descricao, idPedido }: { titulo: string, _id_uzer: string | null, status: string, disponivel: boolean, valor: number | string, descricao: string, idPedido: string }) {
     const [uzerData, setUzerData] = useState<UzerInterface | null>()
@@ -33,8 +34,8 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         if (avaliado) return
         setAvaliado(true)
         await api.put(`/pedido/avaliar/${idPedido}`, { avaliacao: uzerRating })
-            .then(res => {
-                console.log(res)
+            .then(async res => {
+                await sendNotification("servAval", `R$ ${valor} do serviço ${titulo} já está na sua carteira`, _id_uzer || "")
                 myUseBrowserNotification("Seu pedido foi avaliado!", {
                     body: `Seu pedido foi avaliado pelo ${uzerData?.nome} com ${platformRating} estrelas!`,
                 })

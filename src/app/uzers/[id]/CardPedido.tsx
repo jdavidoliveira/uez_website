@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useClipboard } from "use-clipboard-copy"
 import { useRouter } from 'next/navigation'
+import sendNotification from '@/hooks/sendNotification'
 
 
 export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_cliente = "teste", status = "A realizar", disponivel = true, descricao, idPedido, valor }: { titulo: string, _id_cliente: string | null, status: string, disponivel: boolean, descricao: string, idPedido: string, valor: number }) {
@@ -81,10 +82,11 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
             api.put(`/pedido/finish/${idPedido}`, {
                 status: 'Concluido',
             })
-                .then(() => {
+                .then(async () => {
                     setIsSubmitting(false)
                     setFinished(false)
                     setShowModal(false)
+                    // await sendNotification("servFim", `O Uzer finalizou seu serviço, avalie-o para que ele possa receber!`, )
                     alert('Serviço concluído com sucesso!')
                     router.refresh()
                 })

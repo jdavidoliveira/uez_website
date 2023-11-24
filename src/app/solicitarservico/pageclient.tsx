@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/Auth";
 import ModalConfirmarPedido from "./ModalConfirmarPedido";
 import Servico from "@/types/Servico";
+import sendNotification from "@/hooks/sendNotification";
 
 const solicitarServicoFormSchema = z.object({
     tipo: z.string()
@@ -83,10 +84,11 @@ export default function SolicitarServicoClient({ servicosDaPlataforma, myId }: {
                     headers: {
                         Authorization: `Bearer ${parseCookies().uezaccesstoken}`
                     }
-                }).then((response) => {
+                }).then(async (response) => {
                     setIsSubmitting(false)
                     toggleModal(response.message)
                     setCreatedPedido(true)
+                    await sendNotification("pedLance", `Em breve um uzer mandará mensagem.`, myId)
                     new Promise(resolve => setTimeout(resolve, 2000))
                     router.push(`/clientes/${myId}`)
                     return response.message

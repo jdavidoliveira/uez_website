@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { twMerge } from "tailwind-merge"
 import 'animate.css'
 import { Messages } from "@/types/Chat"
+import sendNotification from "@/hooks/sendNotification"
 
 interface EscolherPedidoModalProps {
     idCliente: string
@@ -49,30 +50,31 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
         e.preventDefault()
         if (step === 1) return setStep(2)
         // OK
-            e.preventDefault(); 
-            if (!precoOrcamento) {
-                alert("Por favor, informe o preço do orçamento")
-                return
-            }
-            const newMessage = await api.post<Messages | null>("/chat/message/budget", {
-                    chatId: chatId,
-                    message: precoOrcamento,
-                    sendDate: new Date().toLocaleDateString(),
-                    sendHour: new Date().toLocaleTimeString(),
-                    type: "budget",
-                    idPedido: selectedPedidoId
-    
-                }).then(res => {
-                console.log(res)
-                alert("Orçamento enviado com sucesso")
-                setPrecoOrcamento(0)
-                closeFunction()
-                return res
+        e.preventDefault();
+        if (!precoOrcamento) {
+            alert("Por favor, informe o preço do orçamento")
+            return
+        }
+        const newMessage = await api.post<Messages | null>("/chat/message/budget", {
+            chatId: chatId,
+            message: precoOrcamento,
+            sendDate: new Date().toLocaleDateString(),
+            sendHour: new Date().toLocaleTimeString(),
+            type: "budget",
+            idPedido: selectedPedidoId
+
+        }).then(async res => {
+            await sendNotification("orcaReceb", "Uzer mandou um orçamento para você!", pedidos[0]._id_cliente)
+            console.log(res)
+            alert("Orçamento enviado com sucesso")
+            setPrecoOrcamento(0)
+            closeFunction()
+            return res
+        })
+            .catch(err => {
+                console.error(err)
+                return null
             })
-                .catch(err => {
-                    console.error(err)
-                    return null
-                })
     }
 
     return (
@@ -85,8 +87,9 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
                             pedidos.map((pedido, index) => {
                                 if (pedido.disponivel === false) return null
                                 return (
-                                <CardPedido id={pedido._id} nomePedido={pedido.titulo} dataPedido={pedido.dataCriacao} valorPedido={pedido.valor} key={index} />
-                            )})
+                                    <CardPedido id={pedido._id} nomePedido={pedido.titulo} dataPedido={pedido.dataCriacao} valorPedido={pedido.valor} key={index} />
+                                )
+                            })
                         }
                     </div>
                 </>}
@@ -129,8 +132,8 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
         valorPedido: number
         id: string
     }
-    
-    function CardPedido({nomePedido, dataPedido, valorPedido, id}: CardPedidoProps) {
+
+    function CardPedido({ nomePedido, dataPedido, valorPedido, id }: CardPedidoProps) {
 
         function selectPedidoByCard(e: React.MouseEvent<HTMLButtonElement>) {
             e.preventDefault()
@@ -145,7 +148,7 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
         }
 
         return (
-            <button title="Clique para escolher" className={twMerge("bg-white shadow-md rounded-xl flex flex-col items-start flex-1 p-6 m-2 transition hover:scale-[102%] cursor-default relative active:scale-[98%] group", selectedPedidoId === id ? "bg-[#535FFF] text-white" : "")} onClick={selectPedidoByCard } onDoubleClick={deselectPedidoByCard}>
+            <button title="Clique para escolher" className={twMerge("bg-white shadow-md rounded-xl flex flex-col items-start flex-1 p-6 m-2 transition hover:scale-[102%] cursor-default relative active:scale-[98%] group", selectedPedidoId === id ? "bg-[#535FFF] text-white" : "")} onClick={selectPedidoByCard} onDoubleClick={deselectPedidoByCard}>
                 <h1 className={twMerge("text-xl font-bold", selectedPedidoId === id && "text-white")}>{(nomePedido.charAt(0).toUpperCase() + nomePedido.slice(1).substring(0, 20))}</h1>
                 <h2 className={twMerge("text-black mb-4 font-medium", selectedPedidoId === id && "text-white")}>{dataPedido.slice(5, 10).split('-').reverse().join('/')}</h2>
                 <h3 className={twMerge("text-black font-medium", selectedPedidoId === id && "text-white")}>{valorPedido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h3>
