@@ -1,19 +1,12 @@
 'use client'
 
 import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import HeaderProfile from "./HeaderProfile";
 import { useAuth } from "@/contexts/Auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-const roboto = Roboto({
-  weight: ['100', '300', '400', '500', '700', '900'],
-  style: ['normal'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
-})
 
 type PersonalLinks = {
   href: string,
@@ -63,6 +56,7 @@ export default function Header() {
   }, [tipousuario, statusLogin, []])
 
 
+
   return (
     <header className={`w-full flex items-center p-3 justify-center shadow bg-white relative`}>
       <div className="w-11/12 flex items-center justify-between">
@@ -101,6 +95,8 @@ export default function Header() {
             </>
           }
         </nav>
+
+
         <Suspense fallback={"loading"}>
           {isLogged ? <HeaderProfile /> : (
             <div className="flex gap-4 justify-between items-center mobile:hidden">

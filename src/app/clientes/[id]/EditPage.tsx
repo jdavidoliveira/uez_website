@@ -126,7 +126,7 @@ export default function Editpage({ clienteData: { photoUrl, nome, bannerImage, _
         <HistoricoUzers pedidos={pedidos} />
         <div className='md:w-1/2 w-full bg-white shadow-2xl rounded-3xl p-4 flex flex-col items-center'>
           <h1 className="text-2xl mt-4 font-bold mb-4">Histórico de serviços</h1>
-          {pedidos.map((pedido, index) => <CardPedido key={index} valor={pedido.valor} descricao={pedido.descricao} titulo={pedido.titulo} _id_uzer={pedido._id_uzer} status={pedido.status} disponivel={pedido.disponivel} />)}
+          {pedidos.map((pedido, index) => <CardPedido idPedido={pedido._id} key={index} valor={pedido.valor} descricao={pedido.descricao} titulo={pedido.titulo} _id_uzer={pedido._id_uzer} status={pedido.status} disponivel={pedido.disponivel} />)}
         </div>
       </section>
       {(nome !== nomeValue || imageFile !== null) && !saved && <div className="group fixed bottom-5 left-10 rounded-full bg-azulao p-4 cursor-pointer animate-bounce" title='Salvar alterações' onClick={saveData}>

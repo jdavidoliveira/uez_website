@@ -60,6 +60,17 @@ const config: Config = {
             opacity: '1',
             width: '100%'
           }
+        },
+        float: {
+          '0%': {
+            transform: 'translateY(0)',
+          },
+          '50%': {
+            transform: 'translateY(-10px)',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+          },
         }
 
       },
@@ -69,6 +80,7 @@ const config: Config = {
         exitButtonGrow: 'exitButtonGrow .4s',
         exitButtonDecrease: 'exitButtonDecrease .4s',
         entranceButtonFadeIn: 'entranceButtonFadeIn .4s',
+        float: 'float 3s infinite ease-in-out',
       },
       spacing: {
         144: '36rem',

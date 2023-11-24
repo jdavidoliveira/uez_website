@@ -1,6 +1,17 @@
-    @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .efeito-vidro {
+        background: rgba(255, 255, 255, 0.203);
+        /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.063);
+    }
+}
 
 * {
     margin: 0;
@@ -22,18 +33,18 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
 }
- 
+
 /* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f100;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 4px;
 }
- 
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
@@ -48,14 +59,15 @@ body {
     display: none;
     background-color: inherit;
     opacity: 0;
-  }
-
-  input[type=number]::-webkit-inner-spin-button { 
-    -webkit-appearance: none;
-    
 }
-input[type=number] { 
-   -moz-appearance: textfield;
-   appearance: textfield;
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 
 }

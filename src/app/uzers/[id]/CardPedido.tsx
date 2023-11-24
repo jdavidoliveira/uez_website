@@ -9,7 +9,7 @@ import { useClipboard } from "use-clipboard-copy"
 import { useRouter } from 'next/navigation'
 
 
-export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_cliente = "teste", status = "A realizar", disponivel = true, descricao, idPedido }: { titulo: string, _id_cliente: string | null, status: string, disponivel: boolean, descricao: string, idPedido: string }) {
+export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_cliente = "teste", status = "A realizar", disponivel = true, descricao, idPedido, valor }: { titulo: string, _id_cliente: string | null, status: string, disponivel: boolean, descricao: string, idPedido: string, valor: number }) {
     const [clienteData, setClienteData] = useState<ClienteInterface | null>()
     useEffect(() => {
         fetchClientes()
@@ -41,7 +41,7 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
             </div>
             <Eye className='absolute top-6 right-8 hidden group-hover:block' />
         </div>
-        {showModal && <FinishPedido titulo={titulo} nome_cliente={clienteData?.nome} valor={10} descricao={descricao} status={status} />}
+        {showModal && <FinishPedido titulo={titulo} nome_cliente={clienteData?.nome} valor={valor} descricao={descricao} status={status} />}
     </>
     )
 
@@ -59,9 +59,13 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
         const clipboard = useClipboard(); // create an instance of useClipboard
 
-        const handleCopy = () => {
+        const handleCopy = async () => {
             clipboard.copy(descricao); // copy the description to clipboard when button is clicked
-            alert('Copiado para a area de transferência!');
+            if (clipboard.copied) {
+                alert('Copiado para a area de transferência!');
+            } else {
+                alert('Erro ao copiar para a area de transferência!');
+            }
         }
 
         const sendMessage = () => {

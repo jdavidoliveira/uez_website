@@ -1,13 +1,13 @@
 "use client"
 
 import { useFetch as myUseFetch } from '@/hooks/useFetch';
-import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { parseCookies } from 'nookies';
 import LogoutButton from './LogoutButton';
+import Notifications from '../Notifications/Notifications';
 
 export default function HeaderProfile() {
 
@@ -27,7 +27,8 @@ export default function HeaderProfile() {
     }, [])
     
     return (
-        <div className="flex gap-4 justify-between items-center">
+        <div className="flex gap-8 justify-between items-center">
+            <Notifications />
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
                     <button
