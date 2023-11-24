@@ -7,6 +7,7 @@ import { useFetch as myUseFetch } from "@/hooks/useFetch"
 import { useRouter } from "next/navigation"
 import { parseCookies } from "nookies"
 import Chat from "@/types/Chat"
+import sendNotification from "@/hooks/sendNotification"
 
 export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: Pedido, closeFunction: () => void }) {
     const router = useRouter()
@@ -23,7 +24,8 @@ export default function AssignPedidoModal({ pedido, closeFunction }: { pedido: P
                 Authorization: `Bearer ${parseCookies().uezaccesstoken}`
             },
         })
-            .then(res => {
+            .then(async res => {
+                await sendNotification("solicitUzer", `Uzer mandou mensagem para você!`, requestedContactId)
                 console.log(res)
                 router.push(`/chat?userChatId=${res._id}`)
             })

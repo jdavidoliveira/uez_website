@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import CardPedido from "./CardPedido";
 import { useRouter } from "next/navigation";
+import sendNotification from "@/hooks/sendNotification";
 
 export default function Budget({ content, sendHour, userData, type, _idPedido, userType, globalSelectedData, ...props }: Messages | any) {
 
@@ -42,7 +43,8 @@ export default function Budget({ content, sendHour, userData, type, _idPedido, u
             await api.put(`/pedido/assignUzer/${_idPedido}`, {
                 idUzer: globalSelectedData?.uzerId,
                 preco: Number(content),
-            }).then((res) => {
+            }).then(async (res) => {
+                await sendNotification("orcaAceito", `Cliente Aceitou seu orçamento no valor de R$ ${content}`, globalSelectedData?.uzerId)
                 console.log(res)
                 setShowProposalModal(false)
                 alert("Proposta aceita!")

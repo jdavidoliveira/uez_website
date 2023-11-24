@@ -1,5 +1,6 @@
 "use client"
 
+import sendNotification from "@/hooks/sendNotification"
 import { useFetch as myUseFetch } from "@/hooks/useFetch"
 import Chat from "@/types/Chat"
 import { useRouter } from "next/navigation"
@@ -24,8 +25,8 @@ export default function SendMesageButton({ id }: { id: string }) {
                 Authorization: `Bearer ${parseCookies().uezaccesstoken}`
             },
         })
-            .then(res => {
-                console.log(res)
+            .then(async res => {
+                await sendNotification("solicitCliente", `Cliente mandou mensagem para você!`, requestedContactId)
                 router.push(`/chat?userChatId=${res._id}`)
             })
             .catch(err => console.error(err))

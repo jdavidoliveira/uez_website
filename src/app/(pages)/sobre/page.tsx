@@ -48,8 +48,8 @@ export default function Sobre() {
                 </div>
             </section>
             <GenericSection className="flex-row w-full h-screen relative mb-24 justify-end p-0">
-                <Image src="/images/pedaco1.svg" alt="Pedaço" width={500} height={500} className="absolute left-0 top-10 h-full w-auto" />
-                <div className="flex relative w-4/6 flex-col gap-10 px-16">
+                <Image src="/images/pedaco1.svg" alt="Pedaço" width={500} height={500} className="absolute hidden sm:block left-0 md:top-10 top-20 h-[75%] md:h-full w-auto" />
+                <div className="flex relative sm:w-4/6 flex-col gap-10 px-16">
                     <h1 className="text-3xl font-bold text-right">Nossa História</h1>
                     <p className="text-lg text-right font-bold">
                         A UEZ surgiu em 2023 de um projeto de TCC de um grupo de amigos que tinha como objetivo criar uma plataforma online. Essa plataforma tem como finalidade facilitar a vida de profissionais de diversas áreas que estão desempregados e precisam de uma fonte de renda, além de auxiliar pessoas que enfrentam problemas variados, desde um problema de encanamento até a pintura de uma casa.
@@ -57,26 +57,24 @@ export default function Sobre() {
                 </div>
             </GenericSection>
             <GenericSection className="bg-center h-screen bg-cover relative bg-no-repeat p-0">
-                <Image width={700} height={700} priority src="/images/pedacobg.svg" className="-z-10 w-full absolute left-0" alt="Background" />
-                <div className="flex w-full text-white flex-col gap-10 px-16">
+                <Image width={700} height={700} priority src="/images/pedacobg.svg" className="-z-10 sm:w-full absolute left-0" alt="Background" />
+                <div className="flex w-full text-white flex-col sm:gap-10 px-16">
                     <h1 className="text-3xl font-bold text-center">Quer falar com a gente?</h1>
                     <div className="flex items-center h-96 justify-center mx-auto gap-10 w-full">
                         <CardContato title="Email" text="Para sugestões de melhoria para a plataforma ou para alguma oferta">
                             <Link href="mailto:uezcompanylog@gmail.com" target="_blank">
                                 <Image src="https://logosmarcas.net/wp-content/uploads/2020/11/Gmail-Logo.png" alt="Logo do WhatsApp" width={3000} height={3000} className="w-20 hover:scale-105 transition-transform cursor-pointer" />
                             </Link>
-
                         </CardContato>
                         <CardContato title="Whatsapp" text="Para reclamações sobre outros usuários da plataforma ou dúvidas sobre o uso do site">
                             <Link href="https://api.whatsapp.com/send?phone=5521978783261&text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20como%20funciona%20a%20UEZ" target="_blank">
                                 <Image src="https://logosmarcas.net/wp-content/uploads/2020/05/WhatsApp-Logo.png" alt="Logo do WhatsApp" width={3000} height={3000} className="w-20 hover:scale-105 transition-transform cursor-pointer" />
                             </Link>
                         </CardContato>
-
                     </div>
                 </div>
             </GenericSection>
-            <GenericSection className="relative p-10 mt-52">
+            <GenericSection className="relative sm:p-10 p-3 mt-52">
                 <Image width={600} height={600} src="/images/padrao-elipse.png" className="absolute -z-20 -left-96 -top-80 sm:-left-72 sm:-top-72" alt="Elipse" />
                 <h1 className="text-3xl w-4/6 mx-auto text-center font-bold">Abaixo está um vídeo explicando um pouco mais sobre a nossa essência</h1>
                 <div className="w-10/12 aspect-video flex items-center justify-center border-[36px] rounded-3xl border-[#535FFF] bg-[#535FFF]">

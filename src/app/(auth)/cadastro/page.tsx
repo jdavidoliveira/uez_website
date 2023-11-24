@@ -13,6 +13,7 @@ import { CheckIcon, EyeClosedIcon, EyeOpenIcon, MagnifyingGlassIcon } from '@rad
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Slider from '@radix-ui/react-slider'
 import { useFetch as myUseFetch } from '@/hooks/useFetch';
+import sendNotification from '@/hooks/sendNotification';
 
 const userFormSchema = z.object({
   email: z.string()
@@ -159,7 +160,7 @@ export default function Cadastro() {
       categoriaServico,
       nomeServico,
     })
-    const { message } = await myUseFetch<{ message: string }>("/register", {
+    const { message } = await myUseFetch<{ message: string, uzer: any }>("/register", {
       method: "POST",
       body: JSON.stringify({
         nome,
@@ -177,7 +178,10 @@ export default function Cadastro() {
         categoriaServico,
         nomeServico,
       }),
-    }).then(res => res)
+    }).then(async res => {
+      await sendNotification("parabens", `Ficamos muito felizes em ter você conosco, Seja bem-vindo(a)!`, res.uzer._id)
+      return res
+    })
       .catch(error => error)
     setShowModal(false)
     toggleModal(message)
@@ -289,7 +293,7 @@ export default function Cadastro() {
                     type="date"
                     id="datanascimento"
                     maxLength={10}
-                    max="2008-12-31"
+                    max="2005-12-31"
                     min="1950-01-01"
                     {...register("dataNascimento")}
                   />

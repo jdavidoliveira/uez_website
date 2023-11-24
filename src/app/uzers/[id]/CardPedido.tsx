@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useClipboard } from "use-clipboard-copy"
 import { useRouter } from 'next/navigation'
+import sendNotification from '@/hooks/sendNotification'
 
 
 export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", _id_cliente = "teste", status = "A realizar", disponivel = true, descricao, idPedido, valor }: { titulo: string, _id_cliente: string | null, status: string, disponivel: boolean, descricao: string, idPedido: string, valor: number }) {
@@ -61,11 +62,7 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
         const handleCopy = async () => {
             clipboard.copy(descricao); // copy the description to clipboard when button is clicked
-            if (clipboard.copied) {
-                alert('Copiado para a area de transferência!');
-            } else {
-                alert('Erro ao copiar para a area de transferência!');
-            }
+            alert('Copiado para a area de transferência!');
         }
 
         const sendMessage = () => {
@@ -81,10 +78,11 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
             api.put(`/pedido/finish/${idPedido}`, {
                 status: 'Concluido',
             })
-                .then(() => {
+                .then(async () => {
                     setIsSubmitting(false)
                     setFinished(false)
                     setShowModal(false)
+                    await sendNotification("servFim", `O Uzer finalizou seu serviço, avalie-o para que ele possa receber!`, _id_cliente || "")
                     alert('Serviço concluído com sucesso!')
                     router.refresh()
                 })
@@ -130,7 +128,7 @@ export default function CardPedido({ titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                         </div>
                         <div className="lg:w-1/2 w-11/12 flex flex-col items-center gap-3">
                             {status === "A avaliar" ? <h1 className="text-black text-center text-xl font-bold">Aguardando a avaliação do cliente...</h1> : <>
-                               {!(status === "Concluido") && <h1 className="text-black text-center text-xl font-bold">Coloque uma imagem do serviço (Opcional):</h1>}
+                                {!(status === "Concluido") && <h1 className="text-black text-center text-xl font-bold">Coloque uma imagem do serviço (Opcional):</h1>}
                                 <label htmlFor="orcamento" className="text-black text-center w-10/12 min-h-[60px] max-h-64 bg-[#EDEDED] cursor-pointer hover:bg-[#d9d9d9] transition-colors rounded-2xl flex items-center justify-center text-xl font-medium">
                                     <FileUp size={32} color='black' />
                                 </label>

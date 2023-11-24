@@ -7,6 +7,7 @@ import React from 'react'
 import { useFetch as myUseFetch } from '@/hooks/useFetch'
 import Chat from '@/types/Chat'
 import { useRouter } from 'next/navigation'
+import sendNotification from '@/hooks/sendNotification'
 
 interface UserFormData {
     nome: string
@@ -47,7 +48,8 @@ export default function UserCard({ nome = "Carregando...", servicoPrincipal = "C
                 Authorization: `Bearer ${parseCookies().uezaccesstoken}`
             },
         })
-            .then(res => {
+            .then(async res => {
+                await sendNotification("solicitCliente", `Cliente mandou mensagem para você!`, requestedContactId)
                 router.push(`/chat?userChatId=${res._id}`)
             })
             .catch(err => console.error(err))
