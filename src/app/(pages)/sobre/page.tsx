@@ -37,11 +37,11 @@ export default function Sobre() {
                 <h1 className="text-3xl font-bold ">Nossa equipe</h1>
                 <div className="w-full md:h-144 sm:h-80 h-40 flex items-center justify-center bg-center bg-contain lg:bg-cover bg-fixed bg-no-repeat" style={{ backgroundImage: "url('/images/equipe.png')" }}>
                     <div className="grid grid-cols-5 items-center efeito-vidro p-3">
-                        <FundadoresCard cargo="Designer" nome="Matheus Barros" />
-                        <FundadoresCard cargo="Diretor de relações" nome="Yago Estevão" />
+                        <FundadoresCard cargo="Designer" nome="Matheus Barros" href="https://www.linkedin.com/in/matheus-barros-846738286/" />
+                        <FundadoresCard cargo="Diretor de relações" nome="Yago Estevão" href="https://www.linkedin.com/in/yago-estev%C3%A3o-509018287/" />
                         <FundadoresCard cargo="Desenvolvedor" nome="João David" href="https://github.com/lordaval" />
-                        <FundadoresCard cargo="Diretor de operações" nome="Neemias Duarte" />
-                        <FundadoresCard cargo="Diretor Geral" nome="Renato Gomes" />
+                        <FundadoresCard cargo="Diretor de operações" nome="Neemias Duarte" href="https://www.linkedin.com/in/neemias-duarte-81b738286/" />
+                        <FundadoresCard cargo="Diretor Geral" nome="Renato Gomes" href="https://www.linkedin.com/in/renato-gomes-do-nascimento-915737286/" />
                     </div>
 
                     {/* <Image fill src="/images/equipe.png" className="object-cover object-center" priority alt="Equipe" /> */}
