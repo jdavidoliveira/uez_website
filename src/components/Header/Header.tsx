@@ -17,10 +17,6 @@ const defaultLinks: PersonalLinks[] = [
   {
     href: "/sobre",
     text: "Sobre nós",
-  },
-  {
-    href: "/visaoservicos",
-    text: "Serviços",
   }
 ]
 
