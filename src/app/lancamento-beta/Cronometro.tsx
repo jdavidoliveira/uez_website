@@ -61,8 +61,8 @@ export default function Cronometro() {
 
     return (
       <div className="flex flex-col items-center justify-center relative">
-        <span className="text-3xl font-medium mb-2 absolute -top-10">{title || "Dias"}</span>
-        <div className="grid grid-cols-2 gap-4">
+        <span className="md:text-3xl text-2xl font-medium mb-2 absolute -top-10">{title || "Dias"}</span>
+        <div className="grid grid-cols-2 md:gap-4 gap-2">
           <div className="py-4 px-5 bg-[#535FFF] rounded-xl text-white font-bold text-4xl flex justify-center items-center">
             {first}
           </div>
@@ -76,7 +76,7 @@ export default function Cronometro() {
 
   function DoisPontos() {
     return (
-      <div className="h-full font-bold flex flex-col gap-8 items-center justify-center mx-6">
+      <div className="h-full font-bold flex flex-col sm:gap-8 gap-6 items-center justify-center md:mx-6 sm:mx-4 mx-3">
         <div className="w-3 h-3 bg-black rounded-full"></div>
         <div className="w-3 h-3 bg-black rounded-full"></div>
       </div>
