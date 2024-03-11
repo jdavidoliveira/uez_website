@@ -55,7 +55,7 @@ export default function Page() {
       <div className="flex flex-col items-center justify-around gap-4 mt-16">
         <h1 className="text-2xl font-bold mx-auto text-roxazul">REDES SOCIAIS</h1>
         <div className="flex justify-center items-center gap-5">
-          <LinkSocial icon="/images/icons/instagram.png" link="https://instagram.com/uezcompany" alt="Instagram" />
+          <LinkSocial icon="/images/icons/instagram.png" link="https://instagram.com/uez_company" alt="Instagram" />
           <LinkSocial icon="/images/icons/facebook.png" link="https://www.facebook.com/uezco/" alt="Facebook" />
           <LinkSocial icon="/images/icons/youtube.png" link="https://www.youtube.com/@UezCompany" alt="YouTube" />
           <LinkSocial icon="/images/icons/tiktok.png" link="https://www.tiktok.com/@uezcompany" alt="Tik Tok" />
