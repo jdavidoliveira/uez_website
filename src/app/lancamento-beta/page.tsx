@@ -25,6 +25,13 @@ export default function Page() {
         height={1080}
       />
       <Image
+        src="/logo.svg"
+        alt="Logo"
+        className="absolute left-14 bottom-11 lg:block hidden w-64 h-64 invert"
+        width={514}
+        height={514}
+      />
+      <Image
         src="/images/right-element.png"
         alt="Right"
         className="absolute right-0 top-0 h-full lg:block hidden"
@@ -33,12 +40,12 @@ export default function Page() {
       />
       <div className="text-center">
         <h1 className="text-3xl font-bold">EM BREVE, DIA 10 DE ABRIL DE 2024</h1>
-        <h2 className="text-xl font-medium">Ocorrerá o lançamento da versão beta da UEZ APP</h2>
+        <h2 className="text-xl font-medium">Ocorrerá o lançamento da versão beta da UEZ</h2>
       </div>
       <Cronometro />
       <div className="flex items-center justify-center lg:w-1/2 text-center mb-6">
         <p className="text-2xl font-medium text-center">
-          Entre na comunidade de whatsapp para ser avisado em primeira mão!
+          Entre no nosso canal do whatsapp para ser avisado em primeira mão!
         </p>
       </div>
       <div className="flex lg:flex-row flex-col items-center justify-around gap-10">
