@@ -103,7 +103,7 @@ export default function Home() {
             </div>
         </div>
       </ImageSection> */}
-  
+   
       {/* P5 */}
 
 
@@ -160,8 +160,8 @@ const GenericSection = ({ className = "", children }: { className: string; child
 )
 
 const ImageSection = ({ imageUrl, children }: { imageUrl: StaticImageData | string; children: ReactNode }) => (
-  <section className={`w-full p-0 m-0 bg-center bg-cover bg-no-repeat aspect-video relative`}>
-    <Image src={imageUrl} alt="Imagem de fundo" fill className="object-cover object-center " priority />
+  <section className={`w-full h-auto p-0 m-0 bg-center bg-cover bg-no-repeat aspect-video relative`}>
+    <Image src={imageUrl} alt="Imagem de fundo" fill className="object-fill object-center " priority />
     {children}
   </section>
 )
