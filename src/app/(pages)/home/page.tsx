@@ -4,14 +4,14 @@ import { ReactNode } from "react"
 import Image, { StaticImageData } from "next/image"
 import Link from "next/link"
 import "animate.css/animate.min.css"
-import { AnimationOnScroll } from "react-animation-on-scroll"
+import { AnimationOnScroll  } from "react-animation-on-scroll"
 
 export default function Home() { 
   return (
-    <main className="w-full flex flex-col items-center mx-0 gap-16 bg-white" id="inicio">
+    <main className="w-full flex flex-col items-center mx-0  bg-white" id="inicio">
       
       {/* P0 - FEITO */}
-      {/* <ImageSection imageUrl="/images/p0.jpg">
+      <ImageSection imageUrl="/images/p0.jpg">
         <div className="flex flex-col z-10 absolute right-1/2 translate-x-1/2 mt-40 gap-8 items-center">
           <Image src="/images/logo.png" alt={"Logo da UEZ"} width={250} height={200}/>
           <div className="text-center">
@@ -22,13 +22,15 @@ export default function Home() {
             </h1>
           </div>
         </div>
-      </ImageSection> */}
+      </ImageSection>
  
+
       {/* P1 */} 
 
 
+
       {/* P2 - FEITO */}
-      {/* <ImageSection imageUrl="/images/p2.jpg">
+      <ImageSection imageUrl="/images/p2.jpg">
         <div className="absolute w-full flex flex-col z-10 bottom-0 gap-44 left-0 mb-8">
           <h1 className=" w-[430px] py-8 pr-4 bg-white text-4xl font-medium text-right rounded-r-2xl " >
             Consiga clientes  <br />
@@ -38,10 +40,11 @@ export default function Home() {
             Cadastrar como uzer 
           </h1>
         </div>
-      </ImageSection> */}
+      </ImageSection>
+
 
       {/* P3 - FEITO */}
-      {/* <GenericSection className="relativa h-144  flex flex-col items-center justify-around bg-pink text-azulao" >
+      <GenericSection className="relativa h-144  flex flex-col items-center justify-around bg-pink text-azulao" >
         <div className=" flex flex-col items-center justify-around gap-16 text-azulao ">
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <h1 className="text-4xl font-semibold text-center">O que é a UEZ?</h1>
@@ -52,15 +55,16 @@ export default function Home() {
             </p>
           </AnimationOnScroll>
         </div>
-      </GenericSection> */}
+      </GenericSection>
+
 
       {/* P4 */}
       <ImageSection imageUrl="/images/p4.jpg">
-        <div className="flex flex-col items-center justify-around text-azulao ">
+        <div className="flex flex-col items-center pb-40 justify-around text-azulao ">
             <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
               <h1 className="text-4xl font-semibold text-center mb-16 ">Como funciona?</h1>
             </AnimationOnScroll>
-            <div className="flex flex-col gap-4 items-center w-full">
+            <div className="flex flex-col  items-center w-full">
               <div className="flex gap-4 items-center justify-around w-full">
                 <CardPhoto
                   imageUrl="/images/cliente.png"
@@ -104,11 +108,42 @@ export default function Home() {
         </div>
       </ImageSection>
    
+
       {/* P5 */}
+      <ImageSection imageUrl="/images/p5.png">
+        <div className="flex flex-col gap-2"> 
+          <h1 className="flex z-10 mt-16 font-semibold tracking-wider text-3xl text-white self-center">Conheça nossos serviços!</h1>
+
+          <div className="flex z-10 justify-evenly items-center mt-36 ">
+            <div id="frente" className="w-[230px]  h-[290px] rounded-2xl z-10 bg-white text-center flex flex-col items-center justify-evenly">
+              <Image src="/images/design.png" alt="Icone de designer" width={80} height={81}/>
+              <h1 className="font-bold text-xl text-azulao">Design</h1>
+            </div>
+                          
+            <div id="frente" className="w-[230px]  h-[290px] rounded-2xl z-10 bg-white text-center flex flex-col items-center justify-evenly">
+              <Image src="/images/programação.png" alt="Icone de designer" width={80} height={81}/>
+              <h1 className="font-bold text-xl text-azulao">Programação</h1>
+            </div>
+                          
+            <div id="frente" className="w-[230px]  h-[290px] rounded-2xl z-10 bg-white text-center flex flex-col items-center justify-evenly">
+              <Image src="/images/social.png" alt="Icone de designer" width={80} height={81}/>
+              <h1 className="font-bold text-xl text-azulao">Social Midia</h1>
+            </div>
+                          
+            <div id="frente" className="w-[230px]  h-[290px] rounded-2xl z-10 bg-white text-center flex flex-col items-center justify-evenly">
+              <Image src="/images/video.png" alt="Icone de designer" width={80} height={81}/>
+              <h1 className="font-bold text-xl text-azulao">Video Maker</h1>
+            </div>
+                          
+
+          </div>
+
+        </div>
+      </ImageSection>
 
 
       {/* P6 - FEITO */}
-      {/* <GenericSection className="pt-16 pb-8 relative flex flex-col items-center justify-around gap-8 text-azulao mb-20">
+      <GenericSection className="pt-16 pb-8 relative flex flex-col items-center justify-around gap-8 text-azulao mb-20">
         <div className="relative flex flex-col items-center justify-around gap-8 text-azulao w-11/12">
           <Image
             src="/images/icons/cadeado.svg"
@@ -146,7 +181,7 @@ export default function Home() {
             </p>
           </AnimationOnScroll>
         </div>
-      </GenericSection>  */}
+      </GenericSection> 
     </main>
   )
 }
@@ -160,7 +195,7 @@ const GenericSection = ({ className = "", children }: { className: string; child
 )
 
 const ImageSection = ({ imageUrl, children }: { imageUrl: StaticImageData | string; children: ReactNode }) => (
-  <section className={`w-full h-auto p-0 m-0 bg-center bg-cover bg-no-repeat aspect-video relative`}>
+  <section className={`w-full h-auto pt-0 p-0 m-0 bg-center bg-cover bg-no-repeat aspect-video relative`}>
     <Image src={imageUrl} alt="Imagem de fundo" fill className="object-fill object-center " priority />
     {children}
   </section>
