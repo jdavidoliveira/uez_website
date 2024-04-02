@@ -28,13 +28,13 @@ export default function Home() {
 
 
       {/* P2 - FEITO */}
-      {/* <ImageSection imageUrl="/images/P2.jpg">
+      {/* <ImageSection imageUrl="/images/p2.jpg">
         <div className="absolute w-full flex flex-col z-10 bottom-0 gap-44 left-0 mb-8">
           <h1 className=" w-[430px] py-8 pr-4 bg-white text-4xl font-medium text-right rounded-r-2xl " >
             Consiga clientes  <br />
             feche <span className="text-azulao">mais</span> negócios 
           </h1>
-          <h1 className="p-4 cursor-pointer bg-white text-4xl font-medium text-center flex self-center rounded-2xl transition duration-100 hover:animate-none hover:duration-100 hover:scale-105 animate-pulse">
+          <h1 className="p-4 cursor-pointer bg-white text-4xl font-medium text-center flex self-center rounded-2xl transition duration-100 hover:animate-none hover:duration-100 hover:scale-105  animate-pulse">
             Cadastrar como uzer 
           </h1>
         </div>
@@ -55,13 +55,13 @@ export default function Home() {
       </GenericSection> */}
 
       {/* P4 */}
-      {/* <ImageSection imageUrl="/images/p4.jpg">
-        <div className="flex flex-col items-center justify-around gap-8 text-azulao ">
+      <ImageSection imageUrl="/images/p4.jpg">
+        <div className="flex flex-col items-center justify-around text-azulao ">
             <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
               <h1 className="text-4xl font-semibold text-center mb-16 ">Como funciona?</h1>
             </AnimationOnScroll>
             <div className="flex flex-col gap-4 items-center w-full">
-              <div className={`flex gap-4 items-center justify-around w-full`}>
+              <div className="flex gap-4 items-center justify-around w-full">
                 <CardPhoto
                   imageUrl="/images/cliente.png"
                   title="Cliente"
@@ -74,7 +74,7 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col gap-4 items-center justify-center w-full">
-                <Image src="/vetores/linha-baixo.svg" width={120} height={120} alt="Vetor de linhas" className="w-6/12" />
+                <Image src={"/public/images/linha-baixo.svg"} width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
                 <div className="w-40 h-40 transition hover:scale-105">
                   <a href="#inicio" title="Uez Company">
                     <Image
@@ -86,7 +86,7 @@ export default function Home() {
                     />
                   </a>
                 </div>
-                <Image src="/vetores/linha-cima.svg" width={120} height={120} alt="Vetor de linhas" className="w-6/12" />
+                <Image src="/vetores/linha-cima.jpg" width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
               </div>
               <div className="flex gap-4 items-center justify-around w-full">
                 <CardPhoto
@@ -102,7 +102,7 @@ export default function Home() {
               </div>
             </div>
         </div>
-      </ImageSection> */}
+      </ImageSection>
    
       {/* P5 */}
 
