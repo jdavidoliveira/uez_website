@@ -10,7 +10,7 @@ import EscolherPedidoModal from "./EscolherPedidoModal"
 interface MessageBarProps {
   globalSelectedData: Chat
   setGlobalSelectedData: Dispatch<SetStateAction<Chat | null>>
-  userType: "uzer" | "cliente"
+  userType: "UZER" | "CLIENTE"
   senderId: string
   chatId: string
 }
@@ -86,7 +86,7 @@ export default function MessageBar({
         className="w-full h-10 px-3 py-6 text-lg outline-none"
       />
       <div className="flex gap-2">
-        {userType === "uzer" && (
+        {userType === "UZER" && (
           <button
             type="button"
             onClick={() => setShowEscolherPedidoModal(true)}

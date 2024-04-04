@@ -36,7 +36,7 @@ export default function HeaderProfile({ session: { user } }: { session: Session 
           >
             <ProfileItem href={`/chat`} text="Chat" />
             <ProfileItem
-              href={user.userType === "CLIENTE" ? `/clientes/${user.id}` : `/uzers/${user.id}`}
+              href={user.userType === "CLIENTE" ? `/clientes/${user.username}` : `/uzers/${user.username}`}
               text="Abrir Perfil"
             />
             <DropdownMenu.Separator className="h-[1px] bg-black/10 mx-4 my-1" />

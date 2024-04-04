@@ -13,7 +13,7 @@ import MessageItem from "./Message/Message"
 interface RightSideProps {
   globalSelectedData: ChatInterface | null
   setGlobalSelectedData: Dispatch<SetStateAction<ChatInterface | null>>
-  userType: "uzer" | "cliente"
+  userType: "UZER" | "CLIENTE"
   userData: any
 }
 
@@ -40,7 +40,7 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
       <header className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-[2] w-full">
         <div className="flex items-center gap-2">
           <Image
-            src={userType === "cliente" ? globalSelectedData.photo : globalSelectedData.photo}
+            src={userType === "CLIENTE" ? globalSelectedData.photo : globalSelectedData.photo}
             width={60}
             height={60}
             alt="Icone do Usuario"
@@ -50,16 +50,16 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
             <Link
               title="Abrir Perfil"
               href={
-                userType === "cliente"
+                userType === "CLIENTE"
                   ? `/uzers/${globalSelectedData.uzerId}`
                   : `/clientes/${globalSelectedData.clienteId}`
               }
               className="text-lg font-bold"
             >
-              {userType === "cliente" ? globalSelectedData?.uzerName : globalSelectedData?.clienteName}
+              {userType === "CLIENTE" ? globalSelectedData?.uzerName : globalSelectedData?.clienteName}
             </Link>
             <h2 className="text-base font-medium">
-              {userType === "cliente" ? globalSelectedData?.uzerService : "Cliente"}
+              {userType === "CLIENTE" ? globalSelectedData?.uzerService : "Cliente"}
             </h2>
           </div>
         </div>

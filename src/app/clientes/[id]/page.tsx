@@ -19,9 +19,11 @@ export default async function Cliente({ params }: { params: { id: string } }) {
   const session = await getServerSession(options)
   if (!session) return redirect("/login")
 
-  const { data: cliente } = await api.get(`http://localhost:3333/clientes/${params.id}`)
+  const { data: cliente, status } = await api.get(`/clientes/${params.id}`)
 
-  console.log(cliente)
+  if (status !== 200 || !cliente) {
+    return redirect("/login")
+  }
 
   const { photoUrl, nome, id } = cliente
   cliente.bannerImage =

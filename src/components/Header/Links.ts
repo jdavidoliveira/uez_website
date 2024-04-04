@@ -1,8 +1,4 @@
 export const CommonLinks = [
-  //   { text: "Home", href: "/" },
-  //   { text: "Sobre", href: "/sobre" },
-  //   { text: "Contato", href: "/contato" },
-  //   { text: "FAQ", href: "/faq" },
   {
     href: "/sobre",
     text: "Sobre nós",
@@ -15,6 +11,7 @@ export const UzerLinks = [
 ]
 
 export const ClientLinks = [
-  { text: "Meus Serviços", href: "/clientes" },
-  { text: "Meus Serviços Solicitados", href: "/solicitarservico" },
+  { text: "Meus Serviços", href: "/servicos" },
+  { text: "Solicitar um serviço", href: "/solicitarservico" },
+  { text: "Uzers", href: "/uzers" },
 ]

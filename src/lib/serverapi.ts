@@ -1,21 +1,49 @@
 import { cookies } from "next/headers"
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/"
+
+type ApiResponse<T> = {
+  data: T
+  status: number
+  headers: Headers
+  statusText: string
+  ok: boolean
+  redirected: boolean
+  url: string
+  type: ResponseType
+}
+
 export const api = {
-  get: async (url: string) => {
-    const response = await fetch(url, {
-      headers: {
-        cookie: cookies().toString(),
-      },
-    })
-    return {
-      data: await response.json(),
-      status: response.status,
-      headers: response.headers,
-      statusText: response.statusText,
-      ok: response.ok,
-      redirected: response.redirected,
-      url: response.url,
-      type: response.type,
+  get: async <T>(routeUrl: string, options?: NextFetchRequestConfig): Promise<ApiResponse<T>> => {
+    const fullUrl = (baseUrl + routeUrl).replace(/\/\//g, "/")
+    try {
+      const response = await fetch(fullUrl, {
+        headers: {
+          cookie: cookies().toString(),
+        },
+        next: options,
+      })
+      return {
+        data: await response.json(),
+        status: response.status,
+        headers: response.headers,
+        statusText: response.statusText,
+        ok: response.ok,
+        redirected: response.redirected,
+        url: response.url,
+        type: response.type,
+      }
+    } catch (err) {
+      return {
+        data: null as any, // Modify this as per your error handling requirement
+        status: 500,
+        headers: new Headers(),
+        statusText: "Internal Server Error",
+        ok: false,
+        redirected: false,
+        url: "",
+        type: "basic",
+      }
     }
   },
 }
