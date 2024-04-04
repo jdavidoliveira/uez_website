@@ -13,7 +13,6 @@ import { CheckIcon, EyeClosedIcon, EyeOpenIcon, MagnifyingGlassIcon } from "@rad
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Slider from "@radix-ui/react-slider"
 import { useFetch as myUseFetch } from "@/hooks/useFetch"
-import sendNotification from "@/hooks/sendNotification"
 
 const userFormSchema = z
   .object({
@@ -51,7 +50,6 @@ const userFormSchema = z
       .regex(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, "Formato de CPF inválido")
       .min(14, "O CPF deve ter 14 dígitos")
       .max(14, "O CPF deve ter 14 dígitos"),
-    rg: z.optional(z.string()),
     cep: z
       .string()
       .min(1, "O CEP é obrigatório")
@@ -152,7 +150,6 @@ export default function Cadastro() {
       userType,
       senha,
       cpf,
-      rg,
       cep,
       dataNascimento,
       endereco,
@@ -174,7 +171,6 @@ export default function Cadastro() {
       email,
       senha,
       cpf,
-      rg,
       dataNasc: dataNascimento,
       cep,
       telefone,
@@ -192,7 +188,6 @@ export default function Cadastro() {
         email,
         senha,
         cpf,
-        rg,
         dataNasc: dataNascimento,
         cep,
         telefone,
@@ -468,30 +463,6 @@ export default function Cadastro() {
                   />
                 </div>
                 {errors.cpf && <span className="font-medium text-xs self-start my-1">{errors.cpf.message}</span>}
-              </div>
-              <div className="flex flex-col items-center justify-center grow">
-                <label htmlFor="rg" title="RG" className="self-start text-base font-medium">
-                  RG: <sup className="text-[10px] font-bold">(opcional)</sup>
-                </label>
-                <div className="flex items-center w-full h-10">
-                  <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
-                      errors.rg && "border-2 rounded border-red-500"
-                    }`}
-                    type="text"
-                    id="rg"
-                    maxLength={11}
-                    placeholder="00.000.000-0"
-                    {...register("rg", {
-                      onChange: (e) => {
-                        const rawRg = e.target.value.replace(/\D/g, "") // Remove não dígitos
-                        const formattedRg = rawRg.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})$/, "$1.$2.$3-$4") // Formata como XX.XXX.XXX-X
-                        setValue("rg", formattedRg)
-                      },
-                    })}
-                  />
-                </div>
-                {errors.rg && <span className="font-medium text-xs self-start my-1">{errors.rg.message}</span>}
               </div>
             </div>
           </div>
@@ -840,8 +811,7 @@ export default function Cadastro() {
                         errors.dataNascimento ||
                         errors.senha ||
                         errors.confirmarSenha ||
-                        errors.cpf ||
-                        errors.rg
+                        errors.cpf
                       ) {
                         return toggleModal("Preencha os dados corretamente")
                       }

@@ -1,6 +1,6 @@
 "use client"
 
-import api from "@/hooks/api"
+import api from "@/lib/api"
 import Pedido from "@/types/Pedido"
 import { ChevronLeft, ChevronRight, Eye } from "lucide-react"
 import { useEffect, useState } from "react"

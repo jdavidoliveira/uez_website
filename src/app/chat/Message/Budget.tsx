@@ -1,6 +1,6 @@
 "use client"
 
-import api from "@/hooks/api"
+import api from "@/lib/api"
 import { Messages } from "@/types/Chat"
 import Pedido from "@/types/Pedido"
 import { CircleDollarSign } from "lucide-react"

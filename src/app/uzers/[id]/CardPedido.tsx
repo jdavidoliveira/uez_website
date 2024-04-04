@@ -1,5 +1,5 @@
 "use client"
-import api from "@/hooks/api"
+import api from "@/lib/api"
 import ClienteInterface from "@/types/Cliente"
 
 import { Check, Clipboard, Eye, FileUp, Loader2, MessageCircle, X } from "lucide-react"

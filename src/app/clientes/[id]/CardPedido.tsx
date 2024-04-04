@@ -1,5 +1,5 @@
 "use client"
-import api from "@/hooks/api"
+import api from "@/lib/api"
 import UzerInterface from "@/types/Uzer"
 import { Eye, MessageCircle, Star, X } from "lucide-react"
 import React, { useEffect, useState } from "react"
@@ -8,8 +8,6 @@ import "animate.css"
 import { useRouter } from "next/navigation"
 import RatingSlider from "./RatingSlider"
 import Link from "next/link"
-import myUseBrowserNotification from "@/hooks/useBrowserNotification"
-import sendNotification from "@/hooks/sendNotification"
 
 export default function CardPedido({
   titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
@@ -52,8 +50,8 @@ export default function CardPedido({
     await api
       .put(`/pedido/avaliar/${idPedido}`, { avaliacao: uzerRating })
       .then(async (res) => {
-        await setShowAvaliarModal(false)
-        await alert("Seu pedido foi avaliado!")
+        setShowAvaliarModal(false)
+        alert("Seu pedido foi avaliado!")
         router.refresh()
       })
       .catch((err) => alert("Erro ao avaliar o pedido"))
