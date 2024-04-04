@@ -10,19 +10,11 @@ interface LeftSideProps {
   globalSelectedData: any | null
   setGlobalSelectedData: Dispatch<SetStateAction<any | null>>
   serverData: any[]
-  userType: "UZER" | "CLIENTE"
   userData: User
   isOnline: boolean
 }
 
-export default function LeftSide({
-  globalSelectedData,
-  setGlobalSelectedData,
-  serverData,
-  userType,
-  userData,
-  isOnline,
-}: LeftSideProps) {
+export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userData }: LeftSideProps) {
   useEffect(() => {
     refreshGlobalSelectedData()
   }, [serverData])
@@ -36,7 +28,7 @@ export default function LeftSide({
     })
   }
 
-  console.log(serverData)
+  const userType = userData.userType
 
   return (
     <section
@@ -67,15 +59,22 @@ export default function LeftSide({
       <div className="w-full flex flex-col overflow-auto scroll">
         <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
         {serverData.length > 0 ? (
-          serverData?.map((item) => (
-            <UserChatItem
-              key={item.id}
-              photo={item.photo ?? "/images/default-chat-background.png"}
-              name={userType === "CLIENTE" ? item.uzerName : item.clienteName}
-              lastMessage={item.messages[item?.messages.length - 1]?.content || ""}
-              data={item}
-            />
-          ))
+          serverData?.map((item) => {
+            console.log(item)
+            return (
+              <UserChatItem
+                key={item.id}
+                photo={
+                  userType === "UZER"
+                    ? item?.cliente.photoUrl
+                    : item.uzer.photoUrl ?? "/images/default-chat-background.png"
+                }
+                name={userType === "CLIENTE" ? item.uzer.nome : item.cliente.nome}
+                lastMessage={item.messages[item?.messages.length - 1]?.content || ""}
+                data={item}
+              />
+            )
+          })
         ) : (
           <h1 className="text-base font-medium text-center py-4 ">Você não iniciou nenhuma conversa ainda😭</h1>
         )}
@@ -86,7 +85,7 @@ export default function LeftSide({
   interface UserChatItemProps {
     photo: string
     name: string
-    lastMessage: string
+    lastMessage: string | null
     key: string
     data: any
   }
@@ -96,10 +95,10 @@ export default function LeftSide({
       <div
         className={twMerge(
           "w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer",
-          globalSelectedData?._id === data._id ? "bg-cinzero" : ""
+          globalSelectedData?.id === data.id ? "bg-cinzero" : ""
         )}
         onClick={() => {
-          globalSelectedData?._id === data._id ? setGlobalSelectedData(null) : setGlobalSelectedData(data)
+          globalSelectedData?.id === data.id ? setGlobalSelectedData(null) : setGlobalSelectedData(data)
         }}
       >
         <div className="h-full aspect-square flex items-center justify-center p-2">
@@ -113,7 +112,9 @@ export default function LeftSide({
         </div>
         <div className="flex-1 flex flex-col p-2">
           <h1 className="font-bold text-sm lg:text-base">{name}</h1>
-          <h2 className="text-sm">{lastMessage.length > 40 ? lastMessage.substring(0, 40) + "..." : lastMessage}</h2>
+          <h2 className="text-sm">
+            {lastMessage && (lastMessage.length > 40 ? lastMessage.substring(0, 40) + "..." : lastMessage)}
+          </h2>
         </div>
       </div>
     )

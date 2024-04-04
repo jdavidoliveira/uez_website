@@ -101,7 +101,7 @@ export default function Cadastro() {
     resolver: zodResolver(userFormSchema),
   })
 
-  const [userType, setUserType] = useState<"CLIENTE" | "UZER" | any>(get("userType"))
+  const [userType, setUserType] = useState<"CLIENTE" | "UZER" | any>(get("userType")?.toUpperCase())
   const [formStep, setFormStep] = useState<number>(1)
 
   const [showModal, setShowModal] = useState(false)
@@ -178,7 +178,7 @@ export default function Cadastro() {
   return (
     <form
       ref={formRef}
-      className="bg-white rounded-3xl py-6 px-4 min-h-[95%] w-[45%] flex flex-col items-center justify-center desktop:w-4/5 mobile:w-full mobile:h-full mobile:px-0"
+      className="bg-white rounded-3xl py-6 px-4 min-h-[95%] w-[40 %] flex flex-col items-center justify-center desktop:w-4/5 mobile:w-full mobile:h-full mobile:px-0"
       onSubmit={handleSubmit(cadastrar)}
     >
       <div className="w-full h-full flex flex-col items-center justify-between gap-2">

@@ -1,65 +1,48 @@
 "use client"
 
 import { Banknote, Send } from "lucide-react"
-import { Dispatch, SetStateAction, useState } from "react"
-import { useFetch as myUseFetch } from "@/hooks/useFetch"
-import Chat, { Messages } from "@/types/Chat"
-import { parseCookies } from "nookies"
+import { useState } from "react"
 import EscolherPedidoModal from "./EscolherPedidoModal"
+import { useGlobalSocket } from "@/contexts/GlobalSocket"
 
 interface MessageBarProps {
-  globalSelectedData: Chat
-  setGlobalSelectedData: Dispatch<SetStateAction<Chat | null>>
+  globalSelectedData: any
   userType: "UZER" | "CLIENTE"
-  senderId: string
   chatId: string
+  setGlobalSelectedData: any
 }
 
-export default function MessageBar({
-  setGlobalSelectedData,
-  userType,
-  senderId,
-  chatId,
-  globalSelectedData,
-}: MessageBarProps) {
+export default function MessageBar({ userType, chatId, globalSelectedData, setGlobalSelectedData }: MessageBarProps) {
   const [message, setMessage] = useState("")
   const [showEscolherPedidoModal, setShowEscolherPedidoModal] = useState(false)
+  const { globalSocket } = useGlobalSocket()
 
   async function sendMessage(e: any) {
     e.preventDefault()
     if (!message) {
       return
     }
-    const newMessage = await myUseFetch<Messages | null>("/chat/message", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${parseCookies().uezaccesstoken}`,
-      },
-      body: JSON.stringify({
-        chatId: chatId,
-        message: message,
-        sendDate: new Date().toLocaleDateString(),
-        sendHour: new Date().toLocaleTimeString(),
-      }),
-    })
-      .then((res) => {
-        return res
-      })
-      .catch((err) => {
-        console.error(err)
-        return null
-      })
 
-    await setGlobalSelectedData((prevState: any) => ({
-      ...prevState,
+    if (!globalSocket) {
+      console.log("globalSocket not found")
+      return
+    }
+
+    globalSocket.emit("message", {
+      chatId: chatId,
+      content: message,
+      receiverId: userType === "UZER" ? globalSelectedData?.cliente?.id : globalSelectedData?.uzer?.id,
+    })
+
+    setGlobalSelectedData((prev: any) => ({
+      ...prev,
       messages: [
-        ...prevState.messages,
+        ...prev.messages,
         {
-          content: newMessage?.content,
-          sendDate: newMessage?.sendDate,
-          senderId: newMessage?.senderId,
-          sendHour: newMessage?.sendHour,
+          ...prev.messages[prev.messages.length - 1],
+          content: message,
+          type: "TEXT",
+          createdAt: new Date().toISOString(),
         },
       ],
     }))
@@ -73,7 +56,6 @@ export default function MessageBar({
       chatContainer.scrollTop = chatContainer.scrollHeight
     }
 
-    // Após adicionar a nova mensagem, role para o final
     scrollToBottom()
   }
   return (

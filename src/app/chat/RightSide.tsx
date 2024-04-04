@@ -1,18 +1,17 @@
 "use client"
 
-import ChatInterface, { Messages as Message } from "@/types/Chat"
 import Image from "next/image"
 import { twMerge } from "tailwind-merge"
 import MessageBar from "./MessageBar"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { Cross2Icon } from "@radix-ui/react-icons"
 import Link from "next/link"
-import MessageItem from "./Message/Message"
+import MessageItem from "./Message"
 // import bg from '@/../public/images/default-chat-background.png';
 
 interface RightSideProps {
-  globalSelectedData: ChatInterface | null
-  setGlobalSelectedData: Dispatch<SetStateAction<ChatInterface | null>>
+  globalSelectedData: any | null
+  setGlobalSelectedData: Dispatch<SetStateAction<any | null>>
   userType: "UZER" | "CLIENTE"
   userData: any
 }
@@ -40,7 +39,7 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
       <header className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-[2] w-full">
         <div className="flex items-center gap-2">
           <Image
-            src={userType === "CLIENTE" ? globalSelectedData.photo : globalSelectedData.photo}
+            src={userType === "CLIENTE" ? globalSelectedData?.uzer?.photoUrl : globalSelectedData?.cliente.photoUrl}
             width={60}
             height={60}
             alt="Icone do Usuario"
@@ -51,15 +50,15 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
               title="Abrir Perfil"
               href={
                 userType === "CLIENTE"
-                  ? `/uzers/${globalSelectedData.uzerId}`
-                  : `/clientes/${globalSelectedData.clienteId}`
+                  ? `/uzers/${globalSelectedData?.uzer?.username}`
+                  : `/clientes/${globalSelectedData?.cliente?.username}`
               }
               className="text-lg font-bold"
             >
-              {userType === "CLIENTE" ? globalSelectedData?.uzerName : globalSelectedData?.clienteName}
+              {userType === "CLIENTE" ? globalSelectedData?.uzer?.nome : globalSelectedData?.cliente?.nome}
             </Link>
             <h2 className="text-base font-medium">
-              {userType === "CLIENTE" ? globalSelectedData?.uzerService : "Cliente"}
+              {userType === "CLIENTE" ? globalSelectedData?.uzer?.servico?.nome : "Cliente"}
             </h2>
           </div>
         </div>
@@ -83,13 +82,13 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
           alt="Background"
         />
         {globalSelectedData &&
-          globalSelectedData.messages.map((message, index) => (
+          globalSelectedData.messages.map((message: any, index: any) => (
             <MessageItem
               key={index}
               {...message}
               userType={userType}
               content={message.content}
-              sendHour={message.sendHour}
+              sendHour={message.createdAt.substring(11, 16)}
               userData={userData}
               globalSelectedData={globalSelectedData}
               type={message.type}
@@ -97,9 +96,8 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
           ))}
       </main>
       <MessageBar
-        chatId={globalSelectedData._id}
+        chatId={globalSelectedData.id}
         userType={userType}
-        senderId={userData._id}
         globalSelectedData={globalSelectedData}
         setGlobalSelectedData={setGlobalSelectedData}
       />

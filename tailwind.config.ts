@@ -13,6 +13,8 @@ const config: Config = {
         roxazul: "#2a14b7",
         azulinho: "#002DE3",
         cinzero: "#d9d9d9",
+        "primary-purple": "#535FFF",
+        "primary-blue": "#2A14B7",
       },
       keyframes: {
         transitionY: {
