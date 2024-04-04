@@ -59,54 +59,52 @@ export default function Home() {
 
 
       {/* P4 */}
-      <ImageSection imageUrl="/images/p4.jpg">
-        <div className="flex flex-col items-center pb-40 justify-around text-azulao ">
-            <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
-              <h1 className="text-4xl font-semibold text-center mb-16 ">Como funciona?</h1>
-            </AnimationOnScroll>
-            <div className="flex flex-col  items-center w-full">
-              <div className="flex gap-4 items-center justify-around w-full">
-                <CardPhoto
-                  imageUrl="/images/cliente.png"
-                  title="Cliente"
-                  description="Uma pessoa que precisa de um serviço, por exemplo, uma pessoa com a tubulação quebrada."
-                />
-                <CardPhoto
-                  imageUrl="/images/uzer.png"
-                  title="Uzer"
-                  description="Um profissional que precisa de clientes, por exemplo, um encanador capaz de consertar a tubulação."
-                />
-              </div>
-              <div className="flex flex-col gap-4 items-center justify-center w-full">
-                <Image src={"/public/images/linha-baixo.svg"} width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
-                <div className="w-40 h-40 transition hover:scale-105">
-                  <a href="#inicio" title="Uez Company">
-                    <Image
-                      src="logo.svg"
-                      width={120}
-                      height={120}
-                      alt="Logo da UEZ Company"
-                      className=" animate-pulse w-40 h-40 transition hover:animate-none hover:duration-300 hover:scale-105"
-                    />
-                  </a>
-                </div>
-                <Image src="/vetores/linha-cima.jpg" width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
-              </div>
-              <div className="flex gap-4 items-center justify-around w-full">
-                <CardPhoto
-                  imageUrl="/images/batepapo.png"
-                  title="Chat"
-                  description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
-                />
-                <CardPhoto
-                  imageUrl="/images/riquinho.png"
-                  title="Orçamento"
-                  description="Quando o orçamento é lançado para o cliente, ele tem a opção de aceitar ou não, priorizando a segurança."
-                />
-              </div>
+      <GenericSection className="flex flex-col items-center pb-40 justify-around text-azulao ">
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
+            <h1 className="text-4xl font-semibold text-center mb-16 ">Como funciona?</h1>
+          </AnimationOnScroll>
+          <div className="flex flex-col  items-center w-full">
+            <div className="flex gap-4 items-center justify-around w-full">
+              <CardPhoto
+                imageUrl="/images/cliente.png"
+                title="Cliente"
+                description="Uma pessoa que precisa de um serviço, por exemplo, uma pessoa com a tubulação quebrada."
+              />
+              <CardPhoto
+                imageUrl="/images/uzer.png"
+                title="Uzer"
+                description="Um profissional que precisa de clientes, por exemplo, um encanador capaz de consertar a tubulação."
+              />
             </div>
-        </div>
-      </ImageSection>
+            <div className="flex flex-col gap-4 items-center justify-center w-full">
+              <Image src={"/public/images/linha-baixo.svg"} width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
+              <div className="w-40 h-40 transition hover:scale-105">
+                <a href="#inicio" title="Uez Company">
+                  <Image
+                    src="logo.svg"
+                    width={120}
+                    height={120}
+                    alt="Logo da UEZ Company"
+                    className=" animate-pulse w-40 h-40 transition hover:animate-none hover:duration-300 hover:scale-105"
+                  />
+                </a>
+              </div>
+              <Image src="/vetores/linha-cima.jpg" width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
+            </div>
+            <div className="flex gap-4 items-center justify-around w-full">
+              <CardPhoto
+                imageUrl="/images/batepapo.png"
+                title="Chat"
+                description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
+              />
+              <CardPhoto
+                imageUrl="/images/riquinho.png"
+                title="Orçamento"
+                description="Quando o orçamento é lançado para o cliente, ele tem a opção de aceitar ou não, priorizando a segurança."
+              />
+            </div>
+          </div>
+      </GenericSection>
    
 
       {/* P5 */}
