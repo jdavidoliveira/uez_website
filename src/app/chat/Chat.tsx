@@ -9,18 +9,20 @@ import { User } from "next-auth"
 import { useSession } from "next-auth/react"
 import { parseCookies } from "nookies"
 import { useGlobalSocket } from "@/contexts/GlobalSocket"
+import { useChat } from "@/contexts/Chat"
+import { IChat } from "@/types/IChat"
 
 interface ChatProps {
-  chatData: any
+  chatData: IChat[]
   userData: User
 }
 
 export default function Chat({ chatData, userData }: ChatProps) {
-  const [globalSelectedData, setGlobalSelectedData] = useState<any | null>(null)
+  const { chat, setChat } = useChat()
+  const { setGlobalSocket } = useGlobalSocket()
   const [chatsData, setChatsData] = useState<any[]>(chatData)
   const [isOnline, setIsOnline] = useState(false)
 
-  const { setGlobalSocket } = useGlobalSocket()
   const userChatIdSearchParams = useSearchParams().get("userChatId")
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function Chat({ chatData, userData }: ChatProps) {
       }
     })
 
-    socket.emit("join", chatData?.id)
+    socket.emit("join", chat?.id)
 
     socket.on(
       "message",
@@ -57,18 +59,22 @@ export default function Chat({ chatData, userData }: ChatProps) {
         receiverId: string
         idChat: string
       }) => {
-        console.log("Nova mensagem:", data)
-        setChatsData((prevChats: any) => {
-          return prevChats.map((chat: any) => {
-            if (chat.id === data.idChat) {
-              return {
-                ...chat,
-                messages: [...chat.messages, data],
-              }
-            } else {
-              return chat
-            }
-          })
+        setChat((prev: any) => {
+          return {
+            ...prev,
+            messages: [
+              ...prev.messages,
+              {
+                senderId: data.senderId,
+                receiverId: data.receiverId,
+                idChat: data.idChat,
+                content: data.content,
+                type: data.type,
+                createdAt: data.createdAt,
+                readed: data.readed,
+              },
+            ],
+          }
         })
       }
     )
@@ -77,7 +83,7 @@ export default function Chat({ chatData, userData }: ChatProps) {
       const data: any = chatData.find((chat: any) => {
         return chat.id === userChatIdSearchParams
       })
-      setGlobalSelectedData(data)
+      setChat(data)
     }
 
     return () => {
@@ -89,19 +95,8 @@ export default function Chat({ chatData, userData }: ChatProps) {
 
   return isOnline && data ? (
     <main className="w-full h-full bg-white flex items-center justify-center">
-      <LeftSide
-        userData={userData}
-        serverData={chatsData}
-        setGlobalSelectedData={setGlobalSelectedData}
-        globalSelectedData={globalSelectedData}
-        isOnline
-      />
-      <RightSide
-        userData={userData}
-        globalSelectedData={globalSelectedData}
-        setGlobalSelectedData={setGlobalSelectedData}
-        userType={userData.userType}
-      />
+      <LeftSide userData={userData} serverData={chatsData} isOnline />
+      <RightSide userData={userData} userType={userData.userType} />
     </main>
   ) : (
     <div className="w-full h-full flex justify-center items-center">

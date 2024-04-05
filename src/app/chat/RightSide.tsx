@@ -3,43 +3,36 @@
 import Image from "next/image"
 import { twMerge } from "tailwind-merge"
 import MessageBar from "./MessageBar"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Cross2Icon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import MessageItem from "./Message"
-// import bg from '@/../public/images/default-chat-background.png';
+import { useChat } from "@/contexts/Chat"
 
 interface RightSideProps {
-  globalSelectedData: any | null
-  setGlobalSelectedData: Dispatch<SetStateAction<any | null>>
   userType: "UZER" | "CLIENTE"
   userData: any
 }
 
-export default function RightSide({ globalSelectedData, userType, setGlobalSelectedData, userData }: RightSideProps) {
+export default function RightSide({ userType, userData }: RightSideProps) {
+  const { chat, setChat } = useChat()
   useEffect(() => {
     scrollToBottom()
-  }, [globalSelectedData])
+  }, [chat])
   function scrollToBottom() {
     const chatContainer = document.getElementById("chat-container")
     // @ts-ignore
     if (chatContainer) chatContainer.scrollTop = chatContainer?.scrollHeight
   }
 
-  const [showBudgetModal, setShowBudgetModal] = useState(false)
-  const [showProposalModal, setShowProposalModal] = useState(false)
-
-  return globalSelectedData ? (
+  return chat ? (
     <section
-      className={twMerge(
-        "md:flex-1 md:flex flex h-full bg-cinzero flex-col relative",
-        globalSelectedData ? "flex w-full" : "hidden"
-      )}
+      className={twMerge("md:flex-1 md:flex flex h-full bg-cinzero flex-col relative", chat ? "flex w-full" : "hidden")}
     >
       <header className="bg-white p-4 border-b flex items-center justify-between sticky top-0 z-[2] w-full">
         <div className="flex items-center gap-2">
           <Image
-            src={userType === "CLIENTE" ? globalSelectedData?.uzer?.photoUrl : globalSelectedData?.cliente.photoUrl}
+            src={userType === "CLIENTE" ? chat?.uzer?.photoUrl : chat?.cliente.photoUrl}
             width={60}
             height={60}
             alt="Icone do Usuario"
@@ -48,25 +41,19 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
           <div className="flex flex-col items-start">
             <Link
               title="Abrir Perfil"
-              href={
-                userType === "CLIENTE"
-                  ? `/uzers/${globalSelectedData?.uzer?.username}`
-                  : `/clientes/${globalSelectedData?.cliente?.username}`
-              }
+              href={userType === "CLIENTE" ? `/uzers/${chat?.uzer?.username}` : `/clientes/${chat?.cliente?.username}`}
               className="text-lg font-bold"
             >
-              {userType === "CLIENTE" ? globalSelectedData?.uzer?.nome : globalSelectedData?.cliente?.nome}
+              {userType === "CLIENTE" ? chat?.uzer?.nome : chat?.cliente?.nome}
             </Link>
-            <h2 className="text-base font-medium">
-              {userType === "CLIENTE" ? globalSelectedData?.uzer?.servico?.nome : "Cliente"}
-            </h2>
+            <h2 className="text-base font-medium">{userType === "CLIENTE" ? chat?.uzer?.servico?.nome : "Cliente"}</h2>
           </div>
         </div>
         <button
           className="text-base font-bold p-2 bg-azulao rounded-xl text-white flex items-center justify-center"
           onClick={(e) => {
             e.preventDefault()
-            setGlobalSelectedData(null)
+            setChat(null)
           }}
         >
           <Cross2Icon color="white" width={30} height={30} />
@@ -81,8 +68,8 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
           height={5144}
           alt="Background"
         />
-        {globalSelectedData &&
-          globalSelectedData.messages.map((message: any, index: any) => (
+        {chat &&
+          chat.messages.map((message: any, index: any) => (
             <MessageItem
               key={index}
               {...message}
@@ -90,17 +77,12 @@ export default function RightSide({ globalSelectedData, userType, setGlobalSelec
               content={message.content}
               sendHour={message.createdAt.substring(11, 16)}
               userData={userData}
-              globalSelectedData={globalSelectedData}
+              globalSelectedData={chat}
               type={message.type}
             />
           ))}
       </main>
-      <MessageBar
-        chatId={globalSelectedData.id}
-        userType={userType}
-        globalSelectedData={globalSelectedData}
-        setGlobalSelectedData={setGlobalSelectedData}
-      />
+      <MessageBar chatId={chat.id} userType={userType} />
     </section>
   ) : (
     <main className="flex-1 h-full flex items-center justify-center bg-cinzero">

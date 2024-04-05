@@ -1,27 +1,29 @@
 "use client"
 
 import VoltarButton from "@/components/VoltarButton/VoltarButton"
+import { useChat } from "@/contexts/Chat"
+import { IChat } from "@/types/IChat"
 import { User } from "next-auth"
 import Image from "next/image"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { useEffect } from "react"
 import { twMerge } from "tailwind-merge"
 
 interface LeftSideProps {
-  globalSelectedData: any | null
-  setGlobalSelectedData: Dispatch<SetStateAction<any | null>>
-  serverData: any[]
+  serverData: IChat[]
   userData: User
   isOnline: boolean
 }
 
-export default function LeftSide({ globalSelectedData, setGlobalSelectedData, serverData, userData }: LeftSideProps) {
+export default function LeftSide({ serverData, userData }: LeftSideProps) {
   useEffect(() => {
     refreshGlobalSelectedData()
   }, [serverData])
 
+  const { chat, setChat } = useChat()
+
   function refreshGlobalSelectedData() {
     // @ts-ignore
-    setGlobalSelectedData((prevState: any | null) => {
+    setChat((prevState: any | null) => {
       return serverData.find((chat: any) => {
         return chat.id === prevState?.id
       })
@@ -34,7 +36,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
     <section
       className={twMerge(
         "md:w-2/6 w-full h-full flex flex-col items-center border-r",
-        globalSelectedData ? "hidden md:flex" : "flex"
+        chat ? "hidden md:flex" : "flex"
       )}
     >
       <div className="w-full flex items-center p-5 relative">
@@ -59,8 +61,7 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
       <div className="w-full flex flex-col overflow-auto scroll">
         <h1 className="text-lg font-bold text-center py-4 border-b sticky">Faça serviços com eles de novo!</h1>
         {serverData.length > 0 ? (
-          serverData?.map((item) => {
-            console.log(item)
+          serverData.map((item) => {
             return (
               <UserChatItem
                 key={item.id}
@@ -95,10 +96,10 @@ export default function LeftSide({ globalSelectedData, setGlobalSelectedData, se
       <div
         className={twMerge(
           "w-full h-16 flex bg-white hover:bg-cinzero border-b cursor-pointer",
-          globalSelectedData?.id === data.id ? "bg-cinzero" : ""
+          chat?.id === data.id ? "bg-cinzero" : ""
         )}
         onClick={() => {
-          globalSelectedData?.id === data.id ? setGlobalSelectedData(null) : setGlobalSelectedData(data)
+          chat?.id === data.id ? setChat(null) : setChat(data)
         }}
       >
         <div className="h-full aspect-square flex items-center justify-center p-2">

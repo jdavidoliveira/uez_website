@@ -4,6 +4,7 @@ import Link from "next/link"
 import Chat from "./Chat"
 import { getServerSession } from "next-auth"
 import { options } from "../api/auth/[...nextauth]/options"
+import { IChat } from "@/types/IChat"
 export default async function ChatPage() {
   const session = await getServerSession(options)
 
@@ -29,5 +30,5 @@ export default async function ChatPage() {
     return <div>Erro</div>
   }
 
-  return <Chat chatData={chatData.data} userData={userData} />
+  return <Chat chatData={chatData.data as IChat[]} userData={userData} />
 }

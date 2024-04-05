@@ -4,15 +4,15 @@ import { Banknote, Send } from "lucide-react"
 import { useState } from "react"
 import EscolherPedidoModal from "./EscolherPedidoModal"
 import { useGlobalSocket } from "@/contexts/GlobalSocket"
+import { useChat } from "@/contexts/Chat"
 
 interface MessageBarProps {
-  globalSelectedData: any
   userType: "UZER" | "CLIENTE"
   chatId: string
-  setGlobalSelectedData: any
 }
 
-export default function MessageBar({ userType, chatId, globalSelectedData, setGlobalSelectedData }: MessageBarProps) {
+export default function MessageBar({ userType, chatId }: MessageBarProps) {
+  const { chat, setChat } = useChat()
   const [message, setMessage] = useState("")
   const [showEscolherPedidoModal, setShowEscolherPedidoModal] = useState(false)
   const { globalSocket } = useGlobalSocket()
@@ -31,21 +31,27 @@ export default function MessageBar({ userType, chatId, globalSelectedData, setGl
     globalSocket.emit("message", {
       chatId: chatId,
       content: message,
-      receiverId: userType === "UZER" ? globalSelectedData?.cliente?.id : globalSelectedData?.uzer?.id,
+      receiverId: userType === "UZER" ? chat?.cliente?.id : chat?.uzer?.id,
     })
 
-    setGlobalSelectedData((prev: any) => ({
-      ...prev,
-      messages: [
-        ...prev.messages,
-        {
-          ...prev.messages[prev.messages.length - 1],
-          content: message,
-          type: "TEXT",
-          createdAt: new Date().toISOString(),
-        },
-      ],
-    }))
+    setChat((prev: any) => {
+      console.log(chat)
+      return {
+        ...prev,
+        messages: [
+          ...prev.messages,
+          {
+            // ...prev.messages[prev.messages.length - 1],
+            senderId: userType === "UZER" ? chat?.idUzer : chat?.idCliente,
+            receiverId: userType === "UZER" ? chat?.idUzer : chat?.idCliente,
+            idChat: chatId,
+            content: message,
+            type: "TEXT",
+            createdAt: new Date().toISOString(),
+          },
+        ],
+      }
+    })
 
     setMessage("")
     await new Promise((resolve) => setTimeout(resolve, 150))
@@ -91,7 +97,7 @@ export default function MessageBar({ userType, chatId, globalSelectedData, setGl
         <EscolherPedidoModal
           chatId={chatId}
           closeFunction={() => setShowEscolherPedidoModal(false)}
-          idCliente={globalSelectedData.clienteId}
+          idCliente={chat?.cliente.id}
         />
       )}
     </form>
