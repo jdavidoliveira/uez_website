@@ -11,7 +11,7 @@ export default function Home() {
     <main className="w-full flex flex-col items-center mx-0  bg-white" id="inicio">
       
       {/* P0 - FEITO */}
-      <ImageSection imageUrl="/images/p0.jpg">
+      {/* <ImageSection imageUrl="/images/p0.jpg">
         <div className="flex flex-col z-10 absolute right-1/2 translate-x-1/2 mt-40 gap-8 items-center">
           <Image src="/images/logo.png" alt={"Logo da UEZ"} width={250} height={200}/>
           <div className="text-center">
@@ -22,7 +22,7 @@ export default function Home() {
             </h1>
           </div>
         </div>
-      </ImageSection>
+      </ImageSection> */}
  
 
       {/* P1 */} 
@@ -30,7 +30,7 @@ export default function Home() {
 
 
       {/* P2 - FEITO */}
-      <ImageSection imageUrl="/images/p2.jpg">
+      {/* <ImageSection imageUrl="/images/p2.jpg">
         <div className="absolute w-full flex flex-col z-10 bottom-0 gap-44 left-0 mb-8">
           <h1 className=" w-[430px] py-8 pr-4 bg-white text-4xl font-medium text-right rounded-r-2xl " >
             Consiga clientes  <br />
@@ -40,11 +40,11 @@ export default function Home() {
             Cadastrar como uzer 
           </h1>
         </div>
-      </ImageSection>
+      </ImageSection> */}
 
 
       {/* P3 - FEITO */}
-      <GenericSection className="relativa h-144  flex flex-col items-center justify-around bg-pink text-azulao" >
+      {/* <GenericSection className="relativa h-144  flex flex-col items-center justify-around bg-pink text-azulao" >
         <div className=" flex flex-col items-center justify-around gap-16 text-azulao ">
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <h1 className="text-4xl font-semibold text-center">O que é a UEZ?</h1>
@@ -55,15 +55,15 @@ export default function Home() {
             </p>
           </AnimationOnScroll>
         </div>
-      </GenericSection>
+      </GenericSection> */}
 
 
       {/* P4 */}
-      <GenericSection className="flex flex-col items-center pb-40 justify-around text-azulao ">
+      {/* <GenericSection className="flex flex-col items-center pb-40 justify-around text-azulao ">
           <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
             <h1 className="text-4xl font-semibold text-center mb-16 ">Como funciona?</h1>
           </AnimationOnScroll>
-          <div className="flex flex-col  items-center w-full">
+          <div className="flex flex-col items-center w-full">
             <div className="flex gap-4 items-center justify-around w-full">
               <CardPhoto
                 imageUrl="/images/cliente.png"
@@ -77,7 +77,7 @@ export default function Home() {
               />
             </div>
             <div className="flex flex-col gap-4 items-center justify-center w-full">
-              <Image src={"/public/images/linha-baixo.svg"} width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
+              <Image src={"/vetores/linha-baixo.svg"} width={120} height={120} alt="Vetor de linhas" className="w-6/12 pt-8 pb-4 flex z-10" />
               <div className="w-40 h-40 transition hover:scale-105">
                 <a href="#inicio" title="Uez Company">
                   <Image
@@ -89,7 +89,7 @@ export default function Home() {
                   />
                 </a>
               </div>
-              <Image src="/vetores/linha-cima.jpg" width={120} height={120} alt="Vetor de linhas" className="w-6/12 flex z-10" />
+              <Image src="/vetores/linha-cima.svg" width={120} height={120} alt="Vetor de linhas" className="w-6/12 pt-4 pb-8 flex z-10" />
             </div>
             <div className="flex gap-4 items-center justify-around w-full">
               <CardPhoto
@@ -104,11 +104,11 @@ export default function Home() {
               />
             </div>
           </div>
-      </GenericSection>
+      </GenericSection> */}
    
 
       {/* P5 */}
-      <ImageSection imageUrl="/images/p5.png">
+      {/* <ImageSection imageUrl="/images/p5.png">
         <div className="flex flex-col gap-2"> 
           <h1 className="flex z-10 mt-16 font-semibold tracking-wider text-3xl text-white self-center">Conheça nossos serviços!</h1>
 
@@ -137,11 +137,11 @@ export default function Home() {
           </div>
 
         </div>
-      </ImageSection>
+      </ImageSection> */}
 
 
       {/* P6 - FEITO */}
-      <GenericSection className="pt-16 pb-8 relative flex flex-col items-center justify-around gap-8 text-azulao mb-20">
+      {/* <GenericSection className="pt-16 pb-8 relative flex flex-col items-center justify-around gap-8 text-azulao mb-20">
         <div className="relative flex flex-col items-center justify-around gap-8 text-azulao w-11/12">
           <Image
             src="/images/icons/cadeado.svg"
@@ -179,7 +179,8 @@ export default function Home() {
             </p>
           </AnimationOnScroll>
         </div>
-      </GenericSection> 
+      </GenericSection>  */}
+      
     </main>
   )
 }
