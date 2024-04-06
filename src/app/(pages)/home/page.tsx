@@ -12,7 +12,7 @@ export default function Home() {
       
       {/* P0 - FEITO */}
       {/* <ImageSection imageUrl="/images/p0.jpg">
-        <div className="flex flex-col z-10 absolute right-1/2 translate-x-1/2 mt-40 gap-8 items-center">
+        <div className="flex flex-col z-10 absolute right-1/2 translate-x-1/2 mt-48 gap-8 items-center">
           <Image src="/images/logo.png" alt={"Logo da UEZ"} width={250} height={200}/>
           <div className="text-center">
             <h1 className="text-3xl"> Porque a vida é mais fácil </h1>
@@ -25,8 +25,8 @@ export default function Home() {
       </ImageSection> */}
  
 
-      {/* P1 */} 
-
+      {/* P1 -  */}
+      
 
 
       {/* P2 - FEITO */}
@@ -194,7 +194,7 @@ const GenericSection = ({ className = "", children }: { className: string; child
 )
 
 const ImageSection = ({ imageUrl, children }: { imageUrl: StaticImageData | string; children: ReactNode }) => (
-  <section className={`w-full h-auto pt-0 p-0 m-0 bg-center bg-cover bg-no-repeat aspect-video relative`}>
+  <section className={`w-full h-auto pt-0 p-0 m-0 bg-center  bg-no-repeat aspect-video relative`}>
     <Image src={imageUrl} alt="Imagem de fundo" fill className="object-fill object-center " priority />
     {children}
   </section>
