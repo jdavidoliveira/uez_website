@@ -8,6 +8,7 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import MessageItem from "./Message"
 import { useChat } from "@/contexts/Chat"
+import { IMessage } from "@/types/IChat"
 
 interface RightSideProps {
   userType: "UZER" | "CLIENTE"
@@ -69,17 +70,8 @@ export default function RightSide({ userType, userData }: RightSideProps) {
           alt="Background"
         />
         {chat &&
-          chat.messages.map((message: any, index: any) => (
-            <MessageItem
-              key={index}
-              {...message}
-              userType={userType}
-              content={message.content}
-              sendHour={message.createdAt.substring(11, 16)}
-              userData={userData}
-              globalSelectedData={chat}
-              type={message.type}
-            />
+          chat.messages.map((message: IMessage, index: any) => (
+            <MessageItem key={index} message={message} userType={userType} userData={userData} type={message.type} />
           ))}
       </main>
       <MessageBar chatId={chat.id} userType={userType} />

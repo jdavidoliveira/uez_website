@@ -2,31 +2,32 @@
 
 import api from "@/lib/api"
 import { Messages } from "@/types/Chat"
-import Pedido from "@/types/Pedido"
 import { CircleDollarSign } from "lucide-react"
 import { useEffect, useState } from "react"
 import { twMerge } from "tailwind-merge"
 import CardPedido from "./CardPedido"
 import { useRouter } from "next/navigation"
-import sendNotification from "@/hooks/sendNotification"
+import { IMessage } from "@/types/IChat"
+import { User } from "next-auth"
+import { useChat } from "@/contexts/Chat"
+import { IPedido } from "@/types/IPedido"
 
-export default function Budget({
-  content,
-  sendHour,
-  userData,
-  type,
-  _idPedido,
-  userType,
-  globalSelectedData,
-  ...props
-}: Messages | any) {
+interface BudgetProps {
+  userData: User
+  type: "BUDGET"
+  userType: "UZER" | "CLIENTE"
+  message: IMessage
+}
+
+export default function Budget({ userData, message }: BudgetProps) {
+  const { chat, setChat } = useChat()
   const router = useRouter()
 
   function openBudget() {
     setShowBudgetModal(true)
   }
 
-  const [pedido, setPedido] = useState<Pedido | null>(null)
+  const [pedido, setPedido] = useState<IPedido | null>(null)
   const [pedidoAceitado, setPedidoAceitado] = useState(false)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function Budget({
 
   async function fetchPedido() {
     await api
-      .get(`/pedido/${_idPedido}`)
+      .get(`/pedidos/${message.idPedido}`)
       .then((res) => {
         setPedido(res.data)
       })
@@ -50,19 +51,15 @@ export default function Budget({
     } else {
       setPedidoAceitado(true)
       await api
-        .put(`/pedido/assignUzer/${_idPedido}`, {
-          idUzer: globalSelectedData?.uzerId,
-          preco: Number(content),
+        .put(`/pedido/assignUzer/${message.idPedido}`, {
+          idUzer: chat?.idUzer,
+          valor: Number(message.content),
         })
         .then(async (res) => {
-          await sendNotification(
-            "orcaAceito",
-            `Cliente Aceitou seu orçamento no valor de R$ ${content}`,
-            globalSelectedData?.uzerId
-          )
+          console.log(res)
           setShowProposalModal(false)
           alert("Proposta aceita!")
-          router.push(`/clientes/${globalSelectedData.clienteId}`)
+          router.push(`/clientes/${chat?.idCliente}`)
         })
         .catch((err) => {
           console.log(err)
@@ -79,13 +76,13 @@ export default function Budget({
       <div
         className={twMerge(
           "w-full px-2 flex items-center z-[1] justify-end",
-          userData._id === props.senderId ? "justify-end" : "justify-start"
+          userData.id === message.senderId ? "justify-end" : "justify-start"
         )}
       >
         <div
           className={twMerge(
             "border w-fit max-w-[55%] py-10 flex z-20 flex-col rounded-2xl p-4 text-white items-center gap-2 justify-center",
-            userData._id === props.senderId
+            userData.id === message.senderId
               ? "bg-azulinho justify-end rounded-br-none"
               : "bg-white text-black rounded-bl-none justify-start"
           )}
@@ -94,7 +91,7 @@ export default function Budget({
             onClick={openBudget}
             className={twMerge(
               "flex items-center gap-2 cursor-pointer bg-[#375FFF] transition-colors hover:bg-[#7a94ff] rounded p-2",
-              userData._id === props.senderId ? "bg-[#375FFF]" : "bg-[#ededed]"
+              userData.id === message.senderId ? "bg-[#375FFF]" : "bg-[#ededed]"
             )}
           >
             {pedido ? (
@@ -108,10 +105,13 @@ export default function Budget({
           <div
             className={twMerge(
               "w-full text-xs flex ",
-              userData._id === props.senderId ? "justify-end" : "justify-start"
+              userData.id === message.senderId ? "justify-end" : "justify-start"
             )}
           >
-            <h2>{sendHour.substring(0, 5)}</h2>
+            <h2>
+              {message.createdAt.substring(11, 16)}
+              {userData.id === message.senderId ? (message.readed ? " - L" : " - NL") : ""}
+            </h2>
           </div>
         </div>
       </div>
@@ -120,18 +120,18 @@ export default function Budget({
           <div className="bg-azulao w-10/12 h-5/6 md:w-1/2 md:h-4/6 rounded-2xl p-4 py-6 gap-4 flex flex-col items-center justify-center">
             <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">Pedido Atrelado</h1>
             <CardPedido
-              _id_uzer={pedido?._id_uzer}
+              idUzer={pedido?.idUzer}
               pedidoAceitado={pedidoAceitado}
               status={pedido?.status}
               titulo={pedido?.titulo}
             />
             <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">
-              {userType === "uzer" ? "Seu orcamento ficou no total de:" : "Seu pedido ficou no total de:"}
+              {userData.userType === "UZER" ? "Seu orcamento ficou no total de:" : "Seu pedido ficou no total de:"}
             </h1>
             <p className="text-white text-lg md:text-2xl text-center font-extrabold">
-              {Number(content).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+              {Number(message.content).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
             </p>
-            {pedido?._id_uzer || userType === "uzer" || pedidoAceitado ? (
+            {pedido?.idUzer || userData.userType === "UZER" || pedidoAceitado ? (
               <button
                 onClick={() => setShowBudgetModal(false)}
                 className="bg-[#F12828] p-2 rounded w-1/2 mt-5 font-bold text-sm text-white"

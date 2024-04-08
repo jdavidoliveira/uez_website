@@ -1,3 +1,5 @@
+import { IPedido } from "./IPedido"
+
 export interface IChat {
   id: string
   idCliente: string
@@ -17,4 +19,6 @@ export interface IMessage {
   senderId: string
   receiverId: string
   idChat: string
+  pedido?: IPedido
+  idPedido?: string
 }

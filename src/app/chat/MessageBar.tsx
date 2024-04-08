@@ -35,7 +35,6 @@ export default function MessageBar({ userType, chatId }: MessageBarProps) {
     })
 
     setChat((prev: any) => {
-      console.log(chat)
       return {
         ...prev,
         messages: [
@@ -63,6 +62,7 @@ export default function MessageBar({ userType, chatId }: MessageBarProps) {
     }
 
     scrollToBottom()
+    return setShowEscolherPedidoModal(false)
   }
   return (
     <form className="w-full flex border-t items-center justify-between p-2 gap-2 bg-white sticky bottom-0 z-[999]">
@@ -97,7 +97,7 @@ export default function MessageBar({ userType, chatId }: MessageBarProps) {
         <EscolherPedidoModal
           chatId={chatId}
           closeFunction={() => setShowEscolherPedidoModal(false)}
-          idCliente={chat?.cliente.id}
+          idCliente={chat?.idCliente}
         />
       )}
     </form>

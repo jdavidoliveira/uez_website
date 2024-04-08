@@ -1,26 +1,29 @@
 "use client"
 
 import api from "@/lib/api"
-import Pedido from "@/types/Pedido"
 import { ChevronLeft, ChevronRight, Eye } from "lucide-react"
 import { useEffect, useState } from "react"
 import { twMerge } from "tailwind-merge"
 import "animate.css"
-import { Messages } from "@/types/Chat"
-import sendNotification from "@/hooks/sendNotification"
+import { useGlobalSocket } from "@/contexts/GlobalSocket"
+import { useChat } from "@/contexts/Chat"
+import { IChat } from "@/types/IChat"
+import { IPedido } from "@/types/IPedido"
 
 interface EscolherPedidoModalProps {
-  idCliente: string
+  idCliente: string | any
   closeFunction: () => void
   chatId: string
 }
 
 export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }: EscolherPedidoModalProps) {
-  const [pedidos, setPedidos] = useState<Pedido[]>([])
+  const [pedidos, setPedidos] = useState<IPedido[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedPedidoId, setSelectedPedidoId] = useState<string | null>(null)
   const [step, setStep] = useState(1)
   const [precoOrcamento, setPrecoOrcamento] = useState(0)
+  const { globalSocket } = useGlobalSocket()
+  const { chat, setChat } = useChat()
 
   useEffect(() => {
     fetchPedidos()
@@ -28,7 +31,7 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
 
   async function fetchPedidos() {
     await api
-      .get(`/pedidos/cliente/${idCliente}`)
+      .get<IPedido[]>(`/pedidos/cliente/${idCliente}`)
       .then((res) => {
         return setPedidos(res.data)
       })
@@ -55,42 +58,48 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
       alert("Por favor, informe o preço do orçamento")
       return
     }
-    const newMessage = await api
-      .post<Messages | null>("/chat/message/budget", {
-        chatId: chatId,
-        message: precoOrcamento,
-        sendDate: new Date().toLocaleDateString(),
-        sendHour: new Date().toLocaleTimeString(),
-        type: "budget",
-        idPedido: selectedPedidoId,
-      })
-      .then(async (res) => {
-        await sendNotification("orcaReceb", "Uzer mandou um orçamento para você!", pedidos[0]._id_cliente)
-        alert("Orçamento enviado com sucesso")
-        setPrecoOrcamento(0)
-        closeFunction()
-        return res
-      })
-      .catch((err) => {
-        console.error(err)
-        return null
-      })
+
+    globalSocket?.emit("budget", {
+      chatId: chatId,
+      value: precoOrcamento,
+      idPedido: selectedPedidoId,
+      receiverId: idCliente,
+    })
+
+    setChat((prev: IChat | any) => {
+      closeFunction()
+      return {
+        ...prev,
+        messages: [
+          ...prev.messages,
+          {
+            senderId: chat?.idUzer,
+            receiverId: idCliente,
+            idChat: chatId,
+            content: precoOrcamento.toString(),
+            type: "BUDGET",
+            createdAt: new Date().toISOString(),
+            idPedido: selectedPedidoId,
+          },
+        ],
+      }
+    })
   }
 
   return (
     <div className="fixed z-[999999] w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
         className={twMerge(
-          "bg-azulao w-9/12 h-5/6 rounded-[30px] p-8 py-6 gap-4 flex flex-col items-center justify-between animate__animated animate__fadeInUp animate__faster",
+          "bg-azulao w-9/12 h-5/6 rounded-2xl p-8 py-6 gap-4 flex flex-col items-center justify-between animate__animated animate__fadeInUp animate__faster",
           step === 2 && "w-1/2 h-1/2"
         )}
       >
         {step === 1 && (
           <>
             <h1 className="text-white text-lg md:text-2xl text-center font-extrabold">
-              A qual pedido de *Cliente* você deseja atrelar o orçamento?
+              A qual pedido você deseja atrelar um orçamento?
             </h1>
-            <div className="w-11/12 overflow-y-auto grid grid-cols-2 sm:grid-cols-3">
+            <div className="w-full overflow-y-auto grid grid-cols-2">
               {isLoading ? (
                 <p>Carregando...</p>
               ) : (
@@ -98,7 +107,8 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
                   if (pedido.disponivel === false) return null
                   return (
                     <CardPedido
-                      id={pedido._id}
+                      pedido={pedido}
+                      id={pedido.id}
                       nomePedido={pedido.titulo}
                       dataPedido={pedido.dataCriacao}
                       valorPedido={pedido.valor}
@@ -156,13 +166,31 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
     dataPedido: string
     valorPedido: number
     id: string
+    pedido: IPedido
   }
 
-  function CardPedido({ nomePedido, dataPedido, valorPedido, id }: CardPedidoProps) {
+  function CardPedido({ nomePedido, dataPedido, valorPedido, id, pedido }: CardPedidoProps) {
+    const [servico, setServico] = useState<any | null>()
+
+    async function fetchServico() {
+      await api
+        .get(`/servicos/${pedido.idServico}`)
+        .then((response) => {
+          setServico(response.data)
+        })
+        .catch((error) => {
+          setServico(null)
+        })
+    }
+
+    useEffect(() => {
+      fetchServico()
+    }, [])
+
     function selectPedidoByCard(e: React.MouseEvent<HTMLButtonElement>) {
       e.preventDefault()
-      setSelectedPedidoId(id)
-      setPrecoOrcamento(valorPedido)
+      setSelectedPedidoId(pedido.id)
+      setPrecoOrcamento(pedido.valor)
     }
 
     function deselectPedidoByCard(e: React.MouseEvent<HTMLButtonElement>) {
@@ -182,14 +210,22 @@ export default function EscolherPedidoModal({ idCliente, closeFunction, chatId }
         onDoubleClick={deselectPedidoByCard}
       >
         <h1 className={twMerge("text-xl font-bold", selectedPedidoId === id && "text-white")}>
-          {nomePedido.charAt(0).toUpperCase() + nomePedido.slice(1).substring(0, 20)}
+          {pedido.titulo.charAt(0).toUpperCase() + nomePedido.slice(1).substring(0, 20)}
         </h1>
         <h2 className={twMerge("text-black mb-4 font-medium", selectedPedidoId === id && "text-white")}>
-          {dataPedido.slice(5, 10).split("-").reverse().join("/")}
+          {pedido.dataCriacao.slice(0, 10).split("-").reverse().join("/")}
         </h2>
-        <h3 className={twMerge("text-black font-medium", selectedPedidoId === id && "text-white")}>
-          {valorPedido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-        </h3>
+
+        {servico && (
+          <h3
+            className={twMerge(
+              "font-medium bg-primary-purple p-2 text-white rounded-md",
+              selectedPedidoId === id && "text-white"
+            )}
+          >
+            {servico.nome}
+          </h3>
+        )}
         <Eye
           onClick={() => alert("Visualizar")}
           className="absolute top-1/2 translate-y-[-50%] right-8 hidden group-hover:block cursor-pointer"

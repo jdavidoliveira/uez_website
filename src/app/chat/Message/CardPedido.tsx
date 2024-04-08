@@ -1,29 +1,29 @@
 "use client"
 import api from "@/lib/api"
-import UzerInterface from "@/types/Uzer"
+import { IUzer } from "@/types/IUzer"
 import { Eye } from "lucide-react"
 import React, { useEffect, useState } from "react"
 
 export default function CardPedido({
   titulo = "testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-  _id_uzer = null,
-  status = "A realizar",
+  idUzer = null,
+  status = "A REALIZAR",
   pedidoAceitado,
 }: {
   titulo: string | any
-  _id_uzer: string | any
+  idUzer: string | any
   status: string | any
   pedidoAceitado?: boolean
 }) {
-  const [uzerData, setUzerData] = useState<UzerInterface | null>()
+  const [uzerData, setUzerData] = useState<IUzer | null>()
   useEffect(() => {
     fetchPedido()
   }, [pedidoAceitado])
 
   async function fetchPedido() {
-    _id_uzer !== null
+    idUzer !== null
       ? await api
-          .get<UzerInterface>(`/uzers/${_id_uzer}`)
+          .get<IUzer>(`/uzers/${idUzer}`)
           .then((res) => setUzerData(res.data))
           .catch((err) => setUzerData(null))
       : setUzerData(null)

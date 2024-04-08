@@ -8,7 +8,6 @@ export default function ShareButton() {
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
-        console.log(window.location.href)
         toast("Link copiado!")
       })
       .catch((err) => {
