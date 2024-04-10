@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <Providers>
         <body className={montserrat.className} suppressHydrationWarning={true}>
-          <Page /> {/* PÁGINA DE LANCAMENTO, TROCAR PRO CHILDREN QUANDO FOR VOLTAR Á NORMALIDADE */}
+          { children }
           <Analytics />
           <SpeedInsights />
         </body>
