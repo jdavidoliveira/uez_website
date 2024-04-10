@@ -3,7 +3,7 @@
 import { Bell, BellRing, MailCheck } from "lucide-react"
 import { useEffect, useState } from "react"
 import "animate.css"
-import api from "@/hooks/api"
+import api from "@/lib/api"
 import Notification from "@/types/Notification"
 import Image from "next/image"
 import { DotFilledIcon } from "@radix-ui/react-icons"
@@ -174,7 +174,7 @@ function infoByType(type: string) {
       title = "Houve algum erro no seu serviço!"
       break
     default:
-      photo += "Notificação.png"
+      photo += "Notificacao.png"
       title = "Notificação"
   }
 

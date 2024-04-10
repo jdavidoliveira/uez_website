@@ -4,8 +4,6 @@ import { Montserrat } from "next/font/google"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { redirect } from "next/navigation"
-import Page from "./lancamento-beta/page"
 
 export const metadata: Metadata = {
   title: {
@@ -14,7 +12,6 @@ export const metadata: Metadata = {
   },
   description: "Surgiu algum problema e você precisa de ajuda? Então bem-vindo á Uez!",
   keywords: "UEZ, Company, UEZ Company, UEZ Company, UEZ Company, serviços, freelance",
-  themeColor: "#fff",
 }
 
 const montserrat = Montserrat({
@@ -29,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <Providers>
         <body className={montserrat.className} suppressHydrationWarning={true}>
-          <Page /> {/* PÁGINA DE LANCAMENTO, TROCAR PRO CHILDREN QUANDO FOR VOLTAR Á NORMALIDADE */}
+          { children }
           <Analytics />
           <SpeedInsights />
         </body>

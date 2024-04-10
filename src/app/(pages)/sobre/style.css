@@ -1,0 +1,894 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+/* Home */
+
+.home {
+  width: 100vw;
+  min-height: 100vh;
+  position: relative;
+}
+
+.text h1 {
+  margin-top: 4%;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.home-container {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.home-container .box {
+  text-align: center;
+  padding: 60px;
+}
+
+.home-container .box h2 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 1.4rem 0 0.5rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+
+.home-container .box p {
+  font-weight: bold;
+}
+
+i > img {
+  width: 9vw;
+}
+
+.home .circle-4 {
+  margin-top: 1.2px;
+}
+
+/* Page1 */
+
+.page1 {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #535fff;
+}
+
+.circle {
+  position: relative;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  background-color: #00003a;
+  border-top-left-radius: 150px;
+  transform: rotate(180deg);
+}
+
+.direita {
+  width: 60%;
+  height: 100vh;
+}
+
+.esquerda {
+  width: 40%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+#law {
+  width: 64vh;
+  margin-top: 90px;
+}
+
+/* Section história */
+
+.historia h2 {
+  margin-top: 25%;
+  color: white;
+  font-size: 2rem;
+  font-weight: 900;
+  font-family: "Montserrat", sans-serif;
+}
+
+.historia p {
+  margin-top: 5%;
+  color: white;
+  text-align: justify;
+  font-size: 1.1rem;
+  font-weight: 200;
+  font-family: "Montserrat", sans-serif;
+}
+
+.retangulos {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.retangulo {
+  margin-top: 25%;
+  margin-right: 2%;
+  width: 30px;
+  background-color: #d9d9d9;
+  opacity: 50%;
+  height: 30px;
+}
+
+/* Esquerda */
+
+.container-circular {
+  width: 10%;
+  margin-top: 3%;
+}
+
+.circulos {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.circulo {
+  width: 20px;
+  height: 20px;
+  border: 0.5px solid #000;
+  border-radius: 50%;
+  margin-bottom: 50px;
+}
+
+/* Page2 */
+
+.page2,
+.page5 {
+  width: 100vw;
+  min-height: 90vh;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.page2 > .text {
+  width: 100%;
+  height: 20%;
+}
+
+.page2 > .esquerda p {
+  font-size: 1.1rem;
+  gap: 3rem;
+  margin-right: 5%;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.page2 > .retangulos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-left: 3%;
+}
+
+.page2 > .retangulos .retangulo {
+  background-color: #d9d9d9;
+}
+
+.page2 .centro {
+  width: 40%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 5%;
+}
+
+.first,
+.second {
+  text-align: justify;
+  margin-top: 20%;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.page2 > .esquerda {
+  width: 60%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 3.5%;
+}
+
+.page2 > .esquerda p {
+  text-align: justify;
+  font-size: 1.3rem;
+  font-weight: 300;
+  margin-top: 15%;
+  margin-bottom: 20%;
+}
+
+.esquerda > .container-circular {
+  width: 100%;
+  margin-left: 40%;
+}
+
+.esquerda > .container-circular .circulos {
+  display: flex;
+  flex-direction: row;
+}
+
+.esquerda > .container-circular .circulos .circulo {
+  margin-right: 10%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+}
+
+.Group-1 {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  left: 24%;
+  z-index: 1;
+}
+
+.Group-1 > img {
+  width: 23%;
+}
+
+.half-circle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 100px;
+  margin-right: 20%;
+  background-color: #535fff;
+  border-radius: 100px 100px 0 0;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Page3 */
+
+.page3 {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a14b7;
+}
+
+.esquerda-3 {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.img-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.img-info > img {
+  width: 50%;
+  margin-right: 70px;
+  margin-bottom: 150px;
+}
+
+.direita-3 {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.text-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.text-info p {
+  text-align: justify;
+  font-family: "Montserrat", sans-serif;
+}
+
+.container-rentangulos {
+  width: 10%;
+  height: 100%;
+  margin-left: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container-rentangulos .retangulos {
+  display: flex;
+  flex-direction: column;
+}
+
+#component-pg3 {
+  color: white;
+  font-size: 300px;
+  font-weight: 500;
+  font-family: Montserrat, sans-serif;
+}
+
+/* Page 4 */
+
+.page4 {
+  width: 100vw;
+  min-height: 90vh;
+}
+
+.circle-4 {
+  position: absolute;
+  right: 0;
+  margin-top: -6.9%;
+  width: 200px;
+  height: 200px;
+  background-color: #535fff;
+  border-top-left-radius: 200px;
+  transform: rotate(270deg);
+  z-index: 1;
+}
+
+.circle-5 {
+  position: absolute;
+  right: 9%;
+  width: 100px;
+  height: 100px;
+  background-color: #00003a;
+  border-top-left-radius: 180px;
+  transform: rotate(270deg);
+  z-index: 2;
+}
+
+.page4 > img {
+  width: 30%;
+}
+
+.timeline {
+  position: relative;
+  width: 80%;
+  height: 500px;
+  margin-left: 10%;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #00003a;
+  margin-left: 2%;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.dot:nth-child(odd) {
+  left: 100%;
+}
+
+.dot:nth-child(even) {
+  left: calc(50% - 80px);
+}
+
+.logo {
+  position: absolute;
+  width: 120px;
+  height: auto;
+  z-index: 2;
+}
+
+.date {
+  position: absolute;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 10%;
+  z-index: 2;
+}
+
+.line {
+  position: absolute;
+  width: calc(100% - 20px);
+  height: 4px;
+  background-color: #00003a;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+/* Page 5 */
+
+.page5,
+#text-5 {
+  background: #00003a;
+  font-family: "Montserrat", sans-serif;
+}
+
+.esquerda-4 {
+  width: 40%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centro-2 {
+  width: 20%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.direita-4 {
+  width: 40%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  background: #535fff;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px; /* 1ºvalor- É em relação ao eixo y (no caso em cima) 2ºvalor- É em relação ao eixo x (direita e esquerda) */
+  border-radius: 4px 20px 20px;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.card h1,
+p,
+img {
+  margin-top: 15%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.circle-card {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: #2a14b7;
+  border-top-left-radius: 180px;
+  transform: rotate(270deg);
+}
+
+#card1 {
+  transform: rotate(180deg);
+  margin-left: 5%;
+  margin-top: 4%;
+}
+
+#card2 {
+  transform: rotate(360deg);
+  margin-top: 20%;
+  margin-right: 5%;
+  right: 0;
+}
+
+.centro-2 > .container-circular .circulos .circulo {
+  border: 1px solid #f7f7f7;
+  border-radius: 50%;
+}
+
+.evo {
+  display: none;
+}
+
+/* 600px */
+
+@media only screen and (max-width: 600px) {
+  /* None */
+  .circle {
+    display: none;
+  }
+
+  .circulos {
+    display: none;
+  }
+
+  .retangulos {
+    display: none;
+  }
+
+  #component-pg2-reta {
+    display: none;
+  }
+
+  .container-circular {
+    display: none;
+  }
+
+  .container-rentangulos {
+    display: none;
+  }
+
+  .circle-4 {
+    display: none;
+  }
+
+  .circle-5 {
+    display: none;
+  }
+
+  .half-circle {
+    display: none;
+  }
+
+  .circle-card {
+    display: none;
+  }
+
+  .Group-1 {
+    display: none;
+  }
+
+  /* Home */
+
+  .home-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .box img {
+    width: 25%;
+  }
+
+  /* Page1 */
+
+  .page1 {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .page1 .direita {
+    width: 100%;
+    height: 100%;
+  }
+  .page1 .esquerda {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .historia h2 {
+    font-size: 1rem;
+    text-align: center;
+  }
+  .historia p {
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
+  #law {
+    margin-top: 30%;
+    width: 60%;
+  }
+
+  /* Page2 */
+
+  .page2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #text-pg2 {
+    text-align: center;
+  }
+
+  #text-pg2-esquerda {
+    text-align: center;
+  }
+
+  /* Page3 */
+
+  .page3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #component-pg3 {
+    margin: 0;
+    margin-left: 5%;
+    font-size: 100px;
+    font-weight: 400;
+  }
+
+  .esquerda-3 {
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .direita-3 {
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .img-info > img {
+    width: 30%;
+    margin: 0;
+    margin-bottom: 10%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .text-info p {
+    margin-top: 5%;
+    text-align: center;
+  }
+
+  /* Page4 */
+
+  .timeline {
+    display: none;
+  }
+
+  .evo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .evo img {
+    margin-top: 50%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  /* Page5 */
+
+  .card {
+    background: none;
+    width: 90%;
+  }
+  .card p {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+  /* None */
+  .circle {
+    display: none;
+  }
+
+  .circulos {
+    display: none;
+  }
+
+  .retangulos {
+    display: none;
+  }
+
+  #component-pg2-reta {
+    display: none;
+  }
+
+  .container-circular {
+    display: none;
+  }
+
+  .container-rentangulos {
+    display: none;
+  }
+
+  .circle-4 {
+    display: none;
+  }
+
+  .circle-5 {
+    display: none;
+  }
+
+  .half-circle {
+    display: none;
+  }
+
+  .circle-card {
+    display: none;
+  }
+
+  /* Home */
+
+  .box img {
+    width: 25%;
+  }
+
+  /* Page1 */
+  .historia h2 {
+    font-size: 1.5rem;
+    margin-left: 2%;
+  }
+
+  .historia p {
+    font-size: 0.9rem;
+    margin-left: 2%;
+  }
+
+  #law {
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Page2 */
+  .page2 > .esquerda p {
+    font-size: 1.1rem;
+    gap: 3rem;
+    margin-right: 5%;
+  }
+
+  .Group-1 {
+    position: relative;
+    margin-left: 50%;
+    width: 100vw;
+  }
+
+  /* Page3 */
+
+  .page3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #component-pg3 {
+    margin: 0;
+    margin-left: 5%;
+    font-size: 100px;
+    font-weight: 400;
+  }
+
+  .esquerda-3 {
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .direita-3 {
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .img-info > img {
+    width: 30%;
+    margin: 0;
+    margin-bottom: 10%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .text-info p {
+    margin-top: 5%;
+    text-align: center;
+  }
+
+  /* Page4 */
+
+  .timeline {
+    display: none;
+  }
+
+  .evo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .evo img {
+    margin-top: 25%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  /* Page5 */
+
+  .card {
+    background: none;
+    width: 90%;
+  }
+  .card p {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  /* Home */
+
+  /* Page1 */
+
+  /* Page2 */
+  .half-circle {
+    right: -20px;
+  }
+
+  /* Page3 */
+
+  /* Page4 */
+  .circle-4 {
+    position: absolute;
+    margin-top: -7.5%;
+    z-index: 1;
+  }
+
+  /* Page5 */
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00003a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #535fff;
+}
