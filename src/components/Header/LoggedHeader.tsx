@@ -30,7 +30,7 @@ export default function LoggedHeader({ session }: { session: Session }) {
               className="mobile:hidden w-[75px] transition hover:scale-105"
             />
           </Link>
-          {userType === "uzer" ? (
+          {userType === "UZER" ? (
             <>
               {/* if the user is a uzer */}
               {UzerLinks.map((link) => (
