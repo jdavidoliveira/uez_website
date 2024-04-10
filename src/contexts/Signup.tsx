@@ -23,8 +23,9 @@ const emptySignupData: ISignupData = {
   bairro: "",
   estado: "",
   cidade: "",
-  userType: "UZER", // ou 'CLIENTE', dependendo do caso
+  usertype: "UZER", // ou 'CLIENTE', dependendo do caso
   idServico: "",
+  dataNasc: "",
 }
 
 export function SignupDataProvider({ children }: any) {
@@ -52,6 +53,7 @@ export interface ISignupData {
   bairro: string
   estado: string
   cidade: string
-  userType: "UZER" | "CLIENTE"
+  usertype: "UZER" | "CLIENTE"
   idServico: string
+  dataNasc: string
 }

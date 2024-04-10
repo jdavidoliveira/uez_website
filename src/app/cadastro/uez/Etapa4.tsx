@@ -10,10 +10,12 @@ import { useSignupData } from "@/contexts/Signup"
 import { twMerge } from "tailwind-merge"
 import api from "@/lib/api"
 import Image from "next/image"
+import { toast } from "sonner"
+import { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
 
 interface Etapa4Props {
   back: () => void
-  next: () => void
   etapa: number
 }
 
@@ -23,7 +25,7 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Etapa4({ back, next, etapa }: Etapa4Props) {
+export default function Etapa4({ back, etapa }: Etapa4Props) {
   const {
     getValues,
     formState: { errors },
@@ -33,14 +35,51 @@ export default function Etapa4({ back, next, etapa }: Etapa4Props) {
     resolver: zodResolver(userFormSchema),
   })
 
+  const router = useRouter()
+
   const { signupData, setSignupData } = useSignupData()
 
   async function NextStep() {
     const data = getValues()
-    setSignupData((prev) => ({ ...prev, ...data }))
+    let finalSignupdata: any
 
-    const { data: response } = await api.post("/register", signupData).catch((err) => err.response?.data)
-    alert(response.message)
+    setSignupData((prev) => {
+      finalSignupdata = { ...prev, ...data }
+      return { ...prev, ...data }
+    })
+
+    const generalSchema = z.object({
+      nome: z.string(),
+      email: z.string().email(),
+      senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+      cpf: z.string().regex(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/),
+      cep: z.string().regex(/^[0-9]{5}-[0-9]{3}$/),
+      telefone: z.string(),
+      logradouro: z.string().min(1, "O logradouro é obrigatório"),
+      numero: z.string().min(1, "O número é obrigatório"),
+      complemento: z.optional(z.string()),
+      bairro: z.string().min(1, "O bairro é obrigatório"),
+      cidade: z.string().min(1, "A cidade é obrigatória"),
+      estado: z.string().min(1, "O estado é obrigatório"),
+      idServico: z.optional(z.string()),
+      usertype: z.enum(["UZER", "CLIENTE"]),
+      username: z.string(),
+      dataNasc: z.string(),
+    })
+
+    const dataTest = generalSchema.safeParse(finalSignupdata)
+    if (!dataTest.success) return toast("Verifique os dados informados")
+
+    try {
+      const { data } = await api.post("/register", finalSignupdata)
+
+      toast(data.message)
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      router.push(`/login?userEmail=${finalSignupdata?.email}`)
+    } catch (error: AxiosError | any) {
+      console.log(error)
+      toast(error.response.data.message)
+    }
   }
 
   const [currentCargo, setCurrentCargo] = useState<"Design" | "Programação" | "Social Media" | "Videomaking" | null>(

@@ -3,11 +3,11 @@ import React from "react"
 import SignButton from "./SignupButton"
 import Image from "next/image"
 
-export default function Registro() {
+export default function Cadastro() {
   return (
     <div className="flex flex-col items-center gap-10 px-10">
       <h1 className="font-semibold text-3xl md:self-start">Cadastre-se</h1>
-      <SignButton
+      {/* <SignButton
         className="min-w-full"
         content="Cadastre-se com Google"
         icon={<Image src="/images/icons/google.svg" alt="Google Icon" width={31} height={31} />}
@@ -16,8 +16,8 @@ export default function Registro() {
         <hr className="w-[45%] bg-black/40" />
         <p className="font-medium text-black/40">ou</p>
         <hr className="w-[45%] bg-black/40" />
-      </div>
-      <Link href="/registro/cadastro" className="w-full">
+      </div> */}
+      <Link href="/cadastro/uez" className="w-full">
         <SignButton
           className="bg-gradient-to-r from-primary-purple to-primary-blue border-none min-w-full"
           spanClassName="text-white"

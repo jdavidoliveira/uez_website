@@ -69,6 +69,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
             placeholder="Nome completo"
             id="nome"
             register={register}
+            maxLength={60}
             className={errors.nome ? "border border-red-500" : ""}
           />
           {errors.nome && <ErrorSpan content={errors.nome.message} className="w-full" />}
@@ -77,6 +78,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
             inputType="email"
             placeholder="seuemail@email.com"
             id="email"
+            maxLength={100}
             register={register}
             className={errors.email ? "border border-red-500" : ""}
           />

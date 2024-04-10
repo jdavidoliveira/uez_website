@@ -14,23 +14,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://uezcompany.com/uzers</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://uezcompany.com/login</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://uezcompany.com/cadastro</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://uezcompany.com/solicitarservico</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://uezcompany.com/realizarservico</loc>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>

@@ -15,23 +15,8 @@ import { toast } from "sonner"
 import Etapa3 from "./Etapa3"
 import Etapa4 from "./Etapa4"
 
-// const userFormSchema = z.object({
-//   cep: z
-//     .string()
-//     .min(1, "O CEP é obrigatório")
-//     .regex(/^[0-9]{5}-[0-9]{3}$/, "Formato de CEP inválido"),
-//   endereco: z.object({
-//     logradouro: z.string().min(1, "O logradouro é obrigatório"),
-//     numero: z.string().min(1, "O número é obrigatório"),
-//     complemento: z.optional(z.string()),
-//     bairro: z.string().min(1, "O bairro é obrigatório"),
-//     cidade: z.string().min(1, "A cidade é obrigatória"),
-//     estado: z.string().min(1, "O estado é obrigatório"),
-//   }),
-//   idServico: z.string().min(1, "O serviço é obrigatório"),
-// })
 const userFormSchema = z.object({
-  userType: z.enum(["UZER", "CLIENTE"]),
+  usertype: z.enum(["UZER", "CLIENTE"]),
   senha: z
     .string()
     .min(1, "A senha é obrigatória")
@@ -55,7 +40,7 @@ export default function Cadastro() {
   } = useForm<userFormData>({
     resolver: zodResolver(userFormSchema),
   })
-  const [etapa, setEtapa] = useState(4)
+  const [etapa, setEtapa] = useState(1)
   const [currentUserType, setCurrentUserType] = React.useState<"CLIENTE" | "UZER" | null>(null)
   const { setSignupData, signupData } = useSignupData()
 
@@ -68,10 +53,10 @@ export default function Cadastro() {
   }
 
   useEffect(() => {
-    if (errors.userType) {
+    if (errors.usertype) {
       toast("Selecione um tipo de usuário")
     }
-  }, [errors.userType])
+  }, [errors.usertype])
 
   switch (etapa) {
     case 1:
@@ -104,7 +89,7 @@ export default function Cadastro() {
                 usertype="CLIENTE"
                 onClick={() => {
                   setCurrentUserType("CLIENTE")
-                  setValue("userType", "CLIENTE")
+                  setValue("usertype", "CLIENTE")
                 }}
                 isSelected={currentUserType === "CLIENTE"}
               />
@@ -112,7 +97,7 @@ export default function Cadastro() {
                 usertype="UZER"
                 onClick={() => {
                   setCurrentUserType("UZER")
-                  setValue("userType", "UZER")
+                  setValue("usertype", "UZER")
                 }}
                 isSelected={currentUserType === "UZER"}
               />
@@ -132,7 +117,7 @@ export default function Cadastro() {
     case 3:
       return <Etapa3 back={() => setEtapa(2)} next={() => setEtapa(4)} etapa={etapa} />
     case 4:
-      return <Etapa4 back={() => setEtapa(3)} next={() => setEtapa(5)} etapa={etapa} />
+      return <Etapa4 back={() => setEtapa(3)} etapa={etapa} />
     default:
       return null
   }

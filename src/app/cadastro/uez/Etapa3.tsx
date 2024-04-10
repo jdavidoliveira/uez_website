@@ -2,7 +2,7 @@
 
 import React from "react"
 import Input from "./Input"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Check, ChevronLeft, ChevronRight } from "lucide-react"
 import "animate.css"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,6 +10,10 @@ import { z } from "zod"
 import { useSignupData } from "@/contexts/Signup"
 import ErrorSpan from "./ErrorSpan"
 import { twMerge } from "tailwind-merge"
+import { toast } from "sonner"
+import api from "@/lib/api"
+import { AxiosError } from "axios"
+import { redirect, useRouter } from "next/navigation"
 
 const estados_brasil = [
   "AC",
@@ -91,6 +95,7 @@ const userFormSchema = z.object({
       errorMap: () => ({ message: "O estado é obrigatório" }),
     }
   ),
+  dataNasc: z.string().min(1, "A data de nascimento é obrigatória"),
 })
 
 type userFormData = z.infer<typeof userFormSchema>
@@ -105,17 +110,51 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
   } = useForm<userFormData>({
     resolver: zodResolver(userFormSchema),
   })
+  const router = useRouter()
 
   const { signupData, setSignupData } = useSignupData()
 
   async function NextStep() {
     const data = getValues()
-    setSignupData((prev) => ({ ...prev, ...data }))
-    if (signupData?.userType === "UZER") {
+    let finalSignupdata: any
+    setSignupData((prev) => {
+      finalSignupdata = { ...prev, ...data }
+      return { ...prev, ...data }
+    })
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    if (signupData?.usertype === "UZER") {
       next()
     } else {
-      console.log("currentSignupdata", signupData)
-      // registrar
+      const generalSchema = z.object({
+        nome: z.string(),
+        email: z.string().email(),
+        senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+        cpf: z.string().regex(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/),
+        cep: z.string().regex(/^[0-9]{5}-[0-9]{3}$/),
+        telefone: z.string(),
+        logradouro: z.string().min(1, "O logradouro é obrigatório"),
+        numero: z.string().min(1, "O número é obrigatório"),
+        complemento: z.optional(z.string()),
+        bairro: z.string().min(1, "O bairro é obrigatório"),
+        cidade: z.string().min(1, "A cidade é obrigatória"),
+        estado: z.string().min(1, "O estado é obrigatório"),
+        usertype: z.enum(["UZER", "CLIENTE"]),
+        username: z.string(),
+        dataNasc: z.string(),
+      })
+      const dataTest = generalSchema.safeParse(finalSignupdata)
+      if (!dataTest.success) return toast("Verifique os dados informados")
+
+      try {
+        const { data } = await api.post("/register", finalSignupdata)
+
+        toast(data.message)
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        router.push(`/login?userEmail=${finalSignupdata?.email}`)
+      } catch (error: AxiosError | any) {
+        console.log(error)
+        toast(error.response.data.message)
+      }
     }
     console.log("currentSignupdata", signupData)
   }
@@ -125,6 +164,14 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
       <h1 className="font-semibold text-3xl">Cadastre-se</h1>
       <form onSubmit={handleSubmit(NextStep)} className="flex flex-col gap-8 sm:w-8/12 w-10/12">
         <div className="flex flex-col gap-2">
+          <Input
+            label="Data de Nascimento"
+            inputType="date"
+            id="datanascimento"
+            register={() => register("dataNasc")}
+            className={errors.dataNasc ? "border border-red-500" : ""}
+          />
+          {errors.dataNasc && <ErrorSpan content={errors.dataNasc.message} className="w-full" />}
           <Input
             label="CEP"
             inputType="text"
@@ -238,12 +285,22 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
             <ChevronLeft color="white" />
           </button>
           <span className="font-medium text-lg mx-6">{etapa}</span>
-          <button
-            type="submit"
-            className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto"
-          >
-            <ChevronRight color="white" />
-          </button>
+          {signupData?.usertype === "UZER" ? (
+            <button
+              type="submit"
+              className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto"
+            >
+              <ChevronRight color="white" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto gap-1"
+            >
+              <span className="font-medium text-lg text-white">Concluído</span>
+              <Check color="white" />
+            </button>
+          )}
         </div>
       </form>
     </div>
