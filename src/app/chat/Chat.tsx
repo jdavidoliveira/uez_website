@@ -1,57 +1,106 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import LeftSide from "./LeftSide";
-import RightSide from "./RightSide";
-import ChatInterface from "@/types/Chat";
-import { useAuth } from "@/contexts/Auth";
-import { useSearchParams } from "next/navigation";
-import api from "@/hooks/api";
+import { useEffect, useState } from "react"
+import LeftSide from "./LeftSide"
+import RightSide from "./RightSide"
+import { useSearchParams } from "next/navigation"
+import { Socket, io } from "socket.io-client"
+import { User } from "next-auth"
+import { useSession } from "next-auth/react"
+import { parseCookies } from "nookies"
+import { useGlobalSocket } from "@/contexts/GlobalSocket"
+import { useChat } from "@/contexts/Chat"
+import { IChat } from "@/types/IChat"
 
 interface ChatProps {
-    serverData_chat: ChatInterface[];
-    serverData_user: unknown;
+  chatData: IChat[]
+  userData: User
 }
 
-export default function Chat({ serverData_chat, serverData_user }: ChatProps) {
-    const [globalSelectedData, setGlobalSelectedData] = useState<ChatInterface | null>(null);
-    const [chatsData, setChatsData] = useState<ChatInterface[]>(serverData_chat)
+export default function Chat({ chatData, userData }: ChatProps) {
+  const { chat, setChat } = useChat()
+  const { setGlobalSocket } = useGlobalSocket()
+  const [chatsData, setChatsData] = useState<any[]>(chatData)
+  const [isOnline, setIsOnline] = useState(false)
 
-    const userChatId = useSearchParams().get('userChatId')
+  const userChatIdSearchParams = useSearchParams().get("userChatId")
 
-    async function refreshData() {
-        const refreshedChatData = await api.get<ChatInterface[]>("/chats")
-            .then(res => res.data).catch(err => []);
-        if (JSON.stringify(refreshedChatData) === JSON.stringify(chatsData)) {
-            return console.log("Não há novas mensagens")
-        } else {
-            setChatsData(refreshedChatData)
-            return console.log("Nova mensagem")
-        }
+  useEffect(() => {
+    const socket = io(process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333", {
+      auth: {
+        token: parseCookies().token,
+      },
+      autoConnect: true,
+      reconnection: false,
+    })
+
+    setGlobalSocket(socket)
+
+    socket.on("connect", () => {
+      console.log("Conectado!", socket.id)
+      if (socket.connected) {
+        setIsOnline(true)
+      } else {
+        setIsOnline(false)
+      }
+    })
+
+    socket.emit("join", chat?.id)
+
+    socket.on(
+      "message",
+      (data: {
+        id: string
+        type: "TEXT" | "IMAGE" | "URL"
+        content: string
+        createdAt: Date
+        readed: boolean
+        senderId: string
+        receiverId: string
+        idChat: string
+      }) => {
+        setChat((prev: any) => {
+          return {
+            ...prev,
+            messages: [
+              ...prev.messages,
+              {
+                senderId: data.senderId,
+                receiverId: data.receiverId,
+                idChat: data.idChat,
+                content: data.content,
+                type: data.type,
+                createdAt: data.createdAt,
+                readed: data.readed,
+              },
+            ],
+          }
+        })
+      }
+    )
+
+    if (userChatIdSearchParams) {
+      const data: any = chatData.find((chat: any) => {
+        return chat.id === userChatIdSearchParams
+      })
+      setChat(data)
     }
 
-    useEffect(() => {
-        if (userChatId) {
-            const data: ChatInterface | any = serverData_chat.find((chat: ChatInterface) => {
-                return chat._id === userChatId
-            })
-            setGlobalSelectedData(data)
-        }
-        const refreshInterval = setInterval(() => {
-            refreshData();
-        }, 1000 * 2); // 2 segundos
-        return () => {
-            clearInterval(refreshInterval);
-        };
-    }, [])
+    return () => {
+      socket.disconnect()
+    }
+  }, [])
 
+  const { data } = useSession()
 
-    const { userType } = useAuth();
-
-    return (
-        <main className="w-full h-full bg-white flex items-center justify-center">
-            <LeftSide userType={userType} userData={serverData_user} serverData={chatsData} setGlobalSelectedData={setGlobalSelectedData} globalSelectedData={globalSelectedData} />
-            <RightSide userData={serverData_user} globalSelectedData={globalSelectedData} setGlobalSelectedData={setGlobalSelectedData} userType={userType} />
-        </main>
-    )
+  return isOnline && data ? (
+    <main className="w-full h-full bg-white flex items-center justify-center">
+      <LeftSide userData={userData} serverData={chatsData} isOnline />
+      <RightSide userData={userData} userType={userData.userType} />
+    </main>
+  ) : (
+    <div className="w-full h-full flex justify-center items-center">
+      <h1 className="text-xl font-bold">Conectando...</h1>
+    </div>
+  )
 }

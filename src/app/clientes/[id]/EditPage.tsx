@@ -5,7 +5,7 @@ import Image from "next/image"
 import ConfirmModal from "./ConfirmModal"
 import { useState } from "react"
 import { useFetch as myUseFetch } from "@/hooks/useFetch"
-import api from "@/hooks/api"
+import api from "@/lib/api"
 import { parseCookies } from "nookies"
 import ClienteInterface from "@/types/Cliente"
 import CardPedido from "./CardPedido"
@@ -14,7 +14,7 @@ import HistoricoUzers from "./HistoricoUzers"
 import Avaliacao from "../../../components/layout/Avaliacao"
 
 export default function Editpage({
-  clienteData: { photoUrl, nome, bannerImage, _id, avaliacao },
+  clienteData: { photoUrl, nome, bannerImage, id, avaliacao },
   pedidos,
 }: {
   clienteData: ClienteInterface
@@ -58,7 +58,7 @@ export default function Editpage({
     setIsSaving(true)
     if (nomeValue !== nome) {
       await api
-        .put(`/clientes/${_id}`, { nome: nomeValue })
+        .put(`/clientes/${id}`, { nome: nomeValue })
         .then((res) => {
           setIsSaving(false)
           nome = nomeValue
@@ -143,7 +143,7 @@ export default function Editpage({
             <h1 className="text-3xl font-bold mb-4 flex items-center gap-2" title="Mudar nome" onClick={changeName}>
               {nome} <Pencil size={20} className="text-azulao cursor-pointer" />
             </h1>
-            <Avaliacao rating={avaliacao} />
+            <Avaliacao rating={5} />
           </div>
         </div>
       </section>

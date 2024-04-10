@@ -1,5 +1,6 @@
 "use client"
 
+
 import Modal from '@/components/Modal/Modal'
 import Input from '@/components/Forms/Input/Input'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
@@ -9,9 +10,13 @@ import Image from "next/image"
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useAuth } from "@/contexts/Auth"
-import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import { useRouter, useSearchParams } from 'next/navigation'
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner"
+import { useRouter, useSearchParams } from "next/navigation"
+import { signIn, useSession } from "next-auth/react"
+import api from "@/lib/api"
+import loginInServer from "./LoginInTheServer"
 
 const userFormSchema = z.object({
   name: z.string().min(1, "Um nome deve ser informado").min(3, "O nome indicado deve ser valido"),
@@ -19,30 +24,32 @@ const userFormSchema = z.object({
     .nonempty("A senha é obrigatória")
     .min(6, "A senha deve ter mais de 6 caracteres")
     .max(24, "A senha deve ter menos de 24 caracteres"),
+
 })
 
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Login() {
-  const { statusLogin, login } = useAuth()
+  const session = useSession()
   const router = useRouter()
-  const searchParams = useSearchParams();
-  if (statusLogin) router.replace("/")
-
-  const { register, handleSubmit, formState: { errors, } } = useForm<userFormData>({
+  const searchParams = useSearchParams()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<userFormData>({
     /* @ts-ignore */
-    resolver: zodResolver(userFormSchema)
+    resolver: zodResolver(userFormSchema),
   })
-
-
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('null');
+  const [showModal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState("null")
   const [haveButton, setHaveButton] = useState(true)
   function toggleModal(message: string, hasButton: boolean = true) {
     setModalMessage(message)
     setHaveButton(hasButton)
-    setShowModal(prevState => !prevState)
+    setShowModal((prevState) => !prevState)
   }
+
 
   async function logar({ name, senha }: { name: string, senha: string }) {
     setIsSubmitting(true)
@@ -56,15 +63,40 @@ export default function Login() {
       new Promise((resolve) => setTimeout(resolve, 2000))
       router.push("/")
     }
+
   }
 
-  const [passwordType, setPasswordType] = useState<"password" | "text">("password");
-  const [pwChangerIcon, setPwChangerIcon] = useState<React.ReactNode | string>(<EyeClosedIcon width={20} height={20} />);
-  const [showPasswordChanger, setShowPasswordChanger] = useState(false)
+  async function logar({ email, senha }: { email: string; senha: string }) {
+    setIsSubmitting(true)
+    try {
+      const result = await signIn("credentials", { email, password: senha, redirect: false })
+      if (result?.error) {
+        toggleModal(result?.status === 401 ? "Credenciais inválidas!" : result?.error, true)
+        return setIsSubmitting(false)
+      } else {
+        try {
+          const result = await api.post("/login", {
+            email,
+            senha,
+          })
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+          api.interceptors.request.use((config) => {
+            config.headers.set("cookie", result?.headers["set-cookie"])
+            config.withCredentials = true
+            return config
+          })
+        } catch (error) {
+          console.log(error)
+        }
+        return router.replace("/")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
+
     <form className="bg-white rounded-3xl p-3 max-h-full w-[35%] flex flex-col items-center h-[600px] justify-between font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start " onSubmit={handleSubmit(logar)}>
       <legend className='font-extrabold text-2xl mt-4'>
         Login
@@ -123,10 +155,12 @@ export default function Login() {
 
               />
               {showPasswordChanger && <button
+
                 title="Exibir/ocultar senha"
                 type="button"
                 className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
                 onClick={(e) => {
+
                   e.preventDefault();
                   setPasswordType(prevState => {
                     setPwChangerIcon(prevState === "text" ? <EyeClosedIcon width={20} height={20} /> : <EyeOpenIcon width={20} height={20} />)
@@ -155,6 +189,7 @@ export default function Login() {
             <span className="flex items-center justify-center mx-4">
               <p className="font-medium text-sm">Não tem uma conta? <Link href="/cadastro" className="text-[#5e5bff] hover:underline">Cadastre-se</Link> </p>
             </span>
+
         </div>
       </div>
     </form>

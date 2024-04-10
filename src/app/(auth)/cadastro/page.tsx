@@ -9,11 +9,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Modal from "@/components/Modal/Modal"
-import { CheckIcon, EyeClosedIcon, EyeOpenIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
-import * as Checkbox from "@radix-ui/react-checkbox"
-import * as Slider from "@radix-ui/react-slider"
-import { useFetch as myUseFetch } from "@/hooks/useFetch"
-import sendNotification from "@/hooks/sendNotification"
+import { EyeClosedIcon, EyeOpenIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
+import api from "@/lib/api"
 
 const userFormSchema = z
   .object({
@@ -29,7 +26,7 @@ const userFormSchema = z
           .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
           .join(" ")
       ), // Capitaliza os nomes,
-    userType: z.string().min(1, "O tipo de usuário é obrigatório"),
+    userType: z.enum(["UZER", "CLIENTE"]),
     senha: z
       .string()
       .min(1, "A senha é obrigatória")
@@ -51,7 +48,6 @@ const userFormSchema = z
       .regex(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, "Formato de CPF inválido")
       .min(14, "O CPF deve ter 14 dígitos")
       .max(14, "O CPF deve ter 14 dígitos"),
-    rg: z.optional(z.string()),
     cep: z
       .string()
       .min(1, "O CEP é obrigatório")
@@ -64,14 +60,7 @@ const userFormSchema = z
       cidade: z.string().min(1, "A cidade é obrigatória"),
       estado: z.string().min(1, "O estado é obrigatório"),
     }),
-    tipoServico: z.optional(z.string().min(1, "Escolha uma opção")),
-    areaAtuacao: z
-      .optional(
-        z.number().min(1, "Área de atuação deve ser maior que 0").max(200, "Área de atuação deve ser menor que 200")
-      )
-      .default(1),
-    categoriaServico: z.optional(z.string()),
-    nomeServico: z.optional(z.string()),
+    idServico: z.string().min(1, "O serviço é obrigatório"),
   })
   .refine((data) => data.senha === data.confirmarSenha, {
     path: ["confirmarSenha"], // path of error
@@ -91,15 +80,15 @@ export default function Cadastro() {
 
   const { get } = useSearchParams()
   useEffect(() => {
-    myUseFetch<{ nomeCategoria: string }[]>("/categorias").then((data) => setCategoriasServicos(data))
-    myUseFetch<{ nome: string; categoria: string }[]>("/servicos").then((data) => {
-      setServicos(data)
-      setFilteredServicos(data)
-    })
+    api
+      .get<{ nome: string; categoria: string; id: string }[]>("/servicos")
+      .then(({ data }) => {
+        setServicos(data)
+      })
+      .catch(() => [])
   }, [])
 
-  const [categoriasServicos, setCategoriasServicos] = useState<{ nomeCategoria: string }[]>([])
-  const [servicos, setServicos] = useState<{ nome: string; categoria: string }[]>([])
+  const [servicos, setServicos] = useState<{ nome: string; id: string }[]>([])
 
   const {
     register,
@@ -112,11 +101,8 @@ export default function Cadastro() {
     resolver: zodResolver(userFormSchema),
   })
 
-  const [userType, setUserType] = useState<"cliente" | "uzer" | any>(get("userType"))
+  const [userType, setUserType] = useState<"CLIENTE" | "UZER" | any>(get("userType")?.toUpperCase())
   const [formStep, setFormStep] = useState<number>(1)
-
-  // const [categoriaServicosArray, setCategoriaServicosArray] = useState([{ "nomeCategoria": "Carregando..." }]);
-  // const [servicosArray, setServicosArray] = useState([{ "nomeServico": "Selecione uma categoria" }]);
 
   const [showModal, setShowModal] = useState(false)
   const [modalMessage, setModalMessage] = useState("null")
@@ -139,79 +125,34 @@ export default function Cadastro() {
   )
   const [showConfirmPasswordChanger, setShowConfirmPasswordChanger] = useState<boolean>(false)
 
-  const [onlineCheckbox, setOnlineCheckbox] = useState<boolean>(false)
-  const [presencialCheckbox, setPresencialCheckbox] = useState<boolean>(false)
-
-  const [inputAreaAtuacao, setInputAreaAtuacao] = useState<number>(1)
-
   //onSubmitForm
   async function cadastrar(data: userFormData) {
-    const {
-      nome,
-      email,
-      userType,
-      senha,
-      cpf,
-      rg,
-      cep,
-      dataNascimento,
-      endereco,
-      telefone,
-      categoriaServico,
-      nomeServico,
-      tipoServico,
-      areaAtuacao,
-    } = data
-    if (userType === "uzer") {
-      if (!categoriaServico || !nomeServico || !tipoServico || !areaAtuacao) {
+    const { nome, email, userType, senha, cpf, cep, dataNascimento, endereco, telefone, idServico } = data
+    if (userType === "UZER") {
+      if (!idServico) {
         return
       }
     }
     setIsSubmitting(true)
     toggleModal("Cadastrando...")
-    console.log({
+    const { data: uzerData } = await api.post("/register", {
       nome,
       email,
       senha,
       cpf,
-      rg,
       dataNasc: dataNascimento,
       cep,
       telefone,
       endereco,
-      userType,
-      tipoServico,
-      areaAtuacao,
-      categoriaServico,
-      nomeServico,
+      usertype: userType,
+      idServico,
+      username: email.split("@")[0],
     })
-    const { message } = await myUseFetch<{ message: string; uzer: any }>("/register", {
-      method: "POST",
-      body: JSON.stringify({
-        nome,
-        email,
-        senha,
-        cpf,
-        rg,
-        dataNasc: dataNascimento,
-        cep,
-        telefone,
-        endereco,
-        userType,
-        tipoServico,
-        areaAtuacao,
-        categoriaServico,
-        nomeServico,
-      }),
-    })
-      .then(async (res) => {
-        return res
-      })
-      .catch((error) => error)
+
     setShowModal(false)
-    toggleModal(message)
+    toggleModal(uzerData.message)
     setIsSubmitting(false)
-    if (message.includes("sucesso")) {
+    if (uzerData.message.includes("sucesso")) {
       new Promise((resolve) => setTimeout(resolve, 4000))
       router.push(`/login?userEmail=${email}`)
     }
@@ -234,11 +175,10 @@ export default function Cadastro() {
   const formRef = useRef<HTMLFormElement>(null)
 
   const [isFirstClick, setIsFirstClick] = useState(true)
-  const [filteredServicos, setFilteredServicos] = useState<{ nome: string; categoria: string }[]>([])
   return (
     <form
       ref={formRef}
-      className="bg-white rounded-3xl py-6 px-4 min-h-[95%] w-[45%] flex flex-col items-center justify-center desktop:w-4/5 mobile:w-full mobile:h-full mobile:px-0"
+      className="bg-white rounded-3xl py-6 px-4 min-h-[95%] w-[40 %] flex flex-col items-center justify-center desktop:w-4/5 mobile:w-full mobile:h-full mobile:px-0"
       onSubmit={handleSubmit(cadastrar)}
     >
       <div className="w-full h-full flex flex-col items-center justify-between gap-2">
@@ -254,7 +194,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                  className={`bg-cinzero w-full h-10 rounded-md font-medium text-base px-3 py-2 outline-none ${
                     errors.email && "border-2 rounded border-red-500"
                   }`}
                   type="text"
@@ -272,7 +212,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                  className={`bg-cinzero w-full h-10 font-medium rounded-md text-base px-3 py-2 outline-none ${
                     errors.nome && "border-2 rounded border-red-500"
                   }`}
                   type="text"
@@ -296,7 +236,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium rounded-md text-base px-3 py-2 outline-none ${
                       errors.telefone && "border-2 rounded border-red-500"
                     }`}
                     type="text"
@@ -325,7 +265,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium rounded-md text-base px-3 py-2 outline-none ${
                       errors.dataNascimento && "border-2 rounded border-red-500"
                     }`}
                     type="date"
@@ -347,7 +287,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                  className={`bg-cinzero w-full h-10 font-medium rounded-md text-base px-3 py-2 outline-none ${
                     errors.senha && "border-2 rounded border-red-500"
                   }`}
                   type={passwordType}
@@ -395,7 +335,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                  className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                     (errors.confirmarSenha || senhasOk) && "border-2 rounded border-red-500"
                   }`}
                   type={confirmPasswordType}
@@ -451,7 +391,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                       errors.cpf && "border-2 rounded border-red-500"
                     }`}
                     type="text"
@@ -469,30 +409,6 @@ export default function Cadastro() {
                 </div>
                 {errors.cpf && <span className="font-medium text-xs self-start my-1">{errors.cpf.message}</span>}
               </div>
-              <div className="flex flex-col items-center justify-center grow">
-                <label htmlFor="rg" title="RG" className="self-start text-base font-medium">
-                  RG: <sup className="text-[10px] font-bold">(opcional)</sup>
-                </label>
-                <div className="flex items-center w-full h-10">
-                  <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
-                      errors.rg && "border-2 rounded border-red-500"
-                    }`}
-                    type="text"
-                    id="rg"
-                    maxLength={11}
-                    placeholder="00.000.000-0"
-                    {...register("rg", {
-                      onChange: (e) => {
-                        const rawRg = e.target.value.replace(/\D/g, "") // Remove não dígitos
-                        const formattedRg = rawRg.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})$/, "$1.$2.$3-$4") // Formata como XX.XXX.XXX-X
-                        setValue("rg", formattedRg)
-                      },
-                    })}
-                  />
-                </div>
-                {errors.rg && <span className="font-medium text-xs self-start my-1">{errors.rg.message}</span>}
-              </div>
             </div>
           </div>
         )}
@@ -504,7 +420,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                  className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                     errors.cep && "border-2 rounded border-red-500"
                   }`}
                   type="text"
@@ -550,7 +466,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                       errors.endereco?.estado && "border-2 rounded border-red-500"
                     }`}
                     type="text"
@@ -570,7 +486,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                       errors.endereco?.cidade && "border-2 rounded border-red-500"
                     }`}
                     type="text"
@@ -590,7 +506,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                       errors.nome && "border-2 rounded border-red-500"
                     }`}
                     type="text"
@@ -612,7 +528,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 rounded-md py-2 outline-none ${
                       errors.endereco?.logradouro && "border-2 rounded border-red-500"
                     }`}
                     type="text"
@@ -632,7 +548,7 @@ export default function Cadastro() {
                 </label>
                 <div className="flex items-center w-full h-10">
                   <input
-                    className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                    className={`bg-cinzero w-full h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
                       errors.endereco?.numero && "border-2 rounded border-red-500"
                     }`}
                     type="number"
@@ -653,7 +569,7 @@ export default function Cadastro() {
               </label>
               <div className="flex items-center w-full h-10">
                 <input
-                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none ${
+                  className={`bg-cinzero w-full h-10 font-medium text-base px-3 rounded-md py-2 outline-none ${
                     errors.endereco?.complemento && "border-2 rounded border-red-500"
                   }`}
                   type="text"
@@ -671,132 +587,27 @@ export default function Cadastro() {
         )}
         {formStep === 4 && (
           <div className="flex flex-col items-center justify-center gap-2 w-4/5 animate-transitionX">
-            <span className="font-medium text-lg my-1">Tipos de atuação</span>
-            {onlineCheckbox === false && presencialCheckbox === false && (
-              <span className="font-medium text-sm my-1">Escolha uma opção</span>
-            )}
-            <div className="flex items-center justify-center w-full">
-              <div className="flex items-center justify-center gap-1 grow">
-                <CheckboxInput
-                  id="onlineCheckbox"
-                  handleChange={() => {
-                    setOnlineCheckbox((prevState) => {
-                      setValue(
-                        "tipoServico",
-                        !prevState && presencialCheckbox
-                          ? "ambos"
-                          : !prevState
-                          ? "online"
-                          : !prevState === false && presencialCheckbox === false
-                          ? ""
-                          : "presencial"
-                      )
-                      return !prevState
-                    })
-                  }}
-                  value={onlineCheckbox}
-                />
-                <label htmlFor="onlineCheckbox">Online</label>
-              </div>
-              <div className="flex items-center justify-center gap-1 grow">
-                <CheckboxInput
-                  id="presencialCheckbox"
-                  handleChange={() => {
-                    setPresencialCheckbox((prevState) => {
-                      setValue(
-                        "tipoServico",
-                        onlineCheckbox && !prevState
-                          ? "ambos"
-                          : !prevState
-                          ? "presencial"
-                          : !prevState === false && onlineCheckbox === false
-                          ? ""
-                          : "online"
-                      )
-                      return !prevState
-                    })
-                  }}
-                  value={presencialCheckbox}
-                />
-                <label htmlFor="presencialCheckbox">Presencial</label>
-              </div>
-            </div>
-            {presencialCheckbox && (
-              <div className="flex items-center justify-center w-full">
-                <div className="flex flex-col items-center justify-center w-full gap-2">
-                  <label htmlFor="endereco-estado" title="Estado" className="text-base font-medium">
-                    Área de atuação:
-                  </label>
-                  <RangeInput
-                    label="km"
-                    handleChange={(value: number[]) => {
-                      setInputAreaAtuacao(value[0])
-                      setValue("areaAtuacao", value[0])
-                    }}
-                    value={inputAreaAtuacao}
-                    id="areaatuacao"
-                    minRange={1}
-                    maxRange={200}
-                    minRangeLabel="1km"
-                    maxRangeLabel="200km"
-                  />
-                </div>
-              </div>
-            )}
-            <div className="flex flex-col items-center justify-center w-full mt-6 gap-4">
-              <label
-                htmlFor="categoriaServico"
-                title="Categoria de serviço"
-                className="self-center text-xl font-medium"
-              >
-                Qual categoria de serviço você oferece?
-              </label>
-              <div className="flex items-center justify-center self-center w-full h-10">
-                <select
-                  className={`bg-cinzero w-3/5 self-center h-10 font-medium text-base px-3 py-2 outline-none ${
-                    errors.categoriaServico && "border-2 rounded border-red-500"
-                  }`}
-                  id="categoriaServico"
-                  {...register("categoriaServico", {
-                    onChange(event) {
-                      const filteredArray = servicos.filter((servico) => servico.categoria === event.target.value)
-                      setFilteredServicos(filteredArray)
-                      setValue("nomeServico", filteredArray[0]?.nome)
-                    },
-                  })}
-                >
-                  {categoriasServicos?.map((categoria, index) => (
-                    <option key={index} value={categoria.nomeCategoria}>
-                      {categoria.nomeCategoria}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {errors.categoriaServico && (
-                <span className="font-medium text-xs self-start my-1">{errors.categoriaServico.message}</span>
-              )}
-            </div>
             <div className="flex flex-col items-center justify-center w-full mt-6 gap-4">
               <label htmlFor="servicoPrincipal" title="Serviço principal" className="self-center text-xl font-medium">
-                Qual o seu serviço principal?
+                Qual o seu nicho?
               </label>
               <div className="flex items-center justify-center self-center w-full h-10">
                 <select
-                  className={`bg-cinzero w-3/5 self-center h-10 font-medium text-base px-3 py-2 outline-none ${
-                    errors.nomeServico && "border-2 rounded border-red-500"
+                  className={`bg-cinzero w-3/5 self-center h-10 font-medium text-base rounded-md px-3 py-2 outline-none ${
+                    errors.idServico && "border-2 rounded border-red-500"
                   }`}
                   id="servicoPrincipal"
-                  {...register("nomeServico")}
+                  {...register("idServico")}
                 >
-                  {filteredServicos?.map((servico, index) => (
-                    <option key={index} value={servico.nome}>
+                  {servicos?.map((servico, index) => (
+                    <option key={index} value={servico.id}>
                       {servico.nome}
                     </option>
                   ))}
                 </select>
               </div>
-              {errors.categoriaServico && (
-                <span className="font-medium text-xs self-start my-1">{errors.categoriaServico.message}</span>
+              {errors.idServico && (
+                <span className="font-medium text-xs self-start my-1 mx-auto">Selecione um serviço</span>
               )}
             </div>
           </div>
@@ -819,7 +630,7 @@ export default function Cadastro() {
               >
                 Anterior
               </Button>
-              {!((userType === "cliente" && formStep === 3) || (userType === "uzer" && formStep === 4)) ? (
+              {!((userType === "CLIENTE" && formStep === 3) || (userType === "UZER" && formStep === 4)) ? (
                 <button
                   type="submit"
                   className={`bg-azulao border-none rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-1/4 flex justify-center items-center py-2 px-4 mobile:w-4/12 ${
@@ -840,8 +651,7 @@ export default function Cadastro() {
                         errors.dataNascimento ||
                         errors.senha ||
                         errors.confirmarSenha ||
-                        errors.cpf ||
-                        errors.rg
+                        errors.cpf
                       ) {
                         return toggleModal("Preencha os dados corretamente")
                       }
@@ -851,11 +661,11 @@ export default function Cadastro() {
                       if (errors.cep || errors.endereco) {
                         return toggleModal("Preencha os dados corretamente")
                       }
-                      if (userType === "cliente") return
+                      if (userType === "CLIENTE") return
                       else return setFormStep((prevState) => prevState + 1)
                     }
                     if (formStep === 4) {
-                      if (errors.tipoServico || errors.areaAtuacao) {
+                      if (errors.idServico) {
                         return toggleModal("Preencha os dados corretamente")
                       }
                       return
@@ -880,83 +690,5 @@ export default function Cadastro() {
       </div>
       {showModal && <Modal message={modalMessage} handleClick={() => setShowModal(false)} noButton={!haveButton} />}
     </form>
-  )
-}
-
-interface CheckboxInputProps {
-  id: string
-  value: boolean
-  handleChange: any
-}
-
-function CheckboxInput({ id, value, handleChange }: CheckboxInputProps) {
-  return (
-    <div className="flex items-center justify-between gap-4">
-      <Checkbox.Root
-        className="hover:bg-[#dbdbdb] flex h-6 w-6 items-center justify-center transition bg-cinzero"
-        id={id}
-        checked={value}
-        onCheckedChange={handleChange}
-      >
-        <Checkbox.Indicator className="w-full h-full flex items-center justify-center text-violet11 bg-[#5e5bff] duration-300">
-          <CheckIcon color="white" />
-        </Checkbox.Indicator>
-      </Checkbox.Root>
-    </div>
-  )
-}
-
-interface RangeInputProps {
-  id: string
-  maxRange: number
-  minRange: number
-  maxRangeLabel: string
-  minRangeLabel: string
-  value: number
-  handleChange: any
-  label: string
-}
-
-function RangeInput({
-  id,
-  maxRange,
-  minRange,
-  maxRangeLabel,
-  minRangeLabel,
-  value,
-  handleChange,
-  label,
-}: RangeInputProps) {
-  return (
-    <div className="flex flex-col items-center gap-2 justify-center w-full">
-      <Slider.Root
-        className="relative flex items-center select-none touch-none w-10/12"
-        min={minRange}
-        max={maxRange}
-        step={1}
-        id={id}
-        onValueChange={handleChange}
-        value={[value]}
-      >
-        <Slider.Track className="bg-azulao relative grow rounded-full h-2">
-          <Slider.Range className="absolute bg-azulao rounded-full h-full" />
-        </Slider.Track>
-        <Slider.Thumb
-          className="block w-6 h-6 bg-[#5e5bff] rounded-full cursor-pointer focus:outline-none "
-          aria-label="Volume"
-        />
-      </Slider.Root>
-      <div className="flex items-center justify-between w-11/12">
-        <label htmlFor={id} title={label} className="text-lg">
-          {minRangeLabel}
-        </label>
-        <label htmlFor={id} title={label} className="text-lg">
-          {String(value) + " km"}
-        </label>
-        <label htmlFor={id} title={label} className="text-lg">
-          {maxRangeLabel}
-        </label>
-      </div>
-    </div>
   )
 }

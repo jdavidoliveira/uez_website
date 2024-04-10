@@ -3,7 +3,7 @@
 import { createContext, useState, useContext, useEffect } from "react"
 import { parseCookies, setCookie, destroyCookie } from "nookies"
 import { useFetch as myFetch } from "@/hooks/useFetch"
-import api from "@/hooks/api"
+import api from "@/lib/api"
 
 interface IAuth {
   statusLogin: boolean

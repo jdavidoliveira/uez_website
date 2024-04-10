@@ -1,15 +1,16 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image"
+import React from "react"
 
 interface StarRatingProps {
-  rating: number;
+  rating: number
 }
 
 const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
   // Arredonda a avaliação para o número inteiro mais próximo
-  const roundedRating = Math.floor(rating);
+  const roundedRating = Math.floor(rating)
+  console.log(roundedRating)
 
-  const stars = [];
+  const stars = []
 
   // Adicione estrelas preenchidas
   for (let i = 0; i < roundedRating; i++) {
@@ -22,7 +23,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
         height={20}
         className="w-4 text-yellow-500"
       />
-    );
+    )
   }
 
   // Adicione estrelas vazias (se houver uma parte fracionária)
@@ -36,7 +37,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
         height={20}
         className="w-4 text-yellow-500"
       />
-    );
+    )
   }
 
   // Adicione estrelas vazias restantes
@@ -50,7 +51,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
         height={20}
         className="w-4 text-yellow-500"
       />
-    );
+    )
   }
 
   return (
@@ -59,6 +60,6 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
       <span className="text-sm font-medium">{rating.toFixed(1)}/5</span>
     </div>
   )
-};
+}
 
-export default Avaliacao;
+export default Avaliacao
