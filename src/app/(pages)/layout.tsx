@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import Header from "@/components/Header/Header"
+import Header from "@/components/Header"
 import Footer from "@/components/Footer/Footer"
 import Image from "next/image"
 import { Phone } from "lucide-react"

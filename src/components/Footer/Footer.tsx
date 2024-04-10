@@ -1,69 +1,64 @@
 import Image from "next/image"
+import styles from "./Footer.module.css"
+import Link from "next/link"
 
 export default function Footer() {
-    return (
-        <footer className="bg-azulao flex justify-between p-11 ">
-            <section className="flex flex-col gap-20">
-                <div className="flex gap-24 items-center">
-                    <Image src="/logoWhite.svg" width={183} alt="logo UEZ" height={120} />
-
-                    <div className="flex flex-col text-center gap-4">
-                        <a href="" className="text-white text-2xl font-semibold"> 
-                            Empresa
-                        </a>
-
-                        <span className="text-white"> Sobre nós</span>
-                    </div>
-                </div>
-
-                <div className="flex gap-8 ">
-                    <a href="www.tiktok.com/@uezcompany" target="_blank">
-                        <Image  src="/youtube.svg" width={50} height={50} alt="logo do Tiktok"/> 
-                    </a>
-                    <a href="https://www.youtube.com/@UezCompany" target="_blank">
-                        <Image  src="/tiktok.svg" width={50} height={50} alt="logo do Youtube "/> 
-                    </a>
-                    <a href="https://www.instagram.com/uez_company/" target="_blank">
-                        <Image  src="/insta.svg" width={50} height={50} alt="logo do Instagram"/> 
-                    </a>
-                    <a href="tps://www.facebook.com/uezco/" className="pt-[3px]" target="_blank">
-                        <Image  src="/facebook.svg" width={50} height={50} alt="logo do Facebook "/> 
-                    </a>
-                    <a href="https://br.pinterest.com/uezcompany/" target="_blank">
-                        <Image  src="/pinterest.svg" width={50} height={50} alt="logo do Pinterest"/> 
-                    </a>
-                </div>
-            </section>
-
-
-            <section className="flex flex-col items-center pt-5 gap-7">
-                <h1 className="font-semibold text-white text-2xl">
-                    Suporte
-                </h1>
-
-                <div className="flex gap-4">
-                    <a href="" target="_blank">
-                        <Image  src="/email.svg" width={50} height={50} alt="logo do Email"/> 
-                    </a>
-
-                    <a href="" target="_blank">
-                        <Image  src="/zap.svg" width={50} height={50} alt="logo do Whastzap"/> 
-                    </a>
-                </div>
-            </section>
-
-            <section className="text-white text-end pt-5 flex flex-col gap-20">
-                <div className="flex flex-col gap-4">
-                    <h1 className="text-2xl pb-3">
-                        Jurídico
-                    </h1>
-
-                    <span className="font-light"> Termos de uso </span>
-                    <span className="font-light"> Política de privacidade </span>
-                </div>
-
-                <h1>Copyright © 2024 UEZ-Company. All rights reserved.</h1>
-            </section>
-        </footer>
-    )
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.footer_content}>
+        <div className={styles.footer_cards}>
+          <div className={styles.footer_card}>
+            <Image src="/logo.svg" alt="Logo UEZ" width={60} height={60} className={styles.footer_logo} />
+            <div className={styles.footer_social_content}>
+              <Link href="https://www.instagram.com/uez_company/" target="_blank">
+                <Image src="/images/icons/instagram.png" className="invert" alt="Instagram" width={64} height={64} />
+              </Link>
+              <Link href="https://www.facebook.com/uezco/" target="_blank">
+                <Image src="/images/icons/facebook.png" className="invert" alt="Facebook" width={64} height={64} />
+              </Link>
+              <Link href="https://www.youtube.com/@UezCompany" target="_blank">
+                <Image src="/images/icons/youtube.png" className="invert" alt="Youtube" width={64} height={64} />
+              </Link>
+              <Link href="https://www.tiktok.com/@uezcompany" target="_blank">
+                <Image src="/images/icons/tiktok.png" className="invert" alt="Tik Tok" width={64} height={64} />
+              </Link>
+              <Link href="https://br.pinterest.com/uezcompany/" target="_blank">
+                <Image src="/images/icons/pinterest.png" className="invert" alt="Pinterest" width={64} height={64} />
+              </Link>
+            </div>
+            {/* v        <h1 className="text-2xl font-bold mx-auto text-roxazul">REDES SOCIAIS</h1>
+        <div className="flex justify-center items-center gap-5">
+          <LinkSocial icon="/images/icons/pinterest.png" link="https://br.pinterest.com/uezcompany/" alt="Pinterest" />
+        </div> */}
+          </div>
+          <div className={styles.footer_card}>
+            <h2>Empresa</h2>
+            <Link href="/sobre">Sobre nós</Link>
+          </div>
+          <div className={styles.footer_card}>
+            <h2>Suporte</h2>
+            <div className={styles.footer_social_content}>
+              <Link href="mailto:uezcompanylog@gmail.com" target="_blank">
+                <Image src="/zap.svg" alt="Email" width={16} height={16} />
+              </Link>
+              <Link
+                href="https://api.whatsapp.com/send?phone=5521978783261&text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20como%20funciona%20a%20UEZ"
+                target="_blank"
+              >
+                <Image src="/email.svg" alt="Whatsapp" width={16} height={16} />
+              </Link>
+            </div>
+          </div>
+          <div className={styles.footer_card}>
+            <h2>Jurídico</h2>
+            <Link href="/sobre">Termos de Uso</Link>
+            <Link href="/sobre">Política de privacidade</Link>
+          </div>
+        </div>
+        <div>
+          <span className={styles.footer_copyright}>Copyright © 2023 UEZ-Company. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+  )
 }
