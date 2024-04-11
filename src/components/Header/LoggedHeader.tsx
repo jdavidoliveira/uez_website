@@ -15,7 +15,7 @@ export default function LoggedHeader({ session }: { session: Session }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   return (
-    <header className={`w-full flex items-center p-3 justify-center shadow bg-white relative`}>
+    <header className={`w-full flex items-center p-3 justify-center shadow bg-white relative z-50`}>
       <div className="w-11/12 flex items-center justify-between">
         <nav className="flex items-center justify-between gap-10 text-xl font-bold mdscreen:gap-5">
           <button className="hidden mobile:block" onClick={() => setShowMobileMenu(!showMobileMenu)}>

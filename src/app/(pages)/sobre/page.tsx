@@ -1,6 +1,5 @@
 import Image from "next/image"
-import GenericSection from "./GenericSection"
-import Link from "next/link"
+import GenericSection from "@/components/GenericSection"
 import { Mail } from "lucide-react"
 
 export default function Sobre() {

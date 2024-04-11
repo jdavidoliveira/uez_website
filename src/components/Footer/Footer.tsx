@@ -11,19 +11,49 @@ export default function Footer() {
             <Image src="/logo.svg" alt="Logo UEZ" width={60} height={60} className={styles.footer_logo} />
             <div className={styles.footer_social_content}>
               <Link href="https://www.instagram.com/uez_company/" target="_blank">
-                <Image src="/images/icons/instagram.png" className="invert" alt="Instagram" width={64} height={64} />
+                <Image
+                  src="/images/icons/instagram.png"
+                  className="brightness-[100]"
+                  alt="Instagram"
+                  width={64}
+                  height={64}
+                />
               </Link>
               <Link href="https://www.facebook.com/uezco/" target="_blank">
-                <Image src="/images/icons/facebook.png" className="invert" alt="Facebook" width={64} height={64} />
+                <Image
+                  src="/images/icons/facebook.png"
+                  className="brightness-[100]"
+                  alt="Facebook"
+                  width={64}
+                  height={64}
+                />
               </Link>
               <Link href="https://www.youtube.com/@UezCompany" target="_blank">
-                <Image src="/images/icons/youtube.png" className="invert" alt="Youtube" width={64} height={64} />
+                <Image
+                  src="/images/icons/youtube.png"
+                  className="brightness-[100]"
+                  alt="Youtube"
+                  width={64}
+                  height={64}
+                />
               </Link>
               <Link href="https://www.tiktok.com/@uezcompany" target="_blank">
-                <Image src="/images/icons/tiktok.png" className="invert" alt="Tik Tok" width={64} height={64} />
+                <Image
+                  src="/images/icons/tiktok.png"
+                  className="brightness-[100]"
+                  alt="Tik Tok"
+                  width={64}
+                  height={64}
+                />
               </Link>
               <Link href="https://br.pinterest.com/uezcompany/" target="_blank">
-                <Image src="/images/icons/pinterest.png" className="invert" alt="Pinterest" width={64} height={64} />
+                <Image
+                  src="/images/icons/pinterest.png"
+                  className="brightness-[100]"
+                  alt="Pinterest"
+                  width={64}
+                  height={64}
+                />
               </Link>
             </div>
             {/* v        <h1 className="text-2xl font-bold mx-auto text-roxazul">REDES SOCIAIS</h1>

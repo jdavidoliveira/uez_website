@@ -13,8 +13,8 @@ export const options: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
-        if (!credentials) return null
-        const response = await fetch("http://localhost:3333/login", {
+        if (!credentials || !process.env.NEXT_PUBLIC_API_URL) return null
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -24,13 +24,12 @@ export const options: NextAuthOptions = {
             senha: credentials.password,
           }),
           credentials: "include",
-        }).catch(() => null)
+        }).catch((err) => {
+          console.log(err)
+          return null
+        })
 
         if (response) {
-          // api.interceptors.request.use((config) => {
-          //   config.headers.set("cookie", response?.headers["set-cookie"])
-          //   return config
-          // })
           await action({
             email: credentials.email,
             senha: credentials.password,
