@@ -13,10 +13,10 @@ export default function HeaderClient() {
     <header className={`w-full flex items-center p-3 justify-center shadow bg-white relative`}>
       <div className="w-11/12 flex items-center justify-between">
         <nav className="flex items-center justify-between gap-10 text-xl font-bold mdscreen:gap-5">
-          <button className="hidden mobile:block" onClick={() => setShowMobileMenu(!showMobileMenu)}>
+          <button className="sm:hidden block" onClick={() => setShowMobileMenu(!showMobileMenu)}>
             <Menu size={60} />
           </button>
-          <Link href="/" className="mobile:hidden p-2">
+          <Link href="/" className="hidden sm:block p-2">
             <Image
               width={60}
               height={60}

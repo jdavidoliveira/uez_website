@@ -4,8 +4,9 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer + " relative"}>
       <div className={styles.footer_content}>
+        <span className="absolute bottom-0 right-2">version: 0.1.1 (beta)</span>
         <div className={styles.footer_cards}>
           <div className={styles.footer_card}>
             <Image src="/logo.svg" alt="Logo UEZ" width={60} height={60} className={styles.footer_logo} />
@@ -68,7 +69,7 @@ export default function Footer() {
           <div className={styles.footer_card}>
             <h2>Suporte</h2>
             <div className={styles.footer_social_content}>
-              <Link href="mailto:uezcompanylog@gmail.com" target="_blank">
+              <Link href="suporte@uezcompany.com" target="_blank">
                 <Image src="/zap.svg" alt="Email" width={16} height={16} />
               </Link>
               <Link
@@ -81,12 +82,12 @@ export default function Footer() {
           </div>
           <div className={styles.footer_card}>
             <h2>Jurídico</h2>
-            <Link href="/sobre">Termos de Uso</Link>
+            <Link href="/sobre/termos-de-uso">Termos de Uso</Link>
             <Link href="/sobre">Política de privacidade</Link>
           </div>
         </div>
         <div>
-          <span className={styles.footer_copyright}>Copyright © 2023 UEZ-Company. All rights reserved.</span>
+          <span className={styles.footer_copyright}>UEZ Company - 2024</span>
         </div>
       </div>
     </footer>
