@@ -12,7 +12,7 @@ export const options: NextAuthOptions = {
         password: { label: "password", type: "password" },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials || !process.env.NEXT_PUBLIC_API_URL) return null
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
           method: "POST",
@@ -56,7 +56,7 @@ export const options: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       user && (token.user = user as any)
       return token
     },

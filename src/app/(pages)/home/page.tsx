@@ -183,112 +183,53 @@ export default function Home() {
         <div className="flex max-w-fit flex-col items-center justify-center gap-20 p-10">
           <h1 className="text-center text-4xl font-bold text-white">Conheça nossos serviços!</h1>
           <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-12">
-            <div className="group flex flex-col items-center justify-between transition-transform">
-              <div className="flex h-full w-full flex-col items-center gap-14 rounded-xl bg-white px-8 transition-transform [perspective:1000px]  [transform-style:preserve-3d] hover:scale-105 group-hover:flex group-hover:items-center group-hover:justify-center group-hover:px-0 group-hover:[transform:rotateY(180deg)] sm:px-6">
-                <Image
-                  src="/images/icons/categorias/designer-azulao.png"
-                  width={120}
-                  height={120}
-                  alt="Designer"
-                  className="mt-8 w-20 group-hover:hidden sm:mt-14"
-                />
-                <h1 className="mb-8 w-48 text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
-                  Design
-                </h1>
-                <ul className="box-border hidden w-fit list-disc transition-transform [transform:rotateY(180deg)] group-hover:block">
-                  <li className="text-lg font-bold">Criação de logo</li>
-                  <li className="text-lg font-bold">Papelaria</li>
-                  <li className="text-lg font-bold">Tipografia</li>
-                  <li className="text-lg font-bold">
-                    Artes para <br /> redes sociais
-                  </li>
-                  <li className="text-lg font-bold">Brand identity</li>
-                  <li className="text-lg font-bold">Ilustração 2d/3d</li>
-                  <li className="text-lg font-bold">UI/UX</li>
-                </ul>
-              </div>
-            </div>
-            <div className="group flex flex-col items-center justify-between transition-transform">
-              <div className="flex h-full w-full flex-col items-center gap-14 rounded-xl bg-white px-8 transition-transform [perspective:1000px]  [transform-style:preserve-3d] hover:scale-105 group-hover:flex group-hover:items-center group-hover:justify-center group-hover:px-0 group-hover:[transform:rotateY(180deg)] sm:px-6">
-                <Image
-                  src="/images/icons/categorias/programacao-azulao.png"
-                  width={120}
-                  height={120}
-                  alt="Programação"
-                  className="mt-8 w-20 group-hover:hidden sm:mt-14"
-                />
-                <h1 className="mb-8 w-48 text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
-                  Programação
-                </h1>
-                <ul className="box-border hidden w-fit list-disc transition-transform [transform:rotateY(180deg)] group-hover:block">
-                  <li className="text-lg font-bold">Frontend</li>
-                  <li className="text-lg font-bold">Backend</li>
-                  <li className="text-lg font-bold">Fullstack</li>
-                  <li className="text-lg font-bold">Mobile</li>
-                  <li className="text-lg font-bold">Games</li>
-                  <li className="text-lg font-bold">Web</li>
-                  <li className="text-lg font-bold">
-                    Engenharia de <br /> Dados
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="group flex flex-col items-center justify-between">
-              <div className="flex h-full w-full flex-col items-center gap-14 rounded-xl bg-white px-8 transition-transform [perspective:1000px]  [transform-style:preserve-3d] hover:scale-105 group-hover:flex group-hover:items-center group-hover:justify-center group-hover:px-0 group-hover:[transform:rotateY(180deg)] sm:px-6">
-                <Image
-                  src="/images/icons/categorias/socialmedia-azulao.png"
-                  width={120}
-                  height={120}
-                  alt="Social Media"
-                  className="mt-8 w-20 group-hover:hidden sm:mt-14"
-                />
-                <h1 className="mb-8 w-48 text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
-                  Social Media
-                </h1>
-                <ul className="box-border hidden w-fit list-disc transition-transform [transform:rotateY(180deg)] group-hover:block">
-                  <li className="text-base font-bold">Gestão de editoriais</li>
-                  <li className="text-base font-bold">Criação de conteúdo</li>
-                  <li className="text-base font-bold">Copywriter</li>
-                  <li className="text-base font-bold">
-                    Gestão de <br /> tráfego pago
-                  </li>
-                  <li className="text-base font-bold">
-                    Gestão de <br /> comunidades
-                  </li>
-                  <li className="text-base font-bold">
-                    Interação e <br /> monitoramento
-                  </li>
-                  <li className="text-base font-bold">Relatórios e análises</li>
-                </ul>
-              </div>
-            </div>
-            <div className="group flex flex-col items-center justify-between transition-transform">
-              <div className="flex h-full w-full flex-col items-center gap-14 rounded-xl bg-white px-8 transition-transform [perspective:1000px]  [transform-style:preserve-3d] hover:scale-105 group-hover:flex group-hover:items-center group-hover:justify-center group-hover:px-0 group-hover:[transform:rotateY(180deg)] sm:px-6">
-                <Image
-                  src="/images/icons/categorias/videomaker-azulao.png"
-                  width={120}
-                  height={120}
-                  alt="Video Making"
-                  className="mt-8 w-20 group-hover:hidden sm:mt-14"
-                />
-                <h1 className="mb-8 w-48 text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
-                  Video Making
-                </h1>
-                <ul className="box-border hidden w-fit list-disc transition-transform [transform:rotateY(180deg)] group-hover:block">
-                  <li className="text-base font-bold">Edição de vídeos</li>
-                  <li className="text-base font-bold">Roteirização</li>
-                  <li className="text-base font-bold">Narração</li>
-                  <li className="text-base font-bold">Animação 2D/3D</li>
-                  <li className="text-base font-bold">
-                    Operação de <br /> câmera
-                  </li>
-                  <li className="text-base font-bold">Operação de áudio</li>
-                  <li className="text-base font-bold">
-                    Operação de <br /> iluminação
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <CategoryCard
+              categoryName="Design"
+              imagePath="/images/icons/categorias/designer-azulao.png"
+              services={[
+                "Criação de logo",
+                "Papelaria",
+                "Tipografia",
+                `Artes para <br /> redes sociais`,
+                "Brand identity",
+                "Ilustração 2d/3d",
+                "UI/UX",
+              ]}
+            />
+            <CategoryCard
+              categoryName="Programação"
+              imagePath="/images/icons/categorias/programacao-azulao.png"
+              services={["Frontend", "Backend", "Fullstack", "Mobile", "Games", "Web", "Engenharia de <br /> Dados"]}
+            />
+            <CategoryCard
+              categoryName="Social Media"
+              imagePath="/images/icons/categorias/socialmedia-azulao.png"
+              services={[
+                "Gestão de editoriais",
+                "Criação de conteúdo",
+                "Copywriter",
+                "Gestão de <br /> tráfego pago",
+                "Gestão de <br /> comunidades",
+                "Interação e <br /> monitoramento",
+                "Relatórios e análises",
+              ]}
+              classNameForLi="text-base font-bold"
+            />
+
+            <CategoryCard
+              categoryName="Video Making"
+              imagePath="/images/icons/categorias/videomaker-azulao.png"
+              services={[
+                "Edição de vídeos",
+                "Roteirização",
+                "Narração",
+                "Animação 2D/3D",
+                "Operação de <br /> câmera",
+                "Operação de áudio",
+                "Operação de <br /> iluminação",
+              ]}
+              classNameForLi="text-base font-bold"
+            />
           </div>
         </div>
       </GenericSection>
@@ -341,24 +282,46 @@ export default function Home() {
   )
 }
 
-const ImageSection = ({
-  imageUrl,
-  children,
-  className,
+const CategoryCard = ({
+  categoryName,
+  imagePath,
+  services,
+  classNameForLi,
 }: {
-  imageUrl: StaticImageData | string
-  children: ReactNode
-  className?: string
+  categoryName: string
+  imagePath: string
+  services: string[]
+  classNameForLi?: string
 }) => (
-  <section
-    className={twMerge(
-      `relative m-0 aspect-video h-144 w-full bg-gray-600 bg-cover bg-center bg-no-repeat p-0`,
-      className,
-    )}
-  >
-    <Image src={imageUrl} alt="Imagem de fundo" fill className="object-cover object-center" priority />
-    {children}
-  </section>
+  <div className="group flex flex-col items-center justify-between transition-transform duration-300">
+    <div className="flex h-full w-full flex-col items-center gap-14 rounded-xl bg-white px-8 transition-transform duration-300 [perspective:1000px]  [transform-style:preserve-3d] hover:scale-105 group-hover:flex group-hover:items-center group-hover:justify-center group-hover:px-0 group-hover:[transform:rotateY(180deg)] sm:px-6">
+      <Image
+        src={imagePath}
+        width={120}
+        height={120}
+        alt={categoryName}
+        className="mt-8 w-20 group-hover:hidden sm:mt-14"
+      />
+      <h1 className="mb-8 w-48 text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
+        {categoryName}
+      </h1>
+      <ul className="box-border hidden w-fit list-disc transition-transform [transform:rotateY(180deg)] group-hover:block">
+        {services.map((service) => {
+          return service.includes("<br />") ? (
+            <li className={twMerge("text-lg font-bold", classNameForLi)} key={service}>
+              {service.split("<br />")[0]}
+              <br />
+              {service.split("<br />")[1]}
+            </li>
+          ) : (
+            <li className={twMerge("text-lg font-bold", classNameForLi)} key={service}>
+              {service}
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  </div>
 )
 
 const CardPhoto = ({
