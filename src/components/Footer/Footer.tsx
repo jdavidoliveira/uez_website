@@ -69,7 +69,7 @@ export default function Footer() {
           <div className={styles.footer_card}>
             <h2>Suporte</h2>
             <div className={styles.footer_social_content}>
-              <Link href="suporte@uezcompany.com" target="_blank">
+              <Link href="mailto:suporte@uezcompany.com" target="_blank">
                 <Image src="/zap.svg" alt="Email" width={16} height={16} />
               </Link>
               <Link
