@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import React from "react"
-import { Paragrafozinho, Titulozinho } from "../layout"
+import { Paragrafozinho, Titulozinho } from "../components"
 
 export const metadata: Metadata = {
   title: "Termos de Uso",
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function TermosDeUso() {
   return (
     <>
-      <h1 className="text-3xl font-bold mt-10">Termos de Uso</h1>
-      <div className="md:w-8/12 w-10/12 flex flex-col gap-6 mx-auto my-10">
+      <h1 className="mt-10 text-3xl font-bold">Termos de Uso</h1>
+      <div className="mx-auto my-10 flex w-10/12 flex-col gap-6 md:w-8/12">
         <div className="flex flex-col gap-2">
           <h2 className="font-light">Última atualização: 08/05/2024</h2>
           <p className="indent-4">
