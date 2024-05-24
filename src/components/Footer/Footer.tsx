@@ -83,7 +83,7 @@ export default function Footer() {
           <div className={styles.footer_card}>
             <h2>Jurídico</h2>
             <Link href="/sobre/termos-de-uso">Termos de Uso</Link>
-            <Link href="/sobre">Política de privacidade</Link>
+            <Link href="/sobre/politica-de-privacidade">Política de privacidade</Link>
           </div>
         </div>
         <div>
