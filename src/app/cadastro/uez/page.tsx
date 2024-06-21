@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import UserCard from "./UserCard"
 import Input from "./Input"
 import { z } from "zod"
-import { ChevronRight, Divide } from "lucide-react"
+import { ChevronRight, Divide, Eye, EyeOff } from "lucide-react"
 import Etapa2 from "./Etapa2"
 import { useSignupData } from "@/contexts/Signup"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,6 +14,7 @@ import "animate.css"
 import { toast } from "sonner"
 import Etapa3 from "./Etapa3"
 import Etapa4 from "./Etapa4"
+import { twMerge } from "tailwind-merge"
 
 const userFormSchema = z.object({
   usertype: z.enum(["UZER", "CLIENTE"]),
@@ -31,6 +32,7 @@ const userFormSchema = z.object({
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Cadastro() {
+  const { setSignupData, signupData } = useSignupData()
   const {
     register,
     getValues,
@@ -41,8 +43,8 @@ export default function Cadastro() {
     resolver: zodResolver(userFormSchema),
   })
   const [etapa, setEtapa] = useState(1)
-  const [currentUserType, setCurrentUserType] = React.useState<"CLIENTE" | "UZER" | null>(null)
-  const { setSignupData, signupData } = useSignupData()
+  const [currentUserType, setCurrentUserType] = useState<"CLIENTE" | "UZER" | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
 
   async function NextStep() {
     const data = getValues()
@@ -61,9 +63,9 @@ export default function Cadastro() {
   switch (etapa) {
     case 1:
       return (
-        <div className="flex flex-col items-center justify-center gap-10 sm:px-10 px-5 sm:w-10/12 w-full animate__animated animate__fadeIn">
-          <h1 className="font-semibold text-3xl">Cadastre-se</h1>
-          <form onSubmit={handleSubmit(NextStep)} className=" flex flex-col gap-8 sm:w-auto w-10/12">
+        <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-center gap-10 px-5 sm:w-10/12 sm:px-10">
+          <h1 className="text-3xl font-semibold">Cadastre-se</h1>
+          <form onSubmit={handleSubmit(NextStep)} className=" flex w-10/12 flex-col gap-8 sm:w-auto">
             <div className="flex flex-col gap-2">
               <Input
                 label="Nome de usuário"
@@ -74,17 +76,31 @@ export default function Cadastro() {
                 className={errors.username ? "border border-red-500" : ""}
               />
               {errors.username && <ErrorSpan content={errors.username.message} className="w-full" />}
-              <Input
-                label="Senha"
-                inputType="password"
-                placeholder="Senha"
-                id="senha"
-                register={register}
-                className={errors.senha ? "border border-red-500" : ""}
-              />
+              <div className="flex items-end">
+                <Input
+                  label="Senha"
+                  inputType={showPassword ? "text" : "password"}
+                  placeholder="Senha"
+                  id="senha"
+                  register={register}
+                  className={(errors.senha ? "border border-red-500" : "") + " rounded-r-none"}
+                />
+                <button
+                  className={twMerge(
+                    "rounded-r-md bg-cinzero p-2",
+                    errors.senha ? "border border-l-0 border-red-500" : "",
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setShowPassword((prev) => !prev)
+                  }}
+                >
+                  {showPassword ? <Eye /> : <EyeOff />}
+                </button>
+              </div>
               {errors.senha && <ErrorSpan content={errors.senha.message} className="w-full" />}
             </div>
-            <div className="grid grid-cols-2 gap-2 h-52 relative">
+            <div className="relative grid h-52 grid-cols-2 gap-2">
               <UserCard
                 usertype="CLIENTE"
                 onClick={() => {
@@ -104,14 +120,13 @@ export default function Cadastro() {
             </div>
             <button
               type="submit"
-              className="bg-primary-purple pl-4 py-2 rounded-lg flex justify-between items-center w-fit mx-auto pr-2"
+              className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple py-2 pl-4 pr-2"
             >
-              <span className="font-medium text-lg text-white">Avançar</span> <ChevronRight color="white" />
+              <span className="text-lg font-medium text-white">Avançar</span> <ChevronRight color="white" />
             </button>
           </form>
         </div>
       )
-
     case 2:
       return <Etapa2 back={() => setEtapa(1)} next={() => setEtapa(3)} etapa={etapa} />
     case 3:
