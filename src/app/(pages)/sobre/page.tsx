@@ -1,6 +1,7 @@
 import Image from "next/image"
 import GenericSection from "@/components/GenericSection"
 import { Mail } from "lucide-react"
+import Link from "next/link"
 
 export default function Sobre() {
   return (
@@ -167,7 +168,9 @@ export default function Sobre() {
               <p className="text-base w-40 text-center">
                 Para sugestões de melhoria para a plataforma ou para alguma oferta
               </p>
-              <Mail className="mx-auto" size={40} />
+              <Link href="mailto:suporte@uezcompany.com" target="_blank">
+                <Mail className="mx-auto" size={40} />
+              </Link>
             </div>
           </div>
           <Image
@@ -184,13 +187,18 @@ export default function Sobre() {
               <p className="text-base w-40 text-center">
                 Para reclamações sobre outros usuários da plataforma ou dúvidas sobre o uso do site
               </p>
-              <Image
-                src="/images/icons/whatsapp.png"
-                alt="Elementos"
-                className="w-10 mx-auto"
-                width={500}
-                height={500}
-              />
+              <Link
+                href="https://api.whatsapp.com/send?phone=5521978783261&text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20como%20funciona%20a%20UEZ"
+                target="_blank"
+              >
+                <Image
+                  src="/images/icons/whatsapp.png"
+                  alt="Elementos"
+                  className="w-10 mx-auto"
+                  width={500}
+                  height={500}
+                />
+              </Link>
             </div>
           </div>
         </div>

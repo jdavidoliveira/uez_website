@@ -83,7 +83,7 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
   }
 
   const [currentCargo, setCurrentCargo] = useState<"Design" | "Programação" | "Social Media" | "Videomaking" | null>(
-    null
+    null,
   )
 
   const [availableServicos, setAvailableServicos] = useState<any[] | null>(null)
@@ -94,37 +94,37 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
 
   async function fetchServicos(categoria: "Design" | "Programação" | "Social Media" | "Videomaking") {
     const { data } = await api.get<any[]>(`/servicos/categoria/${categoria}`).catch((err) => err.response?.data)
-    setAvailableServicos(data)
+    return setAvailableServicos(data)
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 sm:px-5 px-2 sm:w-10/12 w-full animate__animated animate__fadeIn">
-      <h1 className="font-semibold text-3xl">Cadastre-se</h1>
-      <form onSubmit={handleSubmit(NextStep)} className="flex flex-col gap-8 sm:w-10/12 w-10/12">
-        <div className="flex flex-col gap-2 w-full items-center justify-center">
-          <label htmlFor="logradouro" className="font-medium w-full text-center">
+    <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-center gap-10 px-2 sm:w-10/12 sm:px-5">
+      <h1 className="text-3xl font-semibold">Cadastre-se</h1>
+      <form onSubmit={handleSubmit(NextStep)} className="flex w-10/12 flex-col gap-8 sm:w-10/12">
+        <div className="flex w-full flex-col items-center justify-center gap-2">
+          <label htmlFor="logradouro" className="w-full text-center font-medium">
             Escolha seu cargo
           </label>
-          <div className="grid grid-cols-2 sm:gap-6 gap-3 w-full">
+          <div className="grid w-full grid-cols-2 gap-3 sm:gap-6">
             <button
               onClick={(e) => {
                 e.preventDefault()
                 setCurrentCargo("Design")
               }}
               className={twMerge(
-                "bg-primary-purple flex items-center justify-center rounded-md",
-                currentCargo === "Design" && "bg-cinzero"
+                "flex items-center justify-center rounded-md bg-primary-purple",
+                currentCargo === "Design" && "bg-cinzero",
               )}
             >
-              <div className="text-white w-full h-full flex items-center py-3 px-6 justify-center gap-2">
+              <div className="flex h-full w-full items-center justify-center gap-2 px-6 py-3 text-white">
                 <Image
                   width={100}
                   height={100}
                   src="/images/icons/categorias/designer.png"
                   alt="Imagem ilustrativa"
-                  className="w-10 h-10"
+                  className="h-10 w-10"
                 />
-                <span className="font-medium text-lg">Designer</span>
+                <span className="text-lg font-medium">Designer</span>
               </div>
             </button>
             <button
@@ -133,19 +133,19 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
                 setCurrentCargo("Programação")
               }}
               className={twMerge(
-                "bg-primary-purple flex items-center justify-center rounded-md",
-                currentCargo === "Programação" && "bg-cinzero"
+                "flex items-center justify-center rounded-md bg-primary-purple",
+                currentCargo === "Programação" && "bg-cinzero",
               )}
             >
-              <div className="text-white w-full h-full flex items-center py-3 px-6 justify-center gap-2">
+              <div className="flex h-full w-full items-center justify-center gap-2 px-6 py-3 text-white">
                 <Image
                   width={100}
                   height={100}
                   src="/images/icons/categorias/programacao.png"
                   alt="Imagem ilustrativa"
-                  className="w-10 h-10"
+                  className="h-10 w-10"
                 />
-                <span className="font-medium text-lg">Programador</span>
+                <span className="text-lg font-medium">Programador</span>
               </div>
             </button>
             <button
@@ -154,19 +154,19 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
                 setCurrentCargo("Social Media")
               }}
               className={twMerge(
-                "bg-primary-purple flex items-center justify-center rounded-md",
-                currentCargo === "Social Media" && "bg-cinzero"
+                "flex items-center justify-center rounded-md bg-primary-purple",
+                currentCargo === "Social Media" && "bg-cinzero",
               )}
             >
-              <div className="text-white w-full h-full flex items-center py-3 px-6 justify-center gap-2">
+              <div className="flex h-full w-full items-center justify-center gap-2 px-6 py-3 text-white">
                 <Image
                   width={100}
                   height={100}
                   src="/images/icons/categorias/socialmedia.png"
                   alt="Imagem ilustrativa"
-                  className="w-10 h-10"
+                  className="h-10 w-10"
                 />
-                <span className="font-medium text-lg">Social Media</span>
+                <span className="text-lg font-medium">Social Media</span>
               </div>
             </button>
             <button
@@ -175,29 +175,29 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
                 setCurrentCargo("Videomaking")
               }}
               className={twMerge(
-                "bg-primary-purple flex items-center justify-center rounded-md",
-                currentCargo === "Videomaking" && "bg-cinzero"
+                "flex items-center justify-center rounded-md bg-primary-purple",
+                currentCargo === "Videomaking" && "bg-cinzero",
               )}
             >
-              <div className="text-white w-full h-full flex items-center py-3 px-6 justify-center gap-2">
+              <div className="flex h-full w-full items-center justify-center gap-2 px-6 py-3 text-white">
                 <Image
                   width={100}
                   height={100}
                   src="/images/icons/categorias/videomaker.png"
                   alt="Imagem ilustrativa"
-                  className="w-10 h-10"
+                  className="h-10 w-10"
                 />
-                <span className="font-medium text-lg">Video Maker</span>
+                <span className="text-lg font-medium">Video Maker</span>
               </div>
             </button>
           </div>
         </div>
         {availableServicos && (
-          <div className="flex flex-col gap-2 w-full animate__animated animate__fadeIn">
-            <label htmlFor="logradouro" className="font-medium w-full">
+          <div className="animate__animated animate__fadeIn flex w-full flex-col gap-2">
+            <label htmlFor="logradouro" className="w-full font-medium">
               Qual serviço você oferece?
             </label>
-            <select id="servico" {...register("idServico")} className="bg-cinzero p-2 rounded-md w-full">
+            <select id="servico" {...register("idServico")} className="w-full rounded-md bg-cinzero p-2">
               {availableServicos?.map((servico) => (
                 <option key={servico.id} value={servico.id}>
                   {servico.nome}
@@ -207,22 +207,22 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
           </div>
         )}
 
-        <div className="w-fit mx-auto flex items-center justify-center">
+        <div className="mx-auto flex w-fit items-center justify-center">
           <button
             onClick={(e) => {
               e.preventDefault()
               back()
             }}
-            className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto"
+            className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple p-2"
           >
             <ChevronLeft color="white" />
           </button>
-          <span className="font-medium text-lg mx-6">{etapa}</span>
+          <span className="mx-6 text-lg font-medium">{etapa}</span>
           <button
             type="submit"
-            className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto gap-1"
+            className="mx-auto flex w-fit items-center justify-between gap-1 rounded-lg bg-primary-purple p-2"
           >
-            <span className="font-medium text-lg text-white">Concluído</span>
+            <span className="text-lg font-medium text-white">Concluído</span>
             <Check color="white" />
           </button>
         </div>

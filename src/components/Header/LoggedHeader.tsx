@@ -1,6 +1,6 @@
 "use client"
 
-import { Cross, Menu } from "lucide-react"
+import { Cross, Menu, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Suspense, useState } from "react"
@@ -98,7 +98,7 @@ function HeaderMobile({
           />
         </Link>
         <button onClick={() => setShowMobileMenu(!showMobileMenu)} className="flex items-center justify-center">
-          <Cross width={50} height={50} />
+          <X width={50} height={50} />
         </button>
       </div>
       <nav className="flex flex-col w-full items-start justify-between px-8 text-xl font-bold mb-10">

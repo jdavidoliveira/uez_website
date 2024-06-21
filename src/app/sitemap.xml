@@ -21,4 +21,16 @@
     <loc>https://uezcompany.com/cadastro</loc>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://uezcompany.com/cadastro/uez</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/sobre/termos-de-uso</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://uezcompany.com/sobre/politica-de-privacidade</loc>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>

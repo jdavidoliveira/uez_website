@@ -2,7 +2,7 @@
 
 import React from "react"
 import Input from "./Input"
-import { Check, ChevronLeft, ChevronRight } from "lucide-react"
+import { Check, ChevronLeft, ChevronRight, Search } from "lucide-react"
 import "animate.css"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,7 +12,7 @@ import ErrorSpan from "./ErrorSpan"
 import { twMerge } from "tailwind-merge"
 import { toast } from "sonner"
 import api from "@/lib/api"
-import { AxiosError } from "axios"
+import axios, { AxiosError } from "axios"
 import { redirect, useRouter } from "next/navigation"
 
 const estados_brasil = [
@@ -93,7 +93,7 @@ const userFormSchema = z.object({
     ],
     {
       errorMap: () => ({ message: "O estado é obrigatório" }),
-    }
+    },
   ),
   dataNasc: z.string().min(1, "A data de nascimento é obrigatória"),
 })
@@ -159,10 +159,20 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
     console.log("currentSignupdata", signupData)
   }
 
+  async function searchForCep() {
+    const cep = getValues("cep")
+    const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+    setValue("logradouro", data.logradouro || "")
+    setValue("bairro", data.bairro || "")
+    setValue("cidade", data.localidade || "")
+    setValue("estado", data.uf || "")
+    if (Object.hasOwn(data, "erro")) return toast("CEP não encontrado")
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center gap-10 sm:px-10 px-5 sm:w-10/12 w-full animate__animated animate__fadeIn">
-      <h1 className="font-semibold text-3xl">Cadastre-se</h1>
-      <form onSubmit={handleSubmit(NextStep)} className="flex flex-col gap-8 sm:w-8/12 w-10/12">
+    <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-center gap-10 px-5 sm:w-10/12 sm:px-10">
+      <h1 className="text-3xl font-semibold">Cadastre-se</h1>
+      <form onSubmit={handleSubmit(NextStep)} className="flex w-10/12 flex-col gap-8 sm:w-8/12">
         <div className="flex flex-col gap-2">
           <Input
             label="Data de Nascimento"
@@ -172,47 +182,58 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
             className={errors.dataNasc ? "border border-red-500" : ""}
           />
           {errors.dataNasc && <ErrorSpan content={errors.dataNasc.message} className="w-full" />}
-          <Input
-            label="CEP"
-            inputType="text"
-            placeholder="XXXXX-XXX"
-            id="cep"
-            maxLength={9}
-            register={() =>
-              register("cep", {
-                onChange: () => {
-                  const rawCep = getValues("cep").replace(/\D/g, "")
-                  const cep = rawCep.replace(/(\d{5})(\d{3})/, "$1-$2")
-                  setValue("cep", cep) // Atualiza o estado com o Cep formatado
-                },
-              })
-            }
-            className={errors.cep ? "border border-red-500" : ""}
-          />
+          <div className="flex items-end">
+            <Input
+              label="CEP"
+              inputType="text"
+              placeholder="XXXXX-XXX"
+              id="cep"
+              maxLength={9}
+              register={() =>
+                register("cep", {
+                  onChange: () => {
+                    const rawCep = getValues("cep").replace(/\D/g, "")
+                    const cep = rawCep.replace(/(\d{5})(\d{3})/, "$1-$2")
+                    setValue("cep", cep) // Atualiza o estado com o Cep formatado
+                  },
+                })
+              }
+              className={(errors.cep ? "border border-red-500" : "") + "rounded-r-none"}
+            />
+            <button
+              className="rounded-r-md bg-cinzero p-2"
+              onClick={async (e) => {
+                e.preventDefault()
+                searchForCep()
+              }}
+            >
+              <Search />
+            </button>
+          </div>
           {errors.cep && <ErrorSpan content={errors.cep.message} className="w-full" />}
-          <div className="flex justify-between gap-6 items-center w-full">
-            <div className="flex flex-col gap-2 w-10/12">
-              <label htmlFor="logradouro" className="font-medium w-full">
+          <div className="flex w-full items-center justify-between gap-6">
+            <div className="flex w-10/12 flex-col gap-2">
+              <label htmlFor="logradouro" className="w-full font-medium">
                 Logradouro
               </label>
               <input
                 type="text"
                 id="logradouro"
                 className={twMerge(
-                  "bg-cinzero p-2 rounded-md w-full",
-                  errors.logradouro ? "border border-red-500" : ""
+                  "w-full rounded-md bg-cinzero p-2",
+                  errors.logradouro ? "border border-red-500" : "",
                 )}
                 {...register("logradouro")}
               />
             </div>
-            <div className="flex flex-col gap-2 w-2/12">
-              <label htmlFor="numero" className="font-medium w-full">
+            <div className="flex w-2/12 flex-col gap-2">
+              <label htmlFor="numero" className="w-full font-medium">
                 Nº
               </label>
               <input
                 type="number"
                 id="numero"
-                className={twMerge("bg-cinzero p-2 rounded-md w-full", errors.numero ? "border border-red-500" : "")}
+                className={twMerge("w-full rounded-md bg-cinzero p-2", errors.numero ? "border border-red-500" : "")}
                 {...register("numero")}
               />
             </div>
@@ -233,27 +254,27 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
             className={errors.bairro ? "border border-red-500" : ""}
           />
           {errors.bairro && <ErrorSpan content={errors.bairro.message} className="w-full" />}
-          <div className="flex justify-between gap-6 items-center w-full">
-            <div className="flex flex-col gap-2 w-10/12">
-              <label htmlFor="cidade" className="font-medium w-full">
+          <div className="flex w-full items-center justify-between gap-6">
+            <div className="flex w-10/12 flex-col gap-2">
+              <label htmlFor="cidade" className="w-full font-medium">
                 Cidade
               </label>
               <input
                 type="text"
                 id="cidade"
-                className={twMerge("bg-cinzero p-2 rounded-md w-full", errors.cidade ? "border border-red-500" : "")}
+                className={twMerge("w-full rounded-md bg-cinzero p-2", errors.cidade ? "border border-red-500" : "")}
                 {...register("cidade")}
               />
             </div>
-            <div className="flex flex-col gap-2 w-2/12">
-              <label htmlFor="estado" className="font-medium w-full">
+            <div className="flex w-2/12 flex-col gap-2">
+              <label htmlFor="estado" className="w-full font-medium">
                 Estado
               </label>
               <input
                 list="estados_brasil"
                 type="text"
                 id="estado"
-                className={twMerge("bg-cinzero p-2 rounded-md w-full", errors.estado ? "border border-red-500" : "")}
+                className={twMerge("w-full rounded-md bg-cinzero p-2", errors.estado ? "border border-red-500" : "")}
                 {...register("estado")}
               />
             </div>
@@ -274,30 +295,30 @@ export default function Etapa3({ back, next, etapa }: Etapa3Props) {
             />
           )}
         </div>
-        <div className="w-fit mx-auto flex items-center justify-center">
+        <div className="mx-auto flex w-fit items-center justify-center">
           <button
             onClick={(e) => {
               e.preventDefault()
               back()
             }}
-            className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto"
+            className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple p-2"
           >
             <ChevronLeft color="white" />
           </button>
-          <span className="font-medium text-lg mx-6">{etapa}</span>
+          <span className="mx-6 text-lg font-medium">{etapa}</span>
           {signupData?.usertype === "UZER" ? (
             <button
               type="submit"
-              className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto"
+              className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple p-2"
             >
               <ChevronRight color="white" />
             </button>
           ) : (
             <button
               type="submit"
-              className="bg-primary-purple p-2 rounded-lg flex justify-between items-center w-fit mx-auto gap-1"
+              className="mx-auto flex w-fit items-center justify-between gap-1 rounded-lg bg-primary-purple p-2"
             >
-              <span className="font-medium text-lg text-white">Concluído</span>
+              <span className="text-lg font-medium text-white">Concluído</span>
               <Check color="white" />
             </button>
           )}

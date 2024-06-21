@@ -8,12 +8,10 @@ import { useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useAuth } from "@/contexts/Auth"
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signIn, useSession } from "next-auth/react"
 import api from "@/lib/api"
-import loginInServer from "./LoginInTheServer"
 
 const userFormSchema = z.object({
   email: z.string().email("Formato de e-mail inválido").min(1, "O e-mail é obrigatório"),
@@ -84,19 +82,19 @@ export default function Login() {
 
   return (
     <form
-      className="bg-white rounded-3xl p-3 max-h-full w-[30%] flex flex-col items-center justify-center font-Montserrat mobile:w-full mobile:h-full mobile:rounded-none mobile:justify-start"
+      className="flex max-h-full w-[30%] flex-col items-center justify-center rounded-3xl bg-white p-3 font-Montserrat mobile:h-full mobile:w-full mobile:justify-start mobile:rounded-none"
       onSubmit={handleSubmit(logar)}
     >
-      <div className="w-4/5 h-full flex flex-col items-center justify-between gap-4 my-4 mx-auto mobile:h-4/5 mobile:max-h-96">
-        <h1 className="font-extrabold text-3xl my-2">Login</h1>
-        <div className="flex flex-col items-center justify-center w-full">
+      <div className="mx-auto my-4 flex h-full w-4/5 flex-col items-center justify-between gap-4 mobile:h-4/5 mobile:max-h-96">
+        <h1 className="my-2 text-3xl font-extrabold">Login</h1>
+        <div className="flex w-full flex-col items-center justify-center">
           <label htmlFor="email" title="E-mail" className="self-start text-base font-medium">
             E-mail:
           </label>
-          <div className="flex items-center w-full h-10">
+          <div className="flex h-10 w-full items-center">
             <input
-              className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none rounded-lg ${
-                errors.email && "border-2 rounded border-red-500"
+              className={`h-10 w-full rounded-lg bg-cinzero px-3 py-2 text-base font-medium outline-none ${
+                errors.email && "rounded border-2 border-red-500"
               }`}
               type="text"
               id="email"
@@ -106,16 +104,16 @@ export default function Login() {
               {...register("email")}
             />
           </div>
-          {errors.email && <span className="font-medium text-xs self-start my-1">{errors.email.message}</span>}
+          {errors.email && <span className="my-1 self-start text-xs font-medium">{errors.email.message}</span>}
         </div>
-        <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex w-full flex-col items-center justify-center">
           <label htmlFor="senha" title="Senha" className="self-start text-base font-medium">
             Senha:
           </label>
-          <div className="flex items-center w-full h-10">
+          <div className="flex h-10 w-full items-center">
             <input
-              className={`bg-cinzero w-full h-10 font-medium text-base px-3 py-2 outline-none rounded-lg ${
-                errors.senha && "border-2 rounded border-red-500"
+              className={`h-10 w-full rounded-lg bg-cinzero px-3 py-2 text-base font-medium outline-none ${
+                errors.senha && "rounded border-2 border-red-500"
               }`}
               type={passwordType}
               id="senha"
@@ -134,7 +132,7 @@ export default function Login() {
               <button
                 title="Exibir/ocultar senha"
                 type="button"
-                className="bg-cinzero hover:bg-[#e9e9e9] border-none py-2 px-3 h-full cursor-pointer flex items-center justify-center"
+                className="flex h-full cursor-pointer items-center justify-center border-none bg-cinzero px-3 py-2 hover:bg-[#e9e9e9]"
                 onClick={(e) => {
                   e.preventDefault()
                   setPasswordType((prevState) => {
@@ -143,7 +141,7 @@ export default function Login() {
                         <EyeClosedIcon width={20} height={20} />
                       ) : (
                         <EyeOpenIcon width={20} height={20} />
-                      )
+                      ),
                     )
                     return prevState === "text" ? "password" : "text"
                   })
@@ -153,30 +151,30 @@ export default function Login() {
               </button>
             )}
           </div>
-          {errors.senha && <span className="font-medium text-xs self-start my-1">{errors.senha.message}</span>}
+          {errors.senha && <span className="my-1 self-start text-xs font-medium">{errors.senha.message}</span>}
         </div>
-        <div className="w-full flex items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <span className="flex items-center gap-1">
-            <Input type="checkbox" id="manterlogin" className="w-4 h-4 border border-black bg-white" noLabel />
-            <label htmlFor="manterlogin" className="font-bold text-sm">
+            <Input type="checkbox" id="manterlogin" className="h-4 w-4 border border-black bg-white" noLabel />
+            <label htmlFor="manterlogin" className="text-sm font-bold">
               Manter-se conectado
             </label>
           </span>
           <span className="flex items-center justify-center">
-            <Link href="/esqueci-senha" className="font-extrabold text-xs text-azulao italic hover:underline">
+            <Link href="/esqueci-senha" className="text-xs font-extrabold italic text-azulao hover:underline">
               Esqueci minha senha
             </Link>
           </span>
         </div>
         <button
           type="submit"
-          className="bg-azulao border-none flex items-center justify-center py-2 px-4 rounded-lg text-white text-xl font-extrabold hover:bg-[#0f0f5c] w-full"
+          className="flex w-full items-center justify-center rounded-lg border-none bg-azulao px-4 py-2 text-xl font-extrabold text-white hover:bg-[#0f0f5c]"
         >
           {isSubmitting ? <LoadingSpinner size={10} /> : "Entrar"}
         </button>
-        <div className="w-full flex items-center justify-between">
-          <span className="flex items-center justify-center mx-4">
-            <p className="font-medium text-sm">
+        <div className="flex w-full items-center justify-between">
+          <span className="mx-4 flex items-center justify-center">
+            <p className="text-sm font-medium">
               Não tem uma conta?{" "}
               <Link href="/cadastro" className="text-[#5e5bff] hover:underline">
                 Cadastre-se

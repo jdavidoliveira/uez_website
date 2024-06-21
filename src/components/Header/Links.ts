@@ -1,23 +1,27 @@
-export const CommonLinks = [
+type Link = {
+  href: string
+  text: string
+}
+
+export const CommonLinks: Link[] = [
+  {
+    href: "/sobre",
+    text: "Sobre nós",
+  },
+  {
+    href: "/uzers",
+    text: "Explorar",
+  },
+]
+
+export const UzerLinks: Link[] = [
   {
     href: "/sobre",
     text: "Sobre nós",
   },
 ]
 
-export const UzerLinks = [
-  // { text: "Meus Serviços", href: "/uzers" },
-  // { text: "Meus Serviços Realizados", href: "/realizarservico" },
-  {
-    href: "/sobre",
-    text: "Sobre nós",
-  },
-]
-
-export const ClientLinks = [
-  // { text: "Meus Serviços", href: "/servicos" },
-  // { text: "Solicitar um serviço", href: "/solicitarservico" },
-  // { text: "Uzers", href: "/uzers" },
+export const ClientLinks: Link[] = [
   {
     href: "/sobre",
     text: "Sobre nós",
