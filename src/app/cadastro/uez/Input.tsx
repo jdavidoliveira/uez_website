@@ -13,16 +13,22 @@ interface InputProps {
 }
 
 export default function Input({ inputType, label, placeholder, id, register, className, maxLength = 20 }: InputProps) {
+  const today = new Date()
+  const year = today.getFullYear() - 18
+  const month = String(today.getMonth() + 1).padStart(2, "0")
+  const day = String(today.getDate()).padStart(2, "0")
+  const minDate = `${year}-${month}-${day}`
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <label htmlFor={id} className="font-medium w-full">
+    <div className="flex w-full flex-col gap-2">
+      <label htmlFor={id} className="w-full font-medium">
         {label}
       </label>
       {register ? (
         <input
           type={inputType}
           id={id}
-          className={twMerge("bg-cinzero p-2 rounded-md w-full", className)}
+          min={inputType === "date" ? minDate : undefined}
+          className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
           {...register(id)}
@@ -31,7 +37,8 @@ export default function Input({ inputType, label, placeholder, id, register, cla
         <input
           type={inputType}
           id={id}
-          className={twMerge("bg-cinzero p-2 rounded-md w-full", className)}
+          min={inputType === "date" ? minDate : undefined}
+          className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
         />
