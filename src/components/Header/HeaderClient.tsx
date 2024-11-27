@@ -113,24 +113,24 @@ export default function HeaderClient({ session }: { session: Session | null }) {
                 className="w-[75px] invert transition hover:scale-105 mobile:hidden"
               />
             </Link>
-            {userType === "UZER" &&
-              UzerLinks.map((link) => (
-                <NewLink key={link.href} href={link.href}>
-                  {link.text}
-                </NewLink>
-              ))}
-            {userType === "CLIENTE"
-              ? ClientLinks.map((link) => (
+            {userType === "UZER"
+              ? UzerLinks.map((link) => (
                   <NewLink key={link.href} href={link.href}>
                     {link.text}
                   </NewLink>
                 ))
-              : // se o tipo de usuário não é UZER nem CLIENTE, então é CommonLinks
-                CommonLinks.map((link) => (
-                  <NewLink key={link.href} href={link.href}>
-                    {link.text}
-                  </NewLink>
-                ))}
+              : userType === "CLIENTE"
+                ? ClientLinks.map((link) => (
+                    <NewLink key={link.href} href={link.href}>
+                      {link.text}
+                    </NewLink>
+                  ))
+                : // se o tipo de usuário não é UZER nem CLIENTE, então é CommonLinks
+                  CommonLinks.map((link) => (
+                    <NewLink key={link.href} href={link.href}>
+                      {link.text}
+                    </NewLink>
+                  ))}
           </nav>
           {session ? (
             <HeaderProfile session={session} />

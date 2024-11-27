@@ -5,10 +5,9 @@ interface StarRatingProps {
   rating: number
 }
 
-const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
+const Rating: React.FC<StarRatingProps> = ({ rating }) => {
   // Arredonda a avaliação para o número inteiro mais próximo
   const roundedRating = Math.floor(rating)
-  console.log(roundedRating)
 
   const stars = []
 
@@ -22,7 +21,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
         width={20}
         height={20}
         className="w-4 text-yellow-500"
-      />
+      />,
     )
   }
 
@@ -36,7 +35,7 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
         width={20}
         height={20}
         className="w-4 text-yellow-500"
-      />
+      />,
     )
   }
 
@@ -50,16 +49,16 @@ const Avaliacao: React.FC<StarRatingProps> = ({ rating }) => {
         width={20}
         height={20}
         className="w-4 text-yellow-500"
-      />
+      />,
     )
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
       <div className="flex space-x-1">{stars} </div>
-      <span className="text-sm font-medium">{rating.toFixed(1)}/5</span>
+      <span className="text-sm font-semibold  ">{rating.toFixed(1)}/5</span>
     </div>
   )
 }
 
-export default Avaliacao
+export default Rating

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import UserCard from "./UserCard"
 import Input from "./Input"
 import { z } from "zod"
-import { ChevronRight, Divide, Eye, EyeOff } from "lucide-react"
+import { ChevronRight, Eye, EyeOff } from "lucide-react"
 import Etapa2 from "./Etapa2"
 import { useSignupData } from "@/contexts/Signup"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,14 +14,17 @@ import "animate.css"
 import { toast } from "sonner"
 import Etapa3 from "./Etapa3"
 import { twMerge } from "tailwind-merge"
+import { useSession } from "next-auth/react"
 
 const userFormSchema = z.object({
   usertype: z.enum(["UZER", "CLIENT"]),
-  password: z
-    .string()
-    .min(1, "A senha é obrigatória")
-    .min(6, "A senha deve ter mais de 6 caracteres")
-    .max(24, "A senha deve ter menos de 24 caracteres"),
+  password: z.optional(
+    z
+      .string()
+      .min(1, "A senha é obrigatória")
+      .min(6, "A senha deve ter mais de 6 caracteres")
+      .max(24, "A senha deve ter menos de 24 caracteres"),
+  ),
   username: z
     .string()
     .min(1, "O nome de usuário é obrigatório")
@@ -30,8 +33,24 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Cadastro() {
+export default function CadastroComGoogle() {
+  const session = useSession()
   const { setSignupData, signupData } = useSignupData()
+  const [etapa, setEtapa] = useState(1)
+  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UZER" | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
+
+  useEffect(() => {
+    setSignupData((prev) => {
+      return {
+        ...prev,
+        email: session?.data?.user?.email || "",
+        name: session?.data?.user?.name || "",
+        image: session?.data?.user?.image || "",
+      }
+    })
+  }, [session])
+
   const {
     register,
     getValues,
@@ -41,15 +60,10 @@ export default function Cadastro() {
   } = useForm<userFormData>({
     resolver: zodResolver(userFormSchema),
   })
-  const [etapa, setEtapa] = useState(1)
-  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UZER" | null>(null)
-  const [showPassword, setShowPassword] = useState(false)
 
   async function NextStep() {
     const data = getValues()
-    setSignupData((prev) => {
-      return { ...prev, ...data }
-    })
+    setSignupData((prev) => ({ ...prev, ...data }))
     setEtapa((prev) => prev + 1)
   }
 
@@ -71,7 +85,6 @@ export default function Cadastro() {
                 inputType="text"
                 placeholder="Nome de usuário"
                 id="username"
-                value={signupData.username}
                 register={register}
                 className={errors.username ? "border border-red-500" : ""}
               />
@@ -81,7 +94,7 @@ export default function Cadastro() {
                   label="Senha"
                   inputType={showPassword ? "text" : "password"}
                   placeholder="Senha"
-                  id="senha"
+                  id="password"
                   register={register}
                   className={(errors.password ? "border border-red-500" : "") + " rounded-r-none"}
                 />

@@ -1,31 +1,17 @@
 export interface IUzer {
   id: string
   username: string
-  nome: string
+  name: string
   email: string
-  cpf: string
-  senha: string
-  situacao: "ATIVO" | "INATIVO" | "BLOQUEADO"
-  motivoBloqueio: string | null
-  cep: string
-  logradouro: string
-  numero: number
-  complemento: string
-  bairro: string
-  cidade: string
-  estado: string
-  dataNascimento: string
-  dataCadastro: string
-  telefone: string
-  tipoUsuario: "UZER" | "CLIENTE"
-  quantidadePedidos: number | null
-  photoUrl: string
-  quantidadePedidosRealizados: number | null
-  idServico: string
-  avaliacao: number
-  avaliacoes: any[]
-  lastOnline: string
-  lastLogin: string
-  bannerUrl: string
-  bio: string
+  status: string
+  block_reason: null
+  address: null
+  birth_date: string | Date
+  created_at: string | Date
+  phone: null
+  usertype: "UZER" | "CLIENT" | "BOTH"
+  orders_amount: null
+  image: "https://cdn-icons-png.flaticon.com/512/74/74472.png"
+  last_online: string | Date
+  last_login: string | Date
 }

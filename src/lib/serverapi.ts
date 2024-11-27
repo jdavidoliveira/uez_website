@@ -23,7 +23,6 @@ export const api = {
         },
         next: options,
       })
-      console.log(cookies().toString())
       return {
         data: await response.json(),
         status: response.status,

@@ -37,20 +37,22 @@ export default function Input({
         <input
           type={inputType}
           id={id}
-          min={inputType === "date" ? minDate : undefined}
+          max={inputType === "date" ? minDate : undefined}
           className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
+          value={value}
           {...register(id)}
         />
       ) : (
         <input
           type={inputType}
           id={id}
-          min={inputType === "date" ? minDate : undefined}
+          max={inputType === "date" ? minDate : undefined}
           className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
+          value={value}
         />
       )}
     </div>

@@ -20,12 +20,12 @@ interface Etapa4Props {
 }
 
 const userFormSchema = z.object({
-  idServico: z.string().uuid("O serviço é obrigatório"),
+  serviceId: z.string().uuid("O serviço é obrigatório"),
 })
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Etapa4({ back, etapa }: Etapa4Props) {
+export default function Etapa3({ back, etapa }: Etapa4Props) {
   const {
     getValues,
     formState: { errors },
@@ -41,45 +41,9 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
 
   async function NextStep() {
     const data = getValues()
-    let finalSignupdata: any
+    setSignupData((prev) => ({ ...prev, ...data }))
 
-    setSignupData((prev) => {
-      finalSignupdata = { ...prev, ...data }
-      return { ...prev, ...data }
-    })
-
-    const generalSchema = z.object({
-      nome: z.string(),
-      email: z.string().email(),
-      senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-      cpf: z.string().regex(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/),
-      cep: z.string().regex(/^[0-9]{5}-[0-9]{3}$/),
-      telefone: z.string(),
-      logradouro: z.string().min(1, "O logradouro é obrigatório"),
-      numero: z.string().min(1, "O número é obrigatório"),
-      complemento: z.optional(z.string()),
-      bairro: z.string().min(1, "O bairro é obrigatório"),
-      cidade: z.string().min(1, "A cidade é obrigatória"),
-      estado: z.string().min(1, "O estado é obrigatório"),
-      idServico: z.optional(z.string()),
-      usertype: z.enum(["UZER", "CLIENTE"]),
-      username: z.string(),
-      dataNasc: z.string(),
-    })
-
-    const dataTest = generalSchema.safeParse(finalSignupdata)
-    if (!dataTest.success) return toast("Verifique os dados informados")
-
-    try {
-      const { data } = await api.post("/register", finalSignupdata)
-
-      toast(data.message)
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      router.push(`/login?userEmail=${finalSignupdata?.email}`)
-    } catch (error: AxiosError | any) {
-      console.log(error)
-      toast(error.response.data.message)
-    }
+    console.log(signupData)
   }
 
   const [currentCargo, setCurrentCargo] = useState<"Design" | "Programação" | "Social Media" | "Videomaking" | null>(
@@ -93,7 +57,7 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
   }, [currentCargo])
 
   async function fetchServicos(categoria: "Design" | "Programação" | "Social Media" | "Videomaking") {
-    const { data } = await api.get<any[]>(`/servicos/categoria/${categoria}`).catch((err) => err.response?.data)
+    const { data } = await api.get<any[]>(`/services/category/${categoria}`).catch((err) => err.response?.data)
     return setAvailableServicos(data)
   }
 
@@ -197,10 +161,10 @@ export default function Etapa4({ back, etapa }: Etapa4Props) {
             <label htmlFor="logradouro" className="w-full font-medium">
               Qual serviço você oferece?
             </label>
-            <select id="servico" {...register("idServico")} className="w-full rounded-md bg-cinzero p-2">
+            <select id="servico" {...register("serviceId")} className="w-full rounded-md bg-cinzero p-2">
               {availableServicos?.map((servico) => (
                 <option key={servico.id} value={servico.id}>
-                  {servico.nome}
+                  {servico.name}
                 </option>
               ))}
             </select>

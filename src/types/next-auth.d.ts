@@ -13,6 +13,7 @@ declare module "next-auth" {
       userType: "UZER" | "CLIENTE"
       image: string
     }
+    needsSignUp: boolean
   }
 
   interface User {

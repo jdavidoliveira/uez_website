@@ -8,10 +8,6 @@ export const CommonLinks: Link[] = [
     href: "/sobre",
     text: "Sobre nós",
   },
-  {
-    href: "/uzers",
-    text: "Explorar",
-  },
 ]
 
 export const UzerLinks: Link[] = [
@@ -25,5 +21,9 @@ export const ClientLinks: Link[] = [
   {
     href: "/sobre",
     text: "Sobre nós",
+  },
+  {
+    href: "/explorar",
+    text: "Explorar",
   },
 ]
