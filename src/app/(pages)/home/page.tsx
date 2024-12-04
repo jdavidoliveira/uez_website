@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 import Image, { StaticImageData } from "next/image"
 import Link from "next/link"
 import { AnimationOnScroll } from "react-animation-on-scroll"
-import GenericSection from "@/components/GenericSection"
+import GenericSection from "@/components/layout/GenericSection"
 import "animate.css/animate.css"
 import { twMerge } from "tailwind-merge"
 

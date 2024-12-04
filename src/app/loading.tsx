@@ -1,9 +1,9 @@
-import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "@/components/layout/LoadingSpinner"
 
 export default function Loading() {
-    return (
-        <div className="w-full h-full flex items-center justify-center bg-white">
-          <LoadingSpinner color="text-gray-300" />
-        </div>
-      );
+  return (
+    <div className="flex h-full w-full items-center justify-center bg-white">
+      <LoadingSpinner color="text-gray-300" />
+    </div>
+  )
 }

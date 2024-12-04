@@ -1,28 +1,28 @@
 import Image from "next/image"
-import GenericSection from "@/components/GenericSection"
+import GenericSection from "@/components/layout/GenericSection"
 import { Mail } from "lucide-react"
 import Link from "next/link"
 
 export default function Sobre() {
   return (
-    <main className="w-full flex flex-col items-center pt-10 sm:pt-24 relative">
+    <main className="relative flex w-full flex-col items-center pt-10 sm:pt-24">
       <Image
         src="/elementos/twochunks-circulo.png"
         alt="elemento"
         width={600}
         height={600}
-        className="absolute right-0 top-0 sm:w-40 w-20 rotate-90 hidden sm:block"
+        className="absolute right-0 top-0 hidden w-20 rotate-90 sm:block sm:w-40"
       />
       <Image
         src="/elementos/bolinhas.png"
         alt="elemento"
         width={600}
         height={600}
-        className="absolute left-10 top-10 w-6 hidden sm:block"
+        className="absolute left-10 top-10 hidden w-6 sm:block"
       />
       <GenericSection>
         <h1 className="text-3xl font-bold sm:mb-10">Sobre Nós</h1>
-        <div className="w-11/12 flex flex-col gap-10 sm:gap-0 sm:flex-row items-center justify-between">
+        <div className="flex w-11/12 flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0">
           <CardSobre
             title={"Missão"}
             image="/images/missao.svg"
@@ -40,13 +40,13 @@ export default function Sobre() {
           />
         </div>
       </GenericSection>
-      <GenericSection className="bg-primary-purple relative md:px-36 px-24 py-36 flex md:flex-row flex-col">
+      <GenericSection className="relative flex flex-col bg-primary-purple px-24 py-36 md:flex-row md:px-36">
         <Image
           src="/elementos/chunck-circulo-azulao.png"
           alt="elemento"
           width={600}
           height={600}
-          className="absolute left-0 top-0 sm:w-40 w-20"
+          className="absolute left-0 top-0 w-20 sm:w-40"
         />
         <Image
           src="/elementos/bolinhas.png"
@@ -60,11 +60,11 @@ export default function Sobre() {
           alt="elemento"
           width={600}
           height={600}
-          className="absolute left-52 -bottom-5 w-6 rotate-90"
+          className="absolute -bottom-5 left-52 w-6 rotate-90"
         />
-        <div className="text-white flex flex-col gap-10 md:w-7/12 w-full">
-          <h1 className="text-3xl font-bold text-center">Nossa história</h1>
-          <p className="font-semibold indent-7 w-full text-justify">
+        <div className="flex w-full flex-col gap-10 text-white md:w-7/12">
+          <h1 className="text-center text-3xl font-bold">Nossa história</h1>
+          <p className="w-full text-justify indent-7 font-semibold">
             A UEZ surgiu em 2023 a partir de um projeto de TCC de técnico em informática, que tinha como objetivo criar
             uma plataforma. Nosso grupo decidiu criar uma plataforma que ligasse profissionais e clientes de forma
             segura e eficaz, mas desenvolvemos um carinho tão grande por esse trabalho que os membros decidiram montar
@@ -75,17 +75,17 @@ export default function Sobre() {
           <Image src="/images/velhinho.png" alt="Velhinho da UEZ" width={1000} height={1000} className="w-144" />
         </div>
       </GenericSection>
-      <GenericSection className="bg-white relative mb-0">
+      <GenericSection className="relative mb-0 bg-white">
         <Image
           src="/elementos/quadrados.png"
           alt="elemento"
           width={600}
           height={600}
-          className="absolute left-10 bottom-20 w-6"
+          className="absolute bottom-20 left-10 w-6"
         />
         <div className="flex flex-col items-center justify-center gap-20">
           <h1 className="text-3xl font-bold">Mas por que a UEZ?</h1>
-          <div className="md:grid md:grid-cols-2 flex flex-col items-center gap-10 lg:gap-x-56 lg:gap-y-28 md:gap-x-28 md:gap-y-28 lg:mx-28 sm:mx-16 mx-8 relative">
+          <div className="relative mx-8 flex flex-col items-center gap-10 sm:mx-16 md:grid md:grid-cols-2 md:gap-x-28 md:gap-y-28 lg:mx-28 lg:gap-x-56 lg:gap-y-28">
             <p className="text-justify">
               Se nós separarmos o nome <strong>UEZ</strong> em dois, nós teremos o <strong>“U”</strong> depois o{" "}
               <strong>“EZ”</strong>, dessa forma o <strong>“U”</strong> em inglês tem o sou de “iu” esse é o mesmo som
@@ -95,7 +95,7 @@ export default function Sobre() {
               A junção das letras <strong>“EZ”</strong> tem o som de “izi” que o mesmo som da palavra “easy” que em
               português significa fácil, então <strong>UEZ</strong> significa você fácil.
             </p>
-            <p className="text-justify pb-52">
+            <p className="pb-52 text-justify">
               <strong>Você fácil</strong> significa que a nossa plataforma facilita a sua vida te ajudando a aumentar a
               sua rede de networking.
             </p>
@@ -106,34 +106,34 @@ export default function Sobre() {
                 alt="elemento"
                 width={600}
                 height={600}
-                className="lg:w-80 w-56 hidden md:block"
+                className="hidden w-56 md:block lg:w-80"
               />
             </div>
           </div>
         </div>
       </GenericSection>
-      <GenericSection className="bg-primary-blue py-56 relative">
+      <GenericSection className="relative bg-primary-blue py-56">
         <Image
           src="/elementos/halfpadrao-circulo-white.png"
           alt="elemento"
           width={600}
           height={600}
-          className="sm:w-80 w-64 absolute bottom-0 md:left-20 left-1/2 -translate-x-1/2"
+          className="absolute bottom-0 left-1/2 w-64 -translate-x-1/2 sm:w-80 md:left-20"
         />
         <Image
           src="/elementos/quadrados-empty.png"
           alt="elemento"
           width={600}
           height={600}
-          className="lg:w-10 w-6 absolute xl:bottom-1/2 top-20 right-20"
+          className="absolute right-20 top-20 w-6 lg:w-10 xl:bottom-1/2"
         />
 
-        <div className="flex md:flex-row flex-col justify-between items-center gap-20">
+        <div className="flex flex-col items-center justify-between gap-20 md:flex-row">
           <div className="flex items-center justify-center gap-10">
             <Image src="/images/icons/uez-white.png" alt="Logo da uez" className="w-56" width={500} height={500} />
-            <span className="text-[150px] font-bold text-white mt-10">?</span>
+            <span className="mt-10 text-[150px] font-bold text-white">?</span>
           </div>
-          <p className="text-white font-bold lg:text-xl text-lg text-justify lg:max-w-lg md:max-w-sm w-10/12">
+          <p className="w-10/12 text-justify text-lg font-bold text-white md:max-w-sm lg:max-w-lg lg:text-xl">
             Uma xícara de café traz a ideia de networking, quando uma reunião é marcada, geralmente, as pessoas falam
             “vamos tomar um café?”, além disso o café traz a ideia de produtividade que os uzers têm.
           </p>
@@ -141,7 +141,7 @@ export default function Sobre() {
       </GenericSection>
       <GenericSection className="bg-white">
         <div className="flex flex-col items-center justify-center gap-10">
-          <h1 className="sm:text-3xl text-xl font-bold">Evolução da logo</h1>
+          <h1 className="text-xl font-bold sm:text-3xl">Evolução da logo</h1>
           <Image
             src="/images/logoevolucao.png"
             alt="Logo da uez"
@@ -154,18 +154,18 @@ export default function Sobre() {
             alt="Logo da uez"
             width={1000}
             height={1000}
-            className="md:hidden block p-10"
+            className="block p-10 md:hidden"
           />
         </div>
       </GenericSection>
-      <GenericSection className="bg-azulao py-16 mb-0">
+      <GenericSection className="mb-0 bg-azulao py-16">
         <h1 className="text-3xl font-bold text-white">Quer falar com a gente?</h1>
-        <div className="flex flex-col xl:flex-row justify-between items-center gap-14 xl:gap-28">
+        <div className="flex flex-col items-center justify-between gap-14 xl:flex-row xl:gap-28">
           <div className="relative animate-float">
-            <div className="w-3/5 aspect-square bg-primary-blue z-0 rounded-br-full absolute top-0 left-0" />
-            <div className="text-white bg-primary-purple relative py-6 px-12 flex flex-col items-center m-10 justify-between gap-10 rounded-lg">
-              <h1 className="text-xl font-bold text-center z-10">Email</h1>
-              <p className="text-base w-40 text-center">
+            <div className="absolute left-0 top-0 z-0 aspect-square w-3/5 rounded-br-full bg-primary-blue" />
+            <div className="relative m-10 flex flex-col items-center justify-between gap-10 rounded-lg bg-primary-purple px-12 py-6 text-white">
+              <h1 className="z-10 text-center text-xl font-bold">Email</h1>
+              <p className="w-40 text-center text-base">
                 Para sugestões de melhoria para a plataforma ou para alguma oferta
               </p>
               <Link href="mailto:suporte@uezcompany.com" target="_blank">
@@ -176,15 +176,15 @@ export default function Sobre() {
           <Image
             src="/elementos/bolinhas.png"
             alt="Elementos"
-            className="w-8 invert rotate-90 xl:rotate-0"
+            className="w-8 rotate-90 invert xl:rotate-0"
             width={500}
             height={500}
           />
           <div className="relative animate-float">
-            <div className="w-3/5 aspect-square bg-primary-blue z-0 rounded-lt-full absolute bottom-0 right-0" />
-            <div className="text-white bg-primary-purple relative py-6 px-14 flex flex-col items-center m-10 justify-between gap-10 rounded-lg">
-              <h1 className="text-xl font-bold text-center z-10">Whatsapp</h1>
-              <p className="text-base w-40 text-center">
+            <div className="rounded-lt-full absolute bottom-0 right-0 z-0 aspect-square w-3/5 bg-primary-blue" />
+            <div className="relative m-10 flex flex-col items-center justify-between gap-10 rounded-lg bg-primary-purple px-14 py-6 text-white">
+              <h1 className="z-10 text-center text-xl font-bold">Whatsapp</h1>
+              <p className="w-40 text-center text-base">
                 Para reclamações sobre outros usuários da plataforma ou dúvidas sobre o uso do site
               </p>
               <Link
@@ -194,7 +194,7 @@ export default function Sobre() {
                 <Image
                   src="/images/icons/whatsapp.png"
                   alt="Elementos"
-                  className="w-10 mx-auto"
+                  className="mx-auto w-10"
                   width={500}
                   height={500}
                 />
@@ -209,10 +209,10 @@ export default function Sobre() {
 
 function CardSobre({ title, image, description }: { title: string; image: string; description: string }) {
   return (
-    <div className="w-[45%] h-full flex flex-col items-center gap-12 mobile:w-full">
-      <h2 className="text-2xl font-bold text-center">{title}</h2>
-      <Image width={200} height={200} className="w-[30%] h-[30%] animate-float" src={image} alt="Imagem ilustrativa" />
-      <p className="text-base font-medium text-center w-[90%]">{description}</p>
+    <div className="flex h-full w-[45%] flex-col items-center gap-12 mobile:w-full">
+      <h2 className="text-center text-2xl font-bold">{title}</h2>
+      <Image width={200} height={200} className="h-[30%] w-[30%] animate-float" src={image} alt="Imagem ilustrativa" />
+      <p className="w-[90%] text-center text-base font-medium">{description}</p>
     </div>
   )
 }

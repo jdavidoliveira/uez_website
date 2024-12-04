@@ -7,11 +7,11 @@ import { useEffect, useState } from "react"
 import { ClientLinks, CommonLinks, UzerLinks } from "./Links"
 import { motion } from "framer-motion"
 import { twMerge } from "tailwind-merge"
-import { Session } from "next-auth"
 import HeaderProfile from "./HeaderProfile"
+import { useSession } from "next-auth/react"
 
-export default function HeaderClient({ session }: { session: Session | null }) {
-  const userType = session && session.user.userType
+export default function Header() {
+  const session = useSession()
 
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false)
   const [currentScrollPosition, setCurrentScrollPosition] = useState(0)
@@ -113,27 +113,28 @@ export default function HeaderClient({ session }: { session: Session | null }) {
                 className="w-[75px] invert transition hover:scale-105 mobile:hidden"
               />
             </Link>
-            {userType === "UZER"
-              ? UzerLinks.map((link) => (
-                  <NewLink key={link.href} href={link.href}>
-                    {link.text}
-                  </NewLink>
-                ))
-              : userType === "CLIENTE"
-                ? ClientLinks.map((link) => (
+            {session &&
+              (session.data?.user.usertype === "UZER"
+                ? UzerLinks.map((link) => (
                     <NewLink key={link.href} href={link.href}>
                       {link.text}
                     </NewLink>
                   ))
-                : // se o tipo de usuário não é UZER nem CLIENTE, então é CommonLinks
-                  CommonLinks.map((link) => (
-                    <NewLink key={link.href} href={link.href}>
-                      {link.text}
-                    </NewLink>
-                  ))}
+                : session.data?.user.usertype === "CLIENT"
+                  ? ClientLinks.map((link) => (
+                      <NewLink key={link.href} href={link.href}>
+                        {link.text}
+                      </NewLink>
+                    ))
+                  : // se o tipo de usuário não é UZER nem CLIENTE, então é CommonLinks
+                    CommonLinks.map((link) => (
+                      <NewLink key={link.href} href={link.href}>
+                        {link.text}
+                      </NewLink>
+                    )))}
           </nav>
-          {session ? (
-            <HeaderProfile session={session} />
+          {session.data ? (
+            <HeaderProfile session={session.data} />
           ) : (
             <>
               <div className="flex items-center justify-between gap-4 sm:hidden">
@@ -214,13 +215,13 @@ export default function HeaderClient({ session }: { session: Session | null }) {
           </button>
         </div>
         <nav className="mb-10 flex w-full flex-col items-start justify-between px-8 text-xl font-bold">
-          {userType === "UZER" &&
+          {session.data?.user.usertype === "UZER" &&
             UzerLinks.map((link, index) => (
               <NewLinkMobile key={link.href} href={link.href} isLast={UzerLinks.length - 1 === index}>
                 {link.text}
               </NewLinkMobile>
             ))}
-          {userType === "CLIENTE"
+          {session.data?.user.usertype === "CLIENT"
             ? ClientLinks.map((link, index) => (
                 <NewLinkMobile key={link.href} href={link.href} isLast={ClientLinks.length - 1 === index}>
                   {link.text}

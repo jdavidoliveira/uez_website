@@ -4,7 +4,7 @@ import { Bell, BellRing, MailCheck } from "lucide-react"
 import { useEffect, useState } from "react"
 import "animate.css"
 import api from "@/lib/api"
-import Notification from "@/types/Notification"
+// import Notification from "@/types/Notification"
 import Image from "next/image"
 import { DotFilledIcon } from "@radix-ui/react-icons"
 
@@ -22,12 +22,12 @@ export default function Notifications() {
   }, [])
 
   const [showNotification, setShowNotification] = useState<boolean>(false)
-  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [notifications, setNotifications] = useState<any[]>([])
 
   return (
     <div className="relative">
       <button
-        className="flex items-center relative justify-center"
+        className="relative flex items-center justify-center"
         onClick={() => setShowNotification((prevState) => !prevState)}
       >
         {notifications.filter((notification) => notification.readed === false).length > 0 ? (
@@ -36,7 +36,7 @@ export default function Notifications() {
             height={25}
             color="#00003b"
             fill={showNotification ? "#00003b" : "none"}
-            className="hover:scale-105 animate__animated animate__pulse animate__infinite animate__slow"
+            className="animate__animated animate__pulse animate__infinite animate__slow hover:scale-105"
           />
         ) : (
           <Bell
@@ -53,13 +53,13 @@ export default function Notifications() {
             fill={"#00003b"}
             width={20}
             height={20}
-            className="absolute -bottom-2 -right-3 animate__animated animate__pulse animate__infinite animate__slow"
+            className="animate__animated animate__pulse animate__infinite animate__slow absolute -bottom-2 -right-3"
           />
         )}
       </button>
       {showNotification && (
-        <div className="w-80 z-50 absolute max-h-96 overflow-y-auto -left-[22rem] -top-4 p-4 animate__animated animate__fadeIn animate__faster rounded-3xl bg-[#00003b] flex flex-col items-center gap-2">
-          <h1 className="text-base mb-1 font-bold text-white">Notificações</h1>
+        <div className="animate__animated animate__fadeIn animate__faster absolute -left-[22rem] -top-4 z-50 flex max-h-96 w-80 flex-col items-center gap-2 overflow-y-auto rounded-3xl bg-[#00003b] p-4">
+          <h1 className="mb-1 text-base font-bold text-white">Notificações</h1>
           {notifications.map((notification, index) => {
             return (
               <NotificationCard
@@ -72,13 +72,13 @@ export default function Notifications() {
             )
           })}
           {notifications.length > 0 ? (
-            <div className="w-full px-3 flex items-center mt-2 justify-end">
-              <button className="text-xs w-auto font-normal text-cinzero hover:underline">
+            <div className="mt-2 flex w-full items-center justify-end px-3">
+              <button className="w-auto text-xs font-normal text-cinzero hover:underline">
                 Marcar todas como lida
               </button>
             </div>
           ) : (
-            <h1 className="text-base mb-1 font-medium text-center text-white">
+            <h1 className="mb-1 text-center text-base font-medium text-white">
               Você não tem notificações no momento 😥
             </h1>
           )}
@@ -99,13 +99,13 @@ function NotificationCard({ content, type, readed }: NotificationCardProps) {
   const { title, photo } = infoByType(type)
 
   return (
-    <div className="w-full min-h-[3.5rem] flex bg-[#535FFF] rounded-2xl items-center p-2 justify-start gap-2">
+    <div className="flex min-h-[3.5rem] w-full items-center justify-start gap-2 rounded-2xl bg-[#535FFF] p-2">
       <Image
         src={photo}
         width={100}
         height={100}
         alt="Notification Icon"
-        className="rounded-full object-contain object-center aspect-square w-10 h-10"
+        className="aspect-square h-10 w-10 rounded-full object-contain object-center"
       />
       <div className="flex flex-col">
         <h1 className="text-xs font-bold text-white">{title}</h1>
@@ -114,7 +114,7 @@ function NotificationCard({ content, type, readed }: NotificationCardProps) {
       {!readed && (
         <button
           title="Marcar como lida"
-          className="flex items-center hover:opacity-60 transition-colors justify-center"
+          className="flex items-center justify-center transition-colors hover:opacity-60"
         >
           <MailCheck color="white" size={20} />
         </button>

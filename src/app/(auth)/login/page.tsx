@@ -1,14 +1,14 @@
 "use client"
 
-import Modal from "@/components/Modal/Modal"
-import Input from "@/components/Forms/Input/Input"
+import Modal from "@/components/layout/modals/Modal"
+import Input from "@/components/layout/inputs/Generic"
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner"
+import LoadingSpinner from "@/components/layout/LoadingSpinner"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signIn, useSession } from "next-auth/react"
 import api from "@/lib/api"
@@ -112,7 +112,7 @@ export default function Login() {
         </label>
         <div className="flex h-10 w-full items-center">
           <input
-            className={`h-10 w-full rounded-md bg-cinzero px-3 py-2 text-base font-medium outline-none ${
+            className={`h-10 w-full rounded-l-md bg-cinzero px-3 py-2 text-base font-medium outline-none ${
               errors.senha && "rounded border-2 border-red-500"
             }`}
             type={passwordType}
@@ -132,7 +132,7 @@ export default function Login() {
             <button
               title="Exibir/ocultar senha"
               type="button"
-              className="flex h-full cursor-pointer items-center justify-center border-none bg-cinzero px-3 py-2 hover:bg-[#e9e9e9]"
+              className="flex h-full cursor-pointer items-center justify-center rounded-r-md border-none bg-cinzero px-3 py-2 hover:bg-[#e9e9e9]"
               onClick={(e) => {
                 e.preventDefault()
                 setPasswordType((prevState) => {

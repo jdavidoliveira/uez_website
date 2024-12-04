@@ -1,7 +1,7 @@
 import { api } from "@/lib/serverapi"
 import SearchBox from "./SearchBox"
 import { UzerCard } from "./UzerCard"
-import { IUzer } from "@/types/IUzer"
+import { IUzer } from "@/types/Uzer"
 import { ChevronRight } from "lucide-react"
 
 export default async function UzersSection() {
@@ -17,7 +17,7 @@ export default async function UzersSection() {
       </div>
       <div className="mt-10 flex w-full items-center px-28">
         <DivOfColsOfUzerCardsWithHorizontalScroll uzersData={data} />
-        <div className="size-10 group flex items-center justify-center rounded-full border border-black transition-all hover:border-black/60">
+        <div className="group flex size-10 items-center justify-center rounded-full border border-black transition-all hover:border-black/60">
           <ChevronRight className="w-10 transition-all group-hover:opacity-75" />
         </div>
       </div>
@@ -31,7 +31,7 @@ function DivOfColsOfUzerCardsWithHorizontalScroll({ uzersData }: { uzersData: IU
   const arrayOfUzers2 = uzersData.slice(uzersData.length / 2, uzersData.length)
 
   return (
-    <div className="scrollbar-hide flex w-full items-center gap-4 overflow-x-scroll p-2">
+    <div className="flex w-full items-center gap-4 overflow-x-scroll p-2 scrollbar-hide">
       {Array.from({ length: uzersData.length / 2 }).map((_, index) => {
         let count = 0
         const uzer1 = arrayOfUzers1[count]

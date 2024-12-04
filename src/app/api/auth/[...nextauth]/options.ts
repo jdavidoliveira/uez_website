@@ -36,15 +36,15 @@ export const options: NextAuthOptions = {
           await saveTokenInServerCookies(token)
         }
 
-        const user = await response?.json()
-        if (user && response && response.status !== 401) {
+        const data = await response?.json()
+        if (data && response && response.status !== 401) {
           return {
-            id: user.user.id,
-            name: user.user.nome,
-            email: user.user.email,
-            username: user.user.username,
-            userType: user.user.userType,
-            image: user.user.photoUrl,
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            username: data.user.username,
+            usertype: data.user.usertype,
+            image: data.user.image,
           }
         }
 
