@@ -11,7 +11,7 @@ export default function Footer() {
         <span className="absolute bottom-0 right-2">version: {version}</span>
         <div className={styles.footer_cards}>
           <div className={styles.footer_card}>
-            <Image src="/logo.svg" alt="Logo UEZ" width={60} height={60} className={styles.footer_logo} />
+            <Image src="/logo/full-logo.svg" alt="Logo UEZ" width={60} height={60} className={styles.footer_logo} />
             <div className={styles.footer_social_content}>
               <Link href="https://www.instagram.com/uez_company/" target="_blank">
                 <Image

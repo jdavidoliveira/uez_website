@@ -53,7 +53,7 @@ export default function Header() {
               <Image
                 width={60}
                 height={60}
-                src="/logo.svg"
+                src="/logo/full-logo.svg"
                 alt="Logo da UEZ Company"
                 className="w-[75px] invert transition hover:scale-105 mobile:hidden"
               />
@@ -108,7 +108,7 @@ export default function Header() {
               <Image
                 width={60}
                 height={60}
-                src="/logo.svg"
+                src="/logo/full-logo.svg"
                 alt="Logo da UEZ Company"
                 className="w-[75px] invert transition hover:scale-105 mobile:hidden"
               />
