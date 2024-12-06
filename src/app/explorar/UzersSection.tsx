@@ -1,11 +1,11 @@
 import { api } from "@/lib/serverapi"
 import SearchBox from "./SearchBox"
 import { UzerCard } from "./UzerCard"
-import { IUzer } from "@/types/Uzer"
+import { Uzer } from "@/types/Uzer"
 import { ChevronRight } from "lucide-react"
 
 export default async function UzersSection() {
-  const { data } = await api.get<IUzer[]>(`/uzers`, {
+  const { data } = await api.get<Uzer[]>(`/uzers`, {
     revalidate: 60 * 1,
   })
 
@@ -26,7 +26,7 @@ export default async function UzersSection() {
 }
 
 //Isso aqui é uma gambiarra das braba, depois tem que ver se dá pra melhorar
-function DivOfColsOfUzerCardsWithHorizontalScroll({ uzersData }: { uzersData: IUzer[] }) {
+function DivOfColsOfUzerCardsWithHorizontalScroll({ uzersData }: { uzersData: Uzer[] }) {
   const arrayOfUzers1 = uzersData.slice(0, uzersData.length / 2)
   const arrayOfUzers2 = uzersData.slice(uzersData.length / 2, uzersData.length)
 
@@ -40,19 +40,19 @@ function DivOfColsOfUzerCardsWithHorizontalScroll({ uzersData }: { uzersData: IU
         return (
           <div key={index} className="flex min-w-[30%] flex-col items-center gap-6">
             <UzerCard
-              imageUrl={uzer1.photoUrl}
-              category={uzer1.servico.categoria.nome}
+              imageUrl={uzer1.image}
+              category={uzer1.service.category.name}
               username={uzer1.username}
-              name={uzer1.nome}
-              service={uzer1.servico.nome}
+              name={uzer1.name}
+              service={uzer1.service.name}
             />
 
             <UzerCard
-              imageUrl={uzer2.photoUrl}
-              category={uzer2.servico.categoria.nome}
+              imageUrl={uzer2.image}
+              category={uzer2.service.category.name}
               username={uzer2.username}
-              name={uzer2.nome}
-              service={uzer2.servico.nome}
+              name={uzer2.name}
+              service={uzer2.service.name}
             />
           </div>
         )
