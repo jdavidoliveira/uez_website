@@ -3,24 +3,19 @@ import { CategoryCard } from "./CategoryCard"
 import Image from "next/image"
 import { api } from "@/lib/serverapi"
 import { Category, Service } from "@/types/Service"
-import { insertTextByStringIndex } from "@/utils/string/insertTextByStringIndex"
 
 export async function CategorySection() {
   const searchOfServices = await api.get<Service[]>("/services", {
-    // revalidate: 60 * 60 * 24 * 7, // 7 days in seconds
-    revalidate: 5,
+    revalidate: 60 * 60 * 24 * 1, // 1 day in seconds
   })
   const searchOfCategories = await api.get<Category[]>("/categories", {
-    // revalidate: 60 * 60 * 24 * 7, // 7 days in seconds
-    revalidate: 5,
+    revalidate: 60 * 60 * 24 * 1, // 1 day in seconds
   })
 
   const arrayOfCategoriesWithRespectiveServices = searchOfCategories.data.map((category) => ({
     category,
     services: searchOfServices.data.filter((service) => service.category.id === category.id),
   }))
-
-  console.log(arrayOfCategoriesWithRespectiveServices)
 
   return searchOfServices.ok ? (
     <GenericSection className="relative bg-primary-purple p-0">

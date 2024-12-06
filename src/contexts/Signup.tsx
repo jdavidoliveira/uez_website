@@ -1,6 +1,7 @@
 "use client"
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from "react"
+import { z } from "zod"
 
 /*
 {
@@ -15,6 +16,17 @@ import { Dispatch, SetStateAction, createContext, useContext, useState } from "r
   "image": "string"
 }
 */
+
+export const signUpSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  birth_date: z.string(),
+  phone: z.string(),
+  serviceId: z.optional(z.string()),
+  usertype: z.enum(["UZER", "CLIENT"]),
+  username: z.string(),
+})
 
 export interface ISignupData {
   name: string
@@ -37,7 +49,6 @@ const emptySignupData: ISignupData = {
   serviceId: "",
   usertype: "UZER", // ou 'CLIENT', dependendo do caso
   username: "",
-  image: "",
 }
 
 export const SignupContext = createContext<{

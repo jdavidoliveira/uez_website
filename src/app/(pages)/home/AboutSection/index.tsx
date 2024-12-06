@@ -2,7 +2,7 @@
 
 import GenericSection from "@/components/layout/GenericSection"
 import { AnimationOnScroll } from "react-animation-on-scroll"
-import { PhotoCard } from "../PhotoCard"
+import { PhotoCard } from "./PhotoCard"
 import Image from "next/image"
 
 export function AboutSection() {

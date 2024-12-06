@@ -1,19 +1,19 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import UserCard from "./UserCard"
-import Input from "./Input"
-import { z } from "zod"
-import { ChevronRight, Divide, Eye, EyeOff } from "lucide-react"
-import Etapa2 from "./Etapa2"
 import { useSignupData } from "@/contexts/Signup"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import ErrorSpan from "./ErrorSpan"
 import "animate.css"
+import { ChevronRight, Eye, EyeOff } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import Etapa3 from "./Etapa3"
 import { twMerge } from "tailwind-merge"
+import { z } from "zod"
+import ErrorSpan from "./ErrorSpan"
+import Etapa2 from "./Etapa2"
+import Etapa3 from "./Etapa3"
+import Input from "./Input"
+import UserCard from "./UserCard"
 
 const userFormSchema = z.object({
   usertype: z.enum(["UZER", "CLIENT"]),
@@ -30,7 +30,7 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Cadastro() {
+export default function CadastroComUez() {
   const { setSignupData, signupData } = useSignupData()
   const {
     register,
@@ -81,7 +81,7 @@ export default function Cadastro() {
                   label="Senha"
                   inputType={showPassword ? "text" : "password"}
                   placeholder="Senha"
-                  id="senha"
+                  id="password"
                   register={register}
                   className={(errors.password ? "border border-red-500" : "") + " rounded-r-none"}
                 />

@@ -2,13 +2,17 @@
 
 import React from "react"
 import Input from "./Input"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Check, ChevronLeft, ChevronRight } from "lucide-react"
 import "animate.css"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { useSignupData } from "@/contexts/Signup"
+import { signUpSchema, useSignupData } from "@/contexts/Signup"
 import ErrorSpan from "./ErrorSpan"
+import api from "@/lib/api"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { AxiosError } from "axios"
 
 interface Etapa2Props {
   back: () => void
@@ -17,18 +21,18 @@ interface Etapa2Props {
 }
 
 const userFormSchema = z.object({
-  nome: z
+  name: z
     .string()
     .min(1, "O nome é obrigatório")
     .min(3, "O nome deve ter mais de 3 caracteres")
     .regex(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "O nome deve conter apenas letras"),
   email: z.string().min(1, "O e-mail é obrigatório").email("Formato de e-mail inválido"),
-  telefone: z
+  phone: z
     .string()
     .min(1, "O telefone é obrigatório")
     .min(10, "O telefone deve ter 10 dígitos")
     .max(15, "O telefone deve ter no máximo 15 dígitos"),
-  dataNasc: z.string().min(1, "A data de nascimento é obrigatória"),
+  birth_date: z.string().min(1, "A data de nascimento é obrigatória"),
 })
 
 type userFormData = z.infer<typeof userFormSchema>
@@ -45,12 +49,32 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
   })
 
   const { signupData, setSignupData } = useSignupData()
+  const router = useRouter()
 
   async function NextStep() {
     const data = getValues()
     setSignupData((prev) => ({ ...prev, ...data }))
-    next()
-    console.log("currentSignupdata", signupData)
+    if (signupData.usertype === "UZER") {
+      next()
+    } else {
+      await Finish()
+    }
+  }
+
+  async function Finish() {
+    console.log(signUpSchema.safeParse(signupData))
+
+    if (!signUpSchema.safeParse(signupData).success) return toast("Verifique os dados informados")
+
+    try {
+      const { data } = await api.post("/register", signupData)
+      toast(data.message)
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      router.push(`/login?userEmail=${signupData.email}`)
+    } catch (error: AxiosError | any) {
+      console.log(error)
+      toast(error.response.data.message)
+    }
   }
 
   return (
@@ -62,12 +86,12 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
             label="Nome completo"
             inputType="text"
             placeholder="Nome completo"
-            id="nome"
+            id="name"
             register={register}
             maxLength={60}
-            className={errors.nome ? "border border-red-500" : ""}
+            className={errors.name ? "border border-red-500" : ""}
           />
-          {errors.nome && <ErrorSpan content={errors.nome.message} className="w-full" />}
+          {errors.name && <ErrorSpan content={errors.name.message} className="w-full" />}
           <Input
             label="Email"
             inputType="email"
@@ -82,31 +106,31 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
             label="Telefone"
             inputType="tel"
             placeholder="(XX) XXXXX-XXXX"
-            id="telefone"
+            id="phone"
             maxLength={15}
             register={() =>
-              register("telefone", {
+              register("phone", {
                 onChange: (e) => {
                   if (e.target.value.length === 2 && !e.target.value.includes(" ")) {
-                    setValue("telefone", getValues("telefone") + " ")
+                    setValue("phone", getValues("phone") + " ")
                   }
                   const rawTel = e.target.value.replace(/\D/g, "") // Remove não dígitos
                   const formattedTel = rawTel.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")
-                  setValue("telefone", formattedTel)
+                  setValue("phone", formattedTel)
                 },
               })
             }
-            className={errors.telefone ? "border border-red-500" : ""}
+            className={errors.phone ? "border border-red-500" : ""}
           />
-          {errors.telefone && <ErrorSpan content={errors.telefone.message} className="w-full" />}
+          {errors.phone && <ErrorSpan content={errors.phone.message} className="w-full" />}
           <Input
             label="Data de Nascimento"
             inputType="date"
-            id="datanascimento"
-            register={() => register("dataNasc")}
-            className={errors.dataNasc ? "border border-red-500" : ""}
+            id="birth_date"
+            register={() => register("birth_date")}
+            className={errors.birth_date ? "border border-red-500" : ""}
           />
-          {errors.dataNasc && <ErrorSpan content={errors.dataNasc.message} className="w-full" />}
+          {errors.birth_date && <ErrorSpan content={errors.birth_date.message} className="w-full" />}
         </div>
         <div className="mx-auto flex w-fit items-center justify-center">
           <button
@@ -119,12 +143,22 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
             <ChevronLeft color="white" />
           </button>
           <span className="mx-6 text-lg font-medium">{etapa}</span>
-          <button
-            type="submit"
-            className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple p-2"
-          >
-            <ChevronRight color="white" />
-          </button>
+          {signupData.usertype === "UZER" ? (
+            <button
+              type="submit"
+              className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple p-2"
+            >
+              <ChevronRight color="white" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="mx-auto flex w-fit items-center justify-between gap-1 rounded-lg bg-primary-purple p-2"
+            >
+              <span className="text-lg font-medium text-white">Concluído</span>
+              <Check color="white" />
+            </button>
+          )}
         </div>
       </form>
     </div>
