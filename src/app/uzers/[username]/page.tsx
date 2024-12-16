@@ -21,7 +21,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const username = params.username
   const { data } = await api.get<Uzer>(`/uzers/${username}`, {
-    revalidate: 60 * 1,
+    next: { revalidate: 60 * 1 },
   })
 
   return {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function page({ params: { username } }: Props) {
   const session = await getServerSession(options)
   const searchUzerResponse = await api.get<Uzer>(`/uzers/${username}`, {
-    revalidate: 60 * 1,
+    next: { revalidate: 60 * 1 },
   })
   if (!searchUzerResponse.ok) return redirect("/404")
 

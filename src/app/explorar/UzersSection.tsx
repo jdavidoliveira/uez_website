@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react"
 
 export default async function UzersSection() {
   const { data } = await api.get<Uzer[]>(`/uzers`, {
-    revalidate: 60 * 1,
+    next: { revalidate: 60 * 1 },
   })
 
   return (

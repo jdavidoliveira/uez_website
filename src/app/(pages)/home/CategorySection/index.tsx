@@ -6,11 +6,13 @@ import { Category, Service } from "@/types/Service"
 
 export async function CategorySection() {
   const searchOfServices = await api.get<Service[]>("/services", {
-    revalidate: 60 * 60 * 24 * 1, // 1 day in seconds
+    next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
   })
   const searchOfCategories = await api.get<Category[]>("/categories", {
-    revalidate: 60 * 60 * 24 * 1, // 1 day in seconds
+    next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
   })
+
+  if (!searchOfServices.ok || !searchOfCategories.ok) return null
 
   const arrayOfCategoriesWithRespectiveServices = searchOfCategories.data.map((category) => ({
     category,
