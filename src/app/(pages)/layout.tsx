@@ -1,9 +1,7 @@
 import type { Metadata } from "next"
 import Header from "@/components/sections/Header"
 import Footer from "@/components/sections/Footer/Footer"
-import Image from "next/image"
-import { Phone } from "lucide-react"
-import Link from "next/link"
+import ScrollToTop from "@/components/sections/ScrollToTop"
 
 export const metadata: Metadata = {
   title: {
@@ -17,6 +15,7 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
   return (
     <>
       <Header />
+      <ScrollToTop />
       {children}
       {/* <Link
           title="SAC"

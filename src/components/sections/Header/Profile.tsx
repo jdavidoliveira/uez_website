@@ -6,7 +6,7 @@ import Link from "next/link"
 import LogoutButton from "./LogoutButton"
 import { Session } from "next-auth"
 
-export default function HeaderProfile({ session: { user } }: { session: Session }) {
+export default function Profile({ session: { user } }: { session: Session }) {
   return (
     <div className="flex items-center justify-between gap-8">
       {/* <Notifications /> */}
