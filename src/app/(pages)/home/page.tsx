@@ -90,7 +90,7 @@ export default function Home() {
         </Link>
       </GenericSection>
       {/* mobile */}
-      <GenericSection className="flex flex-col items-center justify-center gap-4 px-0 md:hidden">
+      <GenericSection className="mb-0 flex flex-col items-center justify-center gap-10 px-0 pb-10 md:hidden">
         <div className="flex h-fit w-full items-center justify-center">
           <Image
             src="/images/pages/homepage/p1-mobile.png"
@@ -145,7 +145,7 @@ export default function Home() {
         </Link>
       </GenericSection>
       {/* mobile */}
-      <GenericSection className="flex flex-col items-center justify-center gap-4 px-0 md:hidden">
+      <GenericSection className="mb-0 flex flex-col items-center justify-center gap-10 px-0 pb-10 md:hidden">
         <div className="flex h-fit w-full items-center justify-center bg-primary-purple">
           <Image
             src="/images/pages/homepage/p2.png"

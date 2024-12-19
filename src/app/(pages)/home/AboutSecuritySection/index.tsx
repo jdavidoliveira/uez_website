@@ -17,7 +17,7 @@ export function AboutSecuritySection() {
           className="absolute left-0 top-8 h-12 w-12 animate-pulse mobile:hidden"
         />
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
-          <h1 className="text-center text-4xl font-bold">Nós prezamos pela sua segurança!</h1>
+          <h1 className="text-center text-2xl font-bold md:text-4xl">Nós prezamos pela sua segurança!</h1>
         </AnimationOnScroll>
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
           <p className="mx-auto w-10/12 text-center text-lg font-medium leading-snug">
@@ -41,7 +41,7 @@ export function AboutSecuritySection() {
           className="absolute right-0 top-0 h-12 w-12 animate-pulse smmobile:hidden"
         />
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
-          <h1 className="text-center text-4xl font-bold">Mas de que forma?</h1>
+          <h1 className="text-center text-2xl font-bold md:text-4xl">Mas de que forma?</h1>
         </AnimationOnScroll>
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
           <p className="mx-auto w-10/12 text-center text-lg font-medium leading-snug">

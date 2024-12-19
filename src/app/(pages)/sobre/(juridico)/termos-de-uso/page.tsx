@@ -44,9 +44,9 @@ export default function TermosDeUso() {
         </Paragrafozinho>
         <Titulozinho>4. Pagamentos</Titulozinho>
         <Paragrafozinho>
-          As transações financeiras, incluindo pagamentos por serviços, são intermediadas pela nossa plataforma entre os
-          prestadores de serviços e os clientes. Nossa empresa facilita essas transações, mas não é responsável por
-          problemas de pagamento que ocorram fora de nossa plataforma.
+          As transações financeiras, incluindo pagamentos por serviços, não são intermediadas pela nossa plataforma.
+          Nossa empresa facilita a conexão entre prestadores de serviços e clientes, mas não somos responsáveis por
+          problemas de pagamento que ocorram.
         </Paragrafozinho>
         <Titulozinho>5. Privacidade e Segurança</Titulozinho>
         <Paragrafozinho>

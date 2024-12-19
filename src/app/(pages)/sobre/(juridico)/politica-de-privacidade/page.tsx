@@ -35,7 +35,6 @@ export default function PoliticaDePrivacidade() {
           Usamos as informações pessoais coletadas para os seguintes fins:
           <ul className="list-disc px-10 py-4">
             <li>Facilitar a conexão entre uzers e clientes;</li>
-            <li>Processar transações e pagamentos;</li>
             <li>Personalizar a experiência do usuário;</li>
             <li>Cumprir obrigações legais e regulatórias;</li>
             <li>Comunicar-se com os usuários sobre serviços, transações e atualizações;</li>

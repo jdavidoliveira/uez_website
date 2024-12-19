@@ -20,54 +20,101 @@ export function AboutSection() {
           </p>
         </AnimationOnScroll>
       </div>
-      <div className="relative flex w-11/12 flex-col items-center justify-around gap-8 text-azulao">
-        <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
-          <h1 className="mb-16 text-center text-4xl font-bold ">Como funciona?</h1>
-        </AnimationOnScroll>
-        <div className="flex w-full flex-col items-center gap-4">
-          <div className="flex w-8/12 items-center justify-around gap-4">
-            <PhotoCard
-              imageUrl="/images/icons/cliente-white.png"
-              className="invert"
-              title="Cliente"
-              description="Uma pessoa que precisa de um serviço, por exemplo, uma pessoa com a tubulação quebrada."
-            />
-            <PhotoCard
-              imageUrl="/images/icons/uzer-white.png"
-              className="invert"
-              title="Uzer"
-              description="Um profissional que precisa de clientes, por exemplo, um encanador capaz de consertar a tubulação."
-            />
+      <HowItWorks />
+    </GenericSection>
+  )
+}
+
+function HowItWorks() {
+  const data: { imageUrl: string; title: string; description: string }[] = [
+    {
+      imageUrl: "/images/icons/cliente-white.png",
+      title: "Cliente",
+      description:
+        "Uma pessoa que necessita de um serviço, por exemplo uma pessoa que está iniciando um negócio e precisa de uma logo.",
+    },
+    {
+      imageUrl: "/images/icons/uzer-white.png",
+      title: "Uzer",
+      description: "Um profissional que sabe realizar esse serviço online, por exemplo um designer.",
+    },
+    {
+      imageUrl: "/images/batepapo.png",
+      title: "Bate papo",
+      description:
+        "Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento.",
+    },
+    {
+      imageUrl: "/images/riquinho.png",
+      title: "Orçamento",
+      description: "Aqui o cliente envia o orçamento para o uzer e ele envia o orçamento para o cliente.",
+    },
+  ]
+
+  return (
+    <div className="relative flex w-full flex-col items-center justify-around gap-8 text-azulao">
+      <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
+        <h1 className="mb-16 text-center text-4xl font-bold ">Como funciona?</h1>
+      </AnimationOnScroll>
+      <div className="hidden w-full flex-col items-center gap-4 md:flex">
+        <div className="flex w-8/12 items-center justify-around gap-4">
+          <PhotoCard
+            imageUrl="/images/icons/cliente-white.png"
+            imageClassName="invert"
+            title="Cliente"
+            description="Uma pessoa que precisa de um serviço, por exemplo, uma pessoa com a tubulação quebrada."
+          />
+          <PhotoCard
+            imageUrl="/images/icons/uzer-white.png"
+            imageClassName="invert"
+            title="Uzer"
+            description="Um profissional que precisa de clientes, por exemplo, um encanador capaz de consertar a tubulação."
+          />
+        </div>
+        <div className="flex w-full flex-col items-center justify-center gap-4">
+          <Image src="/vetores/linha-baixo.svg" width={120} height={120} alt="Vetor de linhas" className="w-4/12" />
+          <div className="mb-5 mt-4 size-fit transition hover:scale-105">
+            <a href="#inicio" title="Uez Company">
+              <Image
+                src="/logo/logo.png"
+                width={1000}
+                height={1000}
+                alt="Logo da UEZ Company"
+                className="w-52 transition hover:scale-105 hover:animate-none hover:duration-300"
+              />
+            </a>
           </div>
-          <div className="flex w-full flex-col items-center justify-center gap-4">
-            <Image src="/vetores/linha-baixo.svg" width={120} height={120} alt="Vetor de linhas" className="w-4/12" />
-            <div className="mb-5 mt-4 size-fit transition hover:scale-105">
-              <a href="#inicio" title="Uez Company">
-                <Image
-                  src="/logo/logo.png"
-                  width={1000}
-                  height={1000}
-                  alt="Logo da UEZ Company"
-                  className="w-52 transition hover:scale-105 hover:animate-none hover:duration-300"
-                />
-              </a>
-            </div>
-            <Image src="/vetores/linha-cima.svg" width={120} height={120} alt="Vetor de linhas" className="w-4/12" />
-          </div>
-          <div className="flex w-8/12 items-center justify-around gap-4">
-            <PhotoCard
-              imageUrl="/images/batepapo.png"
-              title="Chat"
-              description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
-            />
-            <PhotoCard
-              imageUrl="/images/riquinho.png"
-              title="Orçamento"
-              description="Quando o orçamento é lançado para o cliente, ele tem a opção de aceitar ou não, priorizando a segurança."
-            />
-          </div>
+          <Image src="/vetores/linha-cima.svg" width={120} height={120} alt="Vetor de linhas" className="w-4/12" />
+        </div>
+        <div className="flex w-8/12 items-center justify-around gap-4">
+          <PhotoCard
+            imageUrl="/images/batepapo.png"
+            title="Chat"
+            description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
+          />
+          <PhotoCard
+            imageUrl="/images/riquinho.png"
+            title="Orçamento"
+            description="Quando o orçamento é lançado para o cliente, ele tem a opção de aceitar ou não, priorizando a segurança."
+          />
         </div>
       </div>
-    </GenericSection>
+      {/* mobile */}
+      <div className="flex w-full flex-col items-center gap-4 md:hidden">
+        <div className="flex w-full flex-col items-center justify-around gap-20 ">
+          {data.map((item, index) => (
+            <PhotoCard
+              key={index}
+              imageUrl={item.imageUrl}
+              imageClassName={item.title === "Uzer" || item.title === "Cliente" ? "invert" : ""}
+              title={item.title}
+              description={item.description}
+              className="w-full gap-6 hover:scale-100"
+              descriptionClassName="text-justify"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
