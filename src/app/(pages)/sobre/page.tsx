@@ -21,32 +21,32 @@ export default function Sobre() {
         className="absolute left-10 top-10 hidden w-6 sm:block"
       />
       <GenericSection>
-        <h1 className="text-3xl font-bold sm:mb-10">Sobre Nós</h1>
+        <h1 className="text-4xl font-bold sm:mb-10">Sobre Nós</h1>
         <div className="flex w-11/12 flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0">
           <CardSobre
             title={"Missão"}
             image="/images/missao.svg"
-            description={"Nossa missão é facilitar a vida das pessoas, criando conexões entre pessoas próximas de você"}
+            description={"Nossa missão é facilitar a vida das pessoas, criando conexões entre pessoas próximas de você."}
           />
           <CardSobre
             title={"Visão"}
             image="/images/visao.svg"
-            description={"Visamos ser conhecidos por ajudar pessoas a encontrar e mostrar suas habilidades"}
+            description={"Visamos ser conhecidos por ajudar pessoas a encontrar e mostrar suas habilidades."}
           />
           <CardSobre
             title={"Valores"}
             image="/images/valores.svg"
-            description={"Nós valorizamos a segurança, a confiança, a facilidade e o networking"}
+            description={"Nós valorizamos a segurança, a confiança, a facilidade e o networking."}
           />
         </div>
       </GenericSection>
-      <GenericSection className="relative flex flex-col bg-primary-purple px-24 py-36 md:flex-row md:px-36">
+      <GenericSection className="relative flex flex-col bg-primary-purple px-24 pt-20 pb-0 md:flex-row md:px-36">
         <Image
           src="/elementos/chunck-circulo-azulao.png"
           alt="elemento"
           width={600}
           height={600}
-          className="absolute left-0 top-0 w-20 sm:w-40"
+          className="absolute left-0 top-0 w-20 md:w-40"
         />
         <Image
           src="/elementos/bolinhas.png"
@@ -60,11 +60,11 @@ export default function Sobre() {
           alt="elemento"
           width={600}
           height={600}
-          className="absolute -bottom-5 left-52 w-6 rotate-90"
+          className="absolute bottom-10 left-80 w-6 rotate-90 hidden xl:block"
         />
         <div className="flex w-full flex-col gap-10 text-white md:w-7/12">
-          <h1 className="text-center text-3xl font-bold">Nossa história</h1>
-          <p className="w-full text-justify indent-7 font-semibold">
+          <h1 className="text-left text-4xl font-bold">Nossa história</h1>
+          <p className="w-full text-lg text-justify indent-7 font-semibold pb-10">
             A UEZ surgiu em 2023 a partir de um projeto de TCC de técnico em informática, que tinha como objetivo criar
             uma plataforma. Nosso grupo decidiu criar uma plataforma que ligasse profissionais e clientes de forma
             segura e eficaz, mas desenvolvemos um carinho tão grande por esse trabalho que os membros decidiram montar
@@ -83,9 +83,9 @@ export default function Sobre() {
           height={600}
           className="absolute bottom-20 left-10 w-6"
         />
-        <div className="flex flex-col items-center justify-center gap-20">
-          <h1 className="text-3xl font-bold">Mas por que a UEZ?</h1>
-          <div className="relative mx-8 flex flex-col items-center gap-10 sm:mx-16 md:grid md:grid-cols-2 md:gap-x-28 md:gap-y-28 lg:mx-28 lg:gap-x-56 lg:gap-y-28">
+        <div className="flex flex-col gap-20">
+          <h1 className="text-3xl font-bold text-center">Mas por que UEZ?</h1>
+          <div className="relative mx-8 flex flex-col gap-5 md:grid md:grid-cols-2 md:gap-x-28 md:gap-y-28 2xl:mx-80 lg:gap-x-80 lg:gap-y-28">
             <p className="text-justify">
               Se nós separarmos o nome <strong>UEZ</strong> em dois, nós teremos o <strong>“U”</strong> depois o{" "}
               <strong>“EZ”</strong>, dessa forma o <strong>“U”</strong> em inglês tem o sou de “iu” esse é o mesmo som
@@ -118,7 +118,7 @@ export default function Sobre() {
           alt="elemento"
           width={600}
           height={600}
-          className="absolute bottom-0 left-1/2 w-64 -translate-x-1/2 sm:w-80 md:left-20"
+          className="absolute bottom-0 -left-1/4 w-64 -translate-x-1/2 sm:w-80 md:left-20 lg:w-96"
         />
         <Image
           src="/elementos/quadrados-empty.png"
@@ -143,7 +143,7 @@ export default function Sobre() {
         <div className="flex flex-col items-center justify-center gap-10">
           <h1 className="text-xl font-bold sm:text-3xl">Evolução da logo</h1>
           <Image
-            src="/images/logoevolucao.png"
+            src="/images/logoevolucao-1.png"
             alt="Logo da uez"
             width={1000}
             height={1000}
