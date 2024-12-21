@@ -21,7 +21,7 @@ export const api = {
         headers: {
           ...options?.headers,
           cookie: cookies().toString(),
-          "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "",
+          "x-api-key": process.env.API_KEY || "",
         },
         ...options,
       })

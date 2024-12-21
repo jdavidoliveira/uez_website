@@ -23,7 +23,7 @@ export const signUpSchema = z.object({
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
   birth_date: z.string(),
   phone: z.string(),
-  serviceId: z.optional(z.string()),
+  serviceId: z.optional(z.string().uuid()),
   usertype: z.enum(["UZER", "CLIENT"]),
   username: z.string(),
 })

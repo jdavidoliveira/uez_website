@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge"
 import { z } from "zod"
 import ErrorSpan from "./ErrorSpan"
 import Etapa2 from "./Etapa2"
-import Etapa3 from "./Etapa3"
+import Etapa3 from "../Etapa3"
 import Input from "./Input"
 import UserCard from "./UserCard"
 

@@ -4,7 +4,7 @@ import Modal from "@/components/layout/modals/Modal"
 import Input from "@/components/layout/inputs/Generic"
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -22,6 +22,11 @@ const userFormSchema = z.object({
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Login() {
+  useEffect(() => {
+    if (searchParams.get("loggedWithGoogle") === "true") {
+      signIn("google", { callbackUrl: "/" })
+    }
+  }, [])
   const session = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -74,7 +79,7 @@ export default function Login() {
         } catch (error) {
           console.error(error)
         }
-        return router.replace("/")
+        return searchParams.has("redirectToLastPage") ? router.back() : router.replace("/")
       }
     } catch (error) {
       console.error(error)
@@ -83,7 +88,7 @@ export default function Login() {
 
   return (
     <form
-      className="flex max-h-full w-[25%] flex-col items-center justify-between gap-4 rounded-xl bg-white px-10 py-6 font-Montserrat"
+      className="flex max-h-full flex-col items-center justify-between gap-4 rounded-xl bg-white px-10 py-6 font-Montserrat"
       onSubmit={handleSubmit(logar)}
     >
       <h1 className="my-2 text-center text-2xl font-semibold ">Faça login na sua conta da UEZ</h1>
@@ -187,7 +192,7 @@ export default function Login() {
         <span>ou</span>
         <hr className="h-[1px] w-[45%] border bg-black/50" />
       </div>
-      <div className="flex w-full items-center justify-center gap-2">
+      <div className="flex w-full flex-col items-center justify-center gap-4">
         <button
           className="flex min-w-full items-center justify-center gap-2 rounded-lg border border-black/20 px-4 py-2 shadow-[5px_5px_10px_0_rgba(0,0,0,0.25)] hover:border-black/30"
           title="Cadastre-se com Google"

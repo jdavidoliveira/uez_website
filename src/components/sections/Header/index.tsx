@@ -153,12 +153,18 @@ export default function Header() {
                   Criar conta
                 </Link>
               </div>
-              <div className="hidden items-center justify-center sm:flex">
+              <div className="hidden items-center justify-center gap-3 sm:flex">
                 <Link
                   href="/login"
-                  className="flex cursor-pointer items-center justify-center rounded-lg bg-primary-blue px-6 py-3 text-base font-semibold text-white duration-300 hover:bg-primary-purple hover:text-white"
+                  className="flex cursor-pointer items-center justify-center rounded-lg bg-transparent px-6 py-3 text-base font-semibold text-white duration-300 hover:bg-primary-purple hover:text-white"
                 >
                   Entrar
+                </Link>
+                <Link
+                  href="/cadastro"
+                  className="flex cursor-pointer items-center justify-center rounded-lg bg-primary-blue px-6 py-3 text-base font-semibold text-white duration-300 hover:bg-primary-purple hover:text-white"
+                >
+                  Cadastre-se
                 </Link>
               </div>
             </>

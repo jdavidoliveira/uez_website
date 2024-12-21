@@ -24,9 +24,10 @@ const userFormSchema = z.object({
     .regex(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "O nome deve conter apenas letras"),
   phone: z
     .string()
-    .min(1, "O telefone é obrigatório")
-    .min(10, "O telefone deve ter 10 dígitos")
-    .max(15, "O telefone deve ter no máximo 15 dígitos"),
+    .optional()
+    .refine((val) => !val || /^\(\d{2}\) \d{5}-\d{4}$/.test(val), {
+      message: "O telefone deve estar no formato correto: (XX) XXXXX-XXXX",
+    }),
   birth_date: z.string().min(1, "A data de nascimento é obrigatória"),
 })
 
@@ -72,7 +73,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
           />
           {errors.nome && <ErrorSpan content={errors.nome.message} className="w-full" />}
           <Input
-            label="Telefone"
+            label="Telefone (opcional)"
             inputType="tel"
             placeholder="(XX) XXXXX-XXXX"
             id="phone"

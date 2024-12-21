@@ -12,9 +12,10 @@ import { useForm } from "react-hook-form"
 import ErrorSpan from "./ErrorSpan"
 import "animate.css"
 import { toast } from "sonner"
-import Etapa3 from "./Etapa3"
+import Etapa3 from "../Etapa3"
 import { twMerge } from "tailwind-merge"
 import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
 
 const userFormSchema = z.object({
   usertype: z.enum(["UZER", "CLIENT"]),
@@ -35,6 +36,7 @@ type userFormData = z.infer<typeof userFormSchema>
 
 export default function CadastroComGoogle() {
   const session = useSession()
+
   const { setSignupData, signupData } = useSignupData()
   const [etapa, setEtapa] = useState(1)
   const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UZER" | null>(null)
@@ -77,7 +79,7 @@ export default function CadastroComGoogle() {
     case 1:
       return (
         <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-center gap-10 px-5 sm:w-10/12 sm:px-10">
-          <h1 className="text-3xl font-semibold">Cadastre-se</h1>
+          <h1 className="text-3xl font-semibold">Complete seu cadastro</h1>
           <form onSubmit={handleSubmit(NextStep)} className=" flex w-10/12 flex-col gap-8 sm:w-auto">
             <div className="flex flex-col gap-2">
               <Input

@@ -1,7 +1,7 @@
 "use client"
 
-import React, { FormEvent, useEffect, useState } from "react"
-import { Check, ChevronLeft, ChevronRight, Megaphone } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Check, ChevronLeft } from "lucide-react"
 import "animate.css"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,8 +11,7 @@ import { twMerge } from "tailwind-merge"
 import api from "@/lib/api"
 import Image from "next/image"
 import { toast } from "sonner"
-import { AxiosError } from "axios"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Category, Service } from "@/types/Service"
 
 interface Etapa3Props {
@@ -21,107 +20,115 @@ interface Etapa3Props {
 }
 
 const userFormSchema = z.object({
-  serviceId: z.string().uuid("O serviço é obrigatório"),
+  serviceId: z.string().uuid("O serviço é obrigatório"),
 })
 
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Etapa3({ back, etapa }: Etapa3Props) {
-  const {
-    getValues,
-    formState: { errors },
-    register,
-    handleSubmit,
-  } = useForm<userFormData>({
+  const pathname = usePathname()
+  const router = useRouter()
+  const { watch, register, handleSubmit } = useForm<userFormData>({
     resolver: zodResolver(userFormSchema),
   })
-  const router = useRouter()
   const { signupData, setSignupData } = useSignupData()
 
   const [categories, setCategories] = useState<Category[]>([])
   const [availableServices, setAvailableServices] = useState<Service[] | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<Category>({ id: "", name: "Design" })
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
 
-  async function NextStep() {
-    const data = getValues()
-
-    setSignupData((prev) => {
-      return { ...prev, ...data }
-    })
-
-    await Finish()
+  async function updateServiceId(serviceId: string) {
+    setSignupData((prev) => ({ ...prev, serviceId }))
   }
-  async function Finish() {
-    console.log(signUpSchema.safeParse(signupData))
 
-    if (!signUpSchema.safeParse(signupData).success) return toast("Verifique os dados informados")
+  async function finish() {
+    const validationResult = signUpSchema.safeParse(signupData)
+    if (!validationResult.success) {
+      return toast(validationResult.error.issues.map((issue) => issue.message).join(", "))
+    }
 
     try {
-      const { data } = await api.post("/register", signupData)
-      toast(data.message)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      router.push(`/login?userEmail=${signupData.email}`)
-    } catch (error: AxiosError | any) {
-      console.log(error)
-      toast(error.response.data.message)
+      const registerData = await api.post("/register", signupData)
+      if (registerData.status !== 201) {
+        return toast(registerData.data.message || "Erro ao registrar")
+      }
+
+      toast.success("Cadastro concluído com sucesso!")
+
+      router.push(pathname.includes("uez") ? `/login?userEmail=${signupData.email}` : `/login?loggedWithGoogle=true`)
+    } catch (error) {
+      toast.error("Erro ao registrar. Tente novamente.")
+      console.error(error)
     }
   }
 
-  async function fetchData() {
+  async function fetchCategories() {
     try {
-      const searchOfCategories = await api.get<Category[]>(`/categories`)
-      return setCategories(searchOfCategories.data)
+      const response = await api.get<Category[]>("/categories")
+      setCategories(response.data)
     } catch (error) {
-      console.log(error)
+      console.error("Erro ao buscar categorias:", error)
     }
   }
 
   async function fetchServicesByCategory() {
+    if (!selectedCategory) return
+
     try {
-      const searchOfServices = await api.get<Service[]>(`/services/category/${selectedCategory?.name}`)
-      return setAvailableServices(searchOfServices.data)
+      const response = await api.get<Service[]>(`/services/category/${selectedCategory.name}`)
+      setAvailableServices(response.data)
     } catch (error) {
-      console.log(error)
+      console.error("Erro ao buscar serviços:", error)
     }
   }
 
   useEffect(() => {
-    fetchData()
+    fetchCategories()
   }, [])
 
   useEffect(() => {
     fetchServicesByCategory()
   }, [selectedCategory])
 
+  const serviceId = watch("serviceId")
+
   return (
     <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-center gap-10 px-2 sm:w-10/12 sm:px-5">
       <h1 className="text-3xl font-semibold">Cadastre-se</h1>
-      <form onSubmit={handleSubmit(NextStep)} className="flex w-10/12 flex-col gap-8 sm:w-10/12">
+      <form onSubmit={handleSubmit(finish)} className="flex w-10/12 flex-col gap-8 sm:w-10/12">
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <label htmlFor="logradouro" className="w-full text-center font-medium">
+          <label htmlFor="categories" className="w-full text-center font-medium">
             Escolha seu cargo
           </label>
           <div className="grid w-full grid-cols-2 gap-3 sm:gap-6">
             {categories.map((category) => (
               <CategoryButton
-                categoryName={category.name}
                 key={category.id}
-                isSelected={selectedCategory?.name === category.name}
-                onClick={(e: FormEvent) => {
+                categoryName={category.name}
+                isSelected={selectedCategory?.id === category.id}
+                onClick={(e) => {
                   e.preventDefault()
                   setSelectedCategory(category)
+                  updateServiceId(category.id)
                 }}
               />
             ))}
           </div>
         </div>
+
         {availableServices && (
           <div className="animate__animated animate__fadeIn flex w-full flex-col gap-2">
-            <label htmlFor="logradouro" className="w-full font-medium">
+            <label htmlFor="servico" className="w-full font-medium">
               Qual serviço você oferece?
             </label>
-            <select id="servico" {...register("serviceId")} className="w-full rounded-md bg-cinzero p-2">
-              {availableServices?.map((service) => (
+            <select
+              id="servico"
+              {...register("serviceId", {
+                onChange: (e) => updateServiceId(e.target.value),
+              })}
+              className="w-full rounded-md bg-cinzero p-2"
+            >
+              {availableServices.map((service) => (
                 <option key={service.id} value={service.id}>
                   {service.name}
                 </option>
@@ -141,7 +148,7 @@ export default function Etapa3({ back, etapa }: Etapa3Props) {
             <ChevronLeft color="white" />
           </button>
           <span className="mx-6 text-lg font-medium">{etapa}</span>
-          {getValues().serviceId && (
+          {serviceId && (
             <button
               type="submit"
               className="mx-auto flex w-fit items-center justify-between gap-1 rounded-lg bg-primary-purple p-2"

@@ -3,7 +3,7 @@ import Link from "next/link"
 import GenericSection from "@/components/layout/GenericSection"
 import { CategorySection } from "./CategorySection"
 import { AboutSection } from "./AboutSection"
-import { AboutSecuritySection } from "./AboutSecuritySection"
+// import { AboutSecuritySection } from "./AboutSecuritySection"
 import "animate.css/animate.css"
 
 export default function Home() {
@@ -174,7 +174,7 @@ export default function Home() {
       </GenericSection>
       <AboutSection />
       <CategorySection />
-      <AboutSecuritySection />
+      {/* <AboutSecuritySection /> */}
     </main>
   )
 }

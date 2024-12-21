@@ -8,7 +8,7 @@ import { Metadata } from "next"
 import { getServerSession } from "next-auth"
 import Image from "next/image"
 import Link from "next/link"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import ContactUzerButton from "./ContactUzerButton"
 import RateButton from "./RateButton"
 import ShareButton from "./ShareButton"
@@ -34,7 +34,7 @@ export default async function page({ params: { username } }: Props) {
   const searchUzerResponse = await api.get<Uzer>(`/uzers/${username}`, {
     next: { revalidate: 60 * 1 },
   })
-  if (!searchUzerResponse.ok) return redirect("/404")
+  if (!searchUzerResponse.ok) return notFound()
 
   const searchPortfolioResponse = await api.get<any[]>(`/portfolios/${username}`)
 
@@ -46,8 +46,14 @@ export default async function page({ params: { username } }: Props) {
     <main className="relative min-h-screen w-full bg-white">
       <ReturnButton classname="fixed top-10 left-10 z-50" />
       <section className="relative w-full">
-        <div className="relative h-96 w-full">
-          <Image src={searchUzerResponse.data.banner} alt="banner" priority fill className="object-cover" />
+        <div className="group relative h-96 w-full">
+          <Image
+            src={searchUzerResponse.data.banner}
+            alt="banner"
+            priority
+            fill
+            className="object-cover duration-300 group-hover:brightness-50"
+          />
         </div>
         <div className="absolute -bottom-64 left-1/2 flex w-10/12 -translate-x-1/2 flex-col items-center justify-center gap-5 md:left-[10%] md:mx-auto md:w-auto md:-translate-x-0">
           <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md ">
@@ -77,14 +83,14 @@ export default async function page({ params: { username } }: Props) {
         </div>
       </section>
       <section className="relative mt-20 h-56 w-full px-20 md:grid md:grid-cols-2">
-        {!isOwner && <RateButton />}
+        {/* {!isOwner && <RateButton />} */}
         <div className="mt-80 flex flex-col gap-2 pb-20 md:mt-60">
           <div className="flex flex-col gap-4 p-4">
             <h1 className="text-2xl font-semibold">Sobre mim</h1>
             <p className="text-xl font-normal">{searchUzerResponse.data.bio}</p>
             <hr className="w-full" />
           </div>
-          <div className="flex flex-col gap-6 p-4">
+          {/* <div className="flex flex-col gap-6 p-4">
             <h1 className="text-2xl font-semibold">Outras informações</h1>
             <ul className="flex flex-col gap-6 pl-4">
               <li className="flex items-center justify-start gap-4">
@@ -107,12 +113,12 @@ export default async function page({ params: { username } }: Props) {
               </li>
             </ul>
             <hr className="w-full" />
-          </div>
-          {!isOwner && (
+          </div> */}
+          {/* {!isOwner && (
             <div className="flex flex-col gap-6 p-4">
               <ReportButton />
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex flex-col items-center gap-2">
           {session?.user.usertype !== "UZER" && (
@@ -133,7 +139,9 @@ export default async function page({ params: { username } }: Props) {
                   <PortfolioCard key={portfolio.id} image={portfolio.imagemUrl} />
                 ))
               ) : (
-                <h1 className="mx-auto text-2xl font-medium">O usuário ainda não possui nenhum item no portfolio</h1>
+                <h1 className="mx-auto text-center text-2xl font-normal">
+                  O usuário ainda não possui nenhum item no portfolio
+                </h1>
               )}
             </div>
             {searchPortfolioResponse.data.length > 0 && (

@@ -22,7 +22,7 @@ export async function CategorySection() {
 
   return searchOfServices.ok ? (
     <>
-      <GenericSection className="relative hidden bg-primary-purple p-0 md:flex">
+      <GenericSection className="relative mb-0 hidden bg-primary-purple p-0 pb-20 md:flex">
         <Image
           src="/elementos/bolinhas.png"
           alt="Elementos"
