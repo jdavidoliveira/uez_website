@@ -10,9 +10,19 @@ interface InputProps {
   register?: UseFormRegister<any> | any
   className?: string
   maxLength?: number
+  value?: any
 }
 
-export default function Input({ inputType, label, placeholder, id, register, className, maxLength = 20 }: InputProps) {
+export default function Input({
+  inputType,
+  label,
+  placeholder,
+  id,
+  register,
+  className,
+  maxLength = 20,
+  value,
+}: InputProps) {
   const today = new Date()
   const year = today.getFullYear() - 18
   const month = String(today.getMonth() + 1).padStart(2, "0")
@@ -27,7 +37,7 @@ export default function Input({ inputType, label, placeholder, id, register, cla
         <input
           type={inputType}
           id={id}
-          min={inputType === "date" ? minDate : undefined}
+          max={inputType === "date" ? minDate : undefined}
           className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
@@ -37,7 +47,7 @@ export default function Input({ inputType, label, placeholder, id, register, cla
         <input
           type={inputType}
           id={id}
-          min={inputType === "date" ? minDate : undefined}
+          max={inputType === "date" ? minDate : undefined}
           className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}

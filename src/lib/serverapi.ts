@@ -14,14 +14,16 @@ type ApiResponse<T> = {
 }
 
 export const api = {
-  get: async <T>(routeUrl: string, options?: NextFetchRequestConfig): Promise<ApiResponse<T>> => {
+  get: async <T>(routeUrl: string, options?: RequestInit): Promise<ApiResponse<T>> => {
     const fullUrl = (baseUrl + routeUrl).replace(/\/\//g, "/")
     try {
       const response = await fetch(fullUrl, {
         headers: {
+          ...options?.headers,
           cookie: cookies().toString(),
+          "x-api-key": process.env.API_KEY || "",
         },
-        next: options,
+        ...options,
       })
       return {
         data: await response.json(),

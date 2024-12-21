@@ -10,9 +10,10 @@ declare module "next-auth" {
       email: string
       name: string
       username: string
-      userType: "UZER" | "CLIENTE"
+      usertype: "UZER" | "CLIENT"
       image: string
     }
+    needsSignUp: boolean
   }
 
   interface User {
@@ -20,7 +21,7 @@ declare module "next-auth" {
     email: string
     name: string
     username: string
-    userType: "UZER" | "CLIENTE"
+    usertype: "UZER" | "CLIENT"
     image: string
   }
 }

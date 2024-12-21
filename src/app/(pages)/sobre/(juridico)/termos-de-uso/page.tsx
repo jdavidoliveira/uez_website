@@ -12,7 +12,7 @@ export default function TermosDeUso() {
       <h1 className="mt-10 text-3xl font-bold">Termos de Uso</h1>
       <div className="mx-auto my-10 flex w-10/12 flex-col gap-6 md:w-8/12">
         <div className="flex flex-col gap-2">
-          <h2 className="font-light">Última atualização: 08/05/2024</h2>
+          <h2 className="font-light">Última atualização: 20/12/2024</h2>
           <p className="indent-4">
             Bem-vindo(a) à UEZ-Company. Antes de utilizar nossos serviços, leia atentamente os seguintes termos e
             condições. Ao acessar ou utilizar nossos serviços, você concorda em obedecer a estes termos. Se você não
@@ -44,9 +44,8 @@ export default function TermosDeUso() {
         </Paragrafozinho>
         <Titulozinho>4. Pagamentos</Titulozinho>
         <Paragrafozinho>
-          As transações financeiras, incluindo pagamentos por serviços, são intermediadas pela nossa plataforma entre os
-          prestadores de serviços e os clientes. Nossa empresa facilita essas transações, mas não é responsável por
-          problemas de pagamento que ocorram fora de nossa plataforma.
+          A UEZ-Company não realiza ou intermedia pagamentos entre clientes e prestadores de serviços. Apenas
+          facilitamos a conexão entre as partes
         </Paragrafozinho>
         <Titulozinho>5. Privacidade e Segurança</Titulozinho>
         <Paragrafozinho>

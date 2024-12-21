@@ -1,14 +1,13 @@
 import { Dispatch, SetStateAction, createContext, useContext } from "react"
 import { useState } from "react"
-import { IChat } from "@/types/IChat"
 
-export const ChatContext = createContext<{ chat: IChat | null; setChat: Dispatch<SetStateAction<IChat | null>> }>({
+export const ChatContext = createContext<{ chat: any | null; setChat: Dispatch<SetStateAction<any | null>> }>({
   chat: null,
   setChat: () => {},
 })
 
 export function ChatProvider({ children }: any) {
-  const [chat, setChat] = useState<IChat | null>(null)
+  const [chat, setChat] = useState<any | null>(null)
 
   return <ChatContext.Provider value={{ chat, setChat }}>{children}</ChatContext.Provider>
 }

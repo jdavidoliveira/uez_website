@@ -1,32 +1,63 @@
 "use client"
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from "react"
+import { z } from "zod"
 
-export const SignupContext = createContext<{
-  signupData: ISignupData | null
-  setSignupData: Dispatch<SetStateAction<ISignupData>>
-}>({
-  signupData: null,
-  setSignupData: () => {},
+/*
+{
+  "name": "string",
+  "email": "user@example.com",
+  "password": "string",
+  "birth_date": "string",
+  "phone": "string",
+  "serviceId": "string",
+  "usertype": "UZER",
+  "username": "string",
+  "image": "string"
+}
+*/
+
+export const signUpSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  birth_date: z.string(),
+  phone: z.string(),
+  serviceId: z.optional(z.string().uuid()),
+  usertype: z.enum(["UZER", "CLIENT"]),
+  username: z.string(),
 })
 
-const emptySignupData: ISignupData = {
-  email: "",
-  nome: "",
-  telefone: "",
-  dataNascimento: "",
-  cpf: "",
-  cep: "",
-  logradouro: "",
-  numero: "",
-  complemento: "",
-  bairro: "",
-  estado: "",
-  cidade: "",
-  usertype: "UZER", // ou 'CLIENTE', dependendo do caso
-  idServico: "",
-  dataNasc: "",
+export interface ISignupData {
+  name: string
+  email: string
+  password: string
+  phone: string
+  usertype: "UZER" | "CLIENT"
+  serviceId?: string
+  birth_date: string
+  username: string
+  image?: string
 }
+
+const emptySignupData: ISignupData = {
+  name: "",
+  email: "",
+  password: "",
+  birth_date: "",
+  phone: "",
+  serviceId: "",
+  usertype: "UZER", // ou 'CLIENT', dependendo do caso
+  username: "",
+}
+
+export const SignupContext = createContext<{
+  signupData: ISignupData
+  setSignupData: Dispatch<SetStateAction<ISignupData>>
+}>({
+  signupData: emptySignupData,
+  setSignupData: () => {},
+})
 
 export function SignupDataProvider({ children }: any) {
   const [signupData, setSignupData] = useState<ISignupData>(emptySignupData)
@@ -39,21 +70,3 @@ export function useSignupData() {
 }
 
 export default SignupContext
-
-export interface ISignupData {
-  email: string
-  nome: string
-  telefone: string
-  dataNascimento: string
-  cpf: string
-  cep: string
-  logradouro: string
-  numero: string
-  complemento: string
-  bairro: string
-  estado: string
-  cidade: string
-  usertype: "UZER" | "CLIENTE"
-  idServico: string
-  dataNasc: string
-}

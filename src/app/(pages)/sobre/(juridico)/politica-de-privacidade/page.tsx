@@ -12,7 +12,7 @@ export default function PoliticaDePrivacidade() {
       <h1 className="mt-10 text-3xl font-bold">Política de Privacidade</h1>
       <div className="mx-auto my-10 flex w-10/12 flex-col gap-6 md:w-8/12">
         <div className="flex flex-col gap-2">
-          <h2 className="font-light">Última atualização: 08/05/2024</h2>
+          <h2 className="font-light">Última atualização: 20/12/2024</h2>
           <p className="indent-4">
             Bem-vindo à UEZ-COMPANY. Esta política de privacidade descreve como coletamos, usamos, armazenamos e
             protegemos as informações pessoais dos nossos usuários. Ao utilizar nossos serviços, você concorda com as
@@ -24,7 +24,6 @@ export default function PoliticaDePrivacidade() {
           Podemos coletar as seguintes informações pessoais de nossos usuários:
           <ul className="list-disc px-10 py-4">
             <li>Informações de identificação, como nome, endereço, número de telefone e endereço de e-mail;</li>
-            <li>Informações de pagamento, quando necessário para transações financeiras;</li>
             <li>Informações de localização, se você optar por compartilhá-las;</li>
             <li>Informações de login, como nome de usuário e senha;</li>
             <li>Informações sobre o perfil de usuário, como habilidades, experiência e preferências.</li>
@@ -35,7 +34,6 @@ export default function PoliticaDePrivacidade() {
           Usamos as informações pessoais coletadas para os seguintes fins:
           <ul className="list-disc px-10 py-4">
             <li>Facilitar a conexão entre uzers e clientes;</li>
-            <li>Processar transações e pagamentos;</li>
             <li>Personalizar a experiência do usuário;</li>
             <li>Cumprir obrigações legais e regulatórias;</li>
             <li>Comunicar-se com os usuários sobre serviços, transações e atualizações;</li>

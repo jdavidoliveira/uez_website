@@ -1,24 +1,23 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import UserCard from "./UserCard"
-import Input from "./Input"
-import { z } from "zod"
-import { ChevronRight, Divide, Eye, EyeOff } from "lucide-react"
-import Etapa2 from "./Etapa2"
 import { useSignupData } from "@/contexts/Signup"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import ErrorSpan from "./ErrorSpan"
 import "animate.css"
+import { ChevronRight, Eye, EyeOff } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import Etapa3 from "./Etapa3"
-import Etapa4 from "./Etapa4"
 import { twMerge } from "tailwind-merge"
+import { z } from "zod"
+import ErrorSpan from "./ErrorSpan"
+import Etapa2 from "./Etapa2"
+import Etapa3 from "../Etapa3"
+import Input from "./Input"
+import UserCard from "./UserCard"
 
 const userFormSchema = z.object({
-  usertype: z.enum(["UZER", "CLIENTE"]),
-  senha: z
+  usertype: z.enum(["UZER", "CLIENT"]),
+  password: z
     .string()
     .min(1, "A senha é obrigatória")
     .min(6, "A senha deve ter mais de 6 caracteres")
@@ -31,7 +30,7 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Cadastro() {
+export default function CadastroComUez() {
   const { setSignupData, signupData } = useSignupData()
   const {
     register,
@@ -43,7 +42,7 @@ export default function Cadastro() {
     resolver: zodResolver(userFormSchema),
   })
   const [etapa, setEtapa] = useState(1)
-  const [currentUserType, setCurrentUserType] = useState<"CLIENTE" | "UZER" | null>(null)
+  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UZER" | null>(null)
   const [showPassword, setShowPassword] = useState(false)
 
   async function NextStep() {
@@ -72,6 +71,7 @@ export default function Cadastro() {
                 inputType="text"
                 placeholder="Nome de usuário"
                 id="username"
+                value={signupData.username}
                 register={register}
                 className={errors.username ? "border border-red-500" : ""}
               />
@@ -81,14 +81,14 @@ export default function Cadastro() {
                   label="Senha"
                   inputType={showPassword ? "text" : "password"}
                   placeholder="Senha"
-                  id="senha"
+                  id="password"
                   register={register}
-                  className={(errors.senha ? "border border-red-500" : "") + " rounded-r-none"}
+                  className={(errors.password ? "border border-red-500" : "") + " rounded-r-none"}
                 />
                 <button
                   className={twMerge(
                     "rounded-r-md bg-cinzero p-2",
-                    errors.senha ? "border border-l-0 border-red-500" : "",
+                    errors.password ? "border border-l-0 border-red-500" : "",
                   )}
                   onClick={(e) => {
                     e.preventDefault()
@@ -98,16 +98,16 @@ export default function Cadastro() {
                   {showPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
-              {errors.senha && <ErrorSpan content={errors.senha.message} className="w-full" />}
+              {errors.password && <ErrorSpan content={errors.password.message} className="w-full" />}
             </div>
             <div className="relative grid h-52 grid-cols-2 gap-2">
               <UserCard
                 usertype="CLIENTE"
                 onClick={() => {
-                  setCurrentUserType("CLIENTE")
-                  setValue("usertype", "CLIENTE")
+                  setCurrentUserType("CLIENT")
+                  setValue("usertype", "CLIENT")
                 }}
-                isSelected={currentUserType === "CLIENTE"}
+                isSelected={currentUserType === "CLIENT"}
               />
               <UserCard
                 usertype="UZER"
@@ -130,9 +130,7 @@ export default function Cadastro() {
     case 2:
       return <Etapa2 back={() => setEtapa(1)} next={() => setEtapa(3)} etapa={etapa} />
     case 3:
-      return <Etapa3 back={() => setEtapa(2)} next={() => setEtapa(4)} etapa={etapa} />
-    case 4:
-      return <Etapa4 back={() => setEtapa(3)} etapa={etapa} />
+      return <Etapa3 back={() => setEtapa(2)} etapa={etapa} />
     default:
       return null
   }

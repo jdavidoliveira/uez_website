@@ -1,9 +1,9 @@
 "use client"
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { twMerge } from "tailwind-merge"
 
-interface SignupButtonProps {
+interface SignupButtonProps extends ComponentProps<"button"> {
   content: string
   icon: any
   className?: string
@@ -11,14 +11,14 @@ interface SignupButtonProps {
   onClick?: () => void
 }
 
-export default function SignButton({ content, icon, className, spanClassName, onClick = () => {} }: SignupButtonProps) {
+export default function SignButton({ content, icon, className, spanClassName, ...props }: SignupButtonProps) {
   return (
     <button
+      {...props}
       className={twMerge(
-        "border border-black/20 shadow-[5px_5px_10px_0_rgba(0,0,0,0.25)] px-4 py-2 rounded-lg flex justify-center items-center gap-2",
-        className
+        "flex items-center justify-center gap-2 rounded-lg border border-black/20 px-4 py-2 shadow-[5px_5px_10px_0_rgba(0,0,0,0.25)]",
+        className,
       )}
-      onClick={onClick}
       title={content}
     >
       {icon} <span className={twMerge("font-semibold text-black/50", spanClassName)}>{content}</span>{" "}

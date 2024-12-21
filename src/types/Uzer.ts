@@ -1,41 +1,42 @@
-export default interface UzerInterface {
-    _id: string;
-    nome: string;
-    username: string | null;
-    email: string;
-    situacao: string;
-    motivoBloqueio: string | null;
-    CEP: string;
-    endereco: {
-      logradouro: string;
-      numero: string;
-      complemento: string;
-      bairro: string;
-      cidade: string;
-      estado: string;
-    };
-    historicoCriminal: string | null;
-    dataNascimento: string;
-    dataCadastro: string;
-    numeroTelefone: string;
-    avaliacao: number;
-    aprovacao: boolean;
-    reprovacao: boolean;
-    quantidadePedidosRealizados: number;
-    servicosPrestados: {
-      nomeServico: string;
-      tipoServico: string;
-      categoriaServico: string;
-      areaAtuacao: number;
-    }[];
-    photoUrl: string;
-    __versionOfSchema__: number;
-    portfolio: {
-      image: string;
-      title: string;
-      description: string;
-      editMode?: boolean;
-    }[];
-    bannerImage: string;
-  }
-  
+import { STATUS, USERTYPE } from "./enums"
+import { Service, SimpleService } from "./Service"
+
+export interface Uzer {
+  id: string
+  username: string
+  name: string
+  email: string
+  usertype: USERTYPE
+  status: STATUS
+  block_reason: string | null
+  image: string
+  banner: string
+  bio: string
+  phone: string | null
+  birth_date: string
+  last_online: string
+  last_login: string
+  address: string | null
+  orders_amount: number | null
+  completed_orders_amount: number | null
+  rating: number
+  ratings: number[]
+  created_at: string
+  service: Service
+}
+
+export interface SimpleUzer
+  extends Pick<
+    Uzer,
+    | "id"
+    | "username"
+    | "name"
+    | "usertype"
+    | "status"
+    | "image"
+    | "orders_amount"
+    | "completed_orders_amount"
+    | "rating"
+  > {
+  service: SimpleService
+}
