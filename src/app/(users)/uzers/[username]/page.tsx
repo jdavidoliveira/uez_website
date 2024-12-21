@@ -8,9 +8,9 @@ import { Metadata } from "next"
 import { getServerSession } from "next-auth"
 import Image from "next/image"
 import Link from "next/link"
-import { notFound, redirect } from "next/navigation"
+import { notFound } from "next/navigation"
 import ContactUzerButton from "./ContactUzerButton"
-import RateButton from "./RateButton"
+// import RateButton from "./RateButton"
 import ShareButton from "./ShareButton"
 
 type Props = {
@@ -26,6 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${data.name} - Uzer`,
+    openGraph: {
+      title: `${data.name} - Uzer`,
+      description: data.bio,
+      images: [data.image],
+    },
   }
 }
 
@@ -58,7 +63,7 @@ export default async function page({ params: { username } }: Props) {
         <div className="absolute -bottom-64 left-1/2 flex w-10/12 -translate-x-1/2 flex-col items-center justify-center gap-5 md:left-[10%] md:mx-auto md:w-auto md:-translate-x-0">
           <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md ">
             <div className="relative aspect-square w-full rounded-full md:w-[80%]">
-              <Image src={searchUzerResponse.data.image} alt="profile" fill className="object-cover" />
+              <Image src={searchUzerResponse.data.image} alt="profile" fill className="rounded-full object-cover" />
             </div>
           </div>
           <div className="flex flex-col items-center justify-center">
@@ -121,14 +126,15 @@ export default async function page({ params: { username } }: Props) {
           )} */}
         </div>
         <div className="flex flex-col items-center gap-2">
-          {session?.user.usertype !== "UZER" && (
+          {/* {session?.user.usertype !== "UZER" && ( */}
+          {
             <div className="flex w-full items-center justify-center pb-20 pt-10">
               <div className="flex h-16 items-center justify-center gap-2">
                 <ContactUzerButton id={searchUzerResponse.data.id} />
                 <ShareButton />
               </div>
             </div>
-          )}
+          }
           <div className="mb-20 flex flex-col items-center justify-between gap-10 md:mb-0">
             <h1 className="text-3xl font-semibold">Portfolio</h1>
             <div
