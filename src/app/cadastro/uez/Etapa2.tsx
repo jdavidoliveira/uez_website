@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import Input from "./Input"
+import Input from "../Input"
 import { Check, ChevronLeft, ChevronRight } from "lucide-react"
 import "animate.css"
 import { useForm } from "react-hook-form"
@@ -29,9 +29,10 @@ const userFormSchema = z.object({
   email: z.string().min(1, "O e-mail é obrigatório").email("Formato de e-mail inválido"),
   phone: z
     .string()
-    .min(1, "O telefone é obrigatório")
-    .min(10, "O telefone deve ter 10 dígitos")
-    .max(15, "O telefone deve ter no máximo 15 dígitos"),
+    .optional()
+    .refine((val) => !val || /^\(\d{2}\) \d{5}-\d{4}$/.test(val), {
+      message: "O telefone deve estar no formato correto: (XX) XXXXX-XXXX",
+    }),
   birth_date: z.string().min(1, "A data de nascimento é obrigatória"),
 })
 
@@ -103,7 +104,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
           />
           {errors.email && <ErrorSpan content={errors.email.message} className="w-full" />}
           <Input
-            label="Telefone"
+            label="Telefone (opcional)"
             inputType="tel"
             placeholder="(XX) XXXXX-XXXX"
             id="phone"

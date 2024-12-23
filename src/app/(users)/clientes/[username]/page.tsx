@@ -134,7 +134,7 @@ export default async function page({ params: { username } }: Props) {
             ) : (
               <p className="text-2xl font-semibold">Nenhum servico fechado</p>
             )} */}
-            <p className="my-10 text-xl font-normal">Nenhum servico fechado 😭</p>
+            <p className="my-10 text-xl font-normal">Nenhum serviço fechado 😭</p>
           </div>
           <hr className="w-full" />
 
@@ -176,7 +176,7 @@ export default async function page({ params: { username } }: Props) {
               {searchOrdersResponse.data.length < 0 ? (
                 searchOrdersResponse.data.map((order, index) => <OrderCard key={order.id} order={order} />)
               ) : (
-                <p className="text-center text-2xl font-normal">Nenhum servico fechado</p>
+                <p className="text-center text-2xl font-normal">Nenhum serviço fechado</p>
               )}
             </div>
           </div>

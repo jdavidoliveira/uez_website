@@ -23,7 +23,7 @@ export const signUpSchema = z.object({
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
   birth_date: z.string(),
   phone: z.string(),
-  serviceId: z.optional(z.string().uuid()),
+  serviceId: z.string().uuid().optional(),
   usertype: z.enum(["UZER", "CLIENT"]),
   username: z.string(),
 })
@@ -32,7 +32,7 @@ export interface ISignupData {
   name: string
   email: string
   password: string
-  phone: string
+  phone?: string
   usertype: "UZER" | "CLIENT"
   serviceId?: string
   birth_date: string
@@ -45,10 +45,9 @@ const emptySignupData: ISignupData = {
   email: "",
   password: "",
   birth_date: "",
-  phone: "",
-  serviceId: "",
   usertype: "UZER", // ou 'CLIENT', dependendo do caso
   username: "",
+  phone: "",
 }
 
 export const SignupContext = createContext<{

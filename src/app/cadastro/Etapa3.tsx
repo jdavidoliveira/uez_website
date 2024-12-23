@@ -17,6 +17,8 @@ import { Category, Service } from "@/types/Service"
 interface Etapa3Props {
   back: () => void
   etapa: number
+  categories: Category[]
+  services: Service[]
 }
 
 const userFormSchema = z.object({
@@ -25,7 +27,7 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Etapa3({ back, etapa }: Etapa3Props) {
+export default function Etapa3({ back, etapa, categories, services }: Etapa3Props) {
   const pathname = usePathname()
   const router = useRouter()
   const { watch, register, handleSubmit } = useForm<userFormData>({
@@ -33,15 +35,15 @@ export default function Etapa3({ back, etapa }: Etapa3Props) {
   })
   const { signupData, setSignupData } = useSignupData()
 
-  const [categories, setCategories] = useState<Category[]>([])
   const [availableServices, setAvailableServices] = useState<Service[] | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
 
   async function updateServiceId(serviceId: string) {
-    setSignupData((prev) => ({ ...prev, serviceId }))
+    setSignupData((prev) => ({ ...prev, serviceId: serviceId }))
   }
 
   async function finish() {
+    console.log(signupData)
     const validationResult = signUpSchema.safeParse(signupData)
     if (!validationResult.success) {
       return toast(validationResult.error.issues.map((issue) => issue.message).join(", "))
@@ -62,29 +64,12 @@ export default function Etapa3({ back, etapa }: Etapa3Props) {
     }
   }
 
-  async function fetchCategories() {
-    try {
-      const response = await api.get<Category[]>("/categories")
-      setCategories(response.data)
-    } catch (error) {
-      console.error("Erro ao buscar categorias:", error)
-    }
-  }
-
   async function fetchServicesByCategory() {
     if (!selectedCategory) return
 
-    try {
-      const response = await api.get<Service[]>(`/services/category/${selectedCategory.name}`)
-      setAvailableServices(response.data)
-    } catch (error) {
-      console.error("Erro ao buscar serviços:", error)
-    }
+    services.filter((service) => service.category.id === selectedCategory.id)
+    setAvailableServices(services.filter((service) => service.category.id === selectedCategory.id))
   }
-
-  useEffect(() => {
-    fetchCategories()
-  }, [])
 
   useEffect(() => {
     fetchServicesByCategory()

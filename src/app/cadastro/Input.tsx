@@ -27,7 +27,8 @@ export default function Input({
   const year = today.getFullYear() - 18
   const month = String(today.getMonth() + 1).padStart(2, "0")
   const day = String(today.getDate()).padStart(2, "0")
-  const minDate = `${year}-${month}-${day}`
+  const maxDate = `${year}-${month}-${day}`
+  const minDate = `1925-01-01`
   return (
     <div className="flex w-full flex-col gap-2">
       <label htmlFor={id} className="w-full font-medium">
@@ -37,22 +38,22 @@ export default function Input({
         <input
           type={inputType}
           id={id}
-          max={inputType === "date" ? minDate : undefined}
+          max={inputType === "date" ? maxDate : undefined}
+          min={inputType === "date" ? minDate : undefined}
           className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
-          value={value}
           {...register(id)}
         />
       ) : (
         <input
           type={inputType}
           id={id}
-          max={inputType === "date" ? minDate : undefined}
+          max={inputType === "date" ? maxDate : undefined}
+          min={inputType === "date" ? minDate : undefined}
           className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
-          value={value}
         />
       )}
     </div>

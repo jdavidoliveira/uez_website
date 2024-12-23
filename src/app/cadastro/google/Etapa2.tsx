@@ -1,14 +1,18 @@
 "use client"
 
 import React, { useEffect } from "react"
-import Input from "./Input"
+import Input from "../Input"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import "animate.css"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { useSignupData } from "@/contexts/Signup"
+import { signUpSchema, useSignupData } from "@/contexts/Signup"
 import ErrorSpan from "./ErrorSpan"
+import { toast } from "sonner"
+import api from "@/lib/api"
+import { AxiosError } from "axios"
+import { usePathname, useRouter } from "next/navigation"
 
 interface Etapa2Props {
   back: () => void
@@ -34,6 +38,7 @@ const userFormSchema = z.object({
 type userFormData = z.infer<typeof userFormSchema>
 
 export default function Etapa2({ back, next, etapa }: Etapa2Props) {
+  const router = useRouter()
   const {
     register,
     getValues,
@@ -46,10 +51,37 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
 
   const { signupData, setSignupData } = useSignupData()
 
+  const pathname = usePathname()
+
   async function NextStep() {
     const data = getValues()
     setSignupData((prev) => ({ ...prev, ...data }))
-    next()
+    if (signupData.usertype === "UZER") {
+      next()
+    } else {
+      await Finish()
+    }
+  }
+
+  async function Finish() {
+    const validationResult = signUpSchema.safeParse(signupData)
+    if (!validationResult.success) {
+      return toast(validationResult.error.issues.map((issue) => issue.message).join(", "))
+    }
+
+    try {
+      const registerData = await api.post("/register", signupData)
+      if (registerData.status !== 201) {
+        return toast(registerData.data.message || "Erro ao registrar")
+      }
+
+      toast.success("Cadastro concluído com sucesso!")
+
+      router.push(pathname.includes("uez") ? `/login?userEmail=${signupData.email}` : `/login?loggedWithGoogle=true`)
+    } catch (error) {
+      toast.error("Erro ao registrar. Tente novamente.")
+      console.error(error)
+    }
   }
 
   useEffect(() => {
