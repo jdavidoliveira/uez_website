@@ -120,7 +120,7 @@ export default function Sobre() {
           alt="elemento"
           width={600}
           height={600}
-          className="absolute -left-1/4 bottom-0 w-64 -translate-x-1/2 sm:w-80 md:left-20 lg:w-96"
+          className="absolute -left-1/4 bottom-0 w-64 -translate-x-1/2 sm:w-80 md:left-1/3 lg:w-96"
         />
         <Image
           src="/elementos/quadrados-empty.png"
