@@ -12,11 +12,12 @@ export default function TermosDeUso() {
       <h1 className="mt-10 text-3xl font-bold">Termos de Uso</h1>
       <div className="mx-auto my-10 flex w-10/12 flex-col gap-6 md:w-8/12">
         <div className="flex flex-col gap-2">
-          <h2 className="font-light">Última atualização: 08/05/2024</h2>
+          <h2 className="font-light">Última atualização: 08/12/2024</h2>
           <p className="indent-4">
-            Bem-vindo(a) à UEZ-Company. Antes de utilizar nossos serviços, leia atentamente os seguintes termos e
-            condições. Ao acessar ou utilizar nossos serviços, você concorda em obedecer a estes termos. Se você não
-            concordar com os termos a seguir, não use nossos serviços.
+          Bem-vindo(a) à UEZ-Company. 
+          Antes de utilizar nossos serviços, leia atentamente os seguintes termos e condições. 
+          Ao acessar ou utilizar nossos serviços, você concorda em obedecer a estes termos. 
+          Se você não concordar com os termos a seguir, não use nossos serviços.
           </p>
         </div>
         <Titulozinho>1. Descrição dos Serviços</Titulozinho>
@@ -28,12 +29,12 @@ export default function TermosDeUso() {
         <Paragrafozinho>
           Você concorda em utilizar nossos serviços de forma ética, respeitando os direitos de terceiros e cumprindo
           todas as leis e regulamentos aplicáveis. Você deve:
-          <ul className="list-disc px-10 py-4">
-            <li>Fornecer informações verdadeiras e confiáveis; </li>
-            <li>Não realizar atividades ilegais ou prejudiciais; </li>
-            <li>Respeitar direitos autorais, marcas registradas ou outros direitos de propriedade intelectual; </li>
-            <li>Não tentar acessar indevidamente sistemas ou informações não autorizadas;</li>
-            <li>Não enviar spam ou outras comunicações não solicitadas.</li>
+          <ul className="list-disc py-4">
+            <li className="list-none">Fornecer informações verdadeiras e confiáveis; </li>
+            <li className="list-none">Não realizar atividades ilegais ou prejudiciais; </li>
+            <li className="list-none">Respeitar direitos autorais, marcas registradas ou outros direitos de propriedade intelectual; </li>
+            <li className="list-none">Não tentar acessar indevidamente sistemas ou informações não autorizadas;</li>
+            <li className="list-none">Não enviar spam ou outras comunicações não solicitadas.</li>
           </ul>
         </Paragrafozinho>
         <Titulozinho>3. Papel da Nossa Empresa</Titulozinho>
@@ -44,9 +45,7 @@ export default function TermosDeUso() {
         </Paragrafozinho>
         <Titulozinho>4. Pagamentos</Titulozinho>
         <Paragrafozinho>
-          As transações financeiras, incluindo pagamentos por serviços, são intermediadas pela nossa plataforma entre os
-          prestadores de serviços e os clientes. Nossa empresa facilita essas transações, mas não é responsável por
-          problemas de pagamento que ocorram fora de nossa plataforma.
+        A UEZ-Company não realiza ou intermedia pagamentos entre clientes e prestadores de serviços. Apenas facilitamos a conexão entre as partes.
         </Paragrafozinho>
         <Titulozinho>5. Privacidade e Segurança</Titulozinho>
         <Paragrafozinho>
