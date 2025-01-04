@@ -6,5 +6,5 @@ export enum STATUS {
 export enum USERTYPE {
   BOTH = "BOTH",
   CLIENT = "CLIENT",
-  UZER = "UZER",
+  UEZER = "UEZER",
 }

@@ -33,7 +33,7 @@ export default function PoliticaDePrivacidade() {
         <Paragrafozinho>
           Usamos as informações pessoais coletadas para os seguintes fins:
           <ul className="list-disc px-10 py-4">
-            <li>Facilitar a conexão entre uzers e clientes;</li>
+            <li>Facilitar a conexão entre uezers e clientes;</li>
             <li>Personalizar a experiência do usuário;</li>
             <li>Cumprir obrigações legais e regulatórias;</li>
             <li>Comunicar-se com os usuários sobre serviços, transações e atualizações;</li>

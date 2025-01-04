@@ -9,8 +9,8 @@ import { Client } from "@/types/Client"
 import { redirect } from "next/navigation"
 import { Order } from "@/types/Order"
 import OrderCard from "./OrderCard"
-import ShareButton from "../../uzers/[username]/ShareButton"
-import TurnIntoUzerButton from "./TurnIntoUzerButton"
+import ShareButton from "../../uezers/[username]/ShareButton"
+import TurnIntoUezerButton from "./TurnIntoUezerButton"
 
 type Props = {
   params: { username: string }
@@ -150,7 +150,7 @@ export default async function page({ params: { username } }: Props) {
               <li className="flex items-center justify-start gap-4">
                 <BarChart3 size={40} />
                 <span className="text-xl font-normal">
-                  Fecha com <strong className="font-bold">77%</strong> dos uzers que contata
+                  Fecha com <strong className="font-bold">77%</strong> dos uezers que contata
                 </span>
               </li>
               <li className="flex items-center justify-start gap-4">
@@ -166,7 +166,7 @@ export default async function page({ params: { username } }: Props) {
           <div className="mb-20 flex flex-col items-center justify-between gap-10 md:mb-0 ">
             <div className="flex w-full items-center justify-center pb-20 pt-10">
               <div className="flex h-16 items-center justify-center gap-2">
-                <TurnIntoUzerButton id={searchClientResponse.data.id} />
+                <TurnIntoUezerButton id={searchClientResponse.data.id} />
                 <ShareButton />
               </div>
             </div>

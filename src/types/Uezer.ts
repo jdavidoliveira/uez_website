@@ -1,7 +1,7 @@
 import { STATUS, USERTYPE } from "./enums"
-import { Service, SimpleService } from "./Service"
+import { Speciality, SimpleSpeciality } from "./Speciality"
 
-export interface Uzer {
+export interface Uezer {
   id: string
   username: string
   name: string
@@ -22,12 +22,12 @@ export interface Uzer {
   rating: number
   ratings: number[]
   created_at: string
-  service: Service
+  speciality: Speciality
 }
 
-export interface SimpleUzer
+export interface SimpleUezer
   extends Pick<
-    Uzer,
+    Uezer,
     | "id"
     | "username"
     | "name"
@@ -38,5 +38,5 @@ export interface SimpleUzer
     | "completed_orders_amount"
     | "rating"
   > {
-  service: SimpleService
+  speciality: SimpleSpeciality
 }

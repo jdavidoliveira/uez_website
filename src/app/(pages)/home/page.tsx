@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import GenericSection from "@/components/layout/GenericSection"
-import { CategorySection } from "./CategorySection"
+import { ProfessionSection } from "./ProfessionSection"
 import { AboutSection } from "./AboutSection"
 // import { AboutSecuritySection } from "./AboutSecuritySection"
 import "animate.css/animate.css"
@@ -78,7 +78,7 @@ export default function Home() {
         />
         <div className="efeito-vidro md:rounded-0 absolute z-30 hidden items-center justify-center rounded-xl px-3 py-6 shadow-md shadow-black/25 md:right-0 md:top-0 md:flex md:translate-x-0 md:rounded-l-xl md:rounded-r-none md:bg-white lg:top-1/3">
           <h1 className="mx-8 text-left text-2xl font-semibold text-black xl:text-4xl">
-            Encontre uzers <span className="text-base">(profissionais)</span> <br /> que possam te{" "}
+            Encontre uezers <span className="text-base">(profissionais)</span> <br /> que possam te{" "}
             <span className="md:text-primary-purple">ajudar!</span>
           </h1>
         </div>
@@ -103,7 +103,7 @@ export default function Home() {
         <div className="flex w-full flex-col items-center gap-6 pl-8 pr-4">
           <div className="flex w-full items-center justify-between">
             <h1 className="w-1/2 text-2xl font-medium">
-              Encontre uzers que <br /> possam te <span className="text-primary-purple">ajudar!</span>
+              Encontre uezers que <br /> possam te <span className="text-primary-purple">ajudar!</span>
             </h1>
             <div className="flex w-1/2 items-center justify-center">
               <Image src="/elementos/quadrados.png" alt="elemento" width={600} height={600} className="w-4 rotate-90" />
@@ -138,10 +138,10 @@ export default function Home() {
           </h1>
         </div>
         <Link
-          href="/cadastro/uez?userType=uzer"
+          href="/cadastro/uez?userType=uezer"
           className="absolute bottom-10 left-1/2 z-30 w-10/12 -translate-x-1/2 rounded-xl bg-white px-10 py-3 text-center text-4xl font-medium text-black transition hover:scale-105 md:w-auto"
         >
-          Cadastrar como Uzer
+          Cadastrar como Uezer
         </Link>
       </GenericSection>
       {/* mobile */}
@@ -165,15 +165,15 @@ export default function Home() {
             </h1>
           </div>
           <Link
-            href="/cadastro/uez?userType=uzer"
+            href="/cadastro/uez?userType=uezer"
             className="rounded-xl bg-white p-2 text-center text-2xl font-medium text-black shadow-md transition hover:scale-105"
           >
-            Cadastrar como Uzer
+            Cadastrar como Uezer
           </Link>
         </div>
       </GenericSection>
       <AboutSection />
-      <CategorySection />
+      <ProfessionSection />
       {/* <AboutSecuritySection /> */}
     </main>
   )

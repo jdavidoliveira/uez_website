@@ -35,7 +35,7 @@ export default function NotSession() {
             transition={{ duration: 0.4 }}
           >
             <h1 className="text-center text-lg font-semibold">
-              Entre ou cadastre-se na uez para se conectar com clientes ou uzers e usar nossa plataforma ao seu favor.
+              Entre ou cadastre-se na uez para se conectar com clientes ou uezers e usar nossa plataforma ao seu favor.
             </h1>
             <div className="flex items-center justify-center gap-6">
               <Link

@@ -1,8 +1,8 @@
-import { Service } from "./Service"
+import { Speciality } from "./Speciality"
 
 export type Order = {
   id: string
-  serviceId: string
+  specialityId: string
   title: string
   description: string
   status: string
@@ -14,6 +14,6 @@ export type Order = {
   rating: number
   rated: boolean
   clientId: string
-  uzerId: string
-  service: Service
+  uezerId: string
+  speciality: Speciality
 }

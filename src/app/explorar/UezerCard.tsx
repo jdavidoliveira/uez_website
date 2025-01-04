@@ -1,15 +1,15 @@
 import Rating from "@/components/layout/Rating"
 import Image from "next/image"
 
-interface UzerCardProps {
+interface UezerCardProps {
   imageUrl: string
-  category: string
+  profession: string
   username: string
-  service: string
+  speciality: string
   name: string
 }
 
-export function UzerCard({ category, imageUrl, username, service, name }: UzerCardProps) {
+export function UezerCard({ profession, imageUrl, username, speciality, name }: UezerCardProps) {
   return (
     <div className="flex w-full min-w-[39%] items-center justify-between gap-5 rounded-3xl border border-black/20 bg-white py-8 pl-10 pr-4 shadow-lg">
       <div className="flex h-full items-center justify-center">
@@ -36,10 +36,10 @@ export function UzerCard({ category, imageUrl, username, service, name }: UzerCa
             src="/images/icons/categorias/programacao.png"
             width={120}
             height={120}
-            alt={category}
+            alt={profession}
             className="w-6 invert"
           />
-          <span className="text-center text-sm font-medium text-black">{service}</span>
+          <span className="text-center text-sm font-medium text-black">{speciality}</span>
         </div>
       </div>
     </div>

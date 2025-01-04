@@ -10,7 +10,7 @@ export const CommonLinks: Link[] = [
   },
 ]
 
-export const UzerLinks: Link[] = [
+export const UezerLinks: Link[] = [
   {
     href: "/sobre",
     text: "Sobre nós",

@@ -21,7 +21,7 @@ export function AboutSecuritySection() {
         </AnimationOnScroll>
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
           <p className="mx-auto w-10/12 text-center text-lg font-medium leading-snug">
-            O nosso modo de pagamento zela tanto pela segurança dos Clientes quanto dos Uzers.
+            O nosso modo de pagamento zela tanto pela segurança dos Clientes quanto dos Uezers.
           </p>
         </AnimationOnScroll>
       </div>
@@ -46,7 +46,7 @@ export function AboutSecuritySection() {
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
           <p className="mx-auto w-10/12 text-center text-lg font-medium leading-snug">
             Quando um serviço é fechado, o pagamento do cliente é <strong>obrigatório</strong> e fica retido na nossa
-            plataforma, o uzer só recebe quando o cliente declarar o serviço como feito. Para ter a certeza que o
+            plataforma, o uezer só recebe quando o cliente declarar o serviço como feito. Para ter a certeza que o
             cliente irá fazer isso, nós bloqueamos suas atividades até que ele declare.
           </p>
         </AnimationOnScroll>

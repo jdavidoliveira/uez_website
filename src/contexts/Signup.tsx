@@ -10,8 +10,8 @@ import { z } from "zod"
   "password": "string",
   "birth_date": "string",
   "phone": "string",
-  "serviceId": "string",
-  "usertype": "UZER",
+  "specialityId": "string",
+  "usertype": "UEZER",
   "username": "string",
   "image": "string"
 }
@@ -23,8 +23,8 @@ export const signUpSchema = z.object({
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
   birth_date: z.string(),
   phone: z.string(),
-  serviceId: z.string().uuid().optional(),
-  usertype: z.enum(["UZER", "CLIENT"]),
+  specialityId: z.string().uuid().optional(),
+  usertype: z.enum(["UEZER", "CLIENT"]),
   username: z.string(),
 })
 
@@ -33,8 +33,8 @@ export interface ISignupData {
   email: string
   password: string
   phone?: string
-  usertype: "UZER" | "CLIENT"
-  serviceId?: string
+  usertype: "UEZER" | "CLIENT"
+  specialityId?: string
   birth_date: string
   username: string
   image?: string
@@ -45,7 +45,7 @@ const emptySignupData: ISignupData = {
   email: "",
   password: "",
   birth_date: "",
-  usertype: "UZER", // ou 'CLIENT', dependendo do caso
+  usertype: "UEZER", // ou 'CLIENT', dependendo do caso
   username: "",
   phone: "",
 }

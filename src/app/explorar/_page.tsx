@@ -1,5 +1,5 @@
 import React from "react"
-import UzersSection from "./UzersSection"
+import UezersSection from "./UezersSection"
 
 export default function Explorar() {
   return (
@@ -19,7 +19,7 @@ export default function Explorar() {
           />
         </div> */}
       </section>
-      <UzersSection />
+      <UezersSection />
     </main>
   )
 }

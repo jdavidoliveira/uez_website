@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { ClientLinks, CommonLinks, UzerLinks, Link as ILink } from "./Links"
+import { ClientLinks, CommonLinks, UezerLinks, Link as ILink } from "./Links"
 import { motion } from "framer-motion"
 import { twMerge } from "tailwind-merge"
 import Profile from "./Profile"
@@ -115,8 +115,8 @@ export default function Header() {
               />
             </Link>
             {session &&
-              (session.data?.user.usertype === "UZER"
-                ? UzerLinks.map((link) => (
+              (session.data?.user.usertype === "UEZER"
+                ? UezerLinks.map((link) => (
                     <NewLink key={link.href} href={link.href}>
                       {link.text}
                     </NewLink>
@@ -127,7 +127,7 @@ export default function Header() {
                         {link.text}
                       </NewLink>
                     ))
-                  : // se o tipo de usuário não é UZER nem CLIENTE, então é CommonLinks
+                  : // se o tipo de usuário não é UEZER nem CLIENTE, então é CommonLinks
                     CommonLinks.map((link) => (
                       <NewLink key={link.href} href={link.href}>
                         {link.text}
@@ -175,8 +175,8 @@ export default function Header() {
         <HeaderMobile
           closeFunction={() => setShowMobileMenu(false)}
           links={
-            session.data?.user.usertype === "UZER"
-              ? UzerLinks
+            session.data?.user.usertype === "UEZER"
+              ? UezerLinks
               : session.data?.user.usertype === "CLIENT"
                 ? ClientLinks
                 : CommonLinks

@@ -56,7 +56,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
   async function NextStep() {
     const data = getValues()
     setSignupData((prev) => ({ ...prev, ...data }))
-    if (signupData.usertype === "UZER") {
+    if (signupData.usertype === "UEZER") {
       next()
     } else {
       await Finish()

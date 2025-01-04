@@ -5,10 +5,10 @@ import { AxiosError, AxiosResponse } from "axios"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
-export default function TurnIntoUzerButton({ id }: { id: string }) {
+export default function ContactUezerButton({ id }: { id: string }) {
   const router = useRouter()
 
-  async function handleContactUzer() {
+  async function handleContactUezer() {
     // const { status, data } = await api
     //   .post(`/chat/create/${id}`)
     //   .then((res) => res)
@@ -22,11 +22,11 @@ export default function TurnIntoUzerButton({ id }: { id: string }) {
 
   return (
     <button
-      title="Contate este uzer"
-      onClick={handleContactUzer}
-      className="h-full rounded-lg bg-[#535FFF] px-20 text-xl font-semibold text-white"
+      title="Contate este uezer"
+      onClick={handleContactUezer}
+      className="h-full rounded-lg bg-[#535FFF] px-24 text-xl font-semibold text-white"
     >
-      Torne-se um Uzer
+      Contate já
     </button>
   )
 }

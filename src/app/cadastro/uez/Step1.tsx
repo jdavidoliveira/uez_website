@@ -14,10 +14,10 @@ import Etapa2 from "./Etapa2"
 import Etapa3 from "../Etapa3"
 import Input from "../Input"
 import UserCard from "./UserCard"
-import { Category, Service } from "@/types/Service"
+import { Profession, Speciality } from "@/types/Speciality"
 
 const userFormSchema = z.object({
-  usertype: z.enum(["UZER", "CLIENT"]),
+  usertype: z.enum(["UEZER", "CLIENT"]),
   password: z
     .string()
     .min(1, "A senha é obrigatória")
@@ -31,7 +31,13 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Step1({ categories, services }: { categories: Category[]; services: Service[] }) {
+export default function Step1({
+  professions,
+  specialities,
+}: {
+  professions: Profession[]
+  specialities: Speciality[]
+}) {
   const { setSignupData, signupData } = useSignupData()
   const {
     register,
@@ -43,7 +49,7 @@ export default function Step1({ categories, services }: { categories: Category[]
     resolver: zodResolver(userFormSchema),
   })
   const [etapa, setEtapa] = useState(1)
-  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UZER" | null>(null)
+  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UEZER" | null>(null)
   const [showPassword, setShowPassword] = useState(false)
 
   async function NextStep() {
@@ -111,12 +117,12 @@ export default function Step1({ categories, services }: { categories: Category[]
                 isSelected={currentUserType === "CLIENT"}
               />
               <UserCard
-                usertype="UZER"
+                usertype="UEZER"
                 onClick={() => {
-                  setCurrentUserType("UZER")
-                  setValue("usertype", "UZER")
+                  setCurrentUserType("UEZER")
+                  setValue("usertype", "UEZER")
                 }}
-                isSelected={currentUserType === "UZER"}
+                isSelected={currentUserType === "UEZER"}
               />
             </div>
             <button
@@ -131,7 +137,7 @@ export default function Step1({ categories, services }: { categories: Category[]
     case 2:
       return <Etapa2 back={() => setEtapa(1)} next={() => setEtapa(3)} etapa={etapa} />
     case 3:
-      return <Etapa3 categories={categories} services={services} back={() => setEtapa(2)} etapa={etapa} />
+      return <Etapa3 professions={professions} specialities={specialities} back={() => setEtapa(2)} etapa={etapa} />
     default:
       return null
   }

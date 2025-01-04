@@ -18,8 +18,8 @@ export type User = {
   created_at: Date
   orders_amount?: number
   completed_orders_amount?: number
-  service?: Service
-  serviceId?: string
+  speciality?: Speciality
+  specialityId?: string
   rating: number
   ratings: number[]
   owner_orders: Order[]
@@ -29,7 +29,7 @@ export type User = {
   password?: string
 }
 
-export interface Service {
+export interface Speciality {
   id: string
 }
 

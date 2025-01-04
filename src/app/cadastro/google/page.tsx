@@ -1,18 +1,18 @@
-import { Category, Service } from "@/types/Service"
+import { Profession, Speciality } from "@/types/Speciality"
 import { Step1 } from "./Step1"
 import { api } from "@/lib/serverapi"
 import Loading from "@/app/loading"
 
 export default async function CadastroComGoogle() {
-  const searchOfCategories = await api.get<Category[]>("/categories", {
+  const searchOfProfessions = await api.get<Profession[]>("/professions", {
     next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
   })
 
-  const searchOfServices = await api.get<Service[]>("/services", {
+  const searchOfSpecialities = await api.get<Speciality[]>("/specialities", {
     next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
   })
 
-  if (!searchOfCategories.ok || !searchOfServices.ok) return <Loading />
+  if (!searchOfProfessions.ok || !searchOfSpecialities.ok) return <Loading />
 
-  return <Step1 categories={searchOfCategories.data} services={searchOfServices.data} />
+  return <Step1 professions={searchOfProfessions.data} specialities={searchOfSpecialities.data} />
 }

@@ -10,7 +10,7 @@ declare module "next-auth" {
       email: string
       name: string
       username: string
-      usertype: "UZER" | "CLIENT"
+      usertype: "UEZER" | "CLIENT"
       image: string
     }
     needsSignUp: boolean
@@ -21,7 +21,7 @@ declare module "next-auth" {
     email: string
     name: string
     username: string
-    usertype: "UZER" | "CLIENT"
+    usertype: "UEZER" | "CLIENT"
     image: string
   }
 }

@@ -5,11 +5,11 @@ import { FormEvent, useState } from "react"
 
 export default function SearchBox() {
   const [searchQuery, setSearchQuery] = useState<string>("")
-  const [categoryQuery, setCategoryQuery] = useState<string>("ALL")
+  const [professionQuery, setProfessionQuery] = useState<string>("ALL")
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    alert(`Categoria: ${categoryQuery}\nBusca: ${searchQuery}`)
+    alert(`Categoria: ${professionQuery}\nBusca: ${searchQuery}`)
   }
 
   return (
@@ -18,9 +18,9 @@ export default function SearchBox() {
         <select
           name="filter"
           id="filter"
-          value={categoryQuery}
-          //   onSelect={(e) => setCategoryQuery(e.currentTarget.value)}
-          onChange={(e) => setCategoryQuery(e.currentTarget.value)}
+          value={professionQuery}
+          //   onSelect={(e) => setProfessionQuery(e.currentTarget.value)}
+          onChange={(e) => setProfessionQuery(e.currentTarget.value)}
           className="h-full w-48 appearance-none rounded-l-xl border-none bg-[#E6E6E6] py-2 pl-4 text-lg font-medium outline-none"
         >
           <option value="ALL">Tudo</option>

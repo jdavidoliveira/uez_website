@@ -1,26 +1,26 @@
 import GenericSection from "@/components/layout/GenericSection"
-import { CategoryCard } from "./CategoryCard"
+import { ProfessionCard } from "./ProfessionCard"
 import Image from "next/image"
 import { api } from "@/lib/serverapi"
-import { Category, Service } from "@/types/Service"
+import { Profession, Speciality } from "@/types/Speciality"
 import { twMerge } from "tailwind-merge"
 
-export async function CategorySection() {
-  const searchOfServices = await api.get<Service[]>("/services", {
+export async function ProfessionSection() {
+  const searchOfSpecialities = await api.get<Speciality[]>("/specialities", {
     next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
   })
-  const searchOfCategories = await api.get<Category[]>("/categories", {
+  const searchOfProfessions = await api.get<Profession[]>("/professions", {
     next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
   })
 
-  if (!searchOfServices.ok || !searchOfCategories.ok) return null
+  if (!searchOfSpecialities.ok || !searchOfProfessions.ok) return null
 
-  const arrayOfCategoriesWithRespectiveServices = searchOfCategories.data.map((category) => ({
-    category,
-    services: searchOfServices.data.filter((service) => service.category.id === category.id),
+  const arrayOfProfessionsWithRespectiveSpecialities = searchOfProfessions.data.map((profession) => ({
+    profession,
+    specialities: searchOfSpecialities.data.filter((speciality) => speciality.profession.id === profession.id),
   }))
 
-  return searchOfServices.ok ? (
+  return searchOfSpecialities.ok ? (
     <>
       <GenericSection className="relative mb-0 hidden bg-primary-purple p-0 pb-20 md:flex">
         <Image
@@ -33,23 +33,23 @@ export async function CategorySection() {
         <div className="flex max-w-fit flex-col items-center justify-center gap-20 p-10">
           <h1 className="text-center text-4xl font-bold text-white">Conheça nossos serviços!</h1>
           <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-12">
-            {arrayOfCategoriesWithRespectiveServices.map((item) => (
-              <CategoryCard
-                key={item.category.name}
-                categoryName={item.category.name}
-                imagePath={`/images/icons/categorias/${item.category.name
+            {arrayOfProfessionsWithRespectiveSpecialities.map((item) => (
+              <ProfessionCard
+                key={item.profession.name}
+                professionName={item.profession.name}
+                imagePath={`/images/icons/categorias/${item.profession.name
                   .toLowerCase()
                   .normalize("NFD")
                   .replace(/[\u0300-\u036f]/g, "")
                   .replace(" ", "")}-azulao.png`}
-                services={item.services.map((service) => service.name)}
+                specialities={item.specialities.map((speciality) => speciality.name)}
               />
             ))}
             {/*
-           <CategoryCard
-            categoryName="Design"
+           <ProfessionCard
+            professionName="Design"
             imagePath="/images/icons/categorias/designer-azulao.png"
-            services={[
+            specialities={[
               "Criação de logo",
               "Papelaria",
               "Tipografia",
@@ -59,15 +59,15 @@ export async function CategorySection() {
               "UI/UX",
             ]}
           />
-          <CategoryCard
-            categoryName="Programação"
+          <ProfessionCard
+            professionName="Programação"
             imagePath="/images/icons/categorias/programacao-azulao.png"
-            services={["Frontend", "Backend", "Fullstack", "Mobile", "Games", "Web", "Engenharia de <br /> Dados"]}
+            specialities={["Frontend", "Backend", "Fullstack", "Mobile", "Games", "Web", "Engenharia de <br /> Dados"]}
           />
-          <CategoryCard
-            categoryName="Social Media"
+          <ProfessionCard
+            professionName="Social Media"
             imagePath="/images/icons/categorias/socialmedia-azulao.png"
-            services={[
+            specialities={[
               "Gestão de editoriais",
               "Criação de conteúdo",
               "Copywriter",
@@ -78,10 +78,10 @@ export async function CategorySection() {
             ]}
             classNameForLi="text-base font-bold"
           />
-          <CategoryCard
-            categoryName="Video Making"
+          <ProfessionCard
+            professionName="Video Making"
             imagePath="/images/icons/categorias/videomaker-azulao.png"
-            services={[
+            specialities={[
               "Edição de vídeos",
               "Roteirização",
               "Narração",
@@ -101,35 +101,35 @@ export async function CategorySection() {
         <div className="flex max-w-fit flex-col items-center justify-center gap-14 px-4">
           <h1 className="text-center text-xl font-bold text-azulao">Conheça nossos serviços!</h1>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-12">
-            {arrayOfCategoriesWithRespectiveServices.map((item) => (
+            {arrayOfProfessionsWithRespectiveSpecialities.map((item) => (
               <div
                 className="group flex flex-col items-center justify-between transition-transform duration-300"
-                key={item.category.name}
+                key={item.profession.name}
               >
                 <div className="flex h-full w-full flex-col items-center gap-14 rounded-xl  bg-white px-8 shadow-lg transition-transform duration-300 [perspective:1000px] [transform-style:preserve-3d] hover:scale-105 group-hover:flex group-hover:items-center group-hover:justify-center group-hover:px-0 group-hover:[transform:rotateY(180deg)] sm:px-6">
                   <Image
-                    src={`/images/icons/categorias/${item.category.name
+                    src={`/images/icons/categorias/${item.profession.name
                       .toLowerCase()
                       .normalize("NFD")
                       .replace(/[\u0300-\u036f]/g, "")
                       .replace(" ", "")}-azulao.png`}
                     width={120}
                     height={120}
-                    alt={item.category.name}
+                    alt={item.profession.name}
                     className="mt-8 w-14 group-hover:hidden"
                   />
                   <h1 className="mb-8 w-48 break-words text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
-                    {item.category.name}
+                    {item.profession.name}
                   </h1>
                   <ul className="hidden w-fit list-disc py-3 pl-6 transition-transform [transform:rotateY(180deg)] group-hover:block">
-                    {item.services.map((service) => {
+                    {item.specialities.map((speciality) => {
                       return (
                         <li
                           className={twMerge("break-words text-xs font-bold")}
-                          key={service.id}
-                          title={service.name} // Exibe o nome completo ao passar o mouse
+                          key={speciality.id}
+                          title={speciality.name} // Exibe o nome completo ao passar o mouse
                         >
-                          {service.name.length > 50 ? `${service.name.slice(0, 47)}...` : service.name}
+                          {speciality.name.length > 50 ? `${speciality.name.slice(0, 47)}...` : speciality.name}
                         </li>
                       )
                     })}

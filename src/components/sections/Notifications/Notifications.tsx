@@ -137,9 +137,9 @@ function infoByType(type: string) {
       title = "Seu serviço foi finalizado!"
       break
 
-    case "solicitUzer":
-      photo += "solicitUzer.png"
-      title = "Um Uzer quer conversar contigo!"
+    case "solicitUezer":
+      photo += "solicitUezer.png"
+      title = "Um Uezer quer conversar contigo!"
       break
     case "pedLance":
       photo += "pedLance.png"

@@ -19,7 +19,7 @@ export default function TermosDeUso() {
             concordar com os termos a seguir, não use nossos serviços.
           </p>
         </div>
-        <Titulozinho>1. Descrição dos Serviços</Titulozinho>
+        <Titulozinho>1. Descrição das Especialidades</Titulozinho>
         <Paragrafozinho>
           A UEZ-Company é uma empresa que tem o objetivo de facilitar a sua vida, te ajudando a encontrar profissionais
           que possam realizar algum serviço para você ou conseguir mais clientes.

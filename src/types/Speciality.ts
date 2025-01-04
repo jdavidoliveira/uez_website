@@ -1,19 +1,19 @@
-export interface Service {
+export interface Speciality {
   id: string
   name: string
   type: "ONLINE"
   description: string
   default_tax: number
   completed_orders_amount: number
-  category: Category
+  profession: Profession
 }
 
-export interface Category {
+export interface Profession {
   id: string
   name: string
 }
 
-export interface SimpleService {
+export interface SimpleSpeciality {
   id: string
   name: string
 }

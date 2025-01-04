@@ -15,10 +15,10 @@ import { toast } from "sonner"
 import Etapa3 from "../Etapa3"
 import { twMerge } from "tailwind-merge"
 import { signOut, useSession } from "next-auth/react"
-import { Category, Service } from "@/types/Service"
+import { Profession, Speciality } from "@/types/Speciality"
 
 const userFormSchema = z.object({
-  usertype: z.enum(["UZER", "CLIENT"]),
+  usertype: z.enum(["UEZER", "CLIENT"]),
   password: z.optional(
     z
       .string()
@@ -34,12 +34,12 @@ const userFormSchema = z.object({
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export function Step1({ categories, services }: { services: Service[]; categories: Category[] }) {
+export function Step1({ professions, specialities }: { specialities: Speciality[]; professions: Profession[] }) {
   const session = useSession()
 
   const { setSignupData, signupData } = useSignupData()
   const [etapa, setEtapa] = useState(1)
-  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UZER" | null>(null)
+  const [currentUserType, setCurrentUserType] = useState<"CLIENT" | "UEZER" | null>(null)
   const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
@@ -129,12 +129,12 @@ export function Step1({ categories, services }: { services: Service[]; categorie
                 isSelected={currentUserType === "CLIENT"}
               />
               <UserCard
-                usertype="UZER"
+                usertype="UEZER"
                 onClick={() => {
-                  setCurrentUserType("UZER")
-                  setValue("usertype", "UZER")
+                  setCurrentUserType("UEZER")
+                  setValue("usertype", "UEZER")
                 }}
-                isSelected={currentUserType === "UZER"}
+                isSelected={currentUserType === "UEZER"}
               />
             </div>
             <div className="flex items-center justify-center">
@@ -162,7 +162,7 @@ export function Step1({ categories, services }: { services: Service[]; categorie
     case 2:
       return <Etapa2 back={() => setEtapa(1)} next={() => setEtapa(3)} etapa={etapa} />
     case 3:
-      return <Etapa3 categories={categories} services={services} back={() => setEtapa(2)} etapa={etapa} />
+      return <Etapa3 professions={professions} specialities={specialities} back={() => setEtapa(2)} etapa={etapa} />
     default:
       return null
   }

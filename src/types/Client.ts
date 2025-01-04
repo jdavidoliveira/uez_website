@@ -1,6 +1,6 @@
 import { ChildProcessWithoutNullStreams } from "child_process"
 import { STATUS, USERTYPE } from "./enums"
-import { SimpleService } from "./Service"
+import { SimpleSpeciality } from "./Speciality"
 
 export interface Client {
   id: string
@@ -25,5 +25,5 @@ export interface Client {
 
 export interface SimpleClient
   extends Pick<Client, "id" | "username" | "name" | "usertype" | "status" | "image" | "rating"> {
-  service: SimpleService
+  speciality: SimpleSpeciality
 }

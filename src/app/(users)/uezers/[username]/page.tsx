@@ -2,14 +2,14 @@ import { options } from "@/app/api/auth/[...nextauth]/options"
 import ReportButton from "@/components/layout/buttons/Report"
 import ReturnButton from "@/components/layout/buttons/Return"
 import { api } from "@/lib/serverapi"
-import { Uzer } from "@/types/Uzer"
+import { Uezer } from "@/types/Uezer"
 import { Calendar, Handshake, LineChart } from "lucide-react"
 import { Metadata } from "next"
 import { getServerSession } from "next-auth"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import ContactUzerButton from "./ContactUzerButton"
+import ContactUezerButton from "./ContactUezerButton"
 // import RateButton from "./RateButton"
 import ShareButton from "./ShareButton"
 
@@ -20,14 +20,14 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const username = params.username
-  const { data } = await api.get<Uzer>(`/uzers/${username}`, {
+  const { data } = await api.get<Uezer>(`/uezers/${username}`, {
     next: { revalidate: 60 * 1 },
   })
 
   return {
-    title: `${data.name} - Uzer`,
+    title: `${data.name} - Uezer`,
     openGraph: {
-      title: `${data.name} - Uzer`,
+      title: `${data.name} - Uezer`,
       description: data.bio,
       images: [data.image],
     },
@@ -36,16 +36,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function page({ params: { username } }: Props) {
   const session = await getServerSession(options)
-  const searchUzerResponse = await api.get<Uzer>(`/uzers/${username}`, {
+  const searchUezerResponse = await api.get<Uezer>(`/uezers/${username}`, {
     next: { revalidate: 60 * 1 },
   })
-  if (!searchUzerResponse.ok) return notFound()
+  if (!searchUezerResponse.ok) return notFound()
 
   const searchPortfolioResponse = await api.get<any[]>(`/portfolios/${username}`)
 
-  const created_at = new Date(searchUzerResponse.data.created_at).toLocaleDateString("pt-BR")
+  const created_at = new Date(searchUezerResponse.data.created_at).toLocaleDateString("pt-BR")
 
-  const isOwner = searchUzerResponse.data.id === session?.user.id
+  const isOwner = searchUezerResponse.data.id === session?.user.id
 
   return (
     <main className="relative min-h-screen w-full bg-white">
@@ -53,7 +53,7 @@ export default async function page({ params: { username } }: Props) {
       <section className="relative w-full">
         <div className="group relative h-96 w-full">
           <Image
-            src={searchUzerResponse.data.banner}
+            src={searchUezerResponse.data.banner}
             alt="banner"
             priority
             fill
@@ -63,20 +63,20 @@ export default async function page({ params: { username } }: Props) {
         <div className="absolute -bottom-64 left-1/2 flex w-10/12 -translate-x-1/2 flex-col items-center justify-center gap-5 md:left-[10%] md:mx-auto md:w-auto md:-translate-x-0">
           <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md ">
             <div className="relative aspect-square w-full rounded-full md:w-[80%]">
-              <Image src={searchUzerResponse.data.image} alt="profile" fill className="rounded-full object-cover" />
+              <Image src={searchUezerResponse.data.image} alt="profile" fill className="rounded-full object-cover" />
             </div>
           </div>
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xl font-bold">{searchUzerResponse.data.name}</h1>
-            <h2 className="text-lg">@{searchUzerResponse.data.username}</h2>
-            <h3 className="text-xl font-medium">{searchUzerResponse.data.service.name}</h3>
+            <h1 className="text-xl font-bold">{searchUezerResponse.data.name}</h1>
+            <h2 className="text-lg">@{searchUezerResponse.data.username}</h2>
+            <h3 className="text-xl font-medium">{searchUezerResponse.data.speciality.name}</h3>
             <div className="mt-6 grid grid-cols-3 gap-6 md:gap-0">
               <div className="flex flex-col items-center justify-between">
-                <h1 className="text-2xl font-bold">{searchUzerResponse.data.completed_orders_amount ?? 0}</h1>
-                <h2 className="text-center text-lg font-medium">Serviços feitos</h2>
+                <h1 className="text-2xl font-bold">{searchUezerResponse.data.completed_orders_amount ?? 0}</h1>
+                <h2 className="text-center text-lg font-medium">Pedidos feitos</h2>
               </div>
               <div className="flex flex-col items-center justify-between">
-                <h1 className="text-2xl font-bold">{searchUzerResponse.data.rating.toFixed(1)}</h1>
+                <h1 className="text-2xl font-bold">{searchUezerResponse.data.rating.toFixed(1)}</h1>
                 <h2 className="text-center text-lg font-medium">Avaliação</h2>
               </div>
               <div className="flex flex-col items-center justify-between">
@@ -92,7 +92,7 @@ export default async function page({ params: { username } }: Props) {
         <div className="mt-80 flex flex-col gap-2 pb-20 md:mt-60">
           <div className="flex flex-col gap-4 p-4">
             <h1 className="text-2xl font-semibold">Sobre mim</h1>
-            <p className="text-xl font-normal">{searchUzerResponse.data.bio}</p>
+            <p className="text-xl font-normal">{searchUezerResponse.data.bio}</p>
             <hr className="w-full" />
           </div>
           {/* <div className="flex flex-col gap-6 p-4">
@@ -126,11 +126,11 @@ export default async function page({ params: { username } }: Props) {
           )} */}
         </div>
         <div className="flex flex-col items-center gap-2">
-          {/* {session?.user.usertype !== "UZER" && ( */}
+          {/* {session?.user.usertype !== "UEZER" && ( */}
           {
             <div className="flex w-full items-center justify-center pb-20 pt-10">
               <div className="flex h-16 items-center justify-center gap-2">
-                <ContactUzerButton id={searchUzerResponse.data.id} />
+                <ContactUezerButton id={searchUezerResponse.data.id} />
                 <ShareButton />
               </div>
             </div>
@@ -152,8 +152,8 @@ export default async function page({ params: { username } }: Props) {
             </div>
             {searchPortfolioResponse.data.length > 0 && (
               <Link
-                href="/uzers/[username]/portfolio"
-                as={`/uzers/${searchUzerResponse.data.username}/portfolio`}
+                href="/uezers/[username]/portfolio"
+                as={`/uezers/${searchUezerResponse.data.username}/portfolio`}
                 className="rounded-full bg-roxazul px-4 py-1 font-bold text-white transition hover:scale-105"
               >
                 Ver mais

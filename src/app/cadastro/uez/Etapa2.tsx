@@ -55,7 +55,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
   async function NextStep() {
     const data = getValues()
     setSignupData((prev) => ({ ...prev, ...data }))
-    if (signupData.usertype === "UZER") {
+    if (signupData.usertype === "UEZER") {
       next()
     } else {
       await Finish()
@@ -144,7 +144,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
             <ChevronLeft color="white" />
           </button>
           <span className="mx-6 text-lg font-medium">{etapa}</span>
-          {signupData.usertype === "UZER" ? (
+          {signupData.usertype === "UEZER" ? (
             <button
               type="submit"
               className="mx-auto flex w-fit items-center justify-between rounded-lg bg-primary-purple p-2"

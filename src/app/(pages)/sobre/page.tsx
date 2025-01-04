@@ -2,6 +2,11 @@ import Image from "next/image"
 import GenericSection from "@/components/layout/GenericSection"
 import { Mail } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Sobre nós",
+}
 
 export default function Sobre() {
   return (
@@ -21,7 +26,7 @@ export default function Sobre() {
         className="absolute left-10 top-10 hidden w-6 sm:block"
       />
       <GenericSection>
-        <h1 className="text-4xl font-bold sm:mb-10">Sobre Nós</h1>
+        <h1 className="text-4xl font-bold sm:mb-10">Nossos pilares</h1>
         <div className="flex w-11/12 flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0">
           <CardSobre
             title={"Missão"}
@@ -137,7 +142,7 @@ export default function Sobre() {
           </div>
           <p className="w-10/12 text-justify text-lg font-bold text-white md:max-w-sm lg:max-w-lg lg:text-xl">
             Uma xícara de café traz a ideia de networking, quando uma reunião é marcada, geralmente, as pessoas falam
-            “vamos tomar um café?”, além disso o café traz a ideia de produtividade que os uzers têm.
+            “vamos tomar um café?”, além disso o café traz a ideia de produtividade que os uezers têm.
           </p>
         </div>
       </GenericSection>

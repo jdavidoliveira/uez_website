@@ -34,20 +34,20 @@ function HowItWorks() {
         "Uma pessoa que necessita de um serviço, por exemplo uma pessoa que está iniciando um negócio e precisa de uma logo.",
     },
     {
-      imageUrl: "/images/icons/uzer-white.png",
-      title: "Uzer",
+      imageUrl: "/images/icons/uezer-white.png",
+      title: "Uezer",
       description: "Um profissional que sabe realizar esse serviço online, por exemplo um designer.",
     },
     {
       imageUrl: "/images/batepapo.png",
       title: "Bate papo",
       description:
-        "Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento.",
+        "Aqui o cliente e o uezer conversam para decidirem o preço, enviar especificações e para montar o orçamento.",
     },
     {
       imageUrl: "/images/riquinho.png",
       title: "Orçamento",
-      description: "Aqui o cliente envia o orçamento para o uzer e ele envia o orçamento para o cliente.",
+      description: "Aqui o cliente envia o orçamento para o uezer e ele envia o orçamento para o cliente.",
     },
   ]
 
@@ -65,9 +65,9 @@ function HowItWorks() {
             description="Uma pessoa que precisa de um serviço, por exemplo, uma pessoa com a tubulação quebrada."
           />
           <PhotoCard
-            imageUrl="/images/icons/uzer-white.png"
+            imageUrl="/images/icons/uezer-white.png"
             imageClassName="invert"
-            title="Uzer"
+            title="Uezer"
             description="Um profissional que precisa de clientes, por exemplo, um encanador capaz de consertar a tubulação."
           />
         </div>
@@ -90,7 +90,7 @@ function HowItWorks() {
           <PhotoCard
             imageUrl="/images/batepapo.png"
             title="Chat"
-            description="Aqui o cliente e o uzer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
+            description="Aqui o cliente e o uezer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
           />
           <PhotoCard
             imageUrl="/images/riquinho.png"
@@ -106,7 +106,7 @@ function HowItWorks() {
             <PhotoCard
               key={index}
               imageUrl={item.imageUrl}
-              imageClassName={item.title === "Uzer" || item.title === "Cliente" ? "invert" : ""}
+              imageClassName={item.title === "Uezer" || item.title === "Cliente" ? "invert" : ""}
               title={item.title}
               description={item.description}
               className="w-full gap-6 hover:scale-100"

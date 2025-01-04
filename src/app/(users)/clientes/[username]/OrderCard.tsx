@@ -11,10 +11,10 @@ export default function OrderCard({ order }: OrderCardProps) {
     <div className="flex w-full items-center justify-between rounded-lg border bg-white p-4 shadow-md">
       <div>
         <h3 className="text-sm font-bold">{order.title}</h3>
-        <p className="pb-4 text-sm text-gray-500">{order.service.name}</p>
+        <p className="pb-4 text-sm text-gray-500">{order.speciality.name}</p>
         <span className="mt-1 inline-flex items-center rounded bg-blue-600 px-2 py-1 text-xs font-medium text-white">
           <Megaphone size={18} className="mr-1" />
-          {order.service.category.name}
+          {order.speciality.profession.name}
         </span>
       </div>
       <div className="mt-16 flex gap-2">

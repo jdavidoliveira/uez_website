@@ -12,22 +12,22 @@ import api from "@/lib/api"
 import Image from "next/image"
 import { toast } from "sonner"
 import { usePathname, useRouter } from "next/navigation"
-import { Category, Service } from "@/types/Service"
+import { Profession, Speciality } from "@/types/Speciality"
 
 interface Etapa3Props {
   back: () => void
   etapa: number
-  categories: Category[]
-  services: Service[]
+  professions: Profession[]
+  specialities: Speciality[]
 }
 
 const userFormSchema = z.object({
-  serviceId: z.string().uuid("O serviço é obrigatório"),
+  specialityId: z.string().uuid("O serviço é obrigatório"),
 })
 
 type userFormData = z.infer<typeof userFormSchema>
 
-export default function Etapa3({ back, etapa, categories, services }: Etapa3Props) {
+export default function Etapa3({ back, etapa, professions, specialities }: Etapa3Props) {
   const pathname = usePathname()
   const router = useRouter()
   const { watch, register, handleSubmit } = useForm<userFormData>({
@@ -35,11 +35,11 @@ export default function Etapa3({ back, etapa, categories, services }: Etapa3Prop
   })
   const { signupData, setSignupData } = useSignupData()
 
-  const [availableServices, setAvailableServices] = useState<Service[] | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
+  const [availableSpecialities, setAvailableSpecialities] = useState<Speciality[] | null>(null)
+  const [selectedProfession, setSelectedProfession] = useState<Profession | null>(null)
 
-  async function updateServiceId(serviceId: string) {
-    setSignupData((prev) => ({ ...prev, serviceId: serviceId }))
+  async function updateSpecialityId(specialityId: string) {
+    setSignupData((prev) => ({ ...prev, specialityId: specialityId }))
   }
 
   async function finish() {
@@ -64,58 +64,58 @@ export default function Etapa3({ back, etapa, categories, services }: Etapa3Prop
     }
   }
 
-  async function fetchServicesByCategory() {
-    if (!selectedCategory) return
+  async function fetchSpecialitiesByProfession() {
+    if (!selectedProfession) return
 
-    services.filter((service) => service.category.id === selectedCategory.id)
-    setAvailableServices(services.filter((service) => service.category.id === selectedCategory.id))
+    specialities.filter((speciality) => speciality.profession.id === selectedProfession.id)
+    setAvailableSpecialities(specialities.filter((speciality) => speciality.profession.id === selectedProfession.id))
   }
 
   useEffect(() => {
-    fetchServicesByCategory()
-  }, [selectedCategory])
+    fetchSpecialitiesByProfession()
+  }, [selectedProfession])
 
-  const serviceId = watch("serviceId")
+  const specialityId = watch("specialityId")
 
   return (
     <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-center gap-10 px-2 sm:w-10/12 sm:px-5">
       <h1 className="text-3xl font-semibold">Cadastre-se</h1>
       <form onSubmit={handleSubmit(finish)} className="flex w-10/12 flex-col gap-8 sm:w-10/12">
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <label htmlFor="categories" className="w-full text-center font-medium">
+          <label htmlFor="professions" className="w-full text-center font-medium">
             Escolha seu cargo
           </label>
           <div className="grid w-full grid-cols-2 gap-3 sm:gap-6">
-            {categories.map((category) => (
-              <CategoryButton
-                key={category.id}
-                categoryName={category.name}
-                isSelected={selectedCategory?.id === category.id}
+            {professions.map((profession) => (
+              <ProfessionButton
+                key={profession.id}
+                professionName={profession.name}
+                isSelected={selectedProfession?.id === profession.id}
                 onClick={(e) => {
                   e.preventDefault()
-                  setSelectedCategory(category)
-                  updateServiceId(category.id)
+                  setSelectedProfession(profession)
+                  updateSpecialityId(profession.id)
                 }}
               />
             ))}
           </div>
         </div>
 
-        {availableServices && (
+        {availableSpecialities && (
           <div className="animate__animated animate__fadeIn flex w-full flex-col gap-2">
             <label htmlFor="servico" className="w-full font-medium">
               Qual serviço você oferece?
             </label>
             <select
               id="servico"
-              {...register("serviceId", {
-                onChange: (e) => updateServiceId(e.target.value),
+              {...register("specialityId", {
+                onChange: (e) => updateSpecialityId(e.target.value),
               })}
               className="w-full rounded-md bg-cinzero p-2"
             >
-              {availableServices.map((service) => (
-                <option key={service.id} value={service.id}>
-                  {service.name}
+              {availableSpecialities.map((speciality) => (
+                <option key={speciality.id} value={speciality.id}>
+                  {speciality.name}
                 </option>
               ))}
             </select>
@@ -133,7 +133,7 @@ export default function Etapa3({ back, etapa, categories, services }: Etapa3Prop
             <ChevronLeft color="white" />
           </button>
           <span className="mx-6 text-lg font-medium">{etapa}</span>
-          {serviceId && (
+          {specialityId && (
             <button
               type="submit"
               className="mx-auto flex w-fit items-center justify-between gap-1 rounded-lg bg-primary-purple p-2"
@@ -148,13 +148,13 @@ export default function Etapa3({ back, etapa, categories, services }: Etapa3Prop
   )
 }
 
-interface CategoryButtonProps {
+interface ProfessionButtonProps {
   onClick: (e?: any) => void
-  categoryName: string
+  professionName: string
   isSelected: boolean
 }
 
-function CategoryButton({ onClick, categoryName, isSelected }: CategoryButtonProps) {
+function ProfessionButton({ onClick, professionName, isSelected }: ProfessionButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -164,7 +164,7 @@ function CategoryButton({ onClick, categoryName, isSelected }: CategoryButtonPro
         <Image
           width={100}
           height={100}
-          src={`/images/icons/categorias/${categoryName
+          src={`/images/icons/categorias/${professionName
             .toLowerCase()
             .replace(" ", "")
             .normalize("NFD")
@@ -172,7 +172,7 @@ function CategoryButton({ onClick, categoryName, isSelected }: CategoryButtonPro
           alt="Imagem ilustrativa"
           className="h-10 w-10"
         />
-        <span className="text-lg font-medium">{categoryName}</span>
+        <span className="text-lg font-medium">{professionName}</span>
       </div>
     </button>
   )
