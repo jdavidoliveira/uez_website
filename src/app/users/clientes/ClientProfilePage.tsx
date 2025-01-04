@@ -1,52 +1,23 @@
-import { options } from "@/app/api/auth/[...nextauth]/options"
 import ReturnButton from "@/components/layout/buttons/Return"
-import { CalendarDaysIcon, Award, BarChart3 } from "lucide-react"
-import { Metadata } from "next"
-import { getServerSession } from "next-auth"
 import Image from "next/image"
 import { api } from "@/lib/serverapi"
 import { Client } from "@/types/Client"
 import { redirect } from "next/navigation"
 import { Order } from "@/types/Order"
 import OrderCard from "./OrderCard"
-import ShareButton from "../../uezers/[username]/ShareButton"
+import ShareButton from "../uezers/ShareButton"
 import TurnIntoUezerButton from "./TurnIntoUezerButton"
 
 type Props = {
-  params: { username: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  clientData: Client
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const username = params.username
-  const { data } = await api.get<Client>(`/clients/${username}`, {
-    next: { revalidate: 60 * 1 },
-  })
+export async function ClientProfilePage({ clientData }: Props) {
+  if (!clientData) return redirect("/404")
 
-  return {
-    title: `${data.name} - Cliente`,
-    openGraph: {
-      title: `${data.name} - Cliente`,
-      description: data.bio,
-      images: [data.image],
-    },
-  }
-}
+  const created_at = new Date(clientData.created_at).toLocaleDateString("pt-BR")
 
-export default async function page({ params: { username } }: Props) {
-  const session = await getServerSession(options)
-
-  const searchClientResponse = await api.get<Client>(`/clients/${username}`, {
-    next: { revalidate: 60 * 1 },
-  })
-
-  if (!searchClientResponse.ok) return redirect("/404")
-
-  const created_at = new Date(searchClientResponse.data.created_at).toLocaleDateString("pt-BR")
-
-  // const isOwner = searchClientResponse.data.id === session.user.id
-
-  const searchOrdersResponse = await api.get<Order[]>(`/orders/${searchClientResponse.data.id}/created-orders`)
+  const searchOrdersResponse = await api.get<Order[]>(`/orders/${clientData.id}/created-orders`)
 
   return (
     <main className="relative min-h-screen w-full bg-white">
@@ -54,7 +25,7 @@ export default async function page({ params: { username } }: Props) {
       <section className="relative w-full">
         <div className="group relative h-96 w-full">
           <Image
-            src={searchClientResponse.data.banner ?? "/path/to/default-image.jpg"} // Imagem padrão, se necessário
+            src={clientData.banner ?? "/path/to/default-image.jpg"} // Imagem padrão, se necessário
             alt="profile banner"
             fill
             className="object-cover transition duration-300 group-hover:brightness-50"
@@ -70,7 +41,7 @@ export default async function page({ params: { username } }: Props) {
               <div className="relative h-full w-full rounded-full bg-white p-[15px] md:p-[15px]">
                 <div className="relative h-full w-full overflow-hidden rounded-full">
                   <Image
-                    src={searchClientResponse.data.image ?? "/path/to/default-image.jpg"} // Imagem padrão, se necessário
+                    src={clientData.image ?? "/path/to/default-image.jpg"} // Imagem padrão, se necessário
                     alt="profile"
                     fill
                     className="rounded-full object-cover transition duration-300 group-hover:brightness-75"
@@ -85,15 +56,15 @@ export default async function page({ params: { username } }: Props) {
           </div>
 
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xl font-bold">{searchClientResponse.data.name}</h1>
-            <h2 className="text-lg">@{searchClientResponse.data.username}</h2>
+            <h1 className="text-xl font-bold">{clientData.name}</h1>
+            <h2 className="text-lg">@{clientData.username}</h2>
             <div className="mt-9 grid grid-cols-3 gap-5 lg:gap-0">
               <div className="flex flex-col items-center justify-between">
                 <h1 className="text-2xl font-bold">{0}</h1>
                 <h2 className="text-center text-lg font-medium">Pedidos feitos</h2>
               </div>
               <div className="flex flex-col items-center justify-between">
-                <h1 className="text-2xl font-bold">{searchClientResponse.data.rating.toFixed(1)}</h1>
+                <h1 className="text-2xl font-bold">{clientData.rating.toFixed(1)}</h1>
                 <h2 className="text-center text-lg font-medium">Avaliação</h2>
               </div>
               <div className="flex flex-col items-center justify-between">
@@ -114,7 +85,7 @@ export default async function page({ params: { username } }: Props) {
                 <Pencil size={20} />
               </button> */}
             </div>
-            <p className="text-xl font-normal">{searchClientResponse.data.bio}</p>
+            <p className="text-xl font-normal">{clientData.bio}</p>
             <hr className="w-full" />
           </div>
 
@@ -166,7 +137,7 @@ export default async function page({ params: { username } }: Props) {
           <div className="mb-20 flex flex-col items-center justify-between gap-10 md:mb-0 ">
             <div className="flex w-full items-center justify-center pb-20 pt-10">
               <div className="flex h-16 items-center justify-center gap-2">
-                <TurnIntoUezerButton id={searchClientResponse.data.id} />
+                <TurnIntoUezerButton id={clientData.id} />
                 <ShareButton />
               </div>
             </div>
