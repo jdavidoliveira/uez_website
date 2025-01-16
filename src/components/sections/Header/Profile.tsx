@@ -7,13 +7,14 @@ import LogoutButton from "./LogoutButton"
 import { Session } from "next-auth"
 import { useState } from "react"
 import CreateOrderOverlay from "@/components/sections/CreateOrder"
+import Notifications from "../Notifications/Notifications"
 
 export default function Profile({ session: { user } }: { session: Session }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
 
   return (
     <div className="flex items-center justify-between gap-8">
-      {/* <Notifications /> */}
+      <Notifications />
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button

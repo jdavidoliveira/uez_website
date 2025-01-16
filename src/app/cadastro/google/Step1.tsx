@@ -17,6 +17,7 @@ import { twMerge } from "tailwind-merge"
 import { signOut, useSession } from "next-auth/react"
 import { Profession, Speciality } from "@/types/Speciality"
 import LoadingSpinner from "@/components/layout/LoadingSpinner"
+import { redirect, useRouter } from "next/navigation"
 
 const userFormSchema = z.object({
   usertype: z.enum(["UEZER", "CLIENT"]),
@@ -64,6 +65,8 @@ export function Step1({ professions, specialities }: { specialities: Speciality[
     resolver: zodResolver(userFormSchema),
   })
 
+  const router = useRouter()
+
   async function NextStep() {
     const data = getValues()
     setSignupData((prev) => ({ ...prev, ...data }))
@@ -77,16 +80,30 @@ export function Step1({ professions, specialities }: { specialities: Speciality[
   }, [errors.usertype])
 
   useEffect(() => {
-    toast.info("Adicione mais algumas informações para completar seu cadastro")
+    session.data?.user.status !== "ACTIVE" &&
+      toast.info("Adicione mais algumas informações para completar seu cadastro")
   }, [])
+
+  useEffect(() => {
+    if (session.data?.user.status === "ACTIVE") {
+      setTimeout(() => {
+        router.push("/") // Redireciona para a home
+      }, 3000) // 3 segundos
+    }
+  }, [session.data?.user.status, router])
 
   if (session.data?.user.status === "ACTIVE") {
     return (
       <div className="flex size-full flex-col items-center justify-center">
         <LoadingSpinner />
         <h1 className="text-2xl font-medium">Validando informações...</h1>
+        <p className="text-lg">pode demorar um pouco...</p>
       </div>
     )
+  }
+
+  if (!session.data) {
+    redirect("/")
   }
 
   switch (etapa) {
