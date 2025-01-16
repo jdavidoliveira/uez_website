@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import api from "@/lib/api"
 import { AxiosError } from "axios"
 import { usePathname, useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
 
 interface Etapa2Props {
   back: () => void
@@ -69,18 +70,45 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
       return toast(validationResult.error.issues.map((issue) => issue.message).join(", "))
     }
 
-    try {
-      const registerData = await api.post("/register", signupData)
-      if (registerData.status !== 201) {
-        return toast(registerData.data.message || "Erro ao registrar")
+    if (pathname.includes("uez")) {
+      try {
+        const registerData = await api.post("/register", signupData)
+        if (registerData.status !== 201) {
+          return toast(registerData.data.message || "Erro ao registrar")
+        }
+
+        toast.success("Cadastro concluído com sucesso!")
+
+        router.push(`/login?userEmail=${signupData.email}`)
+      } catch (error) {
+        toast.error("Erro ao registrar. Tente novamente.")
+        console.error(error)
       }
+    } else if (pathname.includes("google")) {
+      try {
+        const registerData = await api.post("/complete-register", signupData)
+        if (registerData.status !== 201) {
+          return toast(registerData.data.message || "Erro ao registrar")
+        }
 
-      toast.success("Cadastro concluído com sucesso!")
+        toast.success("Cadastro concluído com sucesso!")
 
-      router.push(pathname.includes("uez") ? `/login?userEmail=${signupData.email}` : `/login?loggedWithGoogle=true`)
-    } catch (error) {
-      toast.error("Erro ao registrar. Tente novamente.")
-      console.error(error)
+        // Aqui entra a atualização da sessão com 'signIn' para atualizar a sessão com os dados do google
+        const signInResponse = await signIn("credentials", {
+          email: signupData.email,
+          password: signupData.password,
+          redirect: false,
+        })
+
+        if (signInResponse?.error) {
+          toast.error("Erro ao fazer login após completar cadastro.")
+        } else {
+          router.push("/")
+        }
+      } catch (error) {
+        toast.error("Erro ao registrar. Tente novamente.")
+        console.error(error)
+      }
     }
   }
 

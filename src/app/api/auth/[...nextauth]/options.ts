@@ -23,7 +23,7 @@ export const options: NextAuthOptions = {
             password: credentials.password,
           }),
         }).catch((err) => {
-          console.log(err)
+          console.error(err)
           return null
         })
 
@@ -39,6 +39,7 @@ export const options: NextAuthOptions = {
             usertype: data.user.usertype,
             image: data.user.image,
             token: data.token,
+            status: data.user.status,
           }
         }
 
@@ -56,7 +57,8 @@ export const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (account?.provider === "credentials" && user) {
-        token.user = user as any
+        // Adicionando o status ao token do usuário
+        token.user = { ...user, status: user.status }
         token.accessToken = user.token
       }
       if (account?.provider === "google") {
@@ -76,22 +78,20 @@ export const options: NextAuthOptions = {
 
         const googleData = await googleResponse.json()
 
-        if (googleResponse.status === 404 || !googleResponse.ok) {
-          token.needsSignUp = true
-          token.user = user as any // coloca o user no token
-          token.accessToken = googleData.token
-        } else {
-          token.user = googleData.user as any
-          token.accessToken = googleData.token
-        }
+        // Adicionando o status ao token retornado pela API do Google
+        token.user = { ...googleData.user, status: googleData.user.status }
+        token.accessToken = googleData.token
       }
 
       return token
     },
     async session({ session, token }) {
-      session.user = token.user as any
-      session.needsSignUp = (token.needsSignUp as boolean) || false
-      session.accessToken = token.accessToken as string
+      // Atualizando a sessão com o status do token
+      if (token.user) {
+        session.user = token.user as any
+        session.accessToken = token.accessToken as string
+      }
+
       return session
     },
   },

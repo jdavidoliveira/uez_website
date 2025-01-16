@@ -6,7 +6,7 @@ import { Toaster } from "sonner"
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <Toaster />
+      <Toaster richColors />
       {children}
     </SessionProvider>
   )

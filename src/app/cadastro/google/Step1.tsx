@@ -16,6 +16,7 @@ import Etapa3 from "../Etapa3"
 import { twMerge } from "tailwind-merge"
 import { signOut, useSession } from "next-auth/react"
 import { Profession, Speciality } from "@/types/Speciality"
+import LoadingSpinner from "@/components/layout/LoadingSpinner"
 
 const userFormSchema = z.object({
   usertype: z.enum(["UEZER", "CLIENT"]),
@@ -78,6 +79,15 @@ export function Step1({ professions, specialities }: { specialities: Speciality[
   useEffect(() => {
     toast.info("Adicione mais algumas informações para completar seu cadastro")
   }, [])
+
+  if (session.data?.user.status === "ACTIVE") {
+    return (
+      <div className="flex size-full flex-col items-center justify-center">
+        <LoadingSpinner />
+        <h1 className="text-2xl font-medium">Validando informações...</h1>
+      </div>
+    )
+  }
 
   switch (etapa) {
     case 1:

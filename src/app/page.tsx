@@ -8,7 +8,7 @@ export default async function Main() {
   const session = await getServerSession(options)
 
   // caso o usuário tenha feito login com o google, mas ainda precisa fazer o cadastro
-  if (session?.needsSignUp) {
+  if (session?.user.status === "INCOMPLETE") {
     redirect("/cadastro/google")
   }
 

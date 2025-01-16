@@ -12,9 +12,10 @@ declare module "next-auth" {
       username: string
       usertype: "UEZER" | "CLIENT"
       image: string
+      status: string
     }
-    needsSignUp: boolean
     accessToken: string
+    redirectTo: string
   }
 
   interface User {
@@ -25,5 +26,6 @@ declare module "next-auth" {
     usertype: "UEZER" | "CLIENT"
     image: string
     token: string
+    status: string
   }
 }
