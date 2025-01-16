@@ -48,7 +48,7 @@ export default function Home() {
               serviços digitais.
             </span>
           </span>
-          <Image src="/images/logo.png" alt="Logo" width={500} height={500} className="w-3/4 max-w-96" />
+          <Image src="/logo/logo.png" alt="Logo" width={500} height={500} className="w-3/4 max-w-96" />
           <h1 className="text-center text-3xl">
             Porque a vida é mais fácil, <br className="hidden md:block" /> quando estamos conectados.
           </h1>

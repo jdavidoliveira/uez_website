@@ -40,7 +40,7 @@ export default function Input({
           id={id}
           max={inputType === "date" ? maxDate : undefined}
           min={inputType === "date" ? minDate : undefined}
-          className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
+          className={twMerge("bg-primary-gray w-full rounded-md p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
           {...register(id)}
@@ -51,7 +51,7 @@ export default function Input({
           id={id}
           max={inputType === "date" ? maxDate : undefined}
           min={inputType === "date" ? minDate : undefined}
-          className={twMerge("w-full rounded-md bg-cinzero p-2", className)}
+          className={twMerge("bg-primary-gray w-full rounded-md p-2", className)}
           placeholder={placeholder}
           maxLength={maxLength}
         />

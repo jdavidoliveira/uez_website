@@ -98,7 +98,7 @@ export default function Login() {
         </label>
         <div className="flex h-10 w-full items-center">
           <input
-            className={`h-10 w-full rounded-md bg-cinzero px-3 py-2 text-base font-medium outline-none ${
+            className={`bg-primary-gray h-10 w-full rounded-md px-3 py-2 text-base font-medium outline-none ${
               errors.email && "rounded border-2 border-red-500"
             }`}
             type="text"
@@ -117,7 +117,7 @@ export default function Login() {
         </label>
         <div className="flex h-10 w-full items-center">
           <input
-            className={`h-10 w-full rounded-l-md bg-cinzero px-3 py-2 text-base font-medium outline-none ${
+            className={`bg-primary-gray h-10 w-full rounded-l-md px-3 py-2 text-base font-medium outline-none ${
               errors.senha && "rounded border-2 border-red-500"
             }`}
             type={passwordType}
@@ -137,7 +137,7 @@ export default function Login() {
             <button
               title="Exibir/ocultar senha"
               type="button"
-              className="flex h-full cursor-pointer items-center justify-center rounded-r-md border-none bg-cinzero px-3 py-2 hover:bg-[#e9e9e9]"
+              className="bg-primary-gray flex h-full cursor-pointer items-center justify-center rounded-r-md border-none px-3 py-2 hover:bg-[#e9e9e9]"
               onClick={(e) => {
                 e.preventDefault()
                 setPasswordType((prevState) => {
@@ -166,14 +166,14 @@ export default function Login() {
           </label>
         </span>
         <span className="flex items-center justify-center">
-          <Link href="/esqueci-senha" className="text-xs font-extrabold italic text-azulao hover:underline">
+          <Link href="/esqueci-senha" className="text-primary-dark-blue text-xs font-extrabold italic hover:underline">
             Esqueci minha senha
           </Link>
         </span>
       </div>
       <button
         type="submit"
-        className="flex w-full items-center justify-center rounded-md border-none bg-azulao px-4 py-2 text-xl font-extrabold text-white hover:bg-[#0f0f5c]"
+        className="bg-primary-dark-blue flex w-full items-center justify-center rounded-md border-none px-4 py-2 text-xl font-extrabold text-white hover:bg-[#0f0f5c]"
       >
         {isSubmitting ? <LoadingSpinner size={10} /> : "Entrar"}
       </button>
@@ -201,7 +201,7 @@ export default function Login() {
             return signIn("google")
           }}
         >
-          <Image src="/images/icons/google.svg" alt="Google Icon" width={31} height={31} />{" "}
+          <Image src="/social/google.svg" alt="Google Icon" width={31} height={31} />{" "}
           <span className="font-semibold text-black/50">Entrar com Google</span>{" "}
         </button>
       </div>

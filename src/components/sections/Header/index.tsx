@@ -42,7 +42,7 @@ export default function Header() {
       {/* header de placeholder pra encher linguica */}
       <div
         className={twMerge(
-          `relative left-0 right-0 top-0 z-40 flex w-full items-center justify-center bg-azulao p-3 opacity-0 shadow transition`,
+          `bg-primary-dark-blue relative left-0 right-0 top-0 z-40 flex w-full items-center justify-center p-3 opacity-0 shadow transition`,
         )}
       >
         <div className="flex w-11/12 items-center justify-between">
@@ -63,13 +63,13 @@ export default function Header() {
           <div className="flex items-center justify-between gap-4 sm:hidden">
             <Link
               href="/login"
-              className="flex cursor-pointer items-center justify-center rounded-lg bg-azulao px-6 py-3 text-base font-semibold text-white duration-300 hover:w-full hover:bg-roxazul hover:text-white"
+              className="bg-primary-dark-blue flex cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-base font-semibold text-white duration-300 hover:w-full hover:bg-primary-blue hover:text-white"
             >
               Entrar
             </Link>
             <Link
               href="/cadastro"
-              className="flex cursor-pointer items-center justify-center rounded-lg bg-roxazul px-6 py-3 text-base font-semibold text-white duration-300 hover:w-full hover:bg-primary-purple hover:text-white"
+              className="flex cursor-pointer items-center justify-center rounded-lg bg-primary-blue px-6 py-3 text-base font-semibold text-white duration-300 hover:w-full hover:bg-primary-purple hover:text-white"
             >
               Criar conta
             </Link>
@@ -93,7 +93,7 @@ export default function Header() {
       </div>
       <motion.header
         className={twMerge(
-          `fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center bg-azulao p-3 shadow transition`,
+          `bg-primary-dark-blue fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center p-3 shadow transition`,
           currentScrollPosition > 0
             ? "border-b border-white/40 bg-opacity-70 shadow backdrop-blur-xl transition-opacity"
             : "",
@@ -142,13 +142,13 @@ export default function Header() {
               <div className="flex items-center justify-between gap-4 sm:hidden">
                 <Link
                   href="/login"
-                  className="flex cursor-pointer items-center justify-center rounded-md bg-transparent p-3 text-base font-semibold text-white duration-300 hover:bg-roxazul hover:text-white"
+                  className="flex cursor-pointer items-center justify-center rounded-md bg-transparent p-3 text-base font-semibold text-white duration-300 hover:bg-primary-blue hover:text-white"
                 >
                   Entrar
                 </Link>
                 <Link
                   href="/cadastro"
-                  className="flex cursor-pointer items-center justify-center rounded-md bg-roxazul px-6 py-3 text-base font-semibold text-white duration-300 hover:bg-primary-purple hover:text-white"
+                  className="flex cursor-pointer items-center justify-center rounded-md bg-primary-blue px-6 py-3 text-base font-semibold text-white duration-300 hover:bg-primary-purple hover:text-white"
                 >
                   Criar conta
                 </Link>

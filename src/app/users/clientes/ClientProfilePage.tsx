@@ -103,7 +103,7 @@ export async function ClientProfilePage({ clientData }: Props) {
                 </div>
               ))
             ) : (
-              <p className="text-2xl font-semibold">Nenhum servico fechado</p>
+              <p className="my-10 text-xl font-normal">Nenhum serviço fechado 😭</p>
             )} */}
             <p className="my-10 text-xl font-normal">Nenhum serviço fechado 😭</p>
           </div>
@@ -143,9 +143,9 @@ export async function ClientProfilePage({ clientData }: Props) {
             </div>
 
             <h1 className="text-3xl font-semibold">Solicitações</h1>
-            <div className="flex w-full flex-col gap-2 md:mx-20 md:gap-6">
-              {searchOrdersResponse.data.length < 0 ? (
-                searchOrdersResponse.data.map((order, index) => <OrderCard key={order.id} order={order} />)
+            <div className="mb-6 flex w-full flex-col gap-2 md:mx-20 md:gap-6">
+              {searchOrdersResponse.data.length > 0 ? (
+                searchOrdersResponse.data.slice(0, 4).map((order, index) => <OrderCard key={order.id} order={order} />)
               ) : (
                 <p className="text-center text-2xl font-normal">Nenhum serviço fechado</p>
               )}

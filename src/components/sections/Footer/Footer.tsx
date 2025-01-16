@@ -15,7 +15,7 @@ export default function Footer() {
             <div className={styles.footer_social_content}>
               <Link href="https://www.instagram.com/uez_company/" target="_blank">
                 <Image
-                  src="/images/icons/instagram.png"
+                  src="/social/instagram.png"
                   className="brightness-[100]"
                   alt="Instagram"
                   width={64}
@@ -23,35 +23,17 @@ export default function Footer() {
                 />
               </Link>
               <Link href="https://www.facebook.com/uezco/" target="_blank">
-                <Image
-                  src="/images/icons/facebook.png"
-                  className="brightness-[100]"
-                  alt="Facebook"
-                  width={64}
-                  height={64}
-                />
+                <Image src="/social/facebook.png" className="brightness-[100]" alt="Facebook" width={64} height={64} />
               </Link>
               <Link href="https://www.youtube.com/@UezCompany" target="_blank">
-                <Image
-                  src="/images/icons/youtube.png"
-                  className="brightness-[100]"
-                  alt="Youtube"
-                  width={64}
-                  height={64}
-                />
+                <Image src="/social/youtube.png" className="brightness-[100]" alt="Youtube" width={64} height={64} />
               </Link>
               <Link href="https://www.tiktok.com/@uezcompany" target="_blank">
-                <Image
-                  src="/images/icons/tiktok.png"
-                  className="brightness-[100]"
-                  alt="Tik Tok"
-                  width={64}
-                  height={64}
-                />
+                <Image src="/social/tiktok.png" className="brightness-[100]" alt="Tik Tok" width={64} height={64} />
               </Link>
               <Link href="https://br.pinterest.com/uezcompany/" target="_blank">
                 <Image
-                  src="/images/icons/pinterest.png"
+                  src="/social/pinterest.png"
                   className="brightness-[100]"
                   alt="Pinterest"
                   width={64}
@@ -68,13 +50,13 @@ export default function Footer() {
             <h2>Suporte</h2>
             <div className={styles.footer_social_content}>
               <Link href="mailto:suporte@uezcompany.com" target="_blank">
-                <Image src="/zap.svg" alt="Email" width={16} height={16} />
+                <Image src="/social/zap.svg" alt="Email" width={16} height={16} />
               </Link>
               <Link
                 href="https://api.whatsapp.com/send?phone=5521978783261&text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20como%20funciona%20a%20UEZ"
                 target="_blank"
               >
-                <Image src="/email.svg" alt="Whatsapp" width={16} height={16} />
+                <Image src="/social/email.svg" alt="Whatsapp" width={16} height={16} />
               </Link>
             </div>
           </div>

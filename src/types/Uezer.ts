@@ -20,7 +20,6 @@ export interface Uezer {
   orders_amount: number | null
   completed_orders_amount: number | null
   rating: number
-  ratings: number[]
   created_at: string
   speciality: Speciality
 }

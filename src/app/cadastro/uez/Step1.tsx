@@ -94,7 +94,7 @@ export default function Step1({
                 />
                 <button
                   className={twMerge(
-                    "rounded-r-md bg-cinzero p-2",
+                    "bg-primary-gray rounded-r-md p-2",
                     errors.password ? "border border-l-0 border-red-500" : "",
                   )}
                   onClick={(e) => {

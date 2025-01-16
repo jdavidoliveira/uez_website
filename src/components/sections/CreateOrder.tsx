@@ -31,7 +31,9 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
         <form className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-20">
           <div className="lg:ml-14">
             <div>
-              <label className="block items-center pb-2 text-base font-semibold text-azulao">Título do pedido</label>
+              <label className="text-primary-dark-blue block items-center pb-2 text-base font-semibold">
+                Título do pedido
+              </label>
               <input
                 type="text"
                 placeholder="Ex: Eu preciso de uma logo para minha padaria"
@@ -41,7 +43,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
 
             <div className="mt-6">
               <div className="flex items-center justify-between pb-2">
-                <label className="flex items-center text-base font-semibold text-azulao">Descrição</label>
+                <label className="text-primary-dark-blue flex items-center text-base font-semibold">Descrição</label>
                 <span className="text-sm text-gray-500">0/600</span>
               </div>
               <textarea
@@ -55,7 +57,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
 
           <div>
             <div className="mb-4 lg:mb-14">
-              <label className="flex items-center pb-2 text-base font-semibold text-azulao">
+              <label className="text-primary-dark-blue flex items-center pb-2 text-base font-semibold">
                 Profissão
                 <div className="group relative">
                   <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -72,7 +74,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="mb-4 lg:mb-14">
-              <label className=" flex items-center pb-2 text-base font-semibold text-azulao">
+              <label className=" text-primary-dark-blue flex items-center pb-2 text-base font-semibold">
                 Especialidade
                 <div className="group relative">
                   <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -89,7 +91,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="mt-6">
-              <label className="block pb-2 text-base font-semibold text-azulao">Preço</label>
+              <label className="text-primary-dark-blue block pb-2 text-base font-semibold">Preço</label>
               <div className="flex flex-col items-start space-y-2">
                 <div className="flex w-full items-center space-x-2">
                   <span className="text-gray-500">R$</span>
@@ -112,7 +114,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
           </div>
 
           <div>
-            <h3 className="-mt-1 mb-2 flex items-center text-base font-semibold text-azulao">
+            <h3 className="text-primary-dark-blue -mt-1 mb-2 flex items-center text-base font-semibold">
               Suas solicitações ({solicitacoes.length}/5)
               <div className="group relative">
                 <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -125,7 +127,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
             {solicitacoes.length === 0 ? (
               <div className="flex flex-col items-center justify-center space-y-4 rounded-lg border-2 border-gray-300 p-4 py-20 shadow-lg lg:max-w-64">
                 <Image
-                  src="/images/request-verification.png"
+                  src="/images/icons/request-verification.png"
                   alt="profile"
                   width={200}
                   height={200}
@@ -142,7 +144,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
                     key={index}
                     className="flex flex-col items-start rounded-lg border-2 border-gray-300 p-4 shadow-lg"
                   >
-                    <h4 className="text-base font-semibold text-azulao">{solicitacao.nome}</h4>
+                    <h4 className="text-primary-dark-blue text-base font-semibold">{solicitacao.nome}</h4>
                     <p className="text-sm text-gray-500">{solicitacao.especialidade}</p>
                   </div>
                 ))}
@@ -153,7 +155,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
           <div className="col-span-1 flex items-center justify-center md:col-span-2 lg:col-span-3">
             <button
               type="submit"
-              className="relative rounded-lg bg-roxazul px-10 py-2 font-semibold text-white transition hover:bg-azulinho md:px-16 md:py-3"
+              className="hover:bg-secondary-blue relative rounded-lg bg-primary-blue px-10 py-2 font-semibold text-white transition md:px-16 md:py-3"
             >
               Solicitar
             </button>

@@ -21,7 +21,7 @@ export const ProfessionCard = ({
         alt={professionName}
         className="mt-8 w-20 group-hover:hidden sm:mt-14"
       />
-      <h1 className="mb-8 w-48 break-words text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
+      <h1 className="text-primary-dark-blue mb-8 w-48 break-words text-center text-lg font-bold group-hover:hidden sm:mb-14 sm:text-2xl">
         {professionName}
       </h1>
       <ul className=" hidden w-fit list-disc py-5 pl-10 transition-transform [transform:rotateY(180deg)] group-hover:block">

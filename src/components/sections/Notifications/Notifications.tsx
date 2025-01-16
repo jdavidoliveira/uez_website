@@ -73,7 +73,7 @@ export default function Notifications() {
           })}
           {notifications.length > 0 ? (
             <div className="mt-2 flex w-full items-center justify-end px-3">
-              <button className="w-auto text-xs font-normal text-cinzero hover:underline">
+              <button className="text-primary-gray w-auto text-xs font-normal hover:underline">
                 Marcar todas como lida
               </button>
             </div>

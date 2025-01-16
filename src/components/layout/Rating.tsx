@@ -3,60 +3,74 @@ import React from "react"
 
 interface StarRatingProps {
   rating: number
+  size?: number // Tamanho das estrelas, padrão 20px
+  filledStarSrc?: string // Imagem da estrela cheia, padrão "/images/icons/estrela-inteira.png"
+  halfStarSrc?: string // Imagem da estrela meia cheia, padrão "/images/icons/estrela-metade.png"
+  emptyStarSrc?: string // Imagem da estrela vazia, padrão "/images/icons/estrela-vazia.png"
+  className?: string // Classe CSS extra para customização
+  showStars?: boolean // Exibir estrelas? (default: true)
+  showRating?: boolean // Exibir nota? (default: true)
 }
 
-const Rating: React.FC<StarRatingProps> = ({ rating }) => {
-  // Arredonda a avaliação para o número inteiro mais próximo
+const Rating: React.FC<StarRatingProps> = ({
+  rating,
+  size = 20,
+  filledStarSrc = "/images/icons/estrela-inteira.png",
+  halfStarSrc = "/images/icons/estrela-metade.png",
+  emptyStarSrc = "/images/icons/estrela-vazia.png",
+  className = "",
+  showStars = true,
+  showRating = true,
+}) => {
   const roundedRating = Math.floor(rating)
-
   const stars = []
 
-  // Adicione estrelas preenchidas
+  // Adiciona as estrelas preenchidas
   for (let i = 0; i < roundedRating; i++) {
     stars.push(
       <Image
         key={`star-${i}`}
-        src="/images/icons/estrela-inteira.png"
-        alt="Estrela"
-        width={20}
-        height={20}
-        className="w-4 text-yellow-500"
+        src={filledStarSrc}
+        alt="Estrela cheia"
+        width={size}
+        height={size}
+        className={className}
       />,
     )
   }
 
-  // Adicione estrelas vazias (se houver uma parte fracionária)
+  // Adiciona uma estrela meia cheia, se necessário
   if (rating !== roundedRating) {
     stars.push(
       <Image
         key={`star-${roundedRating}`}
-        src="/images/icons/estrela-metade.png"
-        alt="Estrela"
-        width={20}
-        height={20}
-        className="w-4 text-yellow-500"
+        src={halfStarSrc}
+        alt="Estrela meia cheia"
+        width={size}
+        height={size}
+        className={className}
       />,
     )
   }
 
-  // Adicione estrelas vazias restantes
+  // Preenche as estrelas restantes com estrelas vazias
   for (let i = stars.length; i < 5; i++) {
     stars.push(
       <Image
         key={`star-${i}`}
-        src="/images/icons/estrela-vazia.png"
-        alt="Estrela"
-        width={20}
-        height={20}
-        className="w-4 text-yellow-500"
+        src={emptyStarSrc}
+        alt="Estrela vazia"
+        width={size}
+        height={size}
+        className={className}
       />,
     )
   }
 
   return (
     <div className="flex items-center gap-2">
-      <div className="flex space-x-1">{stars} </div>
-      <span className="text-sm font-semibold  ">{rating.toFixed(1)}/5</span>
+      {showStars && <div className="flex space-x-1">{stars}</div>}
+      {showRating && <span className="text-sm font-semibold">{rating.toFixed(1)}/5</span>}
     </div>
   )
 }

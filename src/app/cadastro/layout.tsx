@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SignupDataProvider>
-      <main className="flex h-full w-full items-center justify-center bg-azulao">
+      <main className="bg-primary-dark-blue flex h-full w-full items-center justify-center">
         <div className="hidden h-full w-1/3 bg-primary-purple bg-boneco-cadastro bg-cover bg-center md:block lg:w-2/5"></div>
         <ReturnButton classname="fixed top-10 left-10 z-50" />
         <div className="relative flex h-full w-full items-center justify-center bg-white md:w-2/3 lg:w-3/5">

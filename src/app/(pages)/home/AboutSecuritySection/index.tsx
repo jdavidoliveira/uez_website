@@ -7,8 +7,8 @@ import { AnimationOnScroll } from "react-animation-on-scroll"
 
 export function AboutSecuritySection() {
   return (
-    <GenericSection className="relative mb-20 flex w-full animate-transitionY flex-col items-center justify-around gap-8 px-0 py-16 text-azulao">
-      <div className="relative flex w-11/12 flex-col items-center justify-around gap-8 text-azulao">
+    <GenericSection className="text-primary-dark-blue relative mb-20 flex w-full animate-transitionY flex-col items-center justify-around gap-8 px-0 py-16">
+      <div className="text-primary-dark-blue relative flex w-11/12 flex-col items-center justify-around gap-8">
         <Image
           src="/images/icons/cadeado.svg"
           width={120}
@@ -25,7 +25,7 @@ export function AboutSecuritySection() {
           </p>
         </AnimationOnScroll>
       </div>
-      <div className="relative flex w-11/12 flex-col items-center justify-around gap-8 text-azulao">
+      <div className="text-primary-dark-blue relative flex w-11/12 flex-col items-center justify-around gap-8">
         <Image
           src="/images/icons/cadeado.svg"
           width={120}

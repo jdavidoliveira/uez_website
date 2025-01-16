@@ -23,7 +23,7 @@ export default function Cadastro() {
         title="Cadastre-se com Google"
         onClick={() => signIn("google")}
       >
-        <Image src="/images/icons/google.svg" alt="Google Icon" width={31} height={31} />{" "}
+        <Image src="/social/google.svg" alt="Google Icon" width={31} height={31} />{" "}
         <span className="font-semibold text-black/50">Cadastre-se com Google</span>{" "}
       </button>
       <div className="flex w-full items-center justify-center gap-2">

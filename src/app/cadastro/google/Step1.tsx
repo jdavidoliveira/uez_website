@@ -106,7 +106,7 @@ export function Step1({ professions, specialities }: { specialities: Speciality[
                 />
                 <button
                   className={twMerge(
-                    "rounded-r-md bg-cinzero p-2",
+                    "bg-primary-gray rounded-r-md p-2",
                     errors.password ? "border border-l-0 border-red-500" : "",
                   )}
                   onClick={(e) => {

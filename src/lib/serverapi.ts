@@ -1,4 +1,5 @@
-import { cookies } from "next/headers"
+import { getServerSession, NextAuthOptions } from "next-auth"
+import { options as nextOptions } from "@/app/api/auth/[...nextauth]/options"
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/"
 
@@ -16,11 +17,13 @@ type ApiResponse<T> = {
 export const api = {
   get: async <T>(routeUrl: string, options?: RequestInit): Promise<ApiResponse<T>> => {
     const fullUrl = (baseUrl + routeUrl).replace(/\/\//g, "/")
+    const session = await getServerSession(nextOptions)
+    const token = session?.accessToken
     try {
       const response = await fetch(fullUrl, {
         headers: {
           ...options?.headers,
-          cookie: cookies().toString(),
+          authorization: `Bearer ${token}`,
           "x-api-key": process.env.API_KEY || "",
         },
         ...options,

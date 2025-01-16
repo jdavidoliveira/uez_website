@@ -7,8 +7,8 @@ import Image from "next/image"
 
 export function AboutSection() {
   return (
-    <GenericSection className="relative mb-28 flex w-full animate-transitionY flex-col items-center justify-around gap-8 px-0 py-16 text-azulao">
-      <div className="relative my-16 flex w-11/12 flex-col items-center justify-around gap-16 text-azulao">
+    <GenericSection className="text-primary-dark-blue relative mb-28 flex w-full animate-transitionY flex-col items-center justify-around gap-8 px-0 py-16">
+      <div className="text-primary-dark-blue relative my-16 flex w-11/12 flex-col items-center justify-around gap-16">
         <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
           <h1 className="text-center text-4xl font-bold">O que é a UEZ?</h1>
         </AnimationOnScroll>
@@ -39,20 +39,20 @@ function HowItWorks() {
       description: "Um profissional que sabe realizar esse serviço online, por exemplo um designer.",
     },
     {
-      imageUrl: "/images/batepapo.png",
+      imageUrl: "/images/pages/homepage/batepapo.png",
       title: "Bate papo",
       description:
         "Aqui o cliente e o uezer conversam para decidirem o preço, enviar especificações e para montar o orçamento.",
     },
     {
-      imageUrl: "/images/riquinho.png",
+      imageUrl: "/images/pages/homepage/riquinho.png",
       title: "Orçamento",
       description: "Aqui o cliente envia o orçamento para o uezer e ele envia o orçamento para o cliente.",
     },
   ]
 
   return (
-    <div className="relative flex w-full flex-col items-center justify-around gap-8 text-azulao">
+    <div className="text-primary-dark-blue relative flex w-full flex-col items-center justify-around gap-8">
       <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce>
         <h1 className="mb-16 text-center text-4xl font-bold ">Como funciona?</h1>
       </AnimationOnScroll>
@@ -88,12 +88,12 @@ function HowItWorks() {
         </div>
         <div className="flex w-8/12 items-center justify-around gap-4">
           <PhotoCard
-            imageUrl="/images/batepapo.png"
+            imageUrl="/images/pages/homepage/batepapo.png"
             title="Chat"
             description="Aqui o cliente e o uezer conversam para decidirem o preço, enviar especificações e para montar o orçamento."
           />
           <PhotoCard
-            imageUrl="/images/riquinho.png"
+            imageUrl="/images/pages/homepage/riquinho.png"
             title="Orçamento"
             description="Quando o orçamento é lançado para o cliente, ele tem a opção de aceitar ou não, priorizando a segurança."
           />

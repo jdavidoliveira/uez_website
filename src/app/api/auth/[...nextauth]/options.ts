@@ -1,8 +1,6 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import saveTokenInServerCookies from "./saveTokenInServerCookies"
 import GoogleProvider from "next-auth/providers/google"
-import { redirect } from "next/navigation"
 
 export const options: NextAuthOptions = {
   providers: [
@@ -24,20 +22,15 @@ export const options: NextAuthOptions = {
             email: credentials.email,
             password: credentials.password,
           }),
-          credentials: "include",
         }).catch((err) => {
           console.log(err)
           return null
         })
 
-        const token = response?.headers.get("set-cookie")?.split(";")[0].split("=")[1]
-
-        if (token) {
-          await saveTokenInServerCookies(token)
-        }
-
         const data = await response?.json()
+
         if (data && response && response.status !== 401) {
+          //esse é o user do jwt
           return {
             id: data.user.id,
             name: data.user.name,
@@ -45,6 +38,7 @@ export const options: NextAuthOptions = {
             username: data.user.username,
             usertype: data.user.usertype,
             image: data.user.image,
+            token: data.token,
           }
         }
 
@@ -63,6 +57,7 @@ export const options: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (account?.provider === "credentials" && user) {
         token.user = user as any
+        token.accessToken = user.token
       }
       if (account?.provider === "google") {
         const googleResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`, {
@@ -84,18 +79,23 @@ export const options: NextAuthOptions = {
         if (googleResponse.status === 404 || !googleResponse.ok) {
           token.needsSignUp = true
           token.user = user as any // coloca o user no token
+          token.accessToken = googleData.token
         } else {
           token.user = googleData.user as any
+          token.accessToken = googleData.token
         }
       }
 
       return token
     },
-
     async session({ session, token }) {
       session.user = token.user as any
       session.needsSignUp = (token.needsSignUp as boolean) || false
+      session.accessToken = token.accessToken as string
       return session
     },
+  },
+  session: {
+    maxAge: 60 * 60 * 24 * 30, // 30 days in seconds
   },
 }

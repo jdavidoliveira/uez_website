@@ -6,7 +6,7 @@ import Link from "next/link"
 import LogoutButton from "./LogoutButton"
 import { Session } from "next-auth"
 import { useState } from "react"
-import CreateOrderOverlay from "@/app/(users)/clientes/[username]/CreateOrder"
+import CreateOrderOverlay from "@/components/sections/CreateOrder"
 
 export default function Profile({ session: { user } }: { session: Session }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
@@ -40,10 +40,7 @@ export default function Profile({ session: { user } }: { session: Session }) {
           >
             {/* <ProfileItem href={`/chat`} text="Chat" /> */}
             {user.usertype === "CLIENT" && <ProfileButton onClick={() => setIsOverlayOpen(true)} text="Criar Pedido" />}
-            <ProfileItem
-              href={user.usertype === "CLIENT" ? `/clientes/${user.username}` : `/uezers/${user.username}`}
-              text="Abrir Perfil"
-            />
+            <ProfileItem href={`/users/${user.username}`} text="Abrir Perfil" />
             <DropdownMenu.Separator className="mx-4 my-1 h-[1px] bg-black/10" />
             <LogoutButton />
             <DropdownMenu.Arrow className="fill-white" />
@@ -57,7 +54,7 @@ export default function Profile({ session: { user } }: { session: Session }) {
 
 function ProfileItem({ href, text }: { href: string; text: string }) {
   return (
-    <DropdownMenu.Item className="data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none text-black outline-none hover:bg-azulao hover:text-white data-[disabled]:pointer-events-none">
+    <DropdownMenu.Item className="data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 hover:bg-primary-dark-blue group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none text-black outline-none hover:text-white data-[disabled]:pointer-events-none">
       <Link className="flex w-full justify-start border-none" href={href}>
         <span className="text-base">{text}</span>
       </Link>
@@ -69,7 +66,7 @@ function ProfileButton({ onClick, text }: { onClick: () => void; text: string })
   return (
     <DropdownMenu.Item
       asChild
-      className="data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none text-black outline-none hover:bg-azulao hover:text-white data-[disabled]:pointer-events-none"
+      className="data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 hover:bg-primary-dark-blue group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none text-black outline-none hover:text-white data-[disabled]:pointer-events-none"
     >
       <button onClick={onClick} className="flex w-full justify-start border-none">
         <span className="text-base">{text}</span>

@@ -9,12 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        azulao: "#00003a",
-        roxazul: "#2a14b7",
-        azulinho: "#002DE3",
-        cinzero: "#d9d9d9",
+        "primary-dark-blue": "#00003a",
+        "primary-gray": "#d9d9d9",
         "primary-purple": "#535FFF",
         "primary-blue": "#2A14B7",
+        "secondary-blue": "#002DE3",
+        "status-OPEN": "#BE00FD",
+        "status-WAITING_EVALUATION": "#FF9900",
+        "status-CANCELLED": "#FF0000",
+        "status-IN_PROGRESS": "#535FFF",
+        "status-COMPLETED": "#00A62E",
       },
       keyframes: {
         transitionY: {
@@ -100,7 +104,7 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "boneco-cadastro": "url('/images/boneco-cadastro.jpg')",
+        "boneco-cadastro": "url('/images/pages/cadastro/boneco-cadastro.jpg')",
       },
       fontFamily: {
         Montserrat: ["var(--font-montserrat)", "sans-serif"],
@@ -116,6 +120,14 @@ const config: Config = {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /^text-status-(OPEN|WAITING_EVALUATION|CANCELLED|IN_PROGRESS|COMPLETED)$/,
+    },
+    {
+      pattern: /^bg-status-(OPEN|WAITING_EVALUATION|CANCELLED|IN_PROGRESS|COMPLETED)\/30$/,
+    },
+  ],
   plugins: [require("tailwind-scrollbar-hide")],
 }
 export default config

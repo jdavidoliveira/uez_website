@@ -1,12 +1,38 @@
 import ReactDOM from "react-dom"
 import { CircleHelp } from "lucide-react"
-import { useState } from "react"
+import { FormEvent, useState } from "react"
+import { Order } from "@/types/Order"
+import { motion } from "framer-motion"
 
-function EditOrderOverlay({ onClose }: { onClose: () => void }) {
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+interface EditOrderOverlayProps {
+  onClose: () => void
+  order: Order
+}
+
+function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
+  const [showConfirmCancelation, setShowConfirmCancelation] = useState(false)
+  const [orderForm, setOrderForm] = useState({
+    title: order.title,
+    description: order.description,
+    profession: order.speciality.profession.name,
+    speciality: order.speciality.name,
+    value: order.value,
+  })
+
+  async function handleUpdateOrder(e: FormEvent) {
+    e.preventDefault()
+  }
+  async function handleConfirmCancelation() {
+    // cancel order
+    setShowConfirmCancelation(false)
+    onClose()
+  }
 
   return ReactDOM.createPortal(
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/70 sm:overflow-auto md:overflow-hidden"
       onClick={(e) => {
         const target = e.target as HTMLElement
@@ -14,28 +40,25 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
         onClose()
       }}
     >
-      {showConfirmDelete ? (
+      {showConfirmCancelation ? (
         <div className="overlay-container relative w-[90%] max-w-md rounded-2xl bg-white p-6 shadow-lg">
-          <h2 className="mb-4 text-center text-xl font-bold text-black">Confirmação de exclusão</h2>
+          <h2 className="mb-4 text-center text-xl font-bold text-black">Confirmação de cancelamento</h2>
           <p className="mb-6 text-center text-gray-700">
-            Tem certeza de que deseja apagar este pedido? Essa ação não pode ser desfeita.
+            Tem certeza de que deseja cancelar este pedido? Essa ação não pode ser desfeita.
           </p>
           <div className="flex justify-center gap-4">
             <button
-              onClick={() => {
-                setShowConfirmDelete(false)
-                onClose()
-              }}
+              onClick={handleConfirmCancelation}
               className="rounded-lg border border-gray-300 bg-white px-6 py-2 font-semibold text-black transition hover:bg-gray-300"
             >
               Confirmar
             </button>
 
             <button
-              onClick={() => setShowConfirmDelete(false)}
+              onClick={() => setShowConfirmCancelation(false)}
               className="rounded-lg border border-gray-300 bg-white px-6 py-2 font-semibold text-black transition hover:bg-gray-400"
             >
-              Cancelar
+              Voltar
             </button>
           </div>
         </div>
@@ -56,8 +79,12 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
           <form className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-6">
             <div className="lg:ml-36 lg:mr-10">
               <div>
-                <label className="block items-center pb-2 text-base font-semibold text-azulao">Título do pedido</label>
+                <label className="text-primary-dark-blue block items-center pb-2 text-base font-semibold">
+                  Título do pedido
+                </label>
                 <input
+                  value={orderForm.title}
+                  onChange={(e) => setOrderForm({ ...orderForm, title: e.target.value })}
                   type="text"
                   placeholder="Ex: Eu preciso de uma logo para minha padaria"
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -66,10 +93,12 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
 
               <div className="mb-1 mt-4 md:mb-14 md:mt-6">
                 <div className="flex items-center justify-between pb-2">
-                  <label className="flex items-center text-base font-semibold text-azulao">Descrição</label>
+                  <label className="text-primary-dark-blue flex items-center text-base font-semibold">Descrição</label>
                   <span className="text-sm text-gray-500">0/600</span>
                 </div>
                 <textarea
+                  value={orderForm.description}
+                  onChange={(e) => setOrderForm({ ...orderForm, description: e.target.value })}
                   placeholder="Ex: Preciso de um logotipo para minha padaria chamada 'Padaria Felicidade' com as cores marrom e branco, estilo minimalista."
                   maxLength={600}
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -80,7 +109,7 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
 
             <div className="lg:ml-10 lg:mr-36">
               <div className="mb-4 md:mb-14">
-                <label className="flex items-center pb-2 text-base font-semibold text-azulao">
+                <label className="text-primary-dark-blue flex items-center pb-2 text-base font-semibold">
                   Profissão
                   <div className="group relative">
                     <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -91,13 +120,15 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
                 </label>
                 <input
                   type="text"
+                  value={orderForm.profession}
+                  onChange={(e) => setOrderForm({ ...orderForm, profession: e.target.value })}
                   placeholder="Ex: Design"
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div className="mb-4 md:mb-14">
-                <label className=" flex items-center pb-2 text-base font-semibold text-azulao">
+                <label className=" text-primary-dark-blue flex items-center pb-2 text-base font-semibold">
                   Especialidade
                   <div className="group relative">
                     <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -107,6 +138,8 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
                   </div>
                 </label>
                 <input
+                  value={orderForm.speciality}
+                  onChange={(e) => setOrderForm({ ...orderForm, speciality: e.target.value })}
                   type="text"
                   placeholder="Ex: Criação de logo"
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -114,11 +147,13 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
               </div>
 
               <div className="md:mt-6">
-                <label className="block pb-2 text-base font-semibold text-azulao">Preço</label>
+                <label className="text-primary-dark-blue block pb-2 text-base font-semibold">Preço</label>
                 <div className="flex flex-col items-start space-y-2">
                   <div className="flex w-full items-center space-x-2">
-                    <span className="text-azulao">R$</span>
+                    <span className="text-primary-dark-blue">R$</span>
                     <input
+                      value={orderForm.value}
+                      onChange={(e) => setOrderForm({ ...orderForm, value: parseFloat(e.target.value) })}
                       type="number"
                       step="0.01"
                       placeholder="0,00"
@@ -138,23 +173,23 @@ function EditOrderOverlay({ onClose }: { onClose: () => void }) {
 
             <div className="col-span-1 flex items-center justify-center gap-10 md:col-span-2 lg:col-span-3">
               <button
-                type="submit"
-                className="relative rounded-lg bg-roxazul px-10 py-2 font-semibold text-white transition hover:bg-azulinho md:px-16 md:py-3"
+                onClick={handleUpdateOrder}
+                className="hover:bg-secondary-blue relative rounded-lg bg-primary-blue px-10 py-2 font-semibold text-white transition md:px-16 md:py-3"
               >
                 Atualizar
               </button>
               <button
                 type="button"
-                onClick={() => setShowConfirmDelete(true)}
+                onClick={() => setShowConfirmCancelation(true)}
                 className="relative rounded-lg bg-red-600 px-10 py-2 font-semibold text-white transition hover:bg-red-500 md:px-10 md:py-3"
               >
-                Apagar pedido
+                Cancelar pedido
               </button>
             </div>
           </form>
         </div>
       )}
-    </div>,
+    </motion.div>,
     document.body,
   )
 }

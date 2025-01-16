@@ -8,9 +8,9 @@ export default function LogoutButton() {
   const router = useRouter()
 
   return (
-    <DropdownMenu.Item className="hover:bg-azulao hover:text-white group text-[13px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
+    <DropdownMenu.Item className="hover:bg-primary-dark-blue text-violet11 data-[disabled]:text-mauve8 data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 group relative flex h-[25px] select-none items-center rounded-[3px] px-[5px] pl-[25px] text-[13px] leading-none outline-none hover:text-white data-[disabled]:pointer-events-none">
       <button
-        className="border-none w-full flex justify-start"
+        className="flex w-full justify-start border-none"
         onClick={async () => {
           await logout()
           router.refresh()

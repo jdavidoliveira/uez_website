@@ -43,7 +43,6 @@ export default function Etapa3({ back, etapa, professions, specialities }: Etapa
   }
 
   async function finish() {
-    console.log(signupData)
     const validationResult = signUpSchema.safeParse(signupData)
     if (!validationResult.success) {
       return toast(validationResult.error.issues.map((issue) => issue.message).join(", "))
@@ -111,7 +110,7 @@ export default function Etapa3({ back, etapa, professions, specialities }: Etapa
               {...register("specialityId", {
                 onChange: (e) => updateSpecialityId(e.target.value),
               })}
-              className="w-full rounded-md bg-cinzero p-2"
+              className="bg-primary-gray w-full rounded-md p-2"
             >
               {availableSpecialities.map((speciality) => (
                 <option key={speciality.id} value={speciality.id}>
@@ -158,7 +157,10 @@ function ProfessionButton({ onClick, professionName, isSelected }: ProfessionBut
   return (
     <button
       onClick={onClick}
-      className={twMerge("flex items-center justify-center rounded-md bg-primary-purple", isSelected && "bg-azulao")}
+      className={twMerge(
+        "flex items-center justify-center rounded-md bg-primary-purple",
+        isSelected && "bg-primary-dark-blue",
+      )}
     >
       <div className="flex h-full w-full items-center justify-center gap-2 px-6 py-3 text-white">
         <Image

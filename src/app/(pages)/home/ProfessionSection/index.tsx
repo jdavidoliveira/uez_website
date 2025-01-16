@@ -45,61 +45,13 @@ export async function ProfessionSection() {
                 specialities={item.specialities.map((speciality) => speciality.name)}
               />
             ))}
-            {/*
-           <ProfessionCard
-            professionName="Design"
-            imagePath="/images/icons/categorias/designer-azulao.png"
-            specialities={[
-              "Criação de logo",
-              "Papelaria",
-              "Tipografia",
-              `Artes para <br /> redes sociais`,
-              "Brand identity",
-              "Ilustração 2d/3d",
-              "UI/UX",
-            ]}
-          />
-          <ProfessionCard
-            professionName="Programação"
-            imagePath="/images/icons/categorias/programacao-azulao.png"
-            specialities={["Frontend", "Backend", "Fullstack", "Mobile", "Games", "Web", "Engenharia de <br /> Dados"]}
-          />
-          <ProfessionCard
-            professionName="Social Media"
-            imagePath="/images/icons/categorias/socialmedia-azulao.png"
-            specialities={[
-              "Gestão de editoriais",
-              "Criação de conteúdo",
-              "Copywriter",
-              "Gestão de <br /> tráfego pago",
-              "Gestão de <br /> comunidades",
-              "Interação e <br /> monitoramento",
-              "Relatórios e análises",
-            ]}
-            classNameForLi="text-base font-bold"
-          />
-          <ProfessionCard
-            professionName="Video Making"
-            imagePath="/images/icons/categorias/videomaker-azulao.png"
-            specialities={[
-              "Edição de vídeos",
-              "Roteirização",
-              "Narração",
-              "Animação 2D/3D",
-              "Operação de <br /> câmera",
-              "Operação de áudio",
-              "Operação de <br /> iluminação",
-            ]}
-            classNameForLi="text-base font-bold"
-          /> 
-          */}
           </div>
         </div>
       </GenericSection>
       {/* mobile */}
       <GenericSection className="relative flex bg-white p-0 md:hidden">
         <div className="flex max-w-fit flex-col items-center justify-center gap-14 px-4">
-          <h1 className="text-center text-xl font-bold text-azulao">Conheça nossos serviços!</h1>
+          <h1 className="text-primary-dark-blue text-center text-xl font-bold">Conheça nossos serviços!</h1>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-12">
             {arrayOfProfessionsWithRespectiveSpecialities.map((item) => (
               <div
@@ -118,7 +70,7 @@ export async function ProfessionSection() {
                     alt={item.profession.name}
                     className="mt-8 w-14 group-hover:hidden"
                   />
-                  <h1 className="mb-8 w-48 break-words text-center text-lg font-bold text-azulao group-hover:hidden sm:mb-14 sm:text-2xl">
+                  <h1 className="text-primary-dark-blue mb-8 w-48 break-words text-center text-lg font-bold group-hover:hidden sm:mb-14 sm:text-2xl">
                     {item.profession.name}
                   </h1>
                   <ul className="hidden w-fit list-disc py-3 pl-6 transition-transform [transform:rotateY(180deg)] group-hover:block">

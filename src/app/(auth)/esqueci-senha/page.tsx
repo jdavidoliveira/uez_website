@@ -45,7 +45,7 @@ export default function EsqueciSenha() {
             className="mb-4 w-full rounded border p-2"
             required
           />
-          <button type="submit" className="w-full rounded bg-azulao px-4 py-2 text-white">
+          <button type="submit" className="bg-primary-dark-blue w-full rounded px-4 py-2 text-white">
             Enviar
           </button>
           {message && <p className="mt-4 text-green-500">{message}</p>}

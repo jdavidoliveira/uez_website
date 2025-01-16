@@ -30,19 +30,19 @@ export default function Sobre() {
         <div className="flex w-11/12 flex-col items-center justify-between gap-10 sm:flex-row sm:gap-0">
           <CardSobre
             title={"Missão"}
-            image="/images/missao.svg"
+            image="/images/pages/sobre/missao.svg"
             description={
               "Nossa missão é facilitar a vida das pessoas, criando conexões entre pessoas próximas de você."
             }
           />
           <CardSobre
             title={"Visão"}
-            image="/images/visao.svg"
+            image="/images/pages/sobre/visao.svg"
             description={"Visamos ser conhecidos por ajudar pessoas a encontrar e mostrar suas habilidades."}
           />
           <CardSobre
             title={"Valores"}
-            image="/images/valores.svg"
+            image="/images/pages/sobre/valores.svg"
             description={"Nós valorizamos a segurança, a confiança, a facilidade e o networking."}
           />
         </div>
@@ -79,7 +79,13 @@ export default function Sobre() {
           </p>
         </div>
         <div className="relative">
-          <Image src="/images/velhinho.png" alt="Velhinho da UEZ" width={1000} height={1000} className="w-144" />
+          <Image
+            src="/images/pages/sobre/velhinho.png"
+            alt="Velhinho da UEZ"
+            width={1000}
+            height={1000}
+            className="w-144"
+          />
         </div>
       </GenericSection>
       <GenericSection className="relative mb-0 bg-white">
@@ -150,14 +156,14 @@ export default function Sobre() {
         <div className="flex flex-col items-center justify-center gap-10">
           <h1 className="text-xl font-bold sm:text-3xl">Evolução da logo</h1>
           <Image
-            src="/images/logoevolucao-1.png"
+            src="/images/pages/homepage/logoevolucao-1.png"
             alt="Logo da uez"
             width={1000}
             height={1000}
             className="hidden md:block"
           />
           <Image
-            src="/images/logoevolucao-vertical.png"
+            src="/images/pages/homepage/logoevolucao-vertical.png"
             alt="Logo da uez"
             width={1000}
             height={1000}
@@ -165,7 +171,7 @@ export default function Sobre() {
           />
         </div>
       </GenericSection>
-      <GenericSection className="mb-0 bg-azulao py-16">
+      <GenericSection className="bg-primary-dark-blue mb-0 py-16">
         <h1 className="text-3xl font-bold text-white">Quer falar com a gente?</h1>
         <div className="flex flex-col items-center justify-between gap-14 xl:flex-row xl:gap-28">
           <div className="relative animate-float">

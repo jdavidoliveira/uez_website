@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="m-0 box-border flex min-h-full w-full flex-col items-center overflow-auto bg-azulao mobile:bg-white">
+    <main className="bg-primary-dark-blue m-0 box-border flex min-h-full w-full flex-col items-center overflow-auto mobile:bg-white">
       <header className="box-border flex h-[15%] w-full items-center justify-center px-0 py-5 mobile:mt-4 mobile:py-2">
         <Link href="/" className="h-full">
           <Image

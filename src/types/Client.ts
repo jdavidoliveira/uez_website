@@ -19,7 +19,6 @@ export interface Client {
   last_login: string
   address: string | ChildProcessWithoutNullStreams
   rating: number
-  ratings: number[]
   created_at: string
 }
 

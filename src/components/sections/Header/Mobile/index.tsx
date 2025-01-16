@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge"
 export default function HeaderMobile({ closeFunction, links }: { closeFunction: () => void; links: ILink[] }) {
   return (
     <motion.div
-      className="fixed top-0 z-50 hidden w-full flex-col bg-azulao shadow-2xl mobile:flex"
+      className="bg-primary-dark-blue fixed top-0 z-50 hidden w-full flex-col shadow-2xl mobile:flex"
       initial={{ y: "-100%" }}
       animate={{ y: "0%" }}
       transition={{ duration: 0.3, ease: "easeInOut" }}

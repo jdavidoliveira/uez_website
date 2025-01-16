@@ -55,7 +55,7 @@ export default function Input({
         <div className="flex items-center justify-between gap-4">
           <Checkbox.Root
             className={twMerge(
-              "flex h-6 w-6 items-center justify-center bg-cinzero transition hover:bg-[#dbdbdb]",
+              "bg-primary-gray flex h-6 w-6 items-center justify-center transition hover:bg-[#dbdbdb]",
               className,
             )}
             onCheckedChange={handleChange}
@@ -87,8 +87,8 @@ export default function Input({
             onValueChange={handleChange}
             value={[value]}
           >
-            <Slider.Track className="relative h-2 grow rounded-full bg-azulao">
-              <Slider.Range className="absolute h-full rounded-full bg-azulao" />
+            <Slider.Track className="bg-primary-dark-blue relative h-2 grow rounded-full">
+              <Slider.Range className="bg-primary-dark-blue absolute h-full rounded-full" />
             </Slider.Track>
             <Slider.Thumb
               className="block h-6 w-6 cursor-pointer rounded-full bg-[#5e5bff] focus:outline-none "
@@ -118,7 +118,7 @@ export default function Input({
             <input
               onChange={handleChange}
               className={twMerge(
-                `h-10 w-full bg-cinzero px-3 py-2 text-base font-medium invalid:border-red-500`,
+                `bg-primary-gray h-10 w-full px-3 py-2 text-base font-medium invalid:border-red-500`,
                 className,
               )}
               type={type || "text"}
