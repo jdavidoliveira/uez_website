@@ -76,7 +76,7 @@ export default function Home() {
           width={2688}
           height={1536}
         />
-        <div className="efeito-vidro md:rounded-0 absolute z-30 hidden items-center justify-center rounded-xl px-3 py-6 shadow-md shadow-black/25 md:right-0 md:top-0 md:flex md:translate-x-0 md:rounded-l-xl md:rounded-r-none md:bg-white lg:top-1/3">
+        <div className="md:rounded-0 absolute z-30 hidden items-center justify-center rounded-xl px-3 py-6 shadow-md shadow-black/25 md:right-0 md:top-0 md:flex md:translate-x-0 md:rounded-l-xl md:rounded-r-none md:bg-white lg:top-1/3">
           <h1 className="mx-8 text-left text-2xl font-semibold text-black xl:text-4xl">
             Encontre uezers <span className="text-base">(profissionais)</span> <br /> que possam te{" "}
             <span className="md:text-primary-purple">ajudar!</span>
@@ -132,7 +132,7 @@ export default function Home() {
           width={2688}
           height={1536}
         />
-        <div className="efeito-vidro md:rounded-0 absolute z-30 hidden items-center justify-center rounded-xl px-3 py-6 shadow-md shadow-black/25 md:left-0 md:top-1/3 md:flex md:translate-x-0 md:rounded-l-none md:rounded-r-xl md:bg-white">
+        <div className="md:rounded-0 absolute z-30 hidden items-center justify-center rounded-xl px-3 py-6 shadow-md shadow-black/25 md:left-0 md:top-1/3 md:flex md:translate-x-0 md:rounded-l-none md:rounded-r-xl md:bg-white">
           <h1 className="mx-8 text-left text-2xl font-semibold text-black xl:text-4xl">
             Consiga clientes <br /> feche <span className="text-primary-purple">mais</span> negócios
           </h1>

@@ -23,6 +23,7 @@
     "@vercel/speed-insights": "^1.0.10",
     "animate.css": "^4.1.1",
     "axios": "^1.6.1",
+    "dayjs": "^1.11.13",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
     "framer-motion": "^11.2.4",

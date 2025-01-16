@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      overflow: {
+        overlay: "overlay",
+      },
       colors: {
         "primary-dark-blue": "#00003a",
         "primary-gray": "#d9d9d9",

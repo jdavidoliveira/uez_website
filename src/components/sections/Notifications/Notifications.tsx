@@ -12,10 +12,12 @@ import { motion } from "framer-motion"
 import { toast } from "sonner"
 import { AxiosError } from "axios"
 import { infoByType } from "@/utils/notifications/infoByType"
+import { Notification } from "@/types/Notification"
+import { timeFromNow } from "@/utils/dayjs"
 
 const NotificationsContext = createContext<{
-  notifications: any[]
-  updateNotification: (id: string, updatedData: Partial<any>) => void
+  notifications: Notification[]
+  updateNotification: (id: string, updatedData: Partial<Notification>) => void
 }>({
   notifications: [],
   updateNotification: () => {},
@@ -23,7 +25,7 @@ const NotificationsContext = createContext<{
 
 export default function Notifications() {
   const [showNotification, setShowNotification] = useState<boolean>(false)
-  const [notifications, setNotifications] = useState<any[]>([])
+  const [notifications, setNotifications] = useState<Notification[]>([])
 
   async function searchNotifications() {
     const notifications = await api
@@ -123,6 +125,7 @@ export default function Notifications() {
                       idNotificacao={notification.id}
                       content={notification.content}
                       type={notification.type}
+                      createdAt={notification.created_at}
                       key={index}
                     />
                   )
@@ -145,9 +148,10 @@ interface NotificationCardProps {
   type: string
   idNotificacao: string
   readed: boolean
+  createdAt: string | Date
 }
 
-function NotificationCard({ content, type, readed, idNotificacao }: NotificationCardProps) {
+function NotificationCard({ content, type, readed, idNotificacao, createdAt }: NotificationCardProps) {
   const { updateNotification } = useContext(NotificationsContext)
   const { title, photo } = infoByType(type)
 
@@ -168,7 +172,7 @@ function NotificationCard({ content, type, readed, idNotificacao }: Notification
   return (
     <li
       className={twMerge(
-        "flex min-h-14 w-full cursor-pointer items-center justify-start border-t border-black/30   hover:bg-[#E1DCEB]",
+        "relative flex min-h-14 w-full cursor-pointer items-center justify-start border-t border-black/30 hover:bg-[#E1DCEB]",
         readed && "cursor-default bg-[#DCDCDC]",
       )}
     >
@@ -187,6 +191,7 @@ function NotificationCard({ content, type, readed, idNotificacao }: Notification
         <div className="h-full flex-col items-start justify-start">
           <DotFilledIcon className={twMerge("text-primary-purple", readed && "opacity-0")} />
         </div>
+        <span className="absolute right-2 top-1 text-sm">{timeFromNow(createdAt)}</span>
         <div className="flex flex-col items-start">
           <h1 className="text-xs font-bold">{title}</h1>
           <p className="text-left text-xs">{content}</p>

@@ -27,7 +27,12 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+
+  /* Faz com que a barra de rolagem seja sobreposta */
+  scrollbar-gutter: stable overlay;
 }
+
+/* Personalização da barra de rolagem */
 
 /* width */
 ::-webkit-scrollbar {
@@ -36,7 +41,7 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f100;
+  background: #f1f1f100; /* Transparente */
 }
 
 /* Handle */
