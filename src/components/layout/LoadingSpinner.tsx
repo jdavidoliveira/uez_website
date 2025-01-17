@@ -1,19 +1,16 @@
-import React from "react";
+import React from "react"
+import { twMerge } from "tailwind-merge"
 
 interface LoadingProps {
-    size?: number;
-    color?: string;
+  className?: string
 }
 
-export default function LoadingSpinner({ size, color }: LoadingProps) {
-  const spinnerSize = size || 12;
-  const spinnerColor = color || "text-white";
-
+export default function LoadingSpinner({ className }: LoadingProps) {
   return (
-    <div className={`flex items-center w-${spinnerSize} h-${spinnerSize}`}>
+    <div className={twMerge(`flex size-12 items-center`, className)}>
       <svg
         aria-hidden="true"
-        className={`w-${spinnerSize} h-${spinnerSize} mr-2 ${spinnerColor} animate-spin fill-black`}
+        className={`mr-2 size-full animate-spin fill-black text-white`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -29,5 +26,5 @@ export default function LoadingSpinner({ size, color }: LoadingProps) {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  );
+  )
 }

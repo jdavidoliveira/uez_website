@@ -2,13 +2,19 @@
 
 import ReactDOM from "react-dom"
 import { CircleHelp } from "lucide-react"
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Order, OrderDetailed } from "@/types/Order"
 import { motion } from "framer-motion"
 import api from "@/lib/api"
 import { toast } from "sonner"
 import LoadingSpinner from "@/components/layout/LoadingSpinner"
 import { Axios, AxiosError } from "axios"
+import { Profession, Speciality } from "@/types/Speciality"
+import { getProfessionsWithSpecialities } from "@/actions/getProfessions"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { register } from "node:module"
 
 interface EditOrderOverlayProps {
   onClose: () => void
@@ -17,17 +23,66 @@ interface EditOrderOverlayProps {
 
 function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
   const [showConfirmCancelation, setShowConfirmCancelation] = useState(false)
-  const [orderForm, setOrderForm] = useState({
-    title: order.title,
-    description: order.description,
-    profession: order.speciality.profession.name,
-    speciality: order.speciality.name,
-    value: order.value,
-  })
+
   const [isEditingOrder, setIsEditingOrder] = useState(false)
 
-  async function handleUpdateOrder(e: FormEvent) {
-    e.preventDefault()
+  const [professions, setProfessions] = useState<Profession[]>()
+  const [specialities, setSpecialities] = useState<Speciality[]>()
+  const [selectedProfession, setSelectedProfession] = useState("")
+  const [aCombinar, setACombinar] = useState(false)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { professions, specialities } = await getProfessionsWithSpecialities()
+        setProfessions(professions)
+        setSpecialities(specialities)
+      } catch (error) {
+        console.error("Failed to fetch data:", error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  const orderFormSchema = z.object({
+    title: z.string().min(6, "O titulo do pedido precisa ter no mínimo 6 caracteres."),
+    description: z.optional(z.string()),
+    profession: z.enum(professions?.map((profession) => profession.name) as [string, ...string[]]),
+    speciality: z.enum(specialities?.map((speciality) => speciality.name) as [string, ...string[]]),
+    value: z.coerce.number(),
+  })
+
+  const form = useForm<z.infer<typeof orderFormSchema>>({ resolver: zodResolver(orderFormSchema) })
+
+  useEffect(() => {
+    if (Object.keys(form.formState.errors).length > 0) {
+      Object.keys(form.formState.errors).forEach((item) => {
+        // @ts-ignore
+        item === "speciality"
+          ? // @ts-ignore
+            toast.warning("Você precisa escolher alguma especialidade")
+          : // @ts-ignore
+            item === "profession"
+            ? toast.warning("Você precisa escolher alguma profissão")
+            : // @ts-ignore
+              toast.warning(form.formState.errors[item].message)
+      })
+    }
+  }, [form.formState.errors])
+
+  useEffect(() => {
+    form.setValue("title", order.title)
+    form.setValue("description", order.description)
+    form.setValue("profession", order.speciality.profession.name)
+    form.setValue("speciality", order.speciality.name)
+    form.setValue("value", order.value)
+  }, [])
+
+  if (!professions || !specialities) {
+    return <div>Loading...</div>
+  }
+
+  const handleUpdateOrder = form.handleSubmit(async (orderForm) => {
     console.log(orderForm)
     setIsEditingOrder(true)
     try {
@@ -46,7 +101,8 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
     } finally {
       setIsEditingOrder(false)
     }
-  }
+  })
+
   async function handleConfirmCancelation() {
     try {
       const updatedOrder = await api.delete<Order>(`/orders/${order.id}/cancel`)
@@ -122,8 +178,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
                   Título do pedido
                 </label>
                 <input
-                  value={orderForm.title}
-                  onChange={(e) => setOrderForm({ ...orderForm, title: e.target.value })}
+                  {...form.register("title")}
                   type="text"
                   placeholder="Ex: Eu preciso de uma logo para minha padaria"
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -136,8 +191,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
                   <span className="text-sm text-gray-500">0/600</span>
                 </div>
                 <textarea
-                  value={orderForm.description}
-                  onChange={(e) => setOrderForm({ ...orderForm, description: e.target.value })}
+                  {...form.register("description")}
                   placeholder="Ex: Preciso de um logotipo para minha padaria chamada 'Padaria Felicidade' com as cores marrom e branco, estilo minimalista."
                   maxLength={600}
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -159,11 +213,16 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
                 </label>
                 <input
                   type="text"
-                  value={orderForm.profession}
-                  onChange={(e) => setOrderForm({ ...orderForm, profession: e.target.value })}
+                  {...form.register("profession")}
                   placeholder="Ex: Design"
+                  list="professions-list"
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+                <datalist id="professions-list">
+                  {professions.map((profession) => (
+                    <option key={profession.id} value={profession.name} />
+                  ))}
+                </datalist>
               </div>
 
               <div className="mb-4 md:mb-14">
@@ -177,12 +236,19 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
                   </div>
                 </label>
                 <input
-                  value={orderForm.speciality}
-                  onChange={(e) => setOrderForm({ ...orderForm, speciality: e.target.value })}
+                  {...form.register("speciality")}
                   type="text"
                   placeholder="Ex: Criação de logo"
+                  list="specialities-list"
                   className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+                <datalist id="specialities-list">
+                  {specialities
+                    .filter((speciality) => speciality.profession.name === selectedProfession)
+                    .map((speciality) => (
+                      <option key={speciality.id} value={speciality.name} />
+                    ))}
+                </datalist>
               </div>
 
               <div className="md:mt-6">
@@ -191,17 +257,18 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
                   <div className="flex w-full items-center space-x-2">
                     <span className="text-primary-dark-blue">R$</span>
                     <input
-                      value={orderForm.value}
-                      onChange={(e) => setOrderForm({ ...orderForm, value: parseFloat(e.target.value) })}
+                      disabled={aCombinar}
+                      {...form.register("value")}
                       type="number"
                       step="0.01"
                       placeholder="0,00"
-                      className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-lg border-2 px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500  disabled:cursor-not-allowed disabled:bg-black/10"
                     />
                   </div>
                   <label className="flex items-center space-x-1 self-end">
                     <input
                       type="checkbox"
+                      onChange={() => setACombinar((prev) => !prev)}
                       className="form-checkbox rounded border-gray-300 focus:ring-2 focus:ring-blue-500"
                     />
                     <span className="text-sm text-gray-700">A combinar</span>

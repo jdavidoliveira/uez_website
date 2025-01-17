@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom"
 import Image from "next/image"
-import { CircleHelp } from "lucide-react"
+import { CircleHelp, Loader2 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { getProfessionsWithSpecialities } from "@/actions/getProfessions"
 import { Profession, Speciality } from "@/types/Speciality"
@@ -8,13 +8,19 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import api from "@/lib/api"
+import { getProfilePageURL } from "@/utils/getProfilePageURL"
+import { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
 
 function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
+  const router = useRouter()
   const [solicitacoes, setSolicitacoes] = useState<{ nome: string; especialidade: string }[]>([])
   const [professions, setProfessions] = useState<Profession[]>()
   const [specialities, setSpecialities] = useState<Speciality[]>()
   const [aCombinar, setACombinar] = useState(false)
   const [selectedProfession, setSelectedProfession] = useState("")
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
@@ -30,22 +36,10 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
   }, [])
 
   const orderFormSchema = z.object({
-    title: z.string().min(6, "O pedido precisar ter no mínimo 6 caracteres."),
+    title: z.string().min(6, "O titulo do pedido precisa ter no mínimo 6 caracteres."),
     description: z.optional(z.string()),
-    profession: z.enum(professions?.map((profession) => profession.name) as [string, ...string[]], {
-      invalid_type_error: "Você precisa escolher alguma especialidade",
-      description: "Você precisa escolher alguma especialidade",
-      required_error: "Você precisa escolher alguma especialidade",
-    }),
-    speciality: z
-      .enum(specialities?.map((speciality) => speciality.name) as [string, ...string[]], {
-        invalid_type_error: "Você precisa escolher alguma especialidade",
-        description: "Você precisa escolher alguma especialidade",
-        required_error: "Você precisa escolher alguma especialidade",
-      })
-      .refine((val) => specialities?.map((speciality) => speciality.name).includes(val), {
-        message: "O status deve ser um dos seguintes valores: active, inactive, pending.",
-      }),
+    profession: z.enum(professions?.map((profession) => profession.name) as [string, ...string[]]),
+    speciality: z.enum(specialities?.map((speciality) => speciality.name) as [string, ...string[]]),
     value: z.coerce.number(),
   })
 
@@ -53,10 +47,16 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     if (Object.keys(form.formState.errors).length > 0) {
-      // toast(JSON.stringify(Object.keys(form.formState.errors)))
       Object.keys(form.formState.errors).forEach((item) => {
         // @ts-ignore
-        toast(form.formState.errors[item].message)
+        item === "speciality"
+          ? // @ts-ignore
+            toast.warning("Você precisa escolher alguma especialidade")
+          : // @ts-ignore
+            item === "profession"
+            ? toast.warning("Você precisa escolher alguma profissão")
+            : // @ts-ignore
+              toast.warning(form.formState.errors[item].message)
       })
     }
   }, [form.formState.errors])
@@ -73,7 +73,29 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
       title,
       description,
     }
-    console.log(body)
+
+    setIsCreatingOrder(true)
+
+    try {
+      const newOrder = await api.post("/orders", body)
+      toast(`O seu pedido foi criado, acesse o perfil e veja mais detalhes por lá!`, {
+        action: {
+          label: "Acessar",
+          onClick: async () => {
+            const url = await getProfilePageURL()
+            router.push(url)
+          },
+        },
+      })
+      form.reset()
+      onClose()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message)
+      }
+    } finally {
+      setIsCreatingOrder(false)
+    }
   })
 
   return ReactDOM.createPortal(
@@ -249,7 +271,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
               type="submit"
               className="relative rounded-lg bg-primary-blue px-10 py-2 font-semibold text-white transition hover:bg-secondary-blue md:px-16 md:py-3"
             >
-              Solicitar
+              {isCreatingOrder ? <Loader2 className="size-10 animate-spin" /> : "Solicitar"}
             </button>
           </div>
         </form>
