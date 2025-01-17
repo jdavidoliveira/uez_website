@@ -95,7 +95,8 @@ export default function Notifications() {
         </button>
         {showNotification && (
           <motion.div
-            animate={{}}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="animate__animated animate__fadeIn animate__faster absolute right-10 top-10 z-50 flex max-h-[60vh] min-h-72 w-fit min-w-96 flex-col items-center gap-2 overflow-hidden rounded-3xl border bg-white pt-4"
           >
             <div className="flex items-center gap-6 px-4">
@@ -176,7 +177,7 @@ function NotificationCard({ content, type, readed, idNotificacao, createdAt }: N
       )}
     >
       <button
-        className="flex size-full items-center justify-start gap-2 p-2.5"
+        className="flex size-full items-center justify-start gap-2 px-2.5 py-3"
         onClick={handleReadNotification}
         title="Ler notificação"
       >
@@ -190,7 +191,7 @@ function NotificationCard({ content, type, readed, idNotificacao, createdAt }: N
         <div className="h-full flex-col items-start justify-start">
           <DotFilledIcon className={twMerge("text-primary-purple", readed && "opacity-0")} />
         </div>
-        <span className="absolute right-2 top-1 text-xs">{timeFromNow(createdAt)}</span>
+        <span className="absolute right-2 top-1 text-xs">{timeFromNow(createdAt).replace("minutos", "min")}</span>
         <div className="flex flex-col items-start">
           <h1 className="text-sm font-bold">{title}</h1>
           <p className="text-left text-sm">{content}</p>
