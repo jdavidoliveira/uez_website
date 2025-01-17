@@ -1,8 +1,14 @@
+"use client"
+
 import ReactDOM from "react-dom"
 import { CircleHelp } from "lucide-react"
 import { FormEvent, useState } from "react"
-import { Order } from "@/types/Order"
+import { Order, OrderDetailed } from "@/types/Order"
 import { motion } from "framer-motion"
+import api from "@/lib/api"
+import { toast } from "sonner"
+import LoadingSpinner from "@/components/layout/LoadingSpinner"
+import { Axios, AxiosError } from "axios"
 
 interface EditOrderOverlayProps {
   onClose: () => void
@@ -18,11 +24,44 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
     speciality: order.speciality.name,
     value: order.value,
   })
+  const [isEditingOrder, setIsEditingOrder] = useState(false)
 
   async function handleUpdateOrder(e: FormEvent) {
     e.preventDefault()
+    console.log(orderForm)
+    setIsEditingOrder(true)
+    try {
+      const updatedOrder = await api.patch<Order>(`/orders/${order.id}`, orderForm)
+      toast.success(`O pedido: "${updatedOrder.data.title}" foi atualizado com sucesso!`, {
+        action: {
+          label: "Atualizar",
+          onClick: () => window.location.reload(),
+        },
+      })
+      onClose()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? "Erro ao atualizar o pedido")
+      }
+    } finally {
+      setIsEditingOrder(false)
+    }
   }
   async function handleConfirmCancelation() {
+    try {
+      const updatedOrder = await api.delete<Order>(`/orders/${order.id}/cancel`)
+      toast.success(`O pedido: "${updatedOrder.data.title}" foi cancelado com sucesso!`, {
+        action: {
+          label: "Atualizar",
+          onClick: () => window.location.reload(),
+        },
+      })
+      onClose()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? "Erro ao atualizar o pedido")
+      }
+    }
     // cancel order
     setShowConfirmCancelation(false)
     onClose()
@@ -79,7 +118,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
           <form className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-6">
             <div className="lg:ml-36 lg:mr-10">
               <div>
-                <label className="text-primary-dark-blue block items-center pb-2 text-base font-semibold">
+                <label className="block items-center pb-2 text-base font-semibold text-primary-dark-blue">
                   Título do pedido
                 </label>
                 <input
@@ -93,7 +132,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
 
               <div className="mb-1 mt-4 md:mb-14 md:mt-6">
                 <div className="flex items-center justify-between pb-2">
-                  <label className="text-primary-dark-blue flex items-center text-base font-semibold">Descrição</label>
+                  <label className="flex items-center text-base font-semibold text-primary-dark-blue">Descrição</label>
                   <span className="text-sm text-gray-500">0/600</span>
                 </div>
                 <textarea
@@ -109,7 +148,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
 
             <div className="lg:ml-10 lg:mr-36">
               <div className="mb-4 md:mb-14">
-                <label className="text-primary-dark-blue flex items-center pb-2 text-base font-semibold">
+                <label className="flex items-center pb-2 text-base font-semibold text-primary-dark-blue">
                   Profissão
                   <div className="group relative">
                     <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -128,7 +167,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
               </div>
 
               <div className="mb-4 md:mb-14">
-                <label className=" text-primary-dark-blue flex items-center pb-2 text-base font-semibold">
+                <label className=" flex items-center pb-2 text-base font-semibold text-primary-dark-blue">
                   Especialidade
                   <div className="group relative">
                     <CircleHelp size={18} className="ml-2 cursor-pointer text-gray-400" />
@@ -147,7 +186,7 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
               </div>
 
               <div className="md:mt-6">
-                <label className="text-primary-dark-blue block pb-2 text-base font-semibold">Preço</label>
+                <label className="block pb-2 text-base font-semibold text-primary-dark-blue">Preço</label>
                 <div className="flex flex-col items-start space-y-2">
                   <div className="flex w-full items-center space-x-2">
                     <span className="text-primary-dark-blue">R$</span>
@@ -174,9 +213,9 @@ function EditOrderOverlay({ onClose, order }: EditOrderOverlayProps) {
             <div className="col-span-1 flex items-center justify-center gap-10 md:col-span-2 lg:col-span-3">
               <button
                 onClick={handleUpdateOrder}
-                className="hover:bg-secondary-blue relative rounded-lg bg-primary-blue px-10 py-2 font-semibold text-white transition md:px-16 md:py-3"
+                className="relative flex items-center justify-center rounded-lg bg-primary-blue px-10 py-2 font-semibold text-white transition hover:bg-secondary-blue md:px-16 md:py-3"
               >
-                Atualizar
+                {isEditingOrder ? <LoadingSpinner /> : "Atualizar"}
               </button>
               <button
                 type="button"

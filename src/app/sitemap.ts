@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!searchOfUsers.ok) return defaultSitemap
 
   const usersSitemap: MetadataRoute.Sitemap = searchOfUsers.data.map((user) => ({
-    url: `https://uezcompany.com/users/${user.username}`,
+    url: `https://uezcompany.com/usuarios/${user.username}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.7,

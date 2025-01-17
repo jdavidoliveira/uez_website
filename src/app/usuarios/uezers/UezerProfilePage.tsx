@@ -123,8 +123,8 @@ export async function UezerProfilePage({ uezerData }: Props) {
             </div>
             {searchPortfolioResponse.data.length > 0 && (
               <Link
-                href="/users/[username]/portfolio"
-                as={`/users/${uezerData.username}/portfolio`}
+                href="/usuarios/[username]/portfolio"
+                as={`/usuarios/${uezerData.username}/portfolio`}
                 className="rounded-full bg-primary-blue px-4 py-1 font-bold text-white transition hover:scale-105"
               >
                 Ver mais
@@ -139,7 +139,7 @@ export async function UezerProfilePage({ uezerData }: Props) {
 
 function PortfolioCard({ image }: { image: string }) {
   return (
-    <div className="bg-primary-gray group relative flex aspect-square w-72 flex-col justify-center rounded-lg hover:cursor-pointer">
+    <div className="group relative flex aspect-square w-72 flex-col justify-center rounded-lg bg-primary-gray hover:cursor-pointer">
       <div className="relative h-full w-full">
         <Image src={image} alt="profile" fill className="rounded-lg object-cover" />
       </div>

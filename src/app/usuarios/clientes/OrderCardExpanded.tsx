@@ -27,7 +27,6 @@ export default function OrderCardExpanded({ onClose, order }: OrderCardExpandedP
     async function fetchOrderDetails() {
       try {
         const response = await api(`/orders/${order.id}`)
-        console.log(response.data)
         setOrderDetailed(response.data)
       } catch (error) {
         console.error(error)
@@ -83,7 +82,7 @@ export default function OrderCardExpanded({ onClose, order }: OrderCardExpandedP
               </div>
             ) : (
               <>
-                <div className="mb-10 flex w-3/4 items-center justify-between gap-2">
+                <div className="mb-4 flex w-3/4 items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <Image
                       src={orderDetailed?.client.image}
@@ -94,25 +93,26 @@ export default function OrderCardExpanded({ onClose, order }: OrderCardExpandedP
                     />
                     <div className="flex flex-col items-start">
                       <h3 className="text-lg font-bold">{orderDetailed.client.name}</h3>
-                      <p className="text-md flex items-center justify-center gap-2">
+                      <span className="text-md gaspan-2 flex items-center justify-center">
                         {orderDetailed.client.rating.toFixed(1)}
                         <Rating rating={orderDetailed.client.rating} size={16} showRating={false} />
-                      </p>
+                      </span>
                     </div>
                   </div>
-                  <span
-                    className={twMerge(
-                      "rounded-xl px-2.5 py-1 font-medium",
-                      `text-status-${order.status}`,
-                      `bg-status-${order.status}/30`,
-                    )}
-                  >
-                    {translateOrderStatus(order.status)}
-                  </span>
                 </div>
+                <span
+                  className={twMerge(
+                    "mb-10 flex w-3/4 items-center justify-center rounded-xl px-2.5 py-1 text-center font-medium",
+                    `text-status-${order.status}`,
+                    `bg-status-${order.status}/30`,
+                  )}
+                >
+                  {translateOrderStatus(order.status)}
+                </span>
                 <button
                   onClick={() => setShowEditOrderOverlay(true)}
-                  className="w-3/4 rounded-xl bg-primary-purple p-1 text-white transition-colors hover:bg-primary-purple/75"
+                  className="w-3/4 rounded-xl bg-primary-purple p-2.5 text-lg text-white transition-colors hover:bg-primary-purple/75"
+                  title="Editar pedido"
                 >
                   Editar pedido
                 </button>

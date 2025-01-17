@@ -10,7 +10,6 @@ import { DotFilledIcon } from "@radix-ui/react-icons"
 import { twMerge } from "tailwind-merge"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
-import { AxiosError } from "axios"
 import { infoByType } from "@/utils/notifications/infoByType"
 import { Notification } from "@/types/Notification"
 import { timeFromNow } from "@/utils/dayjs"
@@ -32,7 +31,7 @@ export default function Notifications() {
       .get("/notifications")
       .then((res) => res.data)
       .catch((err) => [])
-    setNotifications(notifications.notifications)
+    setNotifications(notifications)
   }
 
   useEffect(() => {
@@ -177,7 +176,7 @@ function NotificationCard({ content, type, readed, idNotificacao, createdAt }: N
       )}
     >
       <button
-        className="flex size-full items-center justify-start gap-2 px-3 py-4"
+        className="flex size-full items-center justify-start gap-2 p-2.5"
         onClick={handleReadNotification}
         title="Ler notificação"
       >
@@ -186,15 +185,15 @@ function NotificationCard({ content, type, readed, idNotificacao, createdAt }: N
           width={100}
           height={100}
           alt="Notification Icon"
-          className="aspect-square size-10 object-contain object-center"
+          className="aspect-square size-10 rounded-full bg-white object-contain object-center"
         />
         <div className="h-full flex-col items-start justify-start">
           <DotFilledIcon className={twMerge("text-primary-purple", readed && "opacity-0")} />
         </div>
-        <span className="absolute right-2 top-1 text-sm">{timeFromNow(createdAt)}</span>
+        <span className="absolute right-2 top-1 text-xs">{timeFromNow(createdAt)}</span>
         <div className="flex flex-col items-start">
-          <h1 className="text-xs font-bold">{title}</h1>
-          <p className="text-left text-xs">{content}</p>
+          <h1 className="text-sm font-bold">{title}</h1>
+          <p className="text-left text-sm">{content}</p>
         </div>
         {/* {!readed && (
             <button

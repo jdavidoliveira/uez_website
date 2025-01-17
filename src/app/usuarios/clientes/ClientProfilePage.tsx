@@ -7,6 +7,8 @@ import { Order } from "@/types/Order"
 import OrderCard from "./OrderCard"
 import ShareButton from "../uezers/ShareButton"
 import TurnIntoUezerButton from "./TurnIntoUezerButton"
+import { Award, BarChart3, CalendarDaysIcon } from "lucide-react"
+import { timeFromNow } from "@/utils/dayjs"
 
 type Props = {
   clientData: Client
@@ -15,7 +17,7 @@ type Props = {
 export async function ClientProfilePage({ clientData }: Props) {
   if (!clientData) return redirect("/404")
 
-  const created_at = new Date(clientData.created_at).toLocaleDateString("pt-BR")
+  const created_at = timeFromNow(clientData.created_at)
 
   const searchOrdersResponse = await api.get<Order[]>(`/orders/${clientData.id}/created-orders`)
 
@@ -109,16 +111,16 @@ export async function ClientProfilePage({ clientData }: Props) {
           </div>
           <hr className="w-full" />
 
-          {/* <div className="flex flex-col gap-6 p-4">
+          <div className="flex flex-col gap-6 p-4">
             <h1 className="text-2xl font-semibold">Outras informações</h1>
             <ul className="flex flex-col gap-6 pl-4">
               <li className="flex items-center justify-start gap-4">
                 <CalendarDaysIcon size={40} />
                 <span className="text-xl font-normal">
-                  Entrou em <strong className="font-bold">{created_at}</strong>
+                  Entrou <strong className="font-semibold">{created_at}</strong>
                 </span>
               </li>
-              <li className="flex items-center justify-start gap-4">
+              {/* <li className="flex items-center justify-start gap-4">
                 <BarChart3 size={40} />
                 <span className="text-xl font-normal">
                   Fecha com <strong className="font-bold">77%</strong> dos uezers que contata
@@ -127,10 +129,10 @@ export async function ClientProfilePage({ clientData }: Props) {
               <li className="flex items-center justify-start gap-4">
                 <Award size={40} />
                 <span className="text-xl font-normal">Bom pagador</span>
-              </li>
+              </li> */}
             </ul>
             <hr className="w-full" />
-          </div> */}
+          </div>
         </div>
 
         <div className="flex flex-col items-center gap-2">

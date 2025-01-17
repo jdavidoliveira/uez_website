@@ -8,3 +8,5 @@ export enum USERTYPE {
   CLIENT = "CLIENT",
   UEZER = "UEZER",
 }
+
+export type UserType = "UEZER" | "BOTH" | "CLIENT"

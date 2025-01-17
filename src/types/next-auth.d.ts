@@ -2,6 +2,7 @@ import NextAuth, { User } from "next-auth"
 import { DefaultSession } from "next-auth"
 import { JWT } from "next-auth/jwt"
 import { DefaultJWT } from "next-auth/jwt"
+import { USERTYPE } from "./enums"
 
 declare module "next-auth" {
   interface Session {
@@ -10,7 +11,7 @@ declare module "next-auth" {
       email: string
       name: string
       username: string
-      usertype: "UEZER" | "CLIENT"
+      usertype: USERTYPE
       image: string
       status: string
     }
@@ -23,7 +24,7 @@ declare module "next-auth" {
     email: string
     name: string
     username: string
-    usertype: "UEZER" | "CLIENT"
+    usertype: USERTYPE
     image: string
     token: string
     status: string

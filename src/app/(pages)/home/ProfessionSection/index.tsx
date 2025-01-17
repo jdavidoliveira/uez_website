@@ -1,26 +1,15 @@
 import GenericSection from "@/components/layout/GenericSection"
 import { ProfessionCard } from "./ProfessionCard"
 import Image from "next/image"
-import { api } from "@/lib/serverapi"
-import { Profession, Speciality } from "@/types/Speciality"
 import { twMerge } from "tailwind-merge"
+import { getProfessionsWithSpecialities } from "@/actions/getProfessions"
 
 export async function ProfessionSection() {
-  const searchOfSpecialities = await api.get<Speciality[]>("/specialities", {
-    next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
-  })
-  const searchOfProfessions = await api.get<Profession[]>("/professions", {
-    next: { revalidate: 60 * 60 * 24 * 1 }, // 1 day in seconds
-  })
+  const arrayOfProfessionsWithRespectiveSpecialities = (await getProfessionsWithSpecialities()).data
 
-  if (!searchOfSpecialities.ok || !searchOfProfessions.ok) return null
+  if (!arrayOfProfessionsWithRespectiveSpecialities) return null
 
-  const arrayOfProfessionsWithRespectiveSpecialities = searchOfProfessions.data.map((profession) => ({
-    profession,
-    specialities: searchOfSpecialities.data.filter((speciality) => speciality.profession.id === profession.id),
-  }))
-
-  return searchOfSpecialities.ok ? (
+  return (
     <>
       <GenericSection className="relative mb-0 hidden bg-primary-purple p-0 pb-20 md:flex">
         <Image
@@ -51,7 +40,7 @@ export async function ProfessionSection() {
       {/* mobile */}
       <GenericSection className="relative flex bg-white p-0 md:hidden">
         <div className="flex max-w-fit flex-col items-center justify-center gap-14 px-4">
-          <h1 className="text-primary-dark-blue text-center text-xl font-bold">Conheça nossos serviços!</h1>
+          <h1 className="text-center text-xl font-bold text-primary-dark-blue">Conheça nossos serviços!</h1>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-12">
             {arrayOfProfessionsWithRespectiveSpecialities.map((item) => (
               <div
@@ -70,7 +59,7 @@ export async function ProfessionSection() {
                     alt={item.profession.name}
                     className="mt-8 w-14 group-hover:hidden"
                   />
-                  <h1 className="text-primary-dark-blue mb-8 w-48 break-words text-center text-lg font-bold group-hover:hidden sm:mb-14 sm:text-2xl">
+                  <h1 className="mb-8 w-48 break-words text-center text-lg font-bold text-primary-dark-blue group-hover:hidden sm:mb-14 sm:text-2xl">
                     {item.profession.name}
                   </h1>
                   <ul className="hidden w-fit list-disc py-3 pl-6 transition-transform [transform:rotateY(180deg)] group-hover:block">
@@ -93,5 +82,5 @@ export async function ProfessionSection() {
         </div>
       </GenericSection>
     </>
-  ) : null
+  )
 }
