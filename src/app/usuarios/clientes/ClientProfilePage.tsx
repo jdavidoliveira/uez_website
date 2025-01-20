@@ -66,7 +66,7 @@ export async function ClientProfilePage({ clientData }: Props) {
                 <h2 className="text-center text-lg font-medium">Pedidos feitos</h2>
               </div>
               <div className="flex flex-col items-center justify-between">
-                <h1 className="text-2xl font-bold">{clientData.rating.toFixed(1)}</h1>
+                <h1 className="text-2xl font-bold">{clientData.rating ? clientData.rating.toFixed(1) : 0}</h1>
                 <h2 className="text-center text-lg font-medium">Avaliação</h2>
               </div>
               <div className="flex flex-col items-center justify-between">
@@ -144,10 +144,10 @@ export async function ClientProfilePage({ clientData }: Props) {
               </div>
             </div>
 
-            <h1 className="text-3xl font-semibold">Solicitações</h1>
+            <h1 className="text-3xl font-semibold">Pedidos</h1>
             <div className="mb-6 flex w-full flex-col gap-2 md:mx-20 md:gap-6">
               {searchOrdersResponse.data.length > 0 ? (
-                searchOrdersResponse.data.slice(0, 4).map((order, index) => <OrderCard key={order.id} order={order} />)
+                searchOrdersResponse.data.map((order) => <OrderCard key={order.id} order={order} />)
               ) : (
                 <p className="text-center text-2xl font-normal">Nenhum serviço fechado</p>
               )}

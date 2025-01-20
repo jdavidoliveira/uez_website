@@ -70,7 +70,7 @@ const Rating: React.FC<StarRatingProps> = ({
   return (
     <div className="flex items-center gap-2">
       {showStars && <div className="flex space-x-1">{stars}</div>}
-      {showRating && <span className="text-sm font-semibold">{rating.toFixed(1)}/5</span>}
+      {showRating && <span className="text-sm font-semibold">{rating ? rating.toFixed(1) : 0}/5</span>}
     </div>
   )
 }

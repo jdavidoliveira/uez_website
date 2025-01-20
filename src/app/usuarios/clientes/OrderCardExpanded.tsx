@@ -94,7 +94,7 @@ export default function OrderCardExpanded({ onClose, order }: OrderCardExpandedP
                     <div className="flex flex-col items-start">
                       <h3 className="text-lg font-bold">{orderDetailed.client.name}</h3>
                       <span className="text-md gaspan-2 flex items-center justify-center">
-                        {orderDetailed.client.rating.toFixed(1)}
+                        {orderDetailed.client.rating ? orderDetailed.client.rating.toFixed(1) : 0}
                         <Rating rating={orderDetailed.client.rating} size={16} showRating={false} />
                       </span>
                     </div>
@@ -109,13 +109,15 @@ export default function OrderCardExpanded({ onClose, order }: OrderCardExpandedP
                 >
                   {translateOrderStatus(order.status)}
                 </span>
-                <button
-                  onClick={() => setShowEditOrderOverlay(true)}
-                  className="w-3/4 rounded-xl bg-primary-purple p-2.5 text-lg text-white transition-colors hover:bg-primary-purple/75"
-                  title="Editar pedido"
-                >
-                  Editar pedido
-                </button>
+                {order.status === "OPEN" && (
+                  <button
+                    onClick={() => setShowEditOrderOverlay(true)}
+                    className="w-3/4 rounded-xl bg-primary-purple p-2.5 text-lg text-white transition-colors hover:bg-primary-purple/75"
+                    title="Editar pedido"
+                  >
+                    Editar pedido
+                  </button>
+                )}
               </>
             )}
           </div>
