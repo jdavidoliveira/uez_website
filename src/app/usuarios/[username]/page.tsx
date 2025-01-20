@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth"
 import { notFound } from "next/navigation"
 import { ClientProfilePage } from "../clientes/ClientProfilePage"
 import { UezerProfilePage } from "../uezers/UezerProfilePage"
-import { USERTYPE } from "@/types/enums"
+import { STATUS, USERTYPE } from "@/types/enums"
 
 type Props = {
   params: { username: string }
@@ -35,15 +35,17 @@ export default async function page({ params: { username } }: Props) {
   const searchUserResponse = await api.get<Uezer | Client>(`/users/${username}`, {
     next: { revalidate: 60 * 1 },
   })
-  if (!searchUserResponse.ok) return notFound()
+  if (!searchUserResponse.ok || searchUserResponse.data.status !== STATUS.ACTIVE) return notFound()
 
-  const created_at = new Date(searchUserResponse.data.created_at).toLocaleDateString("pt-BR")
-
-  const isOwner = searchUserResponse.data.id === session?.user.id
+  const permissions = {
+    isLogged: !!session,
+    isOwner: searchUserResponse.data.id === session?.user.id,
+    isSameUsertype: searchUserResponse.data.usertype === session?.user.usertype,
+  }
 
   return searchUserResponse.data.usertype === USERTYPE.UEZER ? (
-    <UezerProfilePage uezerData={searchUserResponse.data as Uezer} />
+    <UezerProfilePage permissions={permissions} uezerData={searchUserResponse.data as Uezer} />
   ) : (
-    <ClientProfilePage clientData={searchUserResponse.data as Client} />
+    <ClientProfilePage permissions={permissions} clientData={searchUserResponse.data as Client} />
   )
 }

@@ -4,14 +4,21 @@ import { Uezer } from "@/types/Uezer"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import ContactUezerButton from "./ContactUezerButton"
+import { ContactUserButton, ContactUserButtonStyle } from "../ContactUserButton"
 import ShareButton from "./ShareButton"
+import { USERTYPE } from "@/types/enums"
+import { toast } from "sonner"
 
 type Props = {
   uezerData: Uezer
+  permissions: {
+    isOwner: boolean
+    isLogged: boolean
+    isSameUsertype: boolean
+  }
 }
 
-export async function UezerProfilePage({ uezerData }: Props) {
+export async function UezerProfilePage({ uezerData, permissions }: Props) {
   if (!uezerData) return notFound()
 
   const searchPortfolioResponse = await api.get<any[]>(`/portfolios/${uezerData.username}`)
@@ -101,7 +108,13 @@ export async function UezerProfilePage({ uezerData }: Props) {
           {
             <div className="flex w-full items-center justify-center pb-20 pt-10">
               <div className="flex h-16 items-center justify-center gap-2">
-                <ContactUezerButton id={uezerData.id} />
+                {permissions.isLogged && !permissions.isSameUsertype ? (
+                  <ContactUserButton userid={uezerData.id} usertype={USERTYPE.UEZER} />
+                ) : permissions.isSameUsertype ? (
+                  <ContactUserButtonStyle text="Somente um cliente pode contatar um uezer." data={{}} />
+                ) : (
+                  <ContactUserButtonStyle />
+                )}
                 <ShareButton />
               </div>
             </div>

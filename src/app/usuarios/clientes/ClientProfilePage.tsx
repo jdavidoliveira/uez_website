@@ -7,14 +7,21 @@ import { Order } from "@/types/Order"
 import OrderCard from "./OrderCard"
 import ShareButton from "../uezers/ShareButton"
 import TurnIntoUezerButton from "./TurnIntoUezerButton"
-import { Award, BarChart3, CalendarDaysIcon } from "lucide-react"
+import { CalendarDaysIcon } from "lucide-react"
 import { timeFromNow } from "@/utils/dayjs"
+import { ContactUserButton, ContactUserButtonStyle } from "../ContactUserButton"
+import { USERTYPE } from "@/types/enums"
 
 type Props = {
   clientData: Client
+  permissions: {
+    isOwner: boolean
+    isLogged: boolean
+    isSameUsertype: boolean
+  }
 }
 
-export async function ClientProfilePage({ clientData }: Props) {
+export async function ClientProfilePage({ clientData, permissions }: Props) {
   if (!clientData) return redirect("/404")
 
   const created_at = timeFromNow(clientData.created_at)
@@ -139,7 +146,15 @@ export async function ClientProfilePage({ clientData }: Props) {
           <div className="mb-20 flex flex-col items-center justify-between gap-10 md:mb-0 ">
             <div className="flex w-full items-center justify-center pb-20 pt-10">
               <div className="flex h-16 items-center justify-center gap-2">
-                <TurnIntoUezerButton id={clientData.id} />
+                {permissions.isOwner && <TurnIntoUezerButton id={clientData.id} />}
+                {!permissions.isOwner &&
+                  (!permissions.isSameUsertype && permissions.isLogged ? (
+                    <ContactUserButton usertype={USERTYPE.CLIENT} userid={clientData.id} />
+                  ) : permissions.isLogged ? (
+                    <ContactUserButtonStyle text={"Somente um uezer pode contatar um cliente."} data={{}} />
+                  ) : (
+                    <ContactUserButtonStyle />
+                  ))}
                 <ShareButton />
               </div>
             </div>

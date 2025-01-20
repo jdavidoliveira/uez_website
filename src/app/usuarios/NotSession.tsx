@@ -28,26 +28,26 @@ export default function NotSession() {
         </button>
         {!isClosed && (
           <motion.div
-            className="flex flex-col items-center justify-center gap-4 px-32 py-4"
+            className="flex size-full flex-col items-center justify-center gap-4 px-32 py-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <h1 className="text-center text-lg font-semibold">
+            <h1 className="hidden w-full items-center justify-center text-center font-semibold md:flex lg:text-lg">
               Entre ou cadastre-se na uez para se conectar com clientes ou uezers e usar nossa plataforma ao seu favor.
             </h1>
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex flex-col items-center justify-center gap-2 md:my-0 md:flex-row md:gap-6">
               <Link
                 href="/login?redirectToLastPage=true"
-                className="w-64 rounded-lg bg-primary-blue py-2.5 text-center text-lg font-semibold text-white"
+                className="w-64 rounded-lg bg-primary-blue py-1.5 text-center text-lg font-semibold text-white md:py-2.5"
               >
                 Entrar
               </Link>
-              <span className="my-auto text-center text-lg font-medium">ou</span>
+              <span className="my-auto hidden text-center text-lg font-medium md:flex">ou</span>
               <Link
                 href="/cadastro"
-                className="w-64 rounded-lg bg-green-600 py-2.5 text-center text-lg font-semibold text-white"
+                className="w-64 rounded-lg bg-green-600 py-1.5 text-center text-lg font-semibold text-white md:py-2.5"
               >
                 Criar nova conta
               </Link>

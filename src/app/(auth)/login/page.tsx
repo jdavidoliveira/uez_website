@@ -57,7 +57,7 @@ export default function Login() {
     return router.replace("/")
   }
 
-  async function logar({ email, senha }: { email: string; senha: string }) {
+  async function handleLogin({ email, senha }: { email: string; senha: string }) {
     setIsSubmitting(true)
     try {
       const result = await signIn("credentials", { email, password: senha, redirect: false })
@@ -89,7 +89,7 @@ export default function Login() {
   return (
     <form
       className="flex max-h-full flex-col items-center justify-between gap-4 rounded-xl bg-white px-10 py-6 font-Montserrat"
-      onSubmit={handleSubmit(logar)}
+      onSubmit={handleSubmit(handleLogin)}
     >
       <h1 className="my-2 text-center text-2xl font-semibold ">Faça login na sua conta da UEZ</h1>
       <div className="flex w-full flex-col items-center justify-center">
