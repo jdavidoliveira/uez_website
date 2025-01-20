@@ -8,6 +8,10 @@ import { ContactUserButton, ContactUserButtonStyle } from "../ContactUserButton"
 import ShareButton from "./ShareButton"
 import { USERTYPE } from "@/types/enums"
 import { toast } from "sonner"
+import { EditImageButton } from "../EditButton"
+import { timeFromNow } from "@/utils/dayjs"
+import { Calendar, Pencil } from "lucide-react"
+import AboutMe from "../AboutMe"
 
 type Props = {
   uezerData: Uezer
@@ -23,7 +27,7 @@ export async function UezerProfilePage({ uezerData, permissions }: Props) {
 
   const searchPortfolioResponse = await api.get<any[]>(`/portfolios/${uezerData.username}`)
 
-  const created_at = new Date(uezerData.created_at).toLocaleDateString("pt-BR")
+  const created_at = timeFromNow(uezerData.created_at)
 
   return (
     <main className="relative min-h-screen w-full bg-white">
@@ -37,11 +41,18 @@ export async function UezerProfilePage({ uezerData, permissions }: Props) {
             fill
             className="object-cover duration-300 group-hover:brightness-50"
           />
+          {permissions.isOwner && <EditImageButton userId={uezerData.id} />}
         </div>
         <div className="absolute -bottom-64 left-1/2 flex w-10/12 -translate-x-1/2 flex-col items-center justify-center gap-5 md:left-[10%] md:mx-auto md:w-auto md:-translate-x-0">
-          <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md ">
+          <div className="group flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md ">
             <div className="relative aspect-square w-full rounded-full md:w-[80%]">
-              <Image src={uezerData.image} alt="profile" fill className="rounded-full object-cover" />
+              <Image
+                src={uezerData.image}
+                alt="profile"
+                fill
+                className="rounded-full object-cover transition duration-300 group-hover:brightness-75"
+              />
+              {permissions.isOwner && <EditImageButton isImage userId={uezerData.id} />}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center">
@@ -68,21 +79,22 @@ export async function UezerProfilePage({ uezerData, permissions }: Props) {
       <section className="relative mt-20 h-56 w-full px-20 md:grid md:grid-cols-2">
         {/* {!isOwner && <RateButton />} */}
         <div className="mt-80 flex flex-col gap-2 pb-20 md:mt-60">
-          <div className="flex flex-col gap-4 p-4">
-            <h1 className="text-2xl font-semibold">Sobre mim</h1>
-            <p className="text-xl font-normal">{uezerData.bio}</p>
-            <hr className="w-full" />
-          </div>
-          {/* <div className="flex flex-col gap-6 p-4">
+          <AboutMe
+            usertype={uezerData.usertype}
+            userId={uezerData.id}
+            bio={uezerData.bio}
+            isOwner={permissions.isOwner}
+          />
+          <div className="flex flex-col gap-6 p-4">
             <h1 className="text-2xl font-semibold">Outras informações</h1>
             <ul className="flex flex-col gap-6 pl-4">
               <li className="flex items-center justify-start gap-4">
                 <Calendar size={40} />
                 <span className="text-xl font-normal">
-                  Entrou em <strong className="font-bold">{created_at}</strong>
+                  Entrou <strong className="font-bold">{created_at}</strong>
                 </span>
               </li>
-              <li className="flex items-center justify-start gap-4">
+              {/* <li className="flex items-center justify-start gap-4">
                 <Handshake size={40} />
                 <span className="text-xl font-normal">
                   Fecha com <strong className="font-bold">77%</strong> dos clientes que contata
@@ -93,10 +105,10 @@ export async function UezerProfilePage({ uezerData, permissions }: Props) {
                 <span className="text-xl font-normal">
                   Indicado por <strong className="font-bold">100%</strong> dos clientes
                 </span>
-              </li>
+              </li> */}
             </ul>
             <hr className="w-full" />
-          </div> */}
+          </div>
           {/* {!isOwner && (
             <div className="flex flex-col gap-6 p-4">
               <ReportButton />

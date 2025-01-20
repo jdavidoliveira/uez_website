@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import GoogleAdsense from "@/components/GoogleAd"
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Analytics />
           <SpeedInsights />
+          <GoogleAdsense pId="7128550888141090" />
         </body>
       </Providers>
     </html>

@@ -7,10 +7,12 @@ import { Order } from "@/types/Order"
 import OrderCard from "./OrderCard"
 import ShareButton from "../uezers/ShareButton"
 import TurnIntoUezerButton from "./TurnIntoUezerButton"
-import { CalendarDaysIcon } from "lucide-react"
+import { CalendarDaysIcon, Pencil } from "lucide-react"
 import { timeFromNow } from "@/utils/dayjs"
 import { ContactUserButton, ContactUserButtonStyle } from "../ContactUserButton"
 import { USERTYPE } from "@/types/enums"
+import { EditImageButton } from "../EditButton"
+import AboutMe from "../AboutMe"
 
 type Props = {
   clientData: Client
@@ -26,7 +28,9 @@ export async function ClientProfilePage({ clientData, permissions }: Props) {
 
   const created_at = timeFromNow(clientData.created_at)
 
-  const searchOrdersResponse = await api.get<Order[]>(`/orders/${clientData.id}/created-orders`)
+  const searchOrdersResponse = await api.get<Order[]>(`/orders/${clientData.id}/created-orders`, {
+    cache: "no-cache",
+  })
 
   return (
     <main className="relative min-h-screen w-full bg-white">
@@ -39,10 +43,7 @@ export async function ClientProfilePage({ clientData, permissions }: Props) {
             fill
             className="object-cover transition duration-300 group-hover:brightness-50"
           />
-          {/* <button className="absolute inset-0 flex transform-gpu flex-col items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <Pencil className="text-white" size={30} />
-            <p className="mt-2 text-lg font-semibold text-white">Editar</p>
-          </button> */}
+          {permissions.isOwner && <EditImageButton userId={clientData.id} />}
         </div>
         <div className="absolute -bottom-64 left-1/2 flex w-10/12 -translate-x-1/2 flex-col items-center justify-center gap-5 lg:left-[10%] lg:mx-auto lg:w-auto lg:-translate-x-0">
           <div className="group relative flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md">
@@ -50,7 +51,7 @@ export async function ClientProfilePage({ clientData, permissions }: Props) {
               <div className="relative h-full w-full rounded-full bg-white p-[15px] md:p-[15px]">
                 <div className="relative h-full w-full overflow-hidden rounded-full">
                   <Image
-                    src={clientData.image ?? "/path/to/default-image.jpg"} // Imagem padrão, se necessário
+                    src={clientData.image} // Imagem padrão, se necessário
                     alt="profile"
                     fill
                     className="rounded-full object-cover transition duration-300 group-hover:brightness-75"
@@ -58,10 +59,7 @@ export async function ClientProfilePage({ clientData, permissions }: Props) {
                 </div>
               </div>
             </div>
-            {/* <button className="absolute inset-0 flex transform-gpu flex-col items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <Pencil className="text-white" size={25} />
-              <p className="mt-2 text-sm font-semibold text-white">Editar</p>
-            </button> */}
+            {permissions.isOwner && <EditImageButton isImage userId={clientData.id} />}
           </div>
 
           <div className="flex flex-col items-center justify-center">
@@ -87,17 +85,12 @@ export async function ClientProfilePage({ clientData, permissions }: Props) {
 
       <section className="relative mt-20 h-56 w-full px-20 lg:grid lg:grid-cols-2">
         <div className="mt-80 flex flex-col gap-2 pb-20 lg:mt-60">
-          <div className="flex flex-col gap-4 p-4">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-semibold">Sobre mim</h1>
-              {/* <button className="text-gray-600 hover:text-gray-900">
-                <Pencil size={20} />
-              </button> */}
-            </div>
-            <p className="text-xl font-normal">{clientData.bio}</p>
-            <hr className="w-full" />
-          </div>
-
+          <AboutMe
+            userId={clientData.id}
+            usertype={clientData.usertype}
+            bio={clientData.bio}
+            isOwner={permissions.isOwner}
+          />
           <h1 className="py-3 pl-4 text-2xl font-semibold">Serviços anteriores</h1>
           <div className="relative flex items-center gap-6 overflow-x-auto md:ml-[20px]">
             {/* {searchOrdersResponse.data.length > 0 ? (

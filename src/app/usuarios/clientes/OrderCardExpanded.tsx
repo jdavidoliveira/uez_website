@@ -93,7 +93,7 @@ export default function OrderCardExpanded({ onClose, order }: OrderCardExpandedP
                     />
                     <div className="flex flex-col items-start">
                       <h3 className="text-lg font-bold">{orderDetailed.client.name}</h3>
-                      <span className="text-md gaspan-2 flex items-center justify-center">
+                      <span className="text-md flex items-center justify-center gap-2">
                         {orderDetailed.client.rating ? orderDetailed.client.rating.toFixed(1) : 0}
                         <Rating rating={orderDetailed.client.rating} size={16} showRating={false} />
                       </span>

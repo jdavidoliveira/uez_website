@@ -1,6 +1,7 @@
 import Image from "next/image"
 import styles from "./Footer.module.css"
 import Link from "next/link"
+import AdUnit from "@/components/AdUnit"
 
 const version = "0.1.2 (beta)"
 

@@ -78,7 +78,7 @@ function CreateOrderOverlay({ onClose }: { onClose: () => void }) {
 
     try {
       const newOrder = await api.post("/orders", body)
-      toast(`O seu pedido foi criado, acesse o perfil e veja mais detalhes por lá!`, {
+      toast.success(`O seu pedido foi criado, acesse o perfil e veja mais detalhes por lá!`, {
         action: {
           label: "Acessar",
           onClick: async () => {

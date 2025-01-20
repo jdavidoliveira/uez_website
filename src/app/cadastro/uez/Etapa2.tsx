@@ -65,7 +65,7 @@ export default function Etapa2({ back, next, etapa }: Etapa2Props) {
   async function Finish() {
     console.log(signUpSchema.safeParse(signupData))
 
-    if (!signUpSchema.safeParse(signupData).success) return toast("Verifique os dados informados")
+    if (!signUpSchema.safeParse(signupData).success) return toast.warning("Verifique os dados informados")
 
     try {
       const { data } = await api.post("/register", signupData)

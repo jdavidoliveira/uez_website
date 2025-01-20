@@ -8,7 +8,7 @@ export default function ShareButton() {
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
-        toast("Link copiado!")
+        toast.info("Link copiado!")
       })
       .catch((err) => {
         console.error(err)
@@ -20,7 +20,7 @@ export default function ShareButton() {
       <button
         title="Compartilhar"
         onClick={share}
-        className="bg-[#535FFF] p-4 h-full aspect-square flex items-center justify-center rounded-lg text-xl font-semibold text-white"
+        className="flex aspect-square h-full items-center justify-center rounded-lg bg-[#535FFF] p-4 text-xl font-semibold text-white"
       >
         <Link size={50} />
       </button>
