@@ -20,6 +20,25 @@ export type Order = {
   speciality: Speciality
 }
 
+export type OrderWithClient = {
+  id: string
+  specialityId: string
+  title: string
+  description: string
+  status: OrderStatus
+  available: boolean
+  created_at: string
+  end_date: string | null
+  value: number
+  images: string[]
+  rating: number
+  rated: boolean
+  clientId: string
+  uezerId: string
+  speciality: Speciality
+  client: Client
+}
+
 export type OrderDetailed = Order & {
   client: Client
   uezer: Uezer

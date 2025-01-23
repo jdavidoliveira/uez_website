@@ -3,6 +3,7 @@ import { ProfessionCard } from "./ProfessionCard"
 import Image from "next/image"
 import { twMerge } from "tailwind-merge"
 import { getProfessionsWithSpecialities } from "@/actions/getProfessions"
+import { getProfessionIconByName } from "@/utils/getProfessionIconByName"
 
 export async function ProfessionSection() {
   const arrayOfProfessionsWithRespectiveSpecialities = (await getProfessionsWithSpecialities()).data
@@ -26,11 +27,7 @@ export async function ProfessionSection() {
               <ProfessionCard
                 key={item.profession.name}
                 professionName={item.profession.name}
-                imagePath={`/images/icons/categorias/${item.profession.name
-                  .toLowerCase()
-                  .normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-                  .replace(" ", "")}-azulao.png`}
+                imagePath={getProfessionIconByName(item.profession.name, true)}
                 specialities={item.specialities.map((speciality) => speciality.name)}
               />
             ))}
