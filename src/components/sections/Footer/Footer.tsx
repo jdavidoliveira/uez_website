@@ -3,13 +3,13 @@ import styles from "./Footer.module.css"
 import Link from "next/link"
 import AdUnit from "@/components/AdUnit"
 
-const version = "0.1.2 (beta)"
+const version = "1.0"
 
 export default function Footer() {
   return (
-    <footer className={styles.footer + " relative"}>
+    <footer className={"relative flex w-full items-center justify-center bg-primary-dark-blue text-white"}>
       <div className={styles.footer_content}>
-        <span className="absolute bottom-0 right-2 text-sm">version: {version}</span>
+        <span className="absolute bottom-0 right-2 text-sm">versão: {version}</span>
         <div className={styles.footer_cards}>
           <div className={styles.footer_card}>
             <Image src="/logo/full-logo.svg" alt="Logo UEZ" width={60} height={60} className={styles.footer_logo} />

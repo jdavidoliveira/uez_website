@@ -22,7 +22,7 @@ export default function ShareButton() {
         onClick={share}
         className="flex aspect-square h-full items-center justify-center rounded-lg bg-[#535FFF] p-4 text-xl font-semibold text-white"
       >
-        <Link size={50} />
+        <Link className="size-full" />
       </button>
     </>
   )
