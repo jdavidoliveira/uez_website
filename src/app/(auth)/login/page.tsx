@@ -16,7 +16,10 @@ import Image from "next/image"
 
 const userFormSchema = z.object({
   email: z.string().email("Formato de e-mail inválido").min(1, "O e-mail é obrigatório"),
-  senha: z.string().min(6, "A senha deve ter mais de 6 caracteres").max(24, "A senha deve ter menos de 24 caracteres"),
+  password: z
+    .string()
+    .min(6, "A senha deve ter mais de 6 caracteres")
+    .max(24, "A senha deve ter menos de 24 caracteres"),
 })
 
 type userFormData = z.infer<typeof userFormSchema>
@@ -57,28 +60,14 @@ export default function Login() {
     return router.replace("/")
   }
 
-  async function handleLogin({ email, senha }: { email: string; senha: string }) {
+  async function handleLogin({ email, password }: { email: string; password: string }) {
     setIsSubmitting(true)
     try {
-      const result = await signIn("credentials", { email, password: senha, redirect: false })
+      const result = await signIn("credentials", { email, password, redirect: false })
       if (result?.error) {
         toggleModal(result?.status === 401 ? "Credenciais inválidas!" : result?.error, true)
         return setIsSubmitting(false)
       } else {
-        try {
-          const result = await api.post("/auth", {
-            email,
-            senha,
-          })
-
-          api.interceptors.request.use((config) => {
-            config.headers.set("cookie", result?.headers["set-cookie"])
-            config.withCredentials = true
-            return config
-          })
-        } catch (error) {
-          console.error(error)
-        }
         return searchParams.has("redirectToLastPage") ? router.back() : router.replace("/")
       }
     } catch (error) {
@@ -112,18 +101,18 @@ export default function Login() {
         {errors.email && <span className="my-1 self-start text-xs font-medium">{errors.email.message}</span>}
       </div>
       <div className="flex w-full flex-col items-center justify-center">
-        <label htmlFor="senha" title="Senha" className="self-start text-base font-medium">
+        <label htmlFor="password" title="Senha" className="self-start text-base font-medium">
           Senha:
         </label>
         <div className="flex h-10 w-full items-center">
           <input
             className={`h-10 w-full rounded-l-md bg-primary-gray px-3 py-2 text-base font-medium outline-none ${
-              errors.senha && "rounded border-2 border-red-500"
+              errors.password && "rounded border-2 border-red-500"
             }`}
             type={passwordType}
-            id="senha"
+            id="password"
             maxLength={24}
-            {...register("senha", {
+            {...register("password", {
               onChange: (e) => {
                 if (e.target.value.length > 0) {
                   setShowPasswordChanger(true)
@@ -156,7 +145,7 @@ export default function Login() {
             </button>
           )}
         </div>
-        {errors.senha && <span className="my-1 self-start text-xs font-medium">{errors.senha.message}</span>}
+        {errors.password && <span className="my-1 self-start text-xs font-medium">{errors.password.message}</span>}
       </div>
       <div className="flex w-full items-center justify-between">
         <span className="flex items-center gap-1">

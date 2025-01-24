@@ -3,7 +3,7 @@
 import { Order } from "@/types/Order"
 import { Megaphone } from "lucide-react"
 import { useState } from "react"
-import OrderCardExpanded from "./OrderCardExpanded"
+import OrderCardExpanded from "./Expansion"
 
 interface OrderCardProps {
   order: Order

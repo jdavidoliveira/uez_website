@@ -97,9 +97,12 @@ export default function Notifications() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="animate__animated animate__fadeIn animate__faster absolute right-10 top-10 z-50 flex max-h-[60vh] min-h-72 w-fit min-w-96 flex-col items-center gap-2 overflow-hidden rounded-3xl border bg-white pt-4"
+            className={twMerge(
+              "animate__animated animate__fadeIn animate__faster fixed inset-x-0 top-20 z-50 flex h-fit max-h-[60vh] w-full min-w-96 flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border bg-white pt-4",
+              "md:absolute md:inset-auto md:right-10 md:top-10 md:w-fit md:items-start md:justify-start",
+            )}
           >
-            <div className="flex items-center gap-6 px-4">
+            <div className="flex w-full items-center gap-6 px-4 md:w-auto">
               <h1 className=" my-2 text-2xl font-semibold">Notificações</h1>
               {
                 <button
@@ -117,7 +120,7 @@ export default function Notifications() {
             </div>
 
             {notifications.length > 0 ? (
-              <ul className="overflow-y-auto">
+              <ul className="w-full overflow-y-auto md:w-auto">
                 {notifications.map((notification, index) => {
                   return (
                     <NotificationCard
@@ -132,8 +135,8 @@ export default function Notifications() {
                 })}
               </ul>
             ) : (
-              <h1 className="mb-1 text-center text-base font-medium text-white">
-                Você não tem notificações no momento 😥
+              <h1 className="mb-10 mt-6 text-center text-base font-medium text-black">
+                Não há notificações no momento 😥
               </h1>
             )}
           </motion.div>

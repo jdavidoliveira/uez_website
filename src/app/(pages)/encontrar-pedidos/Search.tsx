@@ -35,9 +35,9 @@ export default function Search() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex h-fit w-1/2 items-center justify-center overflow-x-hidden rounded-lg border shadow-sm"
+      className="flex h-fit w-full flex-col-reverse items-center justify-center overflow-x-hidden rounded-lg border shadow-sm md:w-1/2 md:flex-row"
     >
-      <div className="relative">
+      <div className="relative w-full md:w-auto">
         <select
           className="h-full w-full rounded border-4 border-primary-gray bg-primary-gray px-2 py-1 text-xl font-medium"
           {...form.register("orderBy")}
@@ -49,11 +49,11 @@ export default function Search() {
           <option value="norentable">Menos rentáveis</option>
         </select>
       </div>
-      <div className="relative flex-1">
+      <div className="relative w-full flex-1 md:w-auto">
         <input
           {...form.register("search")}
           type="text"
-          className="w-full px-3 py-1.5 text-xl outline-none"
+          className="w-full flex-1 px-3 py-1.5 text-xl outline-none"
           placeholder="Search..."
         />
         <button type="submit" className="absolute inset-y-0 right-0 flex items-center pr-2">

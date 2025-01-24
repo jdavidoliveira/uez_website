@@ -57,7 +57,7 @@ export default function FilterButton() {
     <>
       <button
         onClick={() => setShowModal((prev) => !prev)}
-        className="flex items-center justify-center gap-2 rounded-md border px-4 py-3 shadow-lg"
+        className="flex w-full items-center justify-center gap-2 rounded-md border px-4 py-3 shadow-lg md:w-auto"
       >
         <span className="font-bold">Filtro</span>
         <SlidersHorizontal />
@@ -69,7 +69,7 @@ export default function FilterButton() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="absolute right-0 top-0 flex min-h-96 min-w-72 items-center justify-center rounded-xl border bg-gray-50 shadow"
+          className="absolute right-0 top-36 flex min-h-96 w-full items-center justify-center rounded-xl border bg-gray-50 px-10 shadow md:top-0 md:max-w-96"
         >
           <X className="absolute right-2 top-2 size-7 cursor-pointer" onClick={() => setShowModal(false)} />
           <div className="flex flex-col items-center justify-center gap-8">

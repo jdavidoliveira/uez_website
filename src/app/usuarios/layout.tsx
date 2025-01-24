@@ -1,4 +1,4 @@
-import NotSession from "./NotSession"
+import NotSession from "../../components/NotSession"
 
 export default function UsersLayout({ children }: { children: React.ReactNode }) {
   return (

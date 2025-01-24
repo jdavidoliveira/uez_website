@@ -55,6 +55,20 @@ body {
   background: #555;
 }
 
+/* Estilo para scrollbars específicas */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 4px; /* Largura da barra */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #00000036; /* Cor do "thumb" */
+  border-radius: 4px; /* Bordas arredondadas */
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent; /* Cor do track */
+}
+
 ::-ms-reveal {
   display: none;
 }
