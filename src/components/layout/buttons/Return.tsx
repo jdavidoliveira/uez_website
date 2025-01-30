@@ -7,7 +7,11 @@ import { twMerge } from "tailwind-merge"
 export default function ReturnButton({ classname }: { classname?: string }) {
   const router = useRouter()
   const returnPage = () => {
-    router.push("/")
+    if (window.history.length > 1) {
+      router.back()
+    } else {
+      router.push("/")
+    }
   }
   return (
     <button

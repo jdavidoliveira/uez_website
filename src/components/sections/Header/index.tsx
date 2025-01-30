@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge"
 import Profile from "./Profile"
 import { useSession } from "next-auth/react"
 import HeaderMobile from "./Mobile"
+import { usePathname } from "next/navigation"
 
 export default function Header() {
   const session = useSession()
@@ -42,7 +43,7 @@ export default function Header() {
       {/* header de placeholder pra encher linguica */}
       <div
         className={twMerge(
-          `bg-primary-dark-blue relative left-0 right-0 top-0 z-40 flex w-full items-center justify-center p-3 opacity-0 shadow transition`,
+          `relative left-0 right-0 top-0 z-40 flex w-full items-center justify-center bg-primary-dark-blue p-3 opacity-0 shadow transition`,
         )}
       >
         <div className="flex w-11/12 items-center justify-between">
@@ -63,7 +64,7 @@ export default function Header() {
           <div className="flex items-center justify-between gap-4 sm:hidden">
             <Link
               href="/login"
-              className="bg-primary-dark-blue flex cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-base font-semibold text-white duration-300 hover:w-full hover:bg-primary-blue hover:text-white"
+              className="flex cursor-pointer items-center justify-center rounded-lg bg-primary-dark-blue px-6 py-3 text-base font-semibold text-white duration-300 hover:w-full hover:bg-primary-blue hover:text-white"
             >
               Entrar
             </Link>
@@ -93,7 +94,7 @@ export default function Header() {
       </div>
       <motion.header
         className={twMerge(
-          `bg-primary-dark-blue fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center p-3 shadow transition`,
+          `fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center bg-primary-dark-blue p-3 shadow transition`,
           currentScrollPosition > 0
             ? "border-b border-white/40 bg-opacity-70 shadow backdrop-blur-xl transition-opacity"
             : "",
@@ -188,8 +189,17 @@ export default function Header() {
 }
 
 function NewLink({ href, children }: { href: string; children: any }) {
+  const pathname = usePathname()
+  const isActive = pathname === href
   return (
-    <Link href={href} className="rounded-lg p-2 text-white hover:bg-gray-400 hover:text-white mobile:hidden">
+    <Link
+      href={href}
+      className={twMerge(
+        "rounded-lg p-2 text-white duration-200 hover:bg-primary-gray/20 mobile:hidden",
+        isActive && "underline underline-offset-4 duration-200 hover:no-underline",
+      )}
+      title={isActive ? "Você está aqui" : children}
+    >
       {children}
     </Link>
   )

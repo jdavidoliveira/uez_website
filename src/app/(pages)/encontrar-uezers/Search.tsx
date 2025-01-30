@@ -1,20 +1,31 @@
 "use client"
 
+import { getProfessionsWithSpecialities } from "@/actions/getProfessions"
+import { Profession } from "@/types/Speciality"
 import { useSearchParams } from "next/navigation"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 export default function Search() {
   const form = useForm()
   const searchParams = useSearchParams()
+  const [professions, setProfessions] = useState<Profession[]>([])
 
   useEffect(() => {
-    const orderBy = searchParams.get("orderBy")
+    const orderByProfession = searchParams.get("orderByProfession")
     const search = searchParams.get("search")
 
-    if (orderBy) form.setValue("orderBy", orderBy)
+    if (orderByProfession) form.setValue("orderByProfession", orderByProfession)
     if (search) form.setValue("search", search)
   }, [searchParams, form.setValue])
+
+  useEffect(() => {
+    async function fetchProfessions() {
+      const { professions } = await getProfessionsWithSpecialities()
+      setProfessions(professions)
+    }
+    fetchProfessions()
+  }, [])
 
   const handleSubmit = form.handleSubmit(async (data) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -39,13 +50,14 @@ export default function Search() {
       <div className="relative w-full md:w-auto">
         <select
           className="h-full w-full rounded border-4 border-primary-gray bg-primary-gray px-2 py-1 text-xl font-medium"
-          {...form.register("orderBy")}
+          {...form.register("orderByProfession")}
         >
           <option value="default">Ordenar</option>
-          <option value="newest">Mais recentes</option>
-          <option value="older">Mais antigos</option>
-          <option value="rentable">Mais rentáveis</option>
-          <option value="norentable">Menos rentáveis</option>
+          {professions.map((profession) => (
+            <option key={profession.id} value={profession.name}>
+              {profession.name}
+            </option>
+          ))}
         </select>
       </div>
       <div className="relative w-full flex-1 md:w-auto">

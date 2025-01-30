@@ -1,9 +1,6 @@
-import { options } from "@/app/api/auth/[...nextauth]/options"
 import FindOrders from "./FindOrders"
 import { api } from "@/lib/serverapi"
-import { Order, OrderWithClient } from "@/types/Order"
-import { getServerSession } from "next-auth"
-import { redirect } from "next/navigation"
+import { OrderWithClient } from "@/types/Order"
 import NotSession from "@/components/NotSession"
 
 interface PageProps {

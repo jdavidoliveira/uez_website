@@ -15,11 +15,19 @@ export const UezerLinks: Link[] = [
     href: "/sobre",
     text: "Sobre nós",
   },
+  {
+    href: "/encontrar-pedidos",
+    text: "Encontrar Pedidos",
+  },
 ]
 
 export const ClientLinks: Link[] = [
   {
     href: "/sobre",
     text: "Sobre nós",
+  },
+  {
+    href: "/encontrar-uezers",
+    text: "Encontrar Uezers",
   },
 ]
