@@ -94,7 +94,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, type, rat
       <div className="border-grey-500 mx-4 flex-1 border-t-2" />
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-2">
-          <Image src={user.image} width={32} height={32} alt="User  Avatar" className="h-8 w-8 rounded-full" />
+          <Image src={user.image} width={32} height={32} alt="Avatar" className="h-8 w-8 rounded-full" />
           <span className="text-sm font-semibold text-gray-700">{user.name}</span>
         </div>
         <button className="flex items-center gap-2">

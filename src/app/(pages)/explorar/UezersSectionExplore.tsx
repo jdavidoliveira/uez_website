@@ -16,7 +16,6 @@ interface Uezer {
   }
 }
 
-// Mock de dados
 const mockUezers: Uezer[] = Array.from({ length: 40 }, (_, index) => ({
   image: "/images/pages/sobre/velhinho.png",
   name: `Uezer ${index + 1}`,

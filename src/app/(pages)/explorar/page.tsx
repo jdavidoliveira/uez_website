@@ -15,21 +15,21 @@ export default function Explorar() {
         </h1>
         <Image
           src="/elementos/halfpadrao-circulo.png"
-          alt="elemento"
+          alt="Elemento"
           width={600}
           height={600}
           className="top-30 absolute left-0 w-60 -translate-x-1/4 rotate-90 "
         />
         <Image
           src="/elementos/bolinhas.png"
-          alt="elemento"
+          alt="Elemento"
           width={600}
           height={600}
           className="absolute right-24 top-48 w-6"
         />
         <Image
           src="/elementos/bolinhas.png"
-          alt="elemento"
+          alt="Elemento"
           width={600}
           height={600}
           className="absolute left-144 top-96 hidden w-6 rotate-90 overflow-hidden lg:block "
@@ -41,7 +41,7 @@ export default function Explorar() {
           src="/elementos/bolinhas.png"
           width={600}
           height={600}
-          alt="elemento"
+          alt="Elemento"
           className="-mt-10 hidden w-6 rotate-90 md:block"
         />
         <button className="font-xl my-10 mr-44 w-full text-right text-lg font-medium">Ver mais</button>
@@ -58,14 +58,14 @@ export default function Explorar() {
         <div className="w-[4000px] overflow-hidden">
           <Image
             src="/elementos/padroes/padrao-branco.png"
-            alt="Serviços"
+            alt="Elemento"
             width={800}
             height={800}
             className="absolute right-0 top-0 z-30 w-40"
           />
           <Image
             src="/elementos/chunck-circulo-azulao.png"
-            alt="Serviços"
+            alt="Elemento"
             width={800}
             height={800}
             className="absolute bottom-0 left-0 z-30 w-32 -rotate-90 opacity-70 saturate-200"
@@ -83,14 +83,14 @@ export default function Explorar() {
           >
             <Image
               src="/images/pages/explorar/services.svg"
-              alt="Serviços"
+              alt="Elemento"
               width={800}
               height={800}
               className="h-auto w-auto"
             />
             <Image
               src="/images/pages/explorar/services.svg"
-              alt="Serviços"
+              alt="Elemento"
               width={800}
               height={800}
               className="h-auto w-auto"
@@ -101,14 +101,14 @@ export default function Explorar() {
       <div className="align-center relative flex w-full justify-center">
         <Image
           src="/elementos/halfpadrao-circulo.png"
-          alt="Serviços"
+          alt="Elemento"
           width={800}
           height={800}
           className="absolute bottom-24 left-0 z-10 w-72 -translate-x-12 rotate-90 overflow-hidden"
         />
         <Image
           src="/elementos/twochunks-circulo.png"
-          alt="Serviços"
+          alt="Elemento"
           width={800}
           height={800}
           className="absolute right-0 z-10 w-52 rotate-90"
@@ -129,7 +129,7 @@ export default function Explorar() {
           src="/elementos/halfpadrao-circulo.png"
           height={800}
           width={800}
-          alt="Descrição da imagem"
+          alt="Elemento"
           className="absolute bottom-32 right-0 z-10 w-72 translate-x-12 -rotate-90"
         />
         <section className="relative z-20 flex  w-11/12 flex-col items-center justify-center pt-40">
