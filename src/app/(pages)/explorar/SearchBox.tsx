@@ -40,7 +40,7 @@ export default function SearchBox() {
           type="search"
           className="h-full w-full appearance-none px-5 outline-none"
         />
-        <button type="submit" className="flex h-full items-center justify-center p-3">
+        <button type="submit" className="flex h-full items-center justify-center rounded-e-xl bg-white p-3">
           <Search className="opacity-40" />
         </button>
       </div>
